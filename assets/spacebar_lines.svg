@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="708" height="98" viewBox="0 0 708 98" preserveAspectRatio="none">
+  <polygon points="0 10 10 0 10 80 0 95" fill="#d94d00"/>
+  <polygon points="690 0 705 7 705 95 690 80" fill="#d94d00"/>
+  <polygon points="0 95 10 80 690 80 705 95" fill="#d94d00"/>
+  <rect x="10" y="0" width="680" height="80" fill="#ff7a2f"/>
+  <path d="M10 0 H690 L705 7 V95 H0 V10 Z M10 0 V80 L0 95 M690 0 V80 L705 95 M10 80 H690 M131 59 H571" fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter" stroke-linecap="square"/>
+</svg>

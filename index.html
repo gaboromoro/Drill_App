@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drill on Crack</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="stranka">
+    <header class="hlavicka">
+      <div>
+        <h1>Drill on Crack</h1>
+      </div>
+      <div class="vrch-vpravo">
+        <div class="statistiky">
+          <button id="tlacidloPredoslyVysledok" class="tlacidlo-predosly" type="button" disabled>Predošlé</button>
+          <span id="pocitadloOtazok">0 / 0</span>
+          <span id="skore">Skóre: 0</span>
+        </div>
+        <button id="tlacidloNastavenia" class="tlacidlo-nastavenia" type="button" aria-label="Nastavenia" aria-expanded="false">
+          <span class="ikona-nastavenia" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <section id="panelNastaveni" class="panel-nastaveni skryte" aria-label="Nastavenia">
+        <label class="nastavenie">
+          <span>Hlasitosť</span>
+          <input id="posuvnikHlasitosti" type="range" min="0" max="100" value="100">
+        </label>
+
+        <div class="nastavenie">
+          <span>Predmet</span>
+          <div class="prepinace prepinace-nastaveni" aria-label="Predmet">
+            <button id="tlacidloPredmetCzs" class="aktivny" type="button">CZS</button>
+            <button id="tlacidloPredmetPc2" class="sekundarne" type="button">PC2</button>
+          </div>
+        </div>
+
+        <div id="nastavenieOkruhu" class="nastavenie nastavenie-okruhu">
+          <label class="nastavenie">
+            <span>Prezentácia</span>
+            <select id="vyberPrezentacie"></select>
+          </label>
+
+          <div class="nastavenie">
+            <div class="riadok-nastavenia">
+              <span>Podokruhy</span>
+              <div class="tlacidla-podokruhov">
+                <button id="tlacidloVsetkyPodokruhy" class="mini-tlacidlo" type="button">Všetko</button>
+                <button id="tlacidloZiadnePodokruhy" class="mini-tlacidlo" type="button">Nič</button>
+              </div>
+            </div>
+            <div id="zoznamPodokruhov" class="zoznam-podokruhov"></div>
+            <span id="pocetFiltra" class="pocet-filtra">0 otázok</span>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <nav id="prepinacRezimu" class="prepinace skryte" aria-label="Režim aplikácie">
+      <button id="tlacidloRezimTest" class="aktivny">Uzavretý test</button>
+      <button id="tlacidloRezimKod" class="sekundarne">Kódové úlohy</button>
+    </nav>
+
+    <section id="rezimTest">
+      <aside class="stlpec-uspesnosti" aria-label="Stĺpec úspešnosti">
+        <div id="vyplnStlpca" class="vypln-stlpca"></div>
+      </aside>
+
+      <section class="panel">
+        <div class="riadok">
+          <span id="tema" class="tema">Téma</span>
+          <span id="typOtazky" class="typ">Vyber odpoveď</span>
+        </div>
+
+        <h2 id="otazka">Načítavam otázku...</h2>
+        <img id="obrazokOtazky" class="obrazok-otazky skryte" alt="">
+        <pre id="kod" class="kod skryte"></pre>
+        <div id="moznosti" class="moznosti"></div>
+        <div id="vysledok" class="vysledok skryte"></div>
+        <div id="predoslyVysledok" class="predosly-vysledok skryte"></div>
+
+        <div class="ovladanie">
+          <button id="tlacidloMedzernik" class="tlacidlo-medzernik" type="button" aria-label="Medzerník: skontrolovať odpoveď alebo prejsť na ďalšiu otázku">
+            <img class="obrazok-medzernika" src="assets/spacebar_lines.svg" alt="">
+          </button>
+        </div>
+      </section>
+
+    </section>
+
+    <section id="rezimKod" class="skryte">
+      <section class="panel">
+        <div class="riadok">
+          <span id="kodTema" class="tema">Kód</span>
+          <span id="kodPocitadlo" class="typ">0 / 0</span>
+        </div>
+
+        <h2 id="kodZadanie">Načítavam úlohu...</h2>
+        <textarea id="kodOdpoved" class="kodova-odpoved" spellcheck="false"></textarea>
+
+        <div class="ovladanie">
+          <button id="tlacidloKodKontrola">Odoslať</button>
+          <button id="tlacidloKodDalsia" class="sekundarne">Ďalšia úloha</button>
+        </div>
+
+        <div id="kodVysledok" class="vysledok skryte"></div>
+        <pre id="kodRiesenie" class="kod skryte"></pre>
+      </section>
+    </section>
+  </main>
+
+  <script src="otazky.js"></script>
+  <script src="czs-otazky.js"></script>
+  <script src="kodove-ulohy.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
