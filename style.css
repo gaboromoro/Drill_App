@@ -31,6 +31,8 @@ body {
   position: relative;
   width: 96px;
   height: min(42vh, 320px);
+  --vyska-liquidu: 0%;
+  --viditelnost-pixelov: 0;
   border: 2px solid #000000;
   background: transparent;
   overflow: hidden;
@@ -104,25 +106,25 @@ body {
   animation: hladinaPixel 620ms steps(3, end) infinite;
 }
 
-.vypln-stlpca::after {
-  content: "";
+.pixely-stlpca {
   position: absolute;
-  left: -6px;
-  right: -6px;
-  top: -48px;
+  inset: 0;
   z-index: 1;
-  height: 44px;
-  background:
-    linear-gradient(#000000 0 0) 4px 34px / 6px 6px no-repeat,
-    linear-gradient(#000000 0 0) 18px 20px / 5px 5px no-repeat,
-    linear-gradient(#000000 0 0) 36px 30px / 8px 8px no-repeat,
-    linear-gradient(#000000 0 0) 54px 12px / 6px 6px no-repeat,
-    linear-gradient(#000000 0 0) 70px 26px / 8px 8px no-repeat,
-    linear-gradient(#000000 0 0) 90px 36px / 6px 6px no-repeat,
-    linear-gradient(#000000 0 0) 104px 18px / 5px 5px no-repeat;
+  opacity: var(--viditelnost-pixelov);
+  pointer-events: none;
+  transition: opacity 120ms linear;
+}
+
+.pixel-stlpca {
+  position: absolute;
+  left: var(--x);
+  bottom: calc(var(--vyska-liquidu) + var(--start-y));
+  width: 5px;
+  height: 5px;
+  background: #000000;
   image-rendering: pixelated;
-  opacity: 1;
-  animation: cierneBubliny 980ms steps(4, end) infinite;
+  animation: pixelovaLava var(--trvanie) steps(4, end) infinite;
+  animation-delay: var(--oneskorenie);
 }
 
 @keyframes hladinaPixel {
@@ -139,25 +141,29 @@ body {
   }
 }
 
-@keyframes cierneBubliny {
+@keyframes pixelovaLava {
   0% {
-    transform: translate(-2px, 2px);
+    opacity: 0;
+    transform: translate(0, 10px);
   }
 
-  25% {
-    transform: translate(8px, -2px);
+  18% {
+    opacity: 1;
+    transform: translate(var(--posun-1), 0);
   }
 
-  50% {
-    transform: translate(-6px, -6px);
+  45% {
+    transform: translate(var(--posun-2), var(--vystup-1));
   }
 
-  75% {
-    transform: translate(6px, -3px);
+  72% {
+    opacity: 1;
+    transform: translate(var(--posun-3), var(--vystup-2));
   }
 
   100% {
-    transform: translate(-2px, 2px);
+    opacity: 0;
+    transform: translate(var(--posun-4), var(--vystup-3));
   }
 }
 

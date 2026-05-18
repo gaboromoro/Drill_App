@@ -31,6 +31,7 @@ const prvokVysledok = document.getElementById("vysledok");
 const prvokPocitadlo = document.getElementById("pocitadloOtazok");
 const prvokSkore = document.getElementById("skore");
 const prvokVyplnStlpca = document.getElementById("vyplnStlpca");
+const prvokPixelyStlpca = document.getElementById("pixelyStlpca");
 const prvokStreakAktualny = document.getElementById("streakAktualny");
 const prvokStreakNajlepsi = document.getElementById("streakNajlepsi");
 const prvokPrepinacRezimu = document.getElementById("prepinacRezimu");
@@ -64,6 +65,7 @@ const tlacidloKodKontrola = document.getElementById("tlacidloKodKontrola");
 const tlacidloKodDalsia = document.getElementById("tlacidloKodDalsia");
 const posuvnikHlasitosti = document.getElementById("posuvnikHlasitosti");
 const klavesyMoznosti = ["1", "2", "3", "4"];
+const pocetPixelovStlpca = 24;
 let poradieKodovychUloh = [];
 let aktualnyKodIndex = 0;
 
@@ -74,6 +76,41 @@ function zamiesaj(pole) {
     [kopia[i], kopia[nahodnyIndex]] = [kopia[nahodnyIndex], kopia[i]];
   }
   return kopia;
+}
+
+function nahodneCislo(minimum, maximum) {
+  return minimum + Math.random() * (maximum - minimum);
+}
+
+function nahodnyPixelovyPosun(rozsah) {
+  return `${Math.round(nahodneCislo(-rozsah, rozsah)) * 5}px`;
+}
+
+function nastavPixelStlpca(pixel) {
+  const startY = Math.round(nahodneCislo(2, 18));
+  pixel.style.setProperty("--x", `${Math.round(nahodneCislo(4, 90))}%`);
+  pixel.style.setProperty("--start-y", `${startY}px`);
+  pixel.style.setProperty("--posun-1", nahodnyPixelovyPosun(1));
+  pixel.style.setProperty("--posun-2", nahodnyPixelovyPosun(2));
+  pixel.style.setProperty("--posun-3", nahodnyPixelovyPosun(2));
+  pixel.style.setProperty("--posun-4", nahodnyPixelovyPosun(3));
+  pixel.style.setProperty("--vystup-1", `${Math.round(nahodneCislo(-12, -6)) * 5}px`);
+  pixel.style.setProperty("--vystup-2", `${Math.round(nahodneCislo(-20, -12)) * 5}px`);
+  pixel.style.setProperty("--vystup-3", `${Math.round(nahodneCislo(-28, -18)) * 5}px`);
+  pixel.style.setProperty("--trvanie", `${Math.round(nahodneCislo(900, 1700))}ms`);
+  pixel.style.setProperty("--oneskorenie", `${Math.round(nahodneCislo(-1700, 0))}ms`);
+}
+
+function vytvorPixelyStlpca() {
+  prvokPixelyStlpca.innerHTML = "";
+
+  for (let i = 0; i < pocetPixelovStlpca; i++) {
+    const pixel = document.createElement("span");
+    pixel.className = "pixel-stlpca";
+    nastavPixelStlpca(pixel);
+    pixel.addEventListener("animationiteration", () => nastavPixelStlpca(pixel));
+    prvokPixelyStlpca.appendChild(pixel);
+  }
 }
 
 function prehrajZvuk(zvuk, rychlost = 1) {
@@ -398,6 +435,8 @@ function aktualizujStlpec() {
   const maximum = Math.max(poradieOtazok.length, 1);
   const vyska = Math.round((stavStlpca / maximum) * 100);
   prvokVyplnStlpca.style.height = `${vyska}%`;
+  prvokVyplnStlpca.parentElement.style.setProperty("--vyska-liquidu", `${vyska}%`);
+  prvokVyplnStlpca.parentElement.style.setProperty("--viditelnost-pixelov", stavStlpca > 0 ? "1" : "0");
 }
 
 function aktualizujStreak(animuj = false) {
@@ -973,6 +1012,7 @@ tlacidloKodKontrola.addEventListener("click", vyhodnotKodovuOdpoved);
 tlacidloKodDalsia.addEventListener("click", dalsiaKodovaUloha);
 document.addEventListener("keydown", obsluzKlavesnicu);
 
+vytvorPixelyStlpca();
 nastavHlasitost(posuvnikHlasitosti.value);
 nastavPredmet("czs");
 nastavKodovePoradie();
