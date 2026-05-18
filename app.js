@@ -400,9 +400,19 @@ function aktualizujStlpec() {
   prvokVyplnStlpca.style.height = `${vyska}%`;
 }
 
-function aktualizujStreak() {
-  prvokStreakAktualny.textContent = `Streak ${seriaSpravnych}`;
-  prvokStreakNajlepsi.textContent = `Max ${najlepsiStreak}`;
+function aktualizujStreak(animuj = false) {
+  const velkost = Math.min(34 + seriaSpravnych * 2.2, 72);
+  prvokStreakAktualny.textContent = String(seriaSpravnych);
+  prvokStreakAktualny.style.setProperty("--streak-velkost", `${velkost}px`);
+  prvokStreakNajlepsi.textContent = `Highscore: ${najlepsiStreak}`;
+
+  if (!animuj) {
+    return;
+  }
+
+  prvokStreakAktualny.classList.remove("streak-efekt");
+  void prvokStreakAktualny.offsetWidth;
+  prvokStreakAktualny.classList.add("streak-efekt");
 }
 
 function upravStlpec(jeSpravne) {
@@ -724,7 +734,7 @@ function skontrolujOdpoved() {
   } else {
     seriaSpravnych = 0;
   }
-  aktualizujStreak();
+  aktualizujStreak(jeSpravne);
 
   upravStlpec(jeSpravne);
   spustiSpatnuVazbu(jeSpravne, seriaSpravnych);

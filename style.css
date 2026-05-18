@@ -21,7 +21,8 @@ body {
 .stlpec-panel {
   position: sticky;
   top: 28px;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 96px;
   align-items: center;
   gap: 14px;
   margin-top: 80px;
@@ -32,19 +33,40 @@ body {
   position: relative;
   width: 96px;
   height: min(42vh, 320px);
-  border: 2px solid #ffffff;
+  border: 2px solid #000000;
   background: transparent;
   overflow: hidden;
 }
 
-.streak-panel {
-  display: grid;
-  gap: 8px;
-  color: #ffffff;
-  font-size: 20px;
+.streak-highscore {
+  color: #000000;
+  font-size: 18px;
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
+}
+
+.streak-aktualny {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  color: #ff6000;
+  font-size: var(--streak-velkost, 34px);
+  font-weight: 900;
+  line-height: 1;
+  text-shadow:
+    -2px 0 #000000,
+    0 2px #000000,
+    2px 0 #000000,
+    0 -2px #000000;
+  transform: translate(-50%, -50%);
+  transition: font-size 140ms ease-out;
+  pointer-events: none;
+}
+
+.streak-aktualny.streak-efekt {
+  animation: streakNarast 360ms steps(5, end);
 }
 
 .vypln-stlpca {
@@ -102,6 +124,40 @@ body {
 
   100% {
     background-position: 0 -18px, 22px 0;
+  }
+}
+
+@keyframes streakNarast {
+  0% {
+    color: #ff6000;
+    transform: translate(-50%, -50%) scale(1);
+    filter: brightness(1);
+  }
+
+  18% {
+    color: #ffffff;
+    transform: translate(calc(-50% - 3px), calc(-50% + 2px)) scale(1.72);
+    filter: brightness(2.2);
+  }
+
+  36% {
+    transform: translate(calc(-50% + 4px), calc(-50% - 2px)) scale(0.82);
+  }
+
+  58% {
+    color: #ffffff;
+    transform: translate(calc(-50% - 2px), calc(-50% - 3px)) scale(1.28);
+    filter: brightness(1.8);
+  }
+
+  78% {
+    transform: translate(calc(-50% + 2px), -50%) scale(0.96);
+  }
+
+  100% {
+    color: #ff6000;
+    transform: translate(-50%, -50%) scale(1);
+    filter: brightness(1);
   }
 }
 
@@ -792,6 +848,7 @@ button.sekundarne {
 
   .stlpec-panel {
     gap: 8px;
+    grid-template-columns: auto 44px;
     margin-top: 42px;
     transform: translateX(-6px);
   }
@@ -801,9 +858,12 @@ button.sekundarne {
     height: min(42vh, 300px);
   }
 
-  .streak-panel {
+  .streak-highscore {
     font-size: 13px;
-    gap: 5px;
+  }
+
+  .streak-aktualny {
+    font-size: var(--streak-velkost, 24px);
   }
 
   .panel {
