@@ -65,7 +65,9 @@ const tlacidloKodKontrola = document.getElementById("tlacidloKodKontrola");
 const tlacidloKodDalsia = document.getElementById("tlacidloKodDalsia");
 const posuvnikHlasitosti = document.getElementById("posuvnikHlasitosti");
 const klavesyMoznosti = ["1", "2", "3", "4"];
-const pocetPixelovStlpca = 24;
+const pocetStlpcovPixelov = 24;
+const pocetRiadkovPixelov = 12;
+let casovacPixelovStlpca = null;
 let poradieKodovychUloh = [];
 let aktualnyKodIndex = 0;
 
@@ -78,39 +80,66 @@ function zamiesaj(pole) {
   return kopia;
 }
 
-function nahodneCislo(minimum, maximum) {
-  return minimum + Math.random() * (maximum - minimum);
+function pravdepodobnostPixelu(riadokOdHladiny) {
+  if (riadokOdHladiny === 0) {
+    return 0.92;
+  }
+
+  if (riadokOdHladiny === 1) {
+    return 0.55;
+  }
+
+  if (riadokOdHladiny === 2) {
+    return 0.34;
+  }
+
+  if (riadokOdHladiny === 3) {
+    return 0.16;
+  }
+
+  return 0.05;
 }
 
-function nahodnyPixelovyPosun(rozsah) {
-  return `${Math.round(nahodneCislo(-rozsah, rozsah)) * 5}px`;
+function prepocitajPixelyStlpca() {
+  const aktivne = stavStlpca > 0;
+
+  [...prvokPixelyStlpca.children].forEach((pixel) => {
+    if (!aktivne) {
+      pixel.classList.remove("aktivny");
+      return;
+    }
+
+    const riadok = Number(pixel.dataset.riadok);
+    const riadokOdHladiny = pocetRiadkovPixelov - 1 - riadok;
+    const jeOkraj = riadokOdHladiny === 0;
+    const jeNahodnyPixel = Math.random() < pravdepodobnostPixelu(riadokOdHladiny);
+    pixel.classList.toggle("aktivny", jeOkraj || jeNahodnyPixel);
+  });
 }
 
-function nastavPixelStlpca(pixel) {
-  const startY = Math.round(nahodneCislo(2, 18));
-  pixel.style.setProperty("--x", `${Math.round(nahodneCislo(4, 90))}%`);
-  pixel.style.setProperty("--start-y", `${startY}px`);
-  pixel.style.setProperty("--posun-1", nahodnyPixelovyPosun(1));
-  pixel.style.setProperty("--posun-2", nahodnyPixelovyPosun(2));
-  pixel.style.setProperty("--posun-3", nahodnyPixelovyPosun(2));
-  pixel.style.setProperty("--posun-4", nahodnyPixelovyPosun(3));
-  pixel.style.setProperty("--vystup-1", `${Math.round(nahodneCislo(-12, -6)) * 5}px`);
-  pixel.style.setProperty("--vystup-2", `${Math.round(nahodneCislo(-20, -12)) * 5}px`);
-  pixel.style.setProperty("--vystup-3", `${Math.round(nahodneCislo(-28, -18)) * 5}px`);
-  pixel.style.setProperty("--trvanie", `${Math.round(nahodneCislo(900, 1700))}ms`);
-  pixel.style.setProperty("--oneskorenie", `${Math.round(nahodneCislo(-1700, 0))}ms`);
+function spustiPixelyStlpca() {
+  if (casovacPixelovStlpca) {
+    return;
+  }
+
+  casovacPixelovStlpca = window.setInterval(prepocitajPixelyStlpca, 160);
 }
 
 function vytvorPixelyStlpca() {
   prvokPixelyStlpca.innerHTML = "";
 
-  for (let i = 0; i < pocetPixelovStlpca; i++) {
-    const pixel = document.createElement("span");
-    pixel.className = "pixel-stlpca";
-    nastavPixelStlpca(pixel);
-    pixel.addEventListener("animationiteration", () => nastavPixelStlpca(pixel));
-    prvokPixelyStlpca.appendChild(pixel);
+  for (let riadok = 0; riadok < pocetRiadkovPixelov; riadok++) {
+    for (let stlpec = 0; stlpec < pocetStlpcovPixelov; stlpec++) {
+      const pixel = document.createElement("span");
+      pixel.className = "pixel-stlpca";
+      pixel.dataset.riadok = String(riadok);
+      pixel.dataset.stlpec = String(stlpec);
+      prvokPixelyStlpca.appendChild(pixel);
+    }
   }
+
+  prepocitajPixelyStlpca();
+  spustiPixelyStlpca();
 }
 
 function prehrajZvuk(zvuk, rychlost = 1) {
@@ -437,6 +466,7 @@ function aktualizujStlpec() {
   prvokVyplnStlpca.style.height = `${vyska}%`;
   prvokVyplnStlpca.parentElement.style.setProperty("--vyska-liquidu", `${vyska}%`);
   prvokVyplnStlpca.parentElement.style.setProperty("--viditelnost-pixelov", stavStlpca > 0 ? "1" : "0");
+  prepocitajPixelyStlpca();
 }
 
 function aktualizujStreak(animuj = false) {
