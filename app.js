@@ -57,6 +57,7 @@ const tlacidloOdstranitOtazku = document.getElementById("tlacidloOdstranitOtazku
 const tlacidloVratitVsetkyOtazky = document.getElementById("tlacidloVratitVsetkyOtazky");
 const tlacidloPredmetPc2 = document.getElementById("tlacidloPredmetPc2");
 const tlacidloPredmetCzs = document.getElementById("tlacidloPredmetCzs");
+const tlacidloPredmetHel = document.getElementById("tlacidloPredmetHel");
 const tlacidloPredmetTest = document.getElementById("tlacidloPredmetTest");
 const tlacidloVsetkyPodokruhy = document.getElementById("tlacidloVsetkyPodokruhy");
 const tlacidloZiadnePodokruhy = document.getElementById("tlacidloZiadnePodokruhy");
@@ -236,7 +237,15 @@ function ziskajPrezentaciu(otazka) {
     return zhoda[0];
   }
 
-  return aktualnyPredmet === "pc2" ? "PC2" : "Bez prezentácie";
+  if (aktualnyPredmet === "pc2") {
+    return "PC2";
+  }
+
+  if (aktualnyPredmet === "hel") {
+    return "HEL";
+  }
+
+  return "Bez prezentácie";
 }
 
 function ziskajPodokruh(otazka) {
@@ -970,6 +979,10 @@ function ziskajOtazkyPredmetu(predmet) {
     return skusobneOtazky;
   }
 
+  if (predmet === "hel") {
+    return helOtazky;
+  }
+
   return czsOtazky;
 }
 
@@ -981,6 +994,8 @@ function nastavPredmet(predmet) {
   tlacidloPredmetPc2.classList.toggle("sekundarne", predmet !== "pc2");
   tlacidloPredmetCzs.classList.toggle("aktivny", predmet === "czs");
   tlacidloPredmetCzs.classList.toggle("sekundarne", predmet !== "czs");
+  tlacidloPredmetHel.classList.toggle("aktivny", predmet === "hel");
+  tlacidloPredmetHel.classList.toggle("sekundarne", predmet !== "hel");
   tlacidloPredmetTest.classList.toggle("aktivny", predmet === "test");
   tlacidloPredmetTest.classList.toggle("sekundarne", predmet !== "test");
   prvokPrepinacRezimu.classList.toggle("skryte", predmet !== "pc2");
@@ -1090,6 +1105,9 @@ tlacidloPredmetPc2.addEventListener("click", () => {
 });
 tlacidloPredmetCzs.addEventListener("click", () => {
   nastavPredmet("czs");
+});
+tlacidloPredmetHel.addEventListener("click", () => {
+  nastavPredmet("hel");
 });
 tlacidloPredmetTest.addEventListener("click", () => {
   nastavPredmet("test");
