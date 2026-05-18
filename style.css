@@ -94,76 +94,70 @@ body {
 .vypln-stlpca::before {
   content: "";
   position: absolute;
-  left: -18px;
-  right: -18px;
-  top: -18px;
+  left: 0;
+  right: 0;
+  top: -4px;
   z-index: 2;
-  height: 24px;
-  background:
-    linear-gradient(#000000 0 0) 0 12px / 14px 10px repeat-x,
-    linear-gradient(#000000 0 0) 7px 4px / 18px 18px repeat-x,
-    linear-gradient(#000000 0 0) 4px 0 / 8px 8px repeat-x;
+  height: 4px;
+  background: #000000;
   image-rendering: pixelated;
-  animation: ciernyPovrch 820ms steps(5, end) infinite;
+  animation: hladinaPixel 620ms steps(3, end) infinite;
 }
 
 .vypln-stlpca::after {
   content: "";
   position: absolute;
-  left: -12px;
-  right: -12px;
-  top: -62px;
+  left: -6px;
+  right: -6px;
+  top: -48px;
   z-index: 1;
-  height: 54px;
+  height: 44px;
   background:
-    linear-gradient(#000000 0 0) 10px 42px / 6px 6px no-repeat,
-    linear-gradient(#000000 0 0) 28px 34px / 8px 8px no-repeat,
-    linear-gradient(#000000 0 0) 52px 44px / 6px 6px no-repeat,
-    linear-gradient(#000000 0 0) 74px 30px / 8px 8px no-repeat,
-    linear-gradient(#000000 0 0) 92px 40px / 6px 6px no-repeat,
-    linear-gradient(#000000 0 0) 16px 18px / 5px 5px no-repeat,
-    linear-gradient(#000000 0 0) 60px 12px / 5px 5px no-repeat;
+    linear-gradient(#000000 0 0) 4px 34px / 6px 6px no-repeat,
+    linear-gradient(#000000 0 0) 18px 20px / 5px 5px no-repeat,
+    linear-gradient(#000000 0 0) 36px 30px / 8px 8px no-repeat,
+    linear-gradient(#000000 0 0) 54px 12px / 6px 6px no-repeat,
+    linear-gradient(#000000 0 0) 70px 26px / 8px 8px no-repeat,
+    linear-gradient(#000000 0 0) 90px 36px / 6px 6px no-repeat,
+    linear-gradient(#000000 0 0) 104px 18px / 5px 5px no-repeat;
   image-rendering: pixelated;
-  opacity: 0.8;
-  animation: ciernaPara 1.45s steps(6, end) infinite;
+  opacity: 1;
+  animation: cierneBubliny 980ms steps(4, end) infinite;
 }
 
-@keyframes ciernyPovrch {
+@keyframes hladinaPixel {
   0% {
-    transform: translateX(0);
+    transform: translateX(-1px);
   }
 
   50% {
-    transform: translateX(-10px);
+    transform: translateX(2px);
   }
 
   100% {
-    transform: translateX(14px);
+    transform: translateX(-1px);
   }
 }
 
-@keyframes ciernaPara {
+@keyframes cierneBubliny {
   0% {
-    opacity: 0;
-    transform: translate(0, 12px);
+    transform: translate(-2px, 2px);
   }
 
-  18% {
-    opacity: 0.85;
+  25% {
+    transform: translate(8px, -2px);
   }
 
-  45% {
-    transform: translate(-8px, -8px);
+  50% {
+    transform: translate(-6px, -6px);
   }
 
-  70% {
-    opacity: 0.55;
-    transform: translate(10px, -22px);
+  75% {
+    transform: translate(6px, -3px);
   }
 
   100% {
-    opacity: 0;
-    transform: translate(-4px, -34px);
+    transform: translate(-2px, 2px);
   }
 }
 

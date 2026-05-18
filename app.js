@@ -8,7 +8,7 @@ let aktualneOtazky = czsOtazky;
 let aktualneMoznosti = [];
 let stavStlpca = 0;
 let seriaSpravnych = 0;
-let najlepsiStreak = 0;
+let najvyssiStavStlpca = 0;
 let casovacDalsejOtazky = null;
 let hlasitost = 0.5;
 let vybranaPrezentacia = "__vsetko";
@@ -403,12 +403,12 @@ function aktualizujStlpec() {
 function aktualizujStreak(animuj = false) {
   const maximum = Math.max(poradieOtazok.length, 1);
   const velkost = Math.min(34 + seriaSpravnych * 2.2, 72);
-  const poziciaMaxima = Math.min(100, Math.round((najlepsiStreak / maximum) * 100));
+  const poziciaMaxima = Math.min(100, Math.round((najvyssiStavStlpca / maximum) * 100));
   prvokStreakAktualny.textContent = String(seriaSpravnych);
   prvokStreakAktualny.style.setProperty("--streak-velkost", `${velkost}px`);
   prvokStreakNajlepsi.textContent = "";
   prvokStreakNajlepsi.style.bottom = `${poziciaMaxima}%`;
-  prvokStreakNajlepsi.classList.toggle("skryta-ciara", najlepsiStreak === 0);
+  prvokStreakNajlepsi.classList.toggle("skryta-ciara", najvyssiStavStlpca === 0);
 
   if (!animuj) {
     return;
@@ -423,6 +423,7 @@ function upravStlpec(jeSpravne) {
   const maximum = Math.max(poradieOtazok.length, 1);
   stavStlpca += jeSpravne ? 1 : -1;
   stavStlpca = Math.max(0, Math.min(maximum, stavStlpca));
+  najvyssiStavStlpca = Math.max(najvyssiStavStlpca, stavStlpca);
   aktualizujStlpec();
 }
 
@@ -451,7 +452,7 @@ function nastavPoradie() {
   skore = 0;
   stavStlpca = 0;
   seriaSpravnych = 0;
-  najlepsiStreak = 0;
+  najvyssiStavStlpca = 0;
   vycistiPredoslyVysledok();
   aktualizujStlpec();
   aktualizujStreak();
@@ -734,13 +735,12 @@ function skontrolujOdpoved() {
 
   if (jeSpravne) {
     seriaSpravnych++;
-    najlepsiStreak = Math.max(najlepsiStreak, seriaSpravnych);
   } else {
     seriaSpravnych = 0;
   }
-  aktualizujStreak(jeSpravne);
 
   upravStlpec(jeSpravne);
+  aktualizujStreak(jeSpravne);
   spustiSpatnuVazbu(jeSpravne, seriaSpravnych);
 
   if (jeSpravne) {
@@ -802,6 +802,7 @@ function odoberAktualnuOtazku() {
   poradieOtazok = poradieOtazok.filter((polozka) => ziskajIdOtazky(polozka) !== ziskajIdOtazky(otazka));
   aktualneOtazky = aktualneOtazky.filter((polozka) => ziskajIdOtazky(polozka) !== ziskajIdOtazky(otazka));
   stavStlpca = Math.min(stavStlpca, poradieOtazok.length);
+  najvyssiStavStlpca = Math.min(najvyssiStavStlpca, poradieOtazok.length);
 
   if (aktualnyIndex >= poradieOtazok.length) {
     aktualnyIndex = Math.max(0, poradieOtazok.length - 1);
