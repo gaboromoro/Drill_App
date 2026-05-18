@@ -3786,5 +3786,725 @@ const czsOtazky = [
     "vysvetlenie": "FIR/IIR rozlišuje impulzná odozva systému. Vstup môže byť konečný alebo nekonečný nezávisle od typu systému.",
     "slideRef": "CZS_3_03.pdf",
     "subtema": "CZS 3: Integrované pasce"
+  },
+  {
+    "id": "czs4-001",
+    "tema": "CZS 4: Z-transformácia",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré tvrdenia správne vystihujú obojstrannú Z-transformáciu X(z) = suma x[n] z^-n?",
+    "moznosti": [
+      "Hodnota X(z) závisí nielen od postupnosti x[n], ale aj od komplexnej premennej z.",
+      "Samotný algebraický výraz X(z) vždy jednoznačne určuje pôvodnú postupnosť bez potreby ROC.",
+      "ROC je množina hodnôt z, pre ktoré nekonečná suma konverguje.",
+      "Pri racionálnom X(z) sú póly kandidátmi na hranice ROC, ale nikdy neležia v ROC."
+    ],
+    "spravne": [0, 2, 3],
+    "vysvetlenie": "Pasca je druhá možnosť: rovnaký algebraický výraz môže patriť pravostrannej, ľavostrannej alebo obojstrannej postupnosti. Bez ROC sa pri Z-transformácii stráca informácia o čase.",
+    "slideRef": "CZS_4_03.pdf slides 2, 3",
+    "subtema": "CZS 4: Definícia a ROC"
+  },
+  {
+    "id": "czs4-002",
+    "tema": "CZS 4: Z-transformácia",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pre postupnosť x[n] = a^n u[n] platí X(z) = 1 / (1 - a z^-1). Ktorá ROC k nej patrí?",
+    "moznosti": [
+      "|z| > |a|",
+      "|z| < |a|",
+      "0 < |z| < |a|",
+      "celá z-rovina vrátane pólu z = a"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Pravostranná exponenciála konverguje mimo pólu. Možnosť |z| < |a| je veľmi realistická pasca, lebo patrí k ľavostrannej postupnosti s rovnakým algebraickým výrazom.",
+    "slideRef": "CZS_4_03.pdf slides 4, 5",
+    "subtema": "CZS 4: Základné dvojice"
+  },
+  {
+    "id": "czs4-003",
+    "tema": "CZS 4: Z-transformácia",
+    "typ": "jedna",
+    "format": "najdi_chybu",
+    "uroven": "tazka",
+    "otazka": "Nájdi chybu: „Ak X(z) = 1 / (1 - a z^-1), potom pôvodný signál musí byť a^n u[n].“",
+    "moznosti": [
+      "Chýba ROC; rovnaký výraz môže patriť aj ľavostrannému signálu -a^n u[-n-1].",
+      "Chýba iba hodnota X(0); ROC pri inverznej Z-transformácii nie je potrebná.",
+      "Chyba je v znamienku exponentu, správne má byť z^n.",
+      "Tvrdenie je správne pre každý racionálny X(z)."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Algebraický tvar a ROC tvoria dvojicu. Ak zameníš ROC, zmeníš časovú podporu signálu, hoci vzorec vyzerá rovnako.",
+    "slideRef": "CZS_4_03.pdf slides 4, 6",
+    "subtema": "CZS 4: ROC ako súčasť transformácie"
+  },
+  {
+    "id": "czs4-004",
+    "tema": "CZS 4: ROC",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pre racionálnu Z-transformáciu s pólmi v z = 0.5 a z = 2 môžu byť ktoré ROC teoreticky možné?",
+    "moznosti": [
+      "|z| > 2",
+      "0.5 < |z| < 2",
+      "|z| < 0.5",
+      "|z| = 2"
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "ROC nemôže obsahovať pól, preto nie je kružnica |z| = 2 platná ROC. Ostatné tri oblasti zodpovedajú pravostrannej, obojstrannej alebo ľavostrannej postupnosti.",
+    "slideRef": "CZS_4_03.pdf slides 6, 7",
+    "subtema": "CZS 4: ROC a póly"
+  },
+  {
+    "id": "czs4-005",
+    "tema": "CZS 4: ROC",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak je racionálny signál pravostranný a jeho najvzdialenejší pól má modul 3, aká je ROC?",
+    "moznosti": [
+      "|z| > 3",
+      "|z| < 3",
+      "0 < |z| < 3",
+      "ROC je vždy jednotková kružnica"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Pravostranný signál má ROC smerom von od vonkajšieho pólu. Jednotková kružnica je dôležitá pre DTFT a stabilitu, ale neurčuje ROC automaticky.",
+    "slideRef": "CZS_4_03.pdf slides 6, 7",
+    "subtema": "CZS 4: Pravostranné postupnosti"
+  },
+  {
+    "id": "czs4-006",
+    "tema": "CZS 4: ROC",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak je racionálny signál ľavostranný a jeho najbližší pól k začiatku má modul 0.4, aká je ROC?",
+    "moznosti": [
+      "|z| < 0.4",
+      "|z| > 0.4",
+      "0.4 < |z| < 1",
+      "|z| = 0.4"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Ľavostranný signál konverguje smerom dovnútra od najvnútornejšieho pólu. Rovnosť |z| = 0.4 je pasca, pretože póly nikdy neležia v ROC.",
+    "slideRef": "CZS_4_03.pdf slides 6, 7",
+    "subtema": "CZS 4: Ľavostranné postupnosti"
+  },
+  {
+    "id": "czs4-007",
+    "tema": "CZS 4: ROC",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Čo musí platiť pre obojstrannú postupnosť s racionálnou Z-transformáciou?",
+    "moznosti": [
+      "ROC má tvar medzikružia medzi dvoma pólmi.",
+      "ROC môže obsahovať jednotkovú kružnicu, ale nemusí.",
+      "ROC je vždy vonkajšok najvzdialenejšieho pólu.",
+      "Rovnaký algebraický výraz môže pri inom ROC zodpovedať jednostrannému signálu."
+    ],
+    "spravne": [0, 1, 3],
+    "vysvetlenie": "Vonkajšok najvzdialenejšieho pólu je typický pre pravostranný signál. Pri obojstrannom signáli sa ROC nachádza medzi pólmi.",
+    "slideRef": "CZS_4_03.pdf slides 6, 7",
+    "subtema": "CZS 4: Obojstranné postupnosti"
+  },
+  {
+    "id": "czs4-008",
+    "tema": "CZS 4: DTFT a Z-transformácia",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Kedy možno z X(z) získať DTFT X(e^jω) jednoduchým dosadením z = e^jω?",
+    "moznosti": [
+      "Keď jednotková kružnica leží v ROC.",
+      "Vždy, ak je X(z) racionálna.",
+      "Len vtedy, ak všetky póly ležia na jednotkovej kružnici.",
+      "Len pri FIR signáloch bez oneskorenia."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Dosadenie na jednotkovú kružnicu je platné len tam, kde Z-transformácia konverguje. Pól na jednotkovej kružnici je práve problém, nie podmienka.",
+    "slideRef": "CZS_4_03.pdf slides 8, 9",
+    "subtema": "CZS 4: Vzťah k DTFT"
+  },
+  {
+    "id": "czs4-009",
+    "tema": "CZS 4: DTFT a Z-transformácia",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré dôsledky platia, ak jednotková kružnica nie je v ROC X(z)?",
+    "moznosti": [
+      "DTFT v bežnom zmysle nemusí existovať.",
+      "Samotný algebraický výraz X(z) môže stále existovať mimo jednotkovej kružnice.",
+      "Stačí ignorovať ROC a dosadiť z = e^jω, výsledok bude vždy fyzikálne správny.",
+      "Pri stabilnom LTI systéme sa táto situácia nesmie stať pre H(z)."
+    ],
+    "spravne": [0, 1, 3],
+    "vysvetlenie": "Tretia možnosť je nebezpečná: formálne dosadenie môže dať výraz, ale ak jednotková kružnica nie je v ROC, nejde o platnú frekvenčnú charakteristiku.",
+    "slideRef": "CZS_4_03.pdf slides 8, 9",
+    "subtema": "CZS 4: Vzťah k DTFT"
+  },
+  {
+    "id": "czs4-010",
+    "tema": "CZS 4: Póly a nuly",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Čo znamená nula prenosu H(z) v bode z0?",
+    "moznosti": [
+      "H(z0) = 0, teda daná komplexná zložka je potlačená podľa polohy nuly.",
+      "H(z0) ide do nekonečna, pretože nuly sú rovnaké ako póly.",
+      "Bod z0 musí patriť mimo ROC.",
+      "Nula vždy znamená nestabilitu systému."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Pól spôsobuje singularitu, nula potlačenie. Pasce miešajú póly, ROC a stabilitu; nula sama o sebe stabilitu neurčuje.",
+    "slideRef": "CZS_4_03.pdf slides 10, 11",
+    "subtema": "CZS 4: Póly a nuly"
+  },
+  {
+    "id": "czs4-011",
+    "tema": "CZS 4: Póly a nuly",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pre racionálnu funkciu H(z) = B(z) / A(z) vyber správne tvrdenia.",
+    "moznosti": [
+      "Korene A(z) sú póly, ak sa nezrušia s rovnakými koreňmi v B(z).",
+      "Korene B(z) sú nuly, ak sa nezrušia s rovnakými koreňmi v A(z).",
+      "Poloha pólov ovplyvňuje stabilitu a charakter odozvy viac priamo než poloha núl.",
+      "ROC môže obsahovať pól, ak je pól zároveň nulou po krátení."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Po krátení sa rušený pól už v minimálnom popise nespráva ako pól. ROC však nikdy neobsahuje skutočné póly výslednej transformácie.",
+    "slideRef": "CZS_4_03.pdf slides 10, 11",
+    "subtema": "CZS 4: Póly a nuly"
+  },
+  {
+    "id": "czs4-012",
+    "tema": "CZS 4: Kauzalita a stabilita",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pre racionálny LTI systém s prenosom H(z) platí:",
+    "moznosti": [
+      "Ak je systém kauzálny, ROC je vonkajšok najvzdialenejšieho pólu.",
+      "Ak je systém BIBO stabilný, jednotková kružnica musí byť v ROC.",
+      "Ak je systém kauzálny aj stabilný, všetky póly musia ležať vnútri jednotkovej kružnice.",
+      "Ak má systém všetky nuly vnútri jednotkovej kružnice, automaticky je stabilný."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Nuly neurčujú BIBO stabilitu. Pri kauzálnom systéme sa stabilita redukuje na polohu pólov vnútri jednotkovej kružnice.",
+    "slideRef": "CZS_4_03.pdf slides 12, 13",
+    "subtema": "CZS 4: Kauzalita a stabilita"
+  },
+  {
+    "id": "czs4-013",
+    "tema": "CZS 4: Kauzalita a stabilita",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Systém má póly v 0.7 a 1.2 a je kauzálny. Je stabilný?",
+    "moznosti": [
+      "Nie, lebo kauzálna ROC je |z| > 1.2 a neobsahuje jednotkovú kružnicu.",
+      "Áno, lebo aspoň jeden pól je vnútri jednotkovej kružnice.",
+      "Áno, lebo kauzalita sama zaručuje stabilitu.",
+      "Nedá sa rozhodnúť, pretože poloha pólov nikdy nesúvisí so stabilitou."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Pre kauzálny racionálny systém rozhoduje najvzdialenejší pól. Ak je mimo jednotkovej kružnice, jednotková kružnica nie je v ROC.",
+    "slideRef": "CZS_4_03.pdf slides 12, 13",
+    "subtema": "CZS 4: Kauzalita a stabilita"
+  },
+  {
+    "id": "czs4-014",
+    "tema": "CZS 4: Kauzalita a stabilita",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Systém má pól v z = 2 a ROC |z| < 2. Čo možno povedať?",
+    "moznosti": [
+      "Môže byť stabilný, ak ROC obsahuje jednotkovú kružnicu, ale nie je kauzálny.",
+      "Musí byť kauzálny, lebo ROC je určená pólom.",
+      "Nemôže byť stabilný, lebo pól je mimo jednotkovej kružnice bez ohľadu na ROC.",
+      "Je FIR, pretože ROC je ohraničená."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Pól mimo jednotkovej kružnice nevylučuje stabilitu pri ľavostrannej ROC. Pasca je preniesť kauzálne pravidlo na nekauzálny prípad.",
+    "slideRef": "CZS_4_03.pdf slides 12, 13",
+    "subtema": "CZS 4: Kauzalita a stabilita"
+  },
+  {
+    "id": "czs4-015",
+    "tema": "CZS 4: Vlastnosti",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak y[n] = x[n - n0], aký faktor pribudne v Z-oblasti?",
+    "moznosti": [
+      "Y(z) = z^-n0 X(z)",
+      "Y(z) = z^n0 X(z)",
+      "Y(z) = X(z - n0)",
+      "Y(z) = X(z) - n0"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Oneskorenie v čase sa prejaví násobením z^-n0. Pasca X(z - n0) zamieňa posun indexu s posunom komplexnej premennej.",
+    "slideRef": "CZS_4_03.pdf slides 14, 15",
+    "subtema": "CZS 4: Posun v čase"
+  },
+  {
+    "id": "czs4-016",
+    "tema": "CZS 4: Vlastnosti",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pri časovom posune v Z-transformácii si treba dať pozor na:",
+    "moznosti": [
+      "znamienko exponentu pri z^-n0,",
+      "možnú zmenu správania ROC pri z = 0 alebo z = ∞,",
+      "to, že posun v čase nie je to isté ako derivácia podľa z,",
+      "to, že každý posun v čase zmení póly na ich komplexne združené hodnoty."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Posun mení mocninu z, nie komplexné združenie pólov. Pri jednostranných alebo konečných postupnostiach sú práve 0 a ∞ časté okrajové pasce.",
+    "slideRef": "CZS_4_03.pdf slides 14, 15",
+    "subtema": "CZS 4: Posun v čase"
+  },
+  {
+    "id": "czs4-017",
+    "tema": "CZS 4: Vlastnosti",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak y[n] = a^n x[n], aký je vzťah medzi Y(z) a X(z)?",
+    "moznosti": [
+      "Y(z) = X(z / a)",
+      "Y(z) = X(a z)",
+      "Y(z) = a X(z)",
+      "Y(z) = X(z) / a^n"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Dosadenie X(z/a) dá sumu x[n](z/a)^-n = x[n]a^n z^-n. Pasca X(az) má opačné škálovanie ROC.",
+    "slideRef": "CZS_4_03.pdf slides 14, 16",
+    "subtema": "CZS 4: Násobenie exponenciálou"
+  },
+  {
+    "id": "czs4-018",
+    "tema": "CZS 4: Vlastnosti",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak y[n] = n x[n], ktorá vlastnosť Z-transformácie je správna?",
+    "moznosti": [
+      "Y(z) = -z dX(z)/dz",
+      "Y(z) = dX(z)/dz",
+      "Y(z) = z X(z)",
+      "Y(z) = X(z^-1)"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Faktor n vznikne derivovaním z^-n: d(z^-n)/dz = -n z^-n-1, preto treba násobiť -z. Znamienko je typická skúšková pasca.",
+    "slideRef": "CZS_4_03.pdf slides 14, 16",
+    "subtema": "CZS 4: Derivačná vlastnosť"
+  },
+  {
+    "id": "czs4-019",
+    "tema": "CZS 4: Vlastnosti",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pre konvolúciu y[n] = x[n] * h[n] v Z-oblasti platí:",
+    "moznosti": [
+      "Y(z) = X(z)H(z).",
+      "ROC Y(z) obsahuje aspoň prienik ROC X(z) a ROC H(z), ak nenastane rušenie pólov a núl.",
+      "Konvolúcia v čase sa mení na sčítanie Z-transformácií.",
+      "Ak sa zruší pól s nulou, výsledná ROC sa môže zmeniť oproti jednoduchému prieniku."
+    ],
+    "spravne": [0, 1, 3],
+    "vysvetlenie": "Sčítanie patrí k linearite, nie ku konvolúcii. Jemná pasca je ROC: produkt výrazov nestačí, treba sledovať aj možné rušenie pólov.",
+    "slideRef": "CZS_4_03.pdf slides 14, 17",
+    "subtema": "CZS 4: Konvolúcia"
+  },
+  {
+    "id": "czs4-020",
+    "tema": "CZS 4: Vlastnosti",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak y[n] = x[-n], ako sa zmení Z-transformácia?",
+    "moznosti": [
+      "Y(z) = X(z^-1) a ROC sa invertuje podľa |z|.",
+      "Y(z) = -X(z), ROC ostane rovnaká.",
+      "Y(z) = X(-z), póly sa iba zrkadlia cez reálnu os.",
+      "Y(z) = X(z) vždy, lebo suma ide cez všetky n."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Obrátenie času nahrádza z za z^-1. Pasca je myslieť si, že obojstranná suma automaticky zruší rozdiel v indexoch.",
+    "slideRef": "CZS_4_03.pdf slides 14, 17",
+    "subtema": "CZS 4: Obrátenie času"
+  },
+  {
+    "id": "czs4-021",
+    "tema": "CZS 4: Inverzná Z-transformácia",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré postupy sa používajú pri inverznej Z-transformácii racionálneho X(z)?",
+    "moznosti": [
+      "Rozklad na parciálne zlomky.",
+      "Použitie známych transformačných dvojíc spolu s ROC.",
+      "Ignorovanie ROC, ak sa algebraický výraz dá upraviť na jednoduchý tvar.",
+      "Rozhodnutie, či jednotlivé členy patria k pravostrannej alebo ľavostrannej postupnosti."
+    ],
+    "spravne": [0, 1, 3],
+    "vysvetlenie": "Najväčšia pasca je tretia možnosť. Parciálny zlomok bez ROC dá iba tvar, ale nie časový smer postupnosti.",
+    "slideRef": "CZS_4_03.pdf slides 18, 19",
+    "subtema": "CZS 4: Inverzná Z-transformácia"
+  },
+  {
+    "id": "czs4-022",
+    "tema": "CZS 4: Inverzná Z-transformácia",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "X(z) = 1 / (1 - 0.5 z^-1), ROC |z| > 0.5. Aký je x[n]?",
+    "moznosti": [
+      "(0.5)^n u[n]",
+      "-(0.5)^n u[-n - 1]",
+      "(0.5)^-n u[n]",
+      "δ[n] - 0.5δ[n - 1]"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "ROC vonku určuje pravostrannú exponenciálu. Druhá možnosť má rovnaký algebraický výraz, ale opačnú ROC.",
+    "slideRef": "CZS_4_03.pdf slides 18, 19",
+    "subtema": "CZS 4: Inverzná Z-transformácia"
+  },
+  {
+    "id": "czs4-023",
+    "tema": "CZS 4: Inverzná Z-transformácia",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "X(z) = 1 / (1 - 0.5 z^-1), ROC |z| < 0.5. Aký je x[n]?",
+    "moznosti": [
+      "-(0.5)^n u[-n - 1]",
+      "(0.5)^n u[n]",
+      "(0.5)^n u[-n]",
+      "δ[n] + 0.5δ[n - 1]"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Vnútorná ROC určuje ľavostrannú postupnosť. Znamienko mínus a hranica -n-1 sú časté pasce pri sčítaní geometrického radu.",
+    "slideRef": "CZS_4_03.pdf slides 18, 19",
+    "subtema": "CZS 4: Inverzná Z-transformácia"
+  },
+  {
+    "id": "czs4-024",
+    "tema": "CZS 4: Prenosová funkcia",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pre diferenčnú rovnicu y[n] - 0.8y[n - 1] = x[n] je prenos H(z) pri nulových počiatočných podmienkach:",
+    "moznosti": [
+      "H(z) = 1 / (1 - 0.8z^-1)",
+      "H(z) = 1 - 0.8z^-1",
+      "H(z) = 1 / (1 + 0.8z^-1)",
+      "H(z) = z / (z - 0.8z^-1)"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Člen s výstupom ide do menovateľa. Znamienko sa nestráca: y[n] - 0.8y[n-1] dá faktor 1 - 0.8z^-1.",
+    "slideRef": "CZS_4_03.pdf slides 20, 21",
+    "subtema": "CZS 4: Prenosová funkcia"
+  },
+  {
+    "id": "czs4-025",
+    "tema": "CZS 4: Prenosová funkcia",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pri prechode z diferenčnej rovnice do H(z) sú správne ktoré kroky?",
+    "moznosti": [
+      "Oneskorenie y[n-k] sa v Z-oblasti prejaví faktorom z^-k Y(z).",
+      "Oneskorenie x[n-k] sa v Z-oblasti prejaví faktorom z^-k X(z).",
+      "Koeficienty pri minulých výstupoch sa objavia v menovateli H(z).",
+      "Koeficienty pri minulých výstupoch sa vždy objavia v čitateli H(z)."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Výstupné rekurzívne členy tvoria menovateľ. Štvrtá možnosť je realistická chyba pri mechanickom presúvaní členov.",
+    "slideRef": "CZS_4_03.pdf slides 20, 21",
+    "subtema": "CZS 4: Prenosová funkcia"
+  },
+  {
+    "id": "czs4-026",
+    "tema": "CZS 4: FIR/IIR v Z-oblasti",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré tvrdenia správne rozlišujú FIR a IIR cez H(z)?",
+    "moznosti": [
+      "FIR filter má H(z) ako konečný polynóm v z^-1, ak zanedbáme prípadné póly v nule spôsobené zápisom.",
+      "IIR filter má v H(z) netriviálny menovateľ spojený so spätnou väzbou.",
+      "Každý FIR filter je nestabilný, ak má nuly mimo jednotkovej kružnice.",
+      "IIR môže byť stabilný, ak jeho kauzálne póly ležia vnútri jednotkovej kružnice."
+    ],
+    "spravne": [0, 1, 3],
+    "vysvetlenie": "Nuly mimo jednotkovej kružnice neznamenajú nestabilitu. Stabilita kauzálneho IIR sa riadi pólmi, nie nulami.",
+    "slideRef": "CZS_4_03.pdf slides 20, 22",
+    "subtema": "CZS 4: FIR/IIR v Z-oblasti"
+  },
+  {
+    "id": "czs4-027",
+    "tema": "CZS 4: FIR/IIR v Z-oblasti",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Filter H(z) = 1 - z^-1 má nulu v z = 1. Čo to znamená pre frekvenciu ω = 0?",
+    "moznosti": [
+      "Potláča DC zložku, pretože z = e^j0 = 1 leží v nule prenosu.",
+      "Zosilňuje DC zložku, pretože nula je na jednotkovej kružnici.",
+      "Je nestabilný, pretože nula na jednotkovej kružnici je vždy pól.",
+      "Nedá sa povedať nič, lebo nuly nesúvisia s frekvenčnou odozvou."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Nula na jednotkovej kružnici potláča príslušnú frekvenciu. Pasca je zameniť nulu s pólom alebo stabilitou.",
+    "slideRef": "CZS_4_03.pdf slides 10, 22",
+    "subtema": "CZS 4: Interpretácia núl"
+  },
+  {
+    "id": "czs4-028",
+    "tema": "CZS 4: FIR/IIR v Z-oblasti",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Filter H(z) = 1 + z^-1 má nulu v z = -1. Ktorú frekvenciu potláča?",
+    "moznosti": [
+      "ω = π",
+      "ω = 0",
+      "ω = π/2",
+      "žiadnu, nula mimo jednotkovej kružnice nič neznamená"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Bod z = -1 zodpovedá e^jπ. Ide o pascu medzi znamienkom koeficientu a tým, či sa potláča DC alebo najvyššia diskrétna frekvencia.",
+    "slideRef": "CZS_4_03.pdf slides 10, 22",
+    "subtema": "CZS 4: Interpretácia núl"
+  },
+  {
+    "id": "czs4-029",
+    "tema": "CZS 4: Stabilita",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré systémy môžu byť BIBO stabilné?",
+    "moznosti": [
+      "Kauzálny racionálny systém so všetkými pólmi vnútri jednotkovej kružnice.",
+      "Nekauzálny systém, ktorého ROC obsahuje jednotkovú kružnicu.",
+      "Kauzálny systém s pólom na jednotkovej kružnici.",
+      "FIR systém s konečným počtom konečných koeficientov."
+    ],
+    "spravne": [0, 1, 3],
+    "vysvetlenie": "Pól na jednotkovej kružnici zabráni tomu, aby jednotková kružnica patrila do ROC. Stabilita nie je totožná s kauzalitou.",
+    "slideRef": "CZS_4_03.pdf slides 12, 13, 22",
+    "subtema": "CZS 4: Stabilita"
+  },
+  {
+    "id": "czs4-030",
+    "tema": "CZS 4: Stabilita",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pre kauzálny systém je pól v z = -0.95. Čo je správna interpretácia?",
+    "moznosti": [
+      "Systém môže byť stabilný, ale odozva bude mať striedavé znamienko a pomalý zánik.",
+      "Systém je určite nestabilný, lebo pól je záporný.",
+      "Systém je FIR, lebo pól je blízko jednotkovej kružnice.",
+      "Záporný pól sa pri stabilite ignoruje, rozhodujú len kladné póly."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Stabilitu určuje modul pólu, nie znamienko. Záporný pól spôsobuje oscilujúce znamienko v čase.",
+    "slideRef": "CZS_4_03.pdf slides 12, 13",
+    "subtema": "CZS 4: Stabilita a póly"
+  },
+  {
+    "id": "czs4-031",
+    "tema": "CZS 4: Póly a odozva",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Dva kauzálne systémy majú póly 0.2 a 0.95. Ktorý má pomalšie doznievanie impulznej odozvy?",
+    "moznosti": [
+      "Systém s pólom 0.95, lebo pól je bližšie k jednotkovej kružnici.",
+      "Systém s pólom 0.2, lebo menší pól znamená menšie tlmenie.",
+      "Oba rovnako, lebo oba póly sú vnútri jednotkovej kružnice.",
+      "Nedá sa rozhodnúť, póly neovplyvňujú časovú odozvu."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Pól bližšie k jednotkovej kružnici znamená pomalší exponenciálny zánik. Stabilita len hovorí, že zánik nastane, nie ako rýchlo.",
+    "slideRef": "CZS_4_03.pdf slides 10, 13",
+    "subtema": "CZS 4: Póly a odozva"
+  },
+  {
+    "id": "czs4-032",
+    "tema": "CZS 4: Póly a odozva",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Komplexne združené póly r e^{±jω0} v kauzálnom systéme spôsobia:",
+    "moznosti": [
+      "kmitavú zložku s uhlovou frekvenciou približne ω0,",
+      "rýchlosť zániku závislú od r,",
+      "automatickú nestabilitu bez ohľadu na r,",
+      "reálnu impulznú odozvu, ak sú póly aj koeficienty v združených pároch."
+    ],
+    "spravne": [0, 1, 3],
+    "vysvetlenie": "Komplexný pól nie je problém sám o sebe. Nestabilita nastane až pri module pólu mimo alebo na jednotkovej kružnici v kauzálnom prípade.",
+    "slideRef": "CZS_4_03.pdf slides 10, 13",
+    "subtema": "CZS 4: Komplexné póly"
+  },
+  {
+    "id": "czs4-033",
+    "tema": "CZS 4: Jednotková kružnica",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Čo sa dá čítať z polohy pólov a núl vzhľadom na jednotkovú kružnicu?",
+    "moznosti": [
+      "Nuly blízko jednotkovej kružnice potláčajú blízke frekvencie.",
+      "Póly blízko jednotkovej kružnice zvýrazňujú blízke frekvencie a predlžujú doznievanie.",
+      "Póly na jednotkovej kružnici sú pri stabilnom LTI systéme bezproblémové.",
+      "Frekvenčná charakteristika je hodnotenie H(z) na z = e^jω, ak jednotková kružnica patrí do ROC."
+    ],
+    "spravne": [0, 1, 3],
+    "vysvetlenie": "Tretia možnosť je pasca: pól na jednotkovej kružnici vylučuje jednotkovú kružnicu z ROC, a teda problém pre BIBO stabilitu.",
+    "slideRef": "CZS_4_03.pdf slides 8, 10, 13",
+    "subtema": "CZS 4: Jednotková kružnica"
+  },
+  {
+    "id": "czs4-034",
+    "tema": "CZS 4: ROC pasce",
+    "typ": "jedna",
+    "format": "najdi_chybu",
+    "uroven": "tazka",
+    "otazka": "Nájdi chybu: „Ak má X(z) pól v 0.8, tak ROC musí byť |z| > 0.8.“",
+    "moznosti": [
+      "To platí iba pri pravostrannom signáli; pri ľavostrannom môže byť ROC |z| < 0.8.",
+      "Pól v 0.8 znamená, že ROC je presne |z| = 0.8.",
+      "ROC sa určuje výlučne podľa núl, nie podľa pólov.",
+      "Tvrdenie je vždy správne pre každý signál."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Pól určuje hranicu, ale smer ROC závisí od časovej podpory. Automatické zvolenie vonkajšej ROC je typická kauzálna predpojatosť.",
+    "slideRef": "CZS_4_03.pdf slides 6, 7",
+    "subtema": "CZS 4: ROC pasce"
+  },
+  {
+    "id": "czs4-035",
+    "tema": "CZS 4: ROC pasce",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré tvrdenia o ROC sú správne?",
+    "moznosti": [
+      "ROC je súvislá oblasť v z-rovine pre racionálne transformácie.",
+      "ROC neobsahuje póly.",
+      "ROC pravostranného signálu sa rozprestiera smerom k nekonečnu.",
+      "ROC ľavostranného signálu sa vždy rozprestiera smerom k nekonečnu."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Ľavostranný signál má ROC smerom k začiatku, nie k nekonečnu. Výnimky okolo z = 0 a ∞ treba čítať podľa konkrétneho signálu.",
+    "slideRef": "CZS_4_03.pdf slides 6, 7",
+    "subtema": "CZS 4: ROC pasce"
+  },
+  {
+    "id": "czs4-036",
+    "tema": "CZS 4: Konečné postupnosti",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré tvrdenie najlepšie vystihuje konečnú postupnosť v Z-oblasti?",
+    "moznosti": [
+      "Jej Z-transformácia je konečný súčet mocnín z a z^-1; ROC môže vylúčiť 0 alebo ∞ podľa krajných indexov.",
+      "Každá konečná postupnosť má jeden pól mimo jednotkovej kružnice.",
+      "Konečná postupnosť nemá Z-transformáciu, iba DTFT.",
+      "ROC konečnej postupnosti je vždy iba jednotková kružnica."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Konečnosť neznamená automaticky celú z-rovinu vrátane 0 a ∞. Záleží, či sa v zápise vyskytujú kladné alebo záporné mocniny z.",
+    "slideRef": "CZS_4_03.pdf slides 4, 7",
+    "subtema": "CZS 4: Konečné postupnosti"
+  },
+  {
+    "id": "czs4-037",
+    "tema": "CZS 4: Prenosová funkcia",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak H(z) = (1 - z^-1) / (1 - 0.9z^-1), ktorý popis je najpresnejší?",
+    "moznosti": [
+      "Má nulu v z = 1 a pól v z = 0.9.",
+      "Má pól v z = 1 a nulu v z = 0.9.",
+      "Má nulu v z = -1 a pól v z = -0.9.",
+      "Nemá pól, pretože oba členy obsahujú z^-1."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Rovnica 1 - z^-1 = 0 dá z = 1, rovnica 1 - 0.9z^-1 = 0 dá z = 0.9. Zápis so z^-1 často mätie pri hľadaní koreňov.",
+    "slideRef": "CZS_4_03.pdf slides 10, 20",
+    "subtema": "CZS 4: Póly a nuly prenosu"
+  },
+  {
+    "id": "czs4-038",
+    "tema": "CZS 4: Prenosová funkcia",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pre H(z) = (1 + z^-1) / (1 - 0.5z^-1) pri kauzálnej ROC platí:",
+    "moznosti": [
+      "pól je v z = 0.5,",
+      "nula je v z = -1,",
+      "systém je stabilný, lebo kauzálna ROC |z| > 0.5 obsahuje jednotkovú kružnicu,",
+      "systém je nestabilný, lebo nula leží na jednotkovej kružnici."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Nula na jednotkovej kružnici môže potlačiť frekvenciu, ale nespôsobuje BIBO nestabilitu. Stabilitu riadi ROC a póly.",
+    "slideRef": "CZS_4_03.pdf slides 10, 13, 20",
+    "subtema": "CZS 4: Póly, nuly a stabilita"
+  },
+  {
+    "id": "czs4-039",
+    "tema": "CZS 4: Súhrn",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré tvrdenia spájajú Z-transformáciu s LTI systémami správne?",
+    "moznosti": [
+      "H(z) je Z-transformácia impulznej charakteristiky h[n].",
+      "Výstup LTI systému v Z-oblasti je Y(z) = X(z)H(z).",
+      "Frekvenčná charakteristika vznikne dosadením z = e^jω, ak jednotková kružnica patrí do ROC H(z).",
+      "Kauzalita systému sa určí podľa núl v čitateli H(z)."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Kauzalita racionálneho LTI systému súvisí s ROC a impulznou odozvou, nie s nulami v čitateli.",
+    "slideRef": "CZS_4_03.pdf",
+    "subtema": "CZS 4: Integrované pasce"
+  },
+  {
+    "id": "czs4-040",
+    "tema": "CZS 4: Súhrn",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré dvojice podmienok sú správne?",
+    "moznosti": [
+      "kauzálny racionálny systém: ROC mimo najvzdialenejšieho pólu,",
+      "stabilný LTI systém: jednotková kružnica v ROC,",
+      "pravostranná exponenciála a^n u[n]: ROC |z| > |a|,",
+      "ľavostranná exponenciála: ROC vždy |z| > |a|."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Posledná možnosť je zámerná pasca: ľavostranná exponenciála má ROC smerom dovnútra, teda typicky |z| < |a|.",
+    "slideRef": "CZS_4_03.pdf",
+    "subtema": "CZS 4: Integrované pasce"
   }
 ];
