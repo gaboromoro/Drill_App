@@ -57,16 +57,22 @@ const tlacidloOdstranitOtazku = document.getElementById("tlacidloOdstranitOtazku
 const tlacidloVratitVsetkyOtazky = document.getElementById("tlacidloVratitVsetkyOtazky");
 const tlacidloPredmetPc2 = document.getElementById("tlacidloPredmetPc2");
 const tlacidloPredmetCzs = document.getElementById("tlacidloPredmetCzs");
+const tlacidloPredmetTest = document.getElementById("tlacidloPredmetTest");
 const tlacidloVsetkyPodokruhy = document.getElementById("tlacidloVsetkyPodokruhy");
 const tlacidloZiadnePodokruhy = document.getElementById("tlacidloZiadnePodokruhy");
 const tlacidloRezimTest = document.getElementById("tlacidloRezimTest");
 const tlacidloRezimKod = document.getElementById("tlacidloRezimKod");
 const tlacidloKodKontrola = document.getElementById("tlacidloKodKontrola");
 const tlacidloKodDalsia = document.getElementById("tlacidloKodDalsia");
+const tlacidloTemaOranzova = document.getElementById("tlacidloTemaOranzova");
+const tlacidloTemaZlta = document.getElementById("tlacidloTemaZlta");
 const posuvnikHlasitosti = document.getElementById("posuvnikHlasitosti");
 const klavesyMoznosti = ["1", "2", "3", "4"];
 const pocetStlpcovPixelov = 24;
-const pocetRiadkovPixelov = 12;
+const pocetRiadkovPixelov = 4;
+const minimalnyCasPixelu = 1000;
+const maximalnyCasPixelu = 5000;
+const skusobneOtazky = Array.from({ length: 20 }, (_, index) => vytvorSkusobnuOtazku(index + 1));
 let casovacPixelovStlpca = null;
 let poradieKodovychUloh = [];
 let aktualnyKodIndex = 0;
@@ -80,40 +86,72 @@ function zamiesaj(pole) {
   return kopia;
 }
 
+function nahodneCeleCislo(minimum, maximum) {
+  return Math.floor(minimum + Math.random() * (maximum - minimum + 1));
+}
+
+function vytvorSkusobnuOtazku(cislo) {
+  const spravnyIndex = (cislo * 3 + 1) % 4;
+  const moznosti = ["0", "0", "0", "0"];
+  moznosti[spravnyIndex] = "1";
+
+  return {
+    id: `test-${String(cislo).padStart(2, "0")}`,
+    tema: "Skusobny test",
+    typ: "jedna",
+    format: "klasicka",
+    uroven: "test",
+    otazka: `Skusobna otazka ${cislo}: vyber moznost s hodnotou 1.`,
+    moznosti,
+    spravne: [spravnyIndex],
+    vysvetlenie: "Spravna odpoved je jedina moznost s hodnotou 1.",
+    prezentacia: "Skusobny test",
+    subtema: "Kontrola fungovania appky"
+  };
+}
+
 function pravdepodobnostPixelu(riadokOdHladiny) {
   if (riadokOdHladiny === 0) {
-    return 0.92;
+    return 0.7;
   }
 
   if (riadokOdHladiny === 1) {
-    return 0.55;
+    return 0.42;
   }
 
   if (riadokOdHladiny === 2) {
-    return 0.34;
+    return 0.22;
   }
 
-  if (riadokOdHladiny === 3) {
-    return 0.16;
-  }
+  return 0.08;
+}
 
-  return 0.05;
+function nastavDalsiuZmenuPixelu(pixel, teraz) {
+  pixel.dataset.dalsiaZmena = String(teraz + nahodneCeleCislo(minimalnyCasPixelu, maximalnyCasPixelu));
+}
+
+function nastavStavPixelu(pixel, teraz) {
+  const riadok = Number(pixel.dataset.riadok);
+  const riadokOdHladiny = pocetRiadkovPixelov - 1 - riadok;
+  const jeAktivny = Math.random() < pravdepodobnostPixelu(riadokOdHladiny);
+  pixel.classList.toggle("aktivny", jeAktivny);
+  nastavDalsiuZmenuPixelu(pixel, teraz);
 }
 
 function prepocitajPixelyStlpca() {
   const aktivne = stavStlpca > 0;
+  const teraz = Date.now();
 
   [...prvokPixelyStlpca.children].forEach((pixel) => {
     if (!aktivne) {
       pixel.classList.remove("aktivny");
+      pixel.dataset.dalsiaZmena = "0";
       return;
     }
 
-    const riadok = Number(pixel.dataset.riadok);
-    const riadokOdHladiny = pocetRiadkovPixelov - 1 - riadok;
-    const jeOkraj = riadokOdHladiny === 0;
-    const jeNahodnyPixel = Math.random() < pravdepodobnostPixelu(riadokOdHladiny);
-    pixel.classList.toggle("aktivny", jeOkraj || jeNahodnyPixel);
+    if (teraz >= Number(pixel.dataset.dalsiaZmena || 0)) {
+      nastavStavPixelu(pixel, teraz);
+    }
   });
 }
 
@@ -122,11 +160,12 @@ function spustiPixelyStlpca() {
     return;
   }
 
-  casovacPixelovStlpca = window.setInterval(prepocitajPixelyStlpca, 160);
+  casovacPixelovStlpca = window.setInterval(prepocitajPixelyStlpca, 300);
 }
 
 function vytvorPixelyStlpca() {
   prvokPixelyStlpca.innerHTML = "";
+  const teraz = Date.now();
 
   for (let riadok = 0; riadok < pocetRiadkovPixelov; riadok++) {
     for (let stlpec = 0; stlpec < pocetStlpcovPixelov; stlpec++) {
@@ -134,6 +173,7 @@ function vytvorPixelyStlpca() {
       pixel.className = "pixel-stlpca";
       pixel.dataset.riadok = String(riadok);
       pixel.dataset.stlpec = String(stlpec);
+      nastavStavPixelu(pixel, teraz);
       prvokPixelyStlpca.appendChild(pixel);
     }
   }
@@ -156,6 +196,13 @@ function nastavHlasitost(hodnota) {
   hlasitost = Math.max(0, Math.min(1, Number(hodnota) / 100));
   zvukSpravne.volume = hlasitost;
   zvukZle.volume = hlasitost;
+}
+
+function nastavTemu(tema) {
+  const jeZlta = tema === "zlta";
+  document.body.classList.toggle("tema-zlta", jeZlta);
+  tlacidloTemaOranzova.classList.toggle("aktivny", !jeZlta);
+  tlacidloTemaZlta.classList.toggle("aktivny", jeZlta);
 }
 
 function prepniNastavenia() {
@@ -904,14 +951,28 @@ function nastavRezim(rezim) {
   tlacidloRezimTest.classList.toggle("sekundarne", jeKod);
 }
 
+function ziskajOtazkyPredmetu(predmet) {
+  if (predmet === "pc2") {
+    return otazky;
+  }
+
+  if (predmet === "test") {
+    return skusobneOtazky;
+  }
+
+  return czsOtazky;
+}
+
 function nastavPredmet(predmet) {
   aktualnyPredmet = predmet;
-  zakladneOtazkyPredmetu = predmet === "czs" ? czsOtazky : otazky;
+  zakladneOtazkyPredmetu = ziskajOtazkyPredmetu(predmet);
 
   tlacidloPredmetPc2.classList.toggle("aktivny", predmet === "pc2");
   tlacidloPredmetPc2.classList.toggle("sekundarne", predmet !== "pc2");
   tlacidloPredmetCzs.classList.toggle("aktivny", predmet === "czs");
   tlacidloPredmetCzs.classList.toggle("sekundarne", predmet !== "czs");
+  tlacidloPredmetTest.classList.toggle("aktivny", predmet === "test");
+  tlacidloPredmetTest.classList.toggle("sekundarne", predmet !== "test");
   prvokPrepinacRezimu.classList.toggle("skryte", predmet !== "pc2");
 
   obnovFiltrePredmetu();
@@ -1020,6 +1081,11 @@ tlacidloPredmetPc2.addEventListener("click", () => {
 tlacidloPredmetCzs.addEventListener("click", () => {
   nastavPredmet("czs");
 });
+tlacidloPredmetTest.addEventListener("click", () => {
+  nastavPredmet("test");
+});
+tlacidloTemaOranzova.addEventListener("click", () => nastavTemu("oranzova"));
+tlacidloTemaZlta.addEventListener("click", () => nastavTemu("zlta"));
 prvokVyberPrezentacie.addEventListener("change", () => {
   vybranaPrezentacia = prvokVyberPrezentacie.value;
   nastavVsetkyPodokruhy();
@@ -1044,5 +1110,6 @@ document.addEventListener("keydown", obsluzKlavesnicu);
 
 vytvorPixelyStlpca();
 nastavHlasitost(posuvnikHlasitosti.value);
+nastavTemu("oranzova");
 nastavPredmet("czs");
 nastavKodovePoradie();
