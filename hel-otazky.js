@@ -722,3 +722,1148 @@ const helOtazky = [
     "subtema": "HEL 1: Waveshaping"
   }
 ];
+
+const helHighYieldOtazky = [
+  {
+    "id": "hel-hy-001",
+    "tema": "HEL High Yield: Aditivna synteza",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co musi zazniet pri popise principu aditivnej syntezy?",
+    "moznosti": [
+      "Vysledny zvuk sa sklada suctom viacerych zloziek, typicky harmonickych alebo parcialnych.",
+      "Farba zvuku zavisi od amplitud, frekvencii a obalok jednotlivych zloziek.",
+      "Dynamicky zvuk vznikne, ked sa zlozky menia v case, napriklad pomocou obalok.",
+      "Zakladom je bohate spektrum, z ktoreho sa harmonicke odoberaju filtrom."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: 1) signal vznikne scitanim zloziek, 2) kazda zlozka moze mat vlastnu amplitudu a obalku, 3) cim viac riadenych zloziek, tym presnejsia farba. Posledna moznost opisuje skor subtraktivnu syntezu.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Zakladne syntezy"
+  },
+  {
+    "id": "hel-hy-002",
+    "tema": "HEL High Yield: Subtraktivna synteza",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore tvrdenia vystihuju subtraktivnu syntezu?",
+    "moznosti": [
+      "Vychadza zo spektralne bohateho zdroja, napriklad pila, obdlznik alebo sum.",
+      "Filter vybera alebo potlaca casti spektra, cim sa meni farba zvuku.",
+      "VCF casto riadi cutoff a rezonanciu, VCA najma hlasitost.",
+      "Kazdy harmonicky ton sa musi vytvarat samostatnym oscilatorom."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: 1) najprv vytvorim bohaty signal, 2) filtrom z neho uberam cast spektra, 3) obalky a LFO menia filter a hlasitost v case. Samostatne vytvaranie zloziek patri k aditivnej synteze.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Zakladne syntezy"
+  },
+  {
+    "id": "hel-hy-003",
+    "tema": "HEL High Yield: Linearne a nelinearne metody",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ako rozlisit linearne a nelinearne metody syntezy?",
+    "moznosti": [
+      "Pri linearnych metodach sa typicky skladaju alebo filtracne upravuju existujuce zlozky.",
+      "Pri nelinearnych metodach mozu vznikat nove spektralne zlozky, ktore vo vstupe neboli.",
+      "AM, RM, FM, PWM a waveshaping sa ucia ako dolezite nelinearne principy.",
+      "Nelinearna metoda znamena, ze signal sa nemoze menit v case."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: linearne = superpozicia a filtracia, nelinearne = modulacia alebo tvarovanie vytvara nove zlozky. Pasca je mysliet si, ze nelinearne znamena staticke; naopak, casto ide o velmi dynamicke zmeny spektra.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Zakladne syntezy"
+  },
+  {
+    "id": "hel-hy-004",
+    "tema": "HEL High Yield: Moduly syntetizatora",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore priradenia modulov syntetizatora su spravne?",
+    "moznosti": [
+      "VCO vytvara periodicky zvukovy signal s riaditelnou frekvenciou.",
+      "VCF meni spektrum a VCA meni amplitudu signalu.",
+      "LFO je pomaly modulacny oscilator a EG vytvara obalku v case.",
+      "Gate je zvukovy filter, ktory urcuje rezonanciu."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: VCO = zdroj vysky, VCF = farba, VCA = hlasitost, LFO = periodicka modulacia, EG = casovy priebeh. Gate nie je filter; hovori, ze klaves je stlaceny/drzany.",
+    "slideRef": "HEL_02_Analogove_syntezatory.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Moduly syntetizatora"
+  },
+  {
+    "id": "hel-hy-005",
+    "tema": "HEL High Yield: ADSR obalka",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktory popis ADSR obalky je najpresnejsi?",
+    "moznosti": [
+      "Attack je nabeh, Decay pokles na Sustain, Sustain je uroven drzania a Release je dobeh po pusteni klavesu.",
+      "Attack je dobeh po pusteni klavesu, Sustain je rychlost filtra a Release je frekvencia LFO.",
+      "ADSR urcuje iba vysku tonu, nie hlasitost alebo filter.",
+      "Sustain je cas, za ktory signal vzdy klesne na nulu."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Skuskovo: ADSR je casova obalka parametra. Najcastejsie riadi hlasitost cez VCA, ale moze riadit aj filter alebo inu modulaciu. Sustain je uroven, nie cas poklesu na nulu.",
+    "slideRef": "HEL_02_Analogove_syntezatory.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Moduly syntetizatora"
+  },
+  {
+    "id": "hel-hy-006",
+    "tema": "HEL High Yield: Theremin",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co je podstatou thereminu ako elektronickeho nastroja?",
+    "moznosti": [
+      "Hrac bez dotyku meni parametre oscilatorov kapacitou tela, zvycajne vysku a hlasitost.",
+      "Klavesnica mechanicky prepina dlzky kovovych strun.",
+      "Zvuk vznika prehravanim PCM vzoriek z pamate.",
+      "Principom je iba subtraktivna filtracia bieleho sumu."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Skuskovo: theremin je bezdotykovy analogovy nastroj; pohyb ruk pri antenach meni kapacitu a tym frekvenciu alebo amplitudu. Nie je to sampler ani klavesovy nastroj.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Historicke nastroje"
+  },
+  {
+    "id": "hel-hy-007",
+    "tema": "HEL High Yield: Hammond organ",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co je dolezite pri popise Hammondovho organu?",
+    "moznosti": [
+      "Zvuk je zalozeny na mechanicko-elektrickom generovani sinusovo podobnych zloziek.",
+      "Tiahla/drawbary menia podiely harmonickych zloziek.",
+      "Princip je blizky aditivnemu skladaniu farby zvuku.",
+      "Kazdy ton vznikne nahodnym sumom, ktory sa nasledne kvantizuje."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: Hammond je dobry priklad aditivneho myslenia v praxi: skladam pomery harmonickych. Pasca je brat ho ako nahodny alebo cisto digitalny generator.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Historicke nastroje"
+  },
+  {
+    "id": "hel-hy-008",
+    "tema": "HEL High Yield: Klavesove ovladanie analogovych nastrojov",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co ma obsahovat odpoved na otazku, ako funguje klavesove ovladanie analogoveho syntetizatora?",
+    "moznosti": [
+      "Klavesnica vytvara riadiace napatie CV, ktore urcuje vysku tonu.",
+      "Gate informuje, ze klaves je stlaceny alebo drzany.",
+      "Trigger je kratky impulz na spustenie obalky alebo udalosti.",
+      "Klavesnica posiela priamo hotovy zvukovy signal do reproduktora."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: povedz CV = vyska, Gate = drzanie klavesu, Trigger = impulz spustenia. Klavesnica v analogovom syntetizatore typicky neriadi reproduktor priamo, ale ovlada moduly syntetizatora.",
+    "slideRef": "HEL_02_Analogove_syntezatory.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Riadiace signaly"
+  },
+  {
+    "id": "hel-hy-009",
+    "tema": "HEL High Yield: CV standardy",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ako sa najcastejsie vysvetli rozdiel medzi V/Hz a V/oct pri CV riadeni?",
+    "moznosti": [
+      "V/Hz je linearne priradenie napatia k frekvencii, V/oct znamena rovnaky prirastok napatia na jednu oktavu.",
+      "V/Hz je digitalny MIDI format a V/oct je analogovy audio format.",
+      "V/oct znamena, ze pri kazdej oktave sa znizi hlasitost o 1 volt.",
+      "Oba standardy popisuju iba rychlost obalky, nie vysku tonu."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Skuskovo: CV prevadza polohu klavesu na napatie. V/oct je exponencialne hudobne prakticke, lebo kazda oktava zodpoveda rovnakemu rozdielu napatia.",
+    "slideRef": "HEL_02_Analogove_syntezatory.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Riadiace signaly"
+  },
+  {
+    "id": "hel-hy-010",
+    "tema": "HEL High Yield: Gate a Trigger",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore rozdiely medzi Gate a Trigger su spravne?",
+    "moznosti": [
+      "Gate trva pocas drzania klavesu.",
+      "Trigger je kratky impulz pri stlaceni alebo uvolneni klavesu.",
+      "Gate sa hodi na informaciu o stave, Trigger na spustenie udalosti.",
+      "Trigger musi trvat rovnako dlho ako znie ton."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: Gate = stav drzim/nedrzim, Trigger = moment stlacenia. Pasca je zamienat dlzku tonu s triggerom; dlzku casto urcuje gate a obalka.",
+    "slideRef": "HEL_02_Analogove_syntezatory.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Riadiace signaly"
+  },
+  {
+    "id": "hel-hy-011",
+    "tema": "HEL High Yield: Klavesova zbernica",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co znamena klavesova zbernica alebo logika klavesnice pri analogovych/hybridnych nastrojoch?",
+    "moznosti": [
+      "System zistuje, ktore klavesy su stlacene, a z toho vytvara riadiace signaly.",
+      "Pri monofonii moze rozhodovat priorita klavesu, napriklad posledny alebo najvyssi ton.",
+      "Pri polyfonii musi logika priradit stlacene klavesy jednotlivym hlasom.",
+      "Zbernica nahradza oscilatory tym, ze sama vytvara cele spektrum zvuku."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: keyboard/bus nie je zvukovy generator, ale riadiaci system. Dolezite slova: skenovanie klavesov, priorita, voice assignment, CV/Gate/Trigger.",
+    "slideRef": "HEL_02_Analogove_syntezatory.pdf; HEL_03_Hybridni_nastroje.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Riadiace signaly"
+  },
+  {
+    "id": "hel-hy-012",
+    "tema": "HEL High Yield: Sekvencer a clock",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore tvrdenia vystihuju sekvencer a clock generator?",
+    "moznosti": [
+      "Sekvencer uklada alebo generuje postupnost krokov, ktore mozu riadit vysku, gate alebo parameter.",
+      "Clock urcuje casovanie krokov a moze byt viazany na tempo.",
+      "Vyssie delenie pulzov na dobu umozni presnejsie rytmicke casovanie.",
+      "Sekvencer je filter, ktory vzdy odstrani vyssie harmonicke."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: sekvencer = casova postupnost riadiacich hodnot, clock = pravidelny casovy impulz. Nie je to spektralny filter.",
+    "slideRef": "HEL_02_Analogove_syntezatory.pdf; HEL_03_Hybridni_nastroje.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Riadiace signaly"
+  },
+  {
+    "id": "hel-hy-013",
+    "tema": "HEL High Yield: Hybridny nastroj",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktory popis najlepsie vystihuje hybridny elektronicky nastroj?",
+    "moznosti": [
+      "Kombinuje digitalne riadenie alebo digitalne zdroje s analogovymi castami, napriklad VCF/VCA.",
+      "Je to nastroj, ktory nema ziadne analogove obvody.",
+      "Je to cisto mechanicky nastroj s elektrickym snimacom.",
+      "Hybridny znamena, ze MIDI sa prenasa sucasne dvoma kablami."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Skuskovo: hybrid = digitalna logika/pamat/riadenie plus analogova zvukova cesta alebo analogove upravy. Dolezity priklad je DCO s analogovym filtrom.",
+    "slideRef": "HEL_03_Hybridni_nastroje.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Hybridne nastroje"
+  },
+  {
+    "id": "hel-hy-014",
+    "tema": "HEL High Yield: DCO",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co je podstatne pri DCO v porovnani s VCO?",
+    "moznosti": [
+      "DCO ma frekvenciu stabilizovanu alebo riadenu digitalnou logikou.",
+      "Zvukova cesta DCO moze mat stale analogove tvarovanie alebo filter.",
+      "Vyhodou DCO je presnejsie ladenie oproti cisto analogovemu VCO.",
+      "DCO znamena, ze audio je vzdy hotovy PCM sample z pamate."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: DCO nie je automaticky sampler. Pointa je digitalne casovanie/riadenie oscilatora, casto s analogovou dalsou cestou.",
+    "slideRef": "HEL_03_Hybridni_nastroje.pdf; HEL_04_Digitalni_syntezy.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Hybridne a digitalne zdroje"
+  },
+  {
+    "id": "hel-hy-015",
+    "tema": "HEL High Yield: DDS",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore casti patria k principu DDS syntezy?",
+    "moznosti": [
+      "Fazovy akumulator, ktory sa pri kazdej vzorke zvysi o fazovy prirastok.",
+      "Tabulka hodnot priebehu, z ktorej sa cita podla fazy.",
+      "Frekvencia zavisi od velkosti fazoveho prirastku.",
+      "Vyska tonu sa urcuje mechanickou dlzkou struny."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: DDS = digitalna priama synteza. Faza sa posuva po tabulke; vacsi prirastok znamena vyssiu frekvenciu. Nie je to mechanicky princip.",
+    "slideRef": "HEL_04_Digitalni_syntezy.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Digitalne syntezy"
+  },
+  {
+    "id": "hel-hy-016",
+    "tema": "HEL High Yield: Wavetable a PCM",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore rozlisenie wavetable a PCM samplingu je najbezpecnejsie?",
+    "moznosti": [
+      "Wavetable pracuje s tabulkami priebehov na synteticke generovanie, PCM sampling prehrava zaznamenane vzorky zvuku.",
+      "Wavetable je vzdy analogovy filter a PCM je vzdy riadiace napatie.",
+      "PCM nemoze menit vysku tonu zmenou rychlosti citania.",
+      "Wavetable znamena iba MIDI komunikaciu medzi nastrojmi."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Skuskovo: wavetable = digitalne citanie/priechod tabulkami priebehov, PCM = prehravanie ulozenych zvukovych vzoriek. Obe su digitalne, ale nie su to iste slova.",
+    "slideRef": "HEL_04_Digitalni_syntezy.pdf; HEL_05_Digitalni_nastroje.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Digitalne syntezy"
+  },
+  {
+    "id": "hel-hy-017",
+    "tema": "HEL High Yield: Sampler",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co je dolezite pri principe sampleru?",
+    "moznosti": [
+      "Zvuk je ulozeny ako digitalna vzorka a pri hre sa prehrava.",
+      "Transpozicia sa da robit zmenou rychlosti citania vzorky.",
+      "Pre prirodzenejsi zvuk sa pouzivaju multisamply a vrstvy podla velocity.",
+      "Sampler vytvara kazdu harmonicku len analogovym RC oscilatorom."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: sampler = zaznamenany zvuk v pamati. Dolezite pojmy: sample, loop, transpozicia, multisample, velocity layer. Posledna moznost miesa sampler s analogovou syntetizaciou.",
+    "slideRef": "HEL_05_Digitalni_nastroje.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Digitalne nastroje"
+  },
+  {
+    "id": "hel-hy-018",
+    "tema": "HEL High Yield: Fyzikalne modelovanie",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore tvrdenia vystihuju fyzikalne modelovanie?",
+    "moznosti": [
+      "Modeluje sa spravanie zdroja budenia a rezonatora, nie iba prehravanie nahravky.",
+      "Parametre modelu mozu zodpovedat realnym vlastnostiam nastroja.",
+      "Zvuk moze reagovat plynule na sposob hry, lebo sa pocita model procesu.",
+      "Principom je vzdy iba staticke prehratie jedneho PCM samplu."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: povedz exciter + resonator. Napriklad struna, trubica alebo telo nastroja sa nahradia vypoctovym modelom. Pasca je zamienat to so samplerom.",
+    "slideRef": "HEL_04_Digitalni_syntezy.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Digitalne syntezy"
+  },
+  {
+    "id": "hel-hy-019",
+    "tema": "HEL High Yield: Aliasing",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Preco je aliasing dolezity pri digitalnej synteze?",
+    "moznosti": [
+      "Zlozky nad Nyquistovou frekvenciou sa po vzorkovani preklopia do pocutelneho pasma.",
+      "Ostre priebehy ako pila alebo obdlznik maju vela vysokych harmonickych.",
+      "Riesenim moze byt bandlimited generovanie alebo oversampling.",
+      "Aliasing je analogova rezonancia reproduktora a nevznika vo vzorkovanych systemoch."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: aliasing = zle zlozky, ktore vzniknu po prekroceni polovice vzorkovacej frekvencie. Pri digitalnych oscilatoroch je to kriticke hlavne pri ostrych priebehoch.",
+    "slideRef": "HEL_06_Digitalni_realizace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Digitalna realizacia"
+  },
+  {
+    "id": "hel-hy-020",
+    "tema": "HEL High Yield: Nyquist",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ako by si skuskovo vysvetlil Nyquistovu hranicu?",
+    "moznosti": [
+      "Pri vzorkovacej frekvencii fs vieme bez aliasingu reprezentovat zlozky pod fs/2.",
+      "Nyquistova hranica je vzdy 20 Hz bez ohladu na vzorkovanie.",
+      "Nyquist hovori, ze digitalny signal nemoze mat ziadne harmonicke.",
+      "fs/2 urcuje iba hlasitost signalu, nie frekvencne pasmo."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Skuskovo: ak mam fs, najvyssia bezpecna frekvencna zlozka je fs/2. Vsetko nad tym sa musi odstranit alebo generovat tak, aby nevznikol aliasing.",
+    "slideRef": "HEL_06_Digitalni_realizace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Digitalna realizacia"
+  },
+  {
+    "id": "hel-hy-021",
+    "tema": "HEL High Yield: PWM",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co plati o PWM pri syntetizatoroch?",
+    "moznosti": [
+      "Meni sa strieda impulzneho alebo obdlznikoveho priebehu.",
+      "Zmena striedy meni spektrum a teda farbu zvuku.",
+      "Ak sa strieda moduluje LFO, vznikne pohyb farby zvuku.",
+      "PWM je iba zmena celkovej hlasitosti bez zmeny spektra."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: PWM = pulse width modulation. Nie je to len volume efekt; menim pomer zapnutej a vypnutej casti periody, cim menim harmonicke.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf; HEL_06_Digitalni_realizace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Modulacne principy"
+  },
+  {
+    "id": "hel-hy-022",
+    "tema": "HEL High Yield: AM a RM",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore tvrdenia spravne rozlisuju AM a RM?",
+    "moznosti": [
+      "AM meni amplitudu nosnej modulatorom a casto zachovava aj nosnu zlozku.",
+      "RM je nasobenie dvoch signalov a idealne potlaca povodnu nosnu.",
+      "V spektre vznikaju bocne pasma suvisiace so suctom a rozdielom frekvencii.",
+      "AM a RM nikdy nemenia spektrum, iba polohu stereo obrazu."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: AM/RM su modulacie amplitudy. Zapamataj si sidebands: vznikaju zlozky okolo nosnej. RM znie casto kovovo, lebo potlaci povodne zlozky a necha kombinacne produkty.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Modulacne principy"
+  },
+  {
+    "id": "hel-hy-023",
+    "tema": "HEL High Yield: FM",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co je skuskovo dolezite pri FM synteze?",
+    "moznosti": [
+      "Modulator meni okamzitu frekvenciu nosneho oscilatora.",
+      "Vznikaju bocne zlozky, ich pocet a amplitudy zavisia od indexu modulacie.",
+      "Celociselny pomer frekvencii dava skor harmonicke spektrum, neciselny pomer skor neharmonicke.",
+      "FM je iba prehravanie kratkej nahravky pri inej rychlosti."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: carrier, modulator, index modulacie, pomer frekvencii. Pri FM sa farba meni velmi silno aj pri malych zmenach pomerov a indexu.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf; HEL_04_Digitalni_syntezy.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Modulacne principy"
+  },
+  {
+    "id": "hel-hy-024",
+    "tema": "HEL High Yield: Waveshaping",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co je princip tvarovania vlny?",
+    "moznosti": [
+      "Signal prechadza nelinearnou prevodnou charakteristikou.",
+      "Nelinearita vytvara nove harmonicke alebo meni existujuce zlozky.",
+      "Za tvarovacom moze byt filter na obmedzenie vysledneho spektra.",
+      "Tvarovanie vlny znamena iba linearne oneskorenie signalu."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: vstupny tvar sa nelinearne premapuje na iny tvar. Preto sa zmeni spektrum. Ak povies iba filter, je to nepresne, lebo filter nove harmonicke sam nevytvara.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf; HEL_06_Digitalni_realizace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Modulacne principy"
+  },
+  {
+    "id": "hel-hy-025",
+    "tema": "HEL High Yield: Integrator a diferenciator",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore vztahy medzi tvarmi signalov su typicke pre integrator a diferenciator?",
+    "moznosti": [
+      "Integraciou obdlznikoveho priebehu moze vzniknut trojuholnikovy priebeh.",
+      "Diferenciaciou trojuholnikoveho priebehu moze vzniknut obdlznikovy priebeh.",
+      "Diferenciacia zvyraznuje rychle zmeny v signale.",
+      "Integrator vzdy robi zo signalu biely sum."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: integrator z hladiska tvaru akoby scitava priebeh v case, diferenciator sleduje zmenu. Preto su dolezite pri analogovej aj digitalnej tvorbe zakladnych priebehov.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf; HEL_06_Digitalni_realizace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Analogove a digitalne obvody"
+  },
+  {
+    "id": "hel-hy-026",
+    "tema": "HEL High Yield: Rezonancny filter",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co je dolezite pri VCF s rezonanciou?",
+    "moznosti": [
+      "Cutoff urcuje oblast, kde filter meni prenos spektra.",
+      "Rezonancia zvyraznuje okolie cutoff frekvencie.",
+      "Pri velkej spatnej vazbe moze filter prejst az do samokmitania.",
+      "Rezonancia znamena, ze filter prestane mat akykolvek vplyv na spektrum."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: cutoff = kde rezem, resonance/Q = ako velmi zvyraznim okolie rezu. Pri self-oscillation sa filter moze spravat ako zdroj sinusoveho tonu.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf; HEL_06_Digitalni_realizace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Filtre"
+  },
+  {
+    "id": "hel-hy-027",
+    "tema": "HEL High Yield: Sumovy generator",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Na co sa v syntetizatoroch pouziva sumovy generator?",
+    "moznosti": [
+      "Ako zdroj neperiodickeho signalu pre perkusie, dychove alebo efektove zvuky.",
+      "Po filtracii moze vzniknut rozne zafarbeny sum.",
+      "Sum moze byt modulacny alebo zvukovy zdroj.",
+      "Sumovy generator sluzi iba na presne ladenie VCO podla noty."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: sum je zdroj nahodnych zloziek. Filter z neho vie urobit napriklad sykot, dych alebo perkusivny zvuk. Nie je to primarne ladeny oscilator.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf; HEL_02_Analogove_syntezatory.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Moduly syntetizatora"
+  },
+  {
+    "id": "hel-hy-028",
+    "tema": "HEL High Yield: MIDI princip",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co musi zazniet pri popise principu MIDI?",
+    "moznosti": [
+      "MIDI je digitalne komunikacne rozhranie na prenos hudobnych udalosti a riadiacich dat.",
+      "MIDI typicky neposiela samotny audio signal, ale spravy ako Note On, Note Off alebo Control Change.",
+      "Jedna linka vie adresovat viac kanalov, aby sa dali riadit rozne nastroje alebo party.",
+      "MIDI je analogove napatie, ktore priamo nesie tvar zvukovej vlny."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: MIDI = udalosti, nie audio. Povedz: klaves posle cislo noty, velocity a kanal; syntetizator z toho sam vyrobi zvuk.",
+    "slideRef": "HEL_07_Komunikacni_rozhrani.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "MIDI"
+  },
+  {
+    "id": "hel-hy-029",
+    "tema": "HEL High Yield: MIDI spravy",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore tvrdenia o stavbe MIDI sprav su spravne?",
+    "moznosti": [
+      "Status byte urcuje typ spravy a pri kanalovych spravach aj kanal.",
+      "Datove bajty nesu hodnoty ako cislo noty, velocity alebo cislo kontrolera.",
+      "MIDI data su typicky 7-bitove hodnoty v datovych bajtoch.",
+      "Kazda MIDI sprava musi obsahovat digitalne vzorky zvuku."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: status byte hovori co je to za spravu, data bytes hovoria hodnoty. Priklad Note On: kanal, nota, velocity. Audio vzorky do MIDI nepatria.",
+    "slideRef": "HEL_07_Komunikacni_rozhrani.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "MIDI"
+  },
+  {
+    "id": "hel-hy-030",
+    "tema": "HEL High Yield: Note On a Note Off",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co nesie typicka MIDI sprava Note On?",
+    "moznosti": [
+      "Kanal, cislo noty a velocity, teda silu alebo rychlost uderu.",
+      "Iba hotovu audio vzorku celeho tonu.",
+      "Iba informaciu o farbe pozadia v editore.",
+      "Vzdy kompletnu obalku ADSR v analogovom napati."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Skuskovo: Note On hovori, aku notu, na ktorom kanali a s akou velocity ma nastroj zahrat. Samotny zvuk vyraba az prijimac.",
+    "slideRef": "HEL_07_Komunikacni_rozhrani.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "MIDI"
+  },
+  {
+    "id": "hel-hy-031",
+    "tema": "HEL High Yield: MIDI In Out Thru",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore priradenia konektorov MIDI su spravne?",
+    "moznosti": [
+      "MIDI In prijima spravy z ineho zariadenia.",
+      "MIDI Out posiela spravy vytvorene danym zariadenim.",
+      "MIDI Thru preposiela prijate spravy dalej.",
+      "MIDI Thru je vystup reproduktora s audio signalom."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: In = vstup, Out = vlastny vystup, Thru = kopia toho, co prislo na In. Thru sa pouziva na retazenie zariadeni.",
+    "slideRef": "HEL_07_Komunikacni_rozhrani.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "MIDI"
+  },
+  {
+    "id": "hel-hy-032",
+    "tema": "HEL High Yield: SysEx",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Na co sluzia MIDI System Exclusive spravy?",
+    "moznosti": [
+      "Na prenos vyrobcom specifickych dat.",
+      "Na ulozenie alebo odoslanie patchov, nastaveni alebo dumpov nastroja.",
+      "Typicky obsahuju identifikaciu vyrobcu a blok dat.",
+      "Vzdy nahradzaju audio kabel medzi nastrojom a zosilnovacom."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: SysEx = specialne data konkretneho vyrobcu alebo zariadenia. Pouziva sa na patche, konfiguraciu a servisne data, nie na audio prenos.",
+    "slideRef": "HEL_07_Komunikacni_rozhrani.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "MIDI"
+  },
+  {
+    "id": "hel-hy-033",
+    "tema": "HEL High Yield: Predchodcovia MIDI",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Preco bolo MIDI vyhodne oproti starsim sposobom prepojenia nastrojov?",
+    "moznosti": [
+      "Zjednotilo komunikaciu medzi zariadeniami roznych vyrobcov.",
+      "Prenasalo hudobne udalosti seriovo po standardizovanom rozhrani.",
+      "Umoznovalo oddelit ovladac, sekvencer a zvukovy modul.",
+      "Zrusilo potrebu, aby zvukovy modul vedel sam generovat zvuk."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: pred MIDI existovali rozne nekompatibilne rozhrania. MIDI je dolezite, lebo standardizuje udalosti a kanaly medzi nastrojmi.",
+    "slideRef": "HEL_07_Komunikacni_rozhrani.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "MIDI"
+  },
+  {
+    "id": "hel-hy-034",
+    "tema": "HEL High Yield: Gitarovy snimac",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co je princip elektromagnetickeho gitaroveho snimaca?",
+    "moznosti": [
+      "Kovova struna kmita v magnetickom poli a meni magneticky tok.",
+      "V cievke sa indukuje napatie zodpovedajuce pohybu struny.",
+      "Poloha snimaca pri kobylke alebo krku ovplyvnuje farbu zvuku.",
+      "Snimac meria akusticky tlak vzduchu ako kondenzatorovy mikrofon."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: pickup = magnet + cievka + kovova struna. Nie je to mikrofon vzduchu; snima pohyb struny cez elektromagneticku indukciu.",
+    "slideRef": "HEL_09_Kytarove_zesilovace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Gitara a zosilnovace"
+  },
+  {
+    "id": "hel-hy-035",
+    "tema": "HEL High Yield: Vstup gitaroveho zosilnovaca",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Preco gitarovy snimac potrebuje vhodny vysokoimpedancny vstup?",
+    "moznosti": [
+      "Lebo snimac ma indukcny a relativne vysokoimpedancny charakter a nevhodne zatazenie by zmenilo uroven aj farbu.",
+      "Lebo snimac generuje priamo vykon pre reproduktor.",
+      "Lebo nizka impedancia vstupu vzdy zvysi vysky bez straty urovne.",
+      "Lebo gitarovy snimac je digitalne MIDI zariadenie."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Skuskovo: snimac je citlivy zdroj signalu. Ak ho zle zatazim, menim amplitudu a frekvencnu charakteristiku. Preto je dolezity vstup predzosilnovaca.",
+    "slideRef": "HEL_09_Kytarove_zesilovace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Gitara a zosilnovace"
+  },
+  {
+    "id": "hel-hy-036",
+    "tema": "HEL High Yield: Gitarovy zosilnovac",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore bloky patria do typickej cesty gitaroveho zosilnovaca?",
+    "moznosti": [
+      "Vstup a predzosilnovac.",
+      "Tvarovanie farby alebo korekcie.",
+      "Koncovy zosilnovac a reproduktor.",
+      "MIDI SysEx dekoder ako jediny zdroj akustickeho vykonu."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: gitara -> vstup/predzosilnovac -> korekcie/drive -> koncovy zosilnovac -> reproduktor. MIDI s tym moze suvisiet iba pri riadeni, nie ako hlavna audio cesta.",
+    "slideRef": "HEL_09_Kytarove_zesilovace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Gitara a zosilnovace"
+  },
+  {
+    "id": "hel-hy-037",
+    "tema": "HEL High Yield: Skreslenie",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co je dolezite pri popise skreslenia gitaroveho zvuku?",
+    "moznosti": [
+      "Ide o nelinearne spracovanie, casto o limitaciu alebo clipping signalu.",
+      "Skreslenie vytvara nove harmonicke zlozky.",
+      "Typ a tvrdost limitacie ovplyvnuju charakter overdrive, distortion alebo fuzz.",
+      "Skreslenie je cisto linearne oneskorenie bez zmeny spektra."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: skreslenie = nelinearita. Preto meni spektrum a vnimanu farbu. Overdrive byva jemnejsi, distortion/fuzz tvrdsi, ale princip je stale nelinearne tvarovanie.",
+    "slideRef": "HEL_09_Kytarove_zesilovace.pdf; HEL_10_Hudebni_efekty.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Efekty"
+  },
+  {
+    "id": "hel-hy-038",
+    "tema": "HEL High Yield: Triedy efektov",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore skupiny principov patria medzi hudobne efekty?",
+    "moznosti": [
+      "Filtracia a ekvalizacia spektra.",
+      "Oneskorenie, spatna vazba a priestorove efekty.",
+      "Modulacia amplitudy, frekvencie, fazy alebo oneskorenia.",
+      "Vyhradne prevod MIDI sprav na farbu pozadia v programe."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: efekty tried podla principu: filter, delay, modulacia, dynamika, nelinearita, priestor. Nesnaz sa ucit iba nazvy krabiciek; uc sa, co menia na signale.",
+    "slideRef": "HEL_10_Hudebni_efekty.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Efekty"
+  },
+  {
+    "id": "hel-hy-039",
+    "tema": "HEL High Yield: Dry Wet Feedback",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore pojmy su zaklad pri efektoch s miesanim a spatnou vazbou?",
+    "moznosti": [
+      "Dry je povodny neupraveny signal.",
+      "Wet je spracovany efektovy signal.",
+      "Feedback vracia cast vystupu spat na vstup efektu.",
+      "Dry/wet urcuje iba pocet MIDI kanalov."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: dry/wet = pomer povodneho a efektoveho signalu. Feedback zvysuje pocet opakovani alebo intenzitu rezonancii, ale pri prehnani moze rozkmitat efekt.",
+    "slideRef": "HEL_10_Hudebni_efekty.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Efekty"
+  },
+  {
+    "id": "hel-hy-040",
+    "tema": "HEL High Yield: Delay Echo Reverb",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ako rozlisit delay, echo a reverb?",
+    "moznosti": [
+      "Delay je oneskorena kopia signalu.",
+      "Echo je vnimatelne opakovanie, casto s feedbackom.",
+      "Reverb simuluje hustu sustavu odrazov priestoru.",
+      "Reverb je vzdy len jeden presny impulz po 1 vzorke."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: delay = zakladne oneskorenie, echo = pocutelne opakovania, reverb = vela odrazov a doznievanie priestoru. Vsetko pracuje s casom, ale vnimanie je ine.",
+    "slideRef": "HEL_10_Hudebni_efekty.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Efekty"
+  },
+  {
+    "id": "hel-hy-041",
+    "tema": "HEL High Yield: Chorus Flanger Phaser",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore rozlisenia chorus, flanger a phaser su spravne?",
+    "moznosti": [
+      "Chorus pouziva kratke modulovane oneskorenia na dojem viacerych zdrojov.",
+      "Flanger pouziva velmi kratke oneskorenie, casto so spatnou vazbou a hrebenovou filtraciou.",
+      "Phaser vytvara fazove posuny a priepady v spektre, typicky pomocou all-pass struktur.",
+      "Vsetky tri efekty su iba zmena absolutnej hlasitosti bez fazovych alebo casovych javov."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: chorus = zdvojenie/rozsirene ladenie, flanger = kratky delay a hreben, phaser = fazove posuny. Pasca je hadzat vsetko pod tremolo.",
+    "slideRef": "HEL_10_Hudebni_efekty.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Efekty"
+  },
+  {
+    "id": "hel-hy-042",
+    "tema": "HEL High Yield: Tremolo a Vibrato",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore rozlisenie tremolo a vibrato je spravne?",
+    "moznosti": [
+      "Tremolo moduluje hlasitost, vibrato moduluje vysku alebo frekvenciu tonu.",
+      "Tremolo meni iba cislo MIDI kanala, vibrato iba farbu pozadia.",
+      "Tremolo a vibrato su vzdy to iste ako ekvalizer.",
+      "Vibrato je iba staticky delay bez modulacie."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Skuskovo: tremolo = AM hlasitosti, vibrato = FM/pitch modulacia. Toto je velmi caste zamiesanie pojmov.",
+    "slideRef": "HEL_10_Hudebni_efekty.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Efekty"
+  },
+  {
+    "id": "hel-hy-043",
+    "tema": "HEL High Yield: BBD",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co je podstatne pri BBD analogovej oneskorovacej linke?",
+    "moznosti": [
+      "Signal sa postupne posuva cez retazec vzorkovacich kapacit.",
+      "Oneskorenie zavisi od poctu stupnov a hodinovej frekvencie.",
+      "Zmena hodin moze menit cas delayu a sposobovat modulacne efekty.",
+      "BBD je iba nazov pre MIDI datovy bajt."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: BBD = bucket brigade device, analogova vzorkovana delay linka. Dolezite su clock, pocet stupnov, oneskorenie a filtracia artefaktov.",
+    "slideRef": "HEL_10_Hudebni_efekty.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Efekty"
+  },
+  {
+    "id": "hel-hy-044",
+    "tema": "HEL High Yield: Leslie",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co vytvara charakter Leslie efektu?",
+    "moznosti": [
+      "Rotujuci reproduktor alebo akusticky smerovac meni intenzitu a spektrum v case.",
+      "Pohyb sposobuje aj zmeny vysky cez Dopplerov jav.",
+      "Efekt kombinuje amplitudovu, fazovu a priestorovu modulaciu.",
+      "Leslie je iba staticky low-pass filter bez pohybu."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: Leslie = pohyb v priestore. Preto pocujes kolisanie hlasitosti, farby a vysky. Nie je to len obycajny EQ.",
+    "slideRef": "HEL_10_Hudebni_efekty.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Efekty"
+  },
+  {
+    "id": "hel-hy-045",
+    "tema": "HEL High Yield: Vocoder",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore tvrdenia vystihuju vocoder?",
+    "moznosti": [
+      "Analyzuje spektralnu obalku modulatora, typicky reci.",
+      "Touto obalkou riadi spektrum nosica, napriklad syntetizatora.",
+      "Vysledkom je zvuk nosica s artikulacnymi vlastnostami modulatora.",
+      "Vocoder je iba zosilnenie basov bez analyzy spektra."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: vocoder = analyzer + carrier. Reci zoberie formantovy/obalkovy pohyb a nanesie ho na iny zvuk. Nie je to len EQ preset.",
+    "slideRef": "HEL_10_Hudebni_efekty.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Efekty"
+  },
+  {
+    "id": "hel-hy-046",
+    "tema": "HEL High Yield: Real-time audio",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co je najdolezitejsie pri real-time audio spracovani v pocitaci?",
+    "moznosti": [
+      "Audio sa spracuje v blokoch alebo bufferoch.",
+      "Kazdy blok musi byt hotovy skor, ako ho zvukove zariadenie potrebuje prehrat.",
+      "Prilis maly buffer znizuje latenciu, ale zvysuje riziko vypadkov.",
+      "Velkost buffera nema ziaden vplyv na latenciu ani stabilitu."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: real-time = deadline. Buffer je casova rezerva. Mensi buffer = rychlejsia odozva, ale tazsie stihnut vypocet.",
+    "slideRef": "HEL_12_Aplikace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Pocitace a aplikacie"
+  },
+  {
+    "id": "hel-hy-047",
+    "tema": "HEL High Yield: Double buffering",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ako funguje double buffering pri audio spracovani?",
+    "moznosti": [
+      "Kym jeden buffer prehrava alebo sa plni zariadenim, druhy buffer spracuva aplikacia a potom sa vymenia.",
+      "Dva buffery znamenaju, ze signal sa vzdy prehra dvakrat hlasnejsie.",
+      "Double buffering odstrani potrebu vzorkovacej frekvencie.",
+      "Ide iba o MIDI funkciu na zmenu programu."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Skuskovo: pointa je plynulost. Jeden blok je v zariadeni, druhy pripravuje procesor. Ak aplikacia nestihne, pocujes dropout.",
+    "slideRef": "HEL_12_Aplikace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Pocitace a aplikacie"
+  },
+  {
+    "id": "hel-hy-048",
+    "tema": "HEL High Yield: Latencia",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore tvrdenia o latencii v audio aplikaciach su spravne?",
+    "moznosti": [
+      "Latencia je oneskorenie medzi vstupnou udalostou alebo signalom a vystupom.",
+      "Cast latencie sposobuje velkost audio buffera.",
+      "Nizka latencia je dolezita pri hrani na virtualny nastroj alebo monitoringu.",
+      "Latencia sa vyskytuje iba pri analogovych pasivnych filtroch."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: latencia = odozva systemu. V DAW ju ovplyvnuje driver, buffer, vzorkovacia frekvencia a zatazenie CPU.",
+    "slideRef": "HEL_12_Aplikace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Pocitace a aplikacie"
+  },
+  {
+    "id": "hel-hy-049",
+    "tema": "HEL High Yield: VST",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co je princip VST pluginu?",
+    "moznosti": [
+      "Plugin bezia v hostitelskej aplikacii, napriklad DAW.",
+      "Plugin spracuje audio, MIDI alebo generuje zvuk podla svojho typu.",
+      "Host riesi smerovanie signalu, casovanie a komunikaciu s audio zariadenim.",
+      "VST je analogovy konektor medzi gitarou a zosilnovacom."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: VST = softverovy modul v hoste. Efekt meni audio, VSTi generuje audio z MIDI alebo udalosti. Host drzi projekt, routing a buffery.",
+    "slideRef": "HEL_12_Aplikace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Pocitace a aplikacie"
+  },
+  {
+    "id": "hel-hy-050",
+    "tema": "HEL High Yield: VSTi",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co je VSTi v porovnani s efektovym pluginom?",
+    "moznosti": [
+      "VSTi je virtualny nastroj, ktory generuje audio, casto na zaklade MIDI udalosti.",
+      "VSTi je iba specialny typ audio kabla.",
+      "VSTi nemoze prijimat MIDI ani generovat zvuk.",
+      "VSTi je vzdy hardverovy analogovy filter."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Skuskovo: efekt vacsinou spracuje vstupne audio, nastroj vytvara audio sam. MIDI nota pride do VSTi a ten vyrobi ton.",
+    "slideRef": "HEL_12_Aplikace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Pocitace a aplikacie"
+  },
+  {
+    "id": "hel-hy-051",
+    "tema": "HEL High Yield: Sekvencer v DAW",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co uchovava hudobny sekvencer v pocitaci?",
+    "moznosti": [
+      "Casovane udalosti, napriklad MIDI noty a kontrolery.",
+      "Pozicie udalosti v case alebo v hudobnych dobach.",
+      "Parametre prehravania, automatizacie alebo zmeny programu.",
+      "Vzdy iba jeden analogovy signal bez casovej informacie."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: sekvencer nie je len audio rekordér. Uklada udalosti a casovanie, ktore potom riadia nastroje alebo parametre.",
+    "slideRef": "HEL_05_Digitalni_nastroje.pdf; HEL_12_Aplikace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Pocitace a aplikacie"
+  },
+  {
+    "id": "hel-hy-052",
+    "tema": "HEL High Yield: Voice allocation",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co znamena voice allocation v polyfonnom nastroji?",
+    "moznosti": [
+      "System priraduje dostupne hlasy aktualne hranim notam.",
+      "Pri nedostatku hlasov moze nastat voice stealing.",
+      "Dynamicke priradovanie vie lepsie vyuzit obmedzeny pocet hlasov.",
+      "Voice allocation znamena iba nastavenie farby pozadia displeja."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: polyfonny nastroj ma obmedzeny pocet hlasov. Musi rozhodnut, ktory hlas hra ktoru notu a co spravi, ked not je viac ako hlasov.",
+    "slideRef": "HEL_05_Digitalni_nastroje.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Digitalne nastroje"
+  },
+  {
+    "id": "hel-hy-053",
+    "tema": "HEL High Yield: Multitimbral",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co znamena, ze nastroj je multitimbralny?",
+    "moznosti": [
+      "Vie sucasne hrat viac roznych zvukov alebo partov, casto na roznych MIDI kanaloch.",
+      "Vie zahrat iba jeden ton naraz, ale velmi hlasno.",
+      "Ma iba jeden pevny zvuk bez zmeny farby.",
+      "Je to synonymum pre analogovy sumovy generator."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Skuskovo: polyfonia = kolko hlasov, multitimbralita = kolko roznych zvukov/partov naraz. Tieto pojmy sa lahko mylia.",
+    "slideRef": "HEL_05_Digitalni_nastroje.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Digitalne nastroje"
+  },
+  {
+    "id": "hel-hy-054",
+    "tema": "HEL High Yield: Arpeggiator",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co robi arpeggiator?",
+    "moznosti": [
+      "Z drzanych not vytvara casovu postupnost tonov.",
+      "Rytmus arpeggia zavisi od tempa alebo clocku.",
+      "Moze menit smer, rozsah oktav alebo poradie prehravania.",
+      "Arpeggiator je analogovy reproduktorovy transformator."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: arpeggiator je automaticka hra rozlozeneho akordu. Nie je to zvukovy zdroj sam o sebe, ale riadiacich udalosti generator.",
+    "slideRef": "HEL_03_Hybridni_nastroje.pdf; HEL_05_Digitalni_nastroje.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Sekvencery a riadenie"
+  },
+  {
+    "id": "hel-hy-055",
+    "tema": "HEL High Yield: Keyboard tracking",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Na co sluzi keyboard tracking pri filtri?",
+    "moznosti": [
+      "Cutoff filtra sa meni podla vysky hranej noty, aby sa farba zvuku spravala konzistentnejsie po klaviature.",
+      "Filter sa vypne vzdy, ked sa stlaci biely klaves.",
+      "Keyboard tracking znamena prenos audio signalu cez MIDI Thru.",
+      "Ide o funkciu, ktora meni iba panoramu reproduktorov."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Skuskovo: vyssie noty maju prirodzene ine spektrum. Tracking vie posuvat cutoff s klaviaturou, aby filter nebol na vyssich notach prilis tmavy alebo neprirodzeny.",
+    "slideRef": "HEL_02_Analogove_syntezatory.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Riadiace signaly"
+  },
+  {
+    "id": "hel-hy-056",
+    "tema": "HEL High Yield: Synclavier a Fairlight",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Preco su Synclavier a Fairlight CMI dolezite v historii elektronickych nastrojov?",
+    "moznosti": [
+      "Spajali pocitacove riadenie, digitalnu syntezu, sampling alebo sekvencovanie.",
+      "Ukazuju prechod od samostatnych analogovych nastrojov k pracovnym staniciam.",
+      "Pouzivali pamate a vypoctove metody na tvorbu a organizaciu zvuku.",
+      "Boli to vyhradne pasivne akusticke nastroje bez elektroniky."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: tieto nastroje su high-yield ako priklad digitalnej pracovnej stanice: syntetizator, sampler, sekvencer, pamat a pocitacove ovladanie.",
+    "slideRef": "HEL_11_Pocitace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Pocitace a historia"
+  },
+  {
+    "id": "hel-hy-057",
+    "tema": "HEL High Yield: MPU-401",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Co je skuskovo dolezite pri rozhrani Roland MPU-401?",
+    "moznosti": [
+      "Je to historicky dolezite MIDI rozhranie pre pocitace, s rezimami UART a inteligentnym casovanim.",
+      "Je to typ gitaroveho snimaca s magnetom a cievkou.",
+      "Je to analogovy filter v Moog ladder zapojeni.",
+      "Je to format PCM audio suboru."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Skuskovo: MPU-401 patri k pocitacovej MIDI komunikacii. UART mod je jednoduchsie priame posielanie/prijimanie dat, inteligentny mod vedel viac riesit casovanie.",
+    "slideRef": "HEL_11_Pocitace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Pocitace a historia"
+  },
+  {
+    "id": "hel-hy-058",
+    "tema": "HEL High Yield: Zvukove karty",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ktore principy sa historicky objavuju v pocitacovych zvukovych kartach?",
+    "moznosti": [
+      "Jednoduche programovatelne generatory tonov.",
+      "FM synteza.",
+      "Prehravanie PCM alebo wavetable vzoriek.",
+      "Vyhradne mechanicke tonewheels bez akejkolvek elektroniky."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: PC zvuk isiel od jednoduchych generatorov cez FM az po sample/wavetable a audio rozhrania. Nepopisuj to ako cisto mechanicky organ.",
+    "slideRef": "HEL_11_Pocitace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Pocitace a historia"
+  },
+  {
+    "id": "hel-hy-059",
+    "tema": "HEL High Yield: D/A a A/D v hudobnych systemoch",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Kde sa v elektronickych hudobnych systemoch uplatni prevod medzi digitalnym a analogovym svetom?",
+    "moznosti": [
+      "D/A prevodnik meni digitalne vypocitany alebo ulozeny signal na analogovy vystup.",
+      "A/D prevodnik prevadza analogovy vstup na digitalne vzorky.",
+      "Riadiace digitalne hodnoty mozu cez D/A vytvarat CV pre analogove casti.",
+      "Prevodniky su potrebne iba pri cisto akustickych husliach bez elektroniky."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo: digitalny system musi pri kontakte so svetom pouzit prevodnik. Audio vystup potrebuje D/A, nahravanie potrebuje A/D, hybridne nastroje mozu cez D/A riadit analogove moduly.",
+    "slideRef": "HEL_03_Hybridni_nastroje.pdf; HEL_04_Digitalni_syntezy.pdf; HEL_12_Aplikace.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Prevod a rozhrania"
+  },
+  {
+    "id": "hel-hy-060",
+    "tema": "HEL High Yield: Skuskova odpoved - analogova klaviatura",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Ak by bola otazka 'Ako funguje klavesove ovladanie analogovych nastrojov?', ktore body by si urcite povedal?",
+    "moznosti": [
+      "Klavesnica prevadza stlaceny klaves na riadiace napatie pre vysku tonu.",
+      "Suciastkou odpovede su signaly CV, Gate a Trigger.",
+      "Pri viacerych klavesoch sa riesi priorita alebo priradenie hlasov cez klavesovu logiku/zbernicu.",
+      "Vsetky analogove klavesnice prenesli audio cez MIDI kabel."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Skuskovo povedz kratko: klaves -> CV pre VCO, Gate pre drzanie obalky, Trigger pre spustenie, zbernica/logika riesi stavy klavesov a priradenie hlasov. MIDI je digitalne rozhranie, nie princip analogovej CV klaviatury.",
+    "slideRef": "HEL_02_Analogove_syntezatory.pdf; HEL_03_Hybridni_nastroje.pdf",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Skuskove otazky"
+  }
+];
+
+helOtazky.push(...helHighYieldOtazky);
