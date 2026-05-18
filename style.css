@@ -46,27 +46,6 @@ body.tema-zlta {
   overflow: hidden;
 }
 
-.streak-highscore {
-  position: absolute;
-  left: -8px;
-  right: -8px;
-  bottom: 0;
-  z-index: 4;
-  height: 4px;
-  background: var(--pozadie);
-  box-shadow:
-    -2px 0 #000000,
-    2px 0 #000000,
-    0 -2px #000000,
-    0 2px #000000;
-  transform: translateY(50%);
-  pointer-events: none;
-}
-
-.streak-highscore.skryta-ciara {
-  display: none;
-}
-
 .streak-aktualny {
   position: absolute;
   left: 50%;
@@ -605,6 +584,11 @@ h3 {
   color: var(--text);
   font-size: 16px;
   line-height: 1;
+}
+
+.hs-count {
+  min-width: 72px;
+  text-align: center;
 }
 
 .tlacidlo-predosly {

@@ -8,7 +8,7 @@ let aktualneOtazky = czsOtazky;
 let aktualneMoznosti = [];
 let stavStlpca = 0;
 let seriaSpravnych = 0;
-let najvyssiStavStlpca = 0;
+let najvyssiaSeriaSpravnych = 0;
 let casovacDalsejOtazky = null;
 let hlasitost = 0.5;
 let vybranaPrezentacia = "__vsetko";
@@ -183,13 +183,22 @@ function vytvorPixelyStlpca() {
 }
 
 function prehrajZvuk(zvuk, rychlost = 1) {
-  zvuk.currentTime = 0;
-  zvuk.volume = hlasitost;
-  zvuk.preservesPitch = false;
-  zvuk.mozPreservesPitch = false;
-  zvuk.webkitPreservesPitch = false;
-  zvuk.playbackRate = rychlost;
-  zvuk.play().catch(() => {});
+  const prehravac = typeof zvuk.cloneNode === "function" ? zvuk.cloneNode(true) : zvuk;
+  prehravac.currentTime = 0;
+  prehravac.volume = hlasitost;
+  prehravac.preservesPitch = false;
+  prehravac.mozPreservesPitch = false;
+  prehravac.webkitPreservesPitch = false;
+  prehravac.playbackRate = rychlost;
+  prehravac.play().catch(() => {});
+}
+
+function pocetPrehratiZvuku(jeSpravne, dlzkaSerie) {
+  if (!jeSpravne) {
+    return 1;
+  }
+
+  return Math.max(1, dlzkaSerie - 6);
 }
 
 function nastavHlasitost(hodnota) {
@@ -503,7 +512,13 @@ function spustiEfekt(jeSpravne, dlzkaSerie = 0) {
 
 function spustiSpatnuVazbu(jeSpravne, dlzkaSerie = 0) {
   const rychlostZvuku = jeSpravne ? Math.min(1 + (dlzkaSerie - 1) * 0.12, 1.72) : 1;
-  prehrajZvuk(jeSpravne ? zvukSpravne : zvukZle, rychlostZvuku);
+  const zvuk = jeSpravne ? zvukSpravne : zvukZle;
+  const pocetPrehrati = pocetPrehratiZvuku(jeSpravne, dlzkaSerie);
+
+  for (let i = 0; i < pocetPrehrati; i++) {
+    window.setTimeout(() => prehrajZvuk(zvuk, rychlostZvuku), i * 85);
+  }
+
   spustiEfekt(jeSpravne, dlzkaSerie);
 }
 
@@ -517,14 +532,10 @@ function aktualizujStlpec() {
 }
 
 function aktualizujStreak(animuj = false) {
-  const maximum = Math.max(poradieOtazok.length, 1);
-  const velkost = Math.min(34 + seriaSpravnych * 2.2, 72);
-  const poziciaMaxima = Math.min(100, Math.round((najvyssiStavStlpca / maximum) * 100));
+  const velkost = Math.min(34 + seriaSpravnych * 4.4, 112);
   prvokStreakAktualny.textContent = String(seriaSpravnych);
   prvokStreakAktualny.style.setProperty("--streak-velkost", `${velkost}px`);
-  prvokStreakNajlepsi.textContent = "";
-  prvokStreakNajlepsi.style.bottom = `${poziciaMaxima}%`;
-  prvokStreakNajlepsi.classList.toggle("skryta-ciara", najvyssiStavStlpca === 0);
+  prvokStreakNajlepsi.textContent = `HS: ${najvyssiaSeriaSpravnych}`;
 
   if (!animuj) {
     return;
@@ -539,7 +550,6 @@ function upravStlpec(jeSpravne) {
   const maximum = Math.max(poradieOtazok.length, 1);
   stavStlpca += jeSpravne ? 1 : -1;
   stavStlpca = Math.max(0, Math.min(maximum, stavStlpca));
-  najvyssiStavStlpca = Math.max(najvyssiStavStlpca, stavStlpca);
   aktualizujStlpec();
 }
 
@@ -568,7 +578,7 @@ function nastavPoradie() {
   skore = 0;
   stavStlpca = 0;
   seriaSpravnych = 0;
-  najvyssiStavStlpca = 0;
+  najvyssiaSeriaSpravnych = 0;
   vycistiPredoslyVysledok();
   aktualizujStlpec();
   aktualizujStreak();
@@ -851,6 +861,7 @@ function skontrolujOdpoved() {
 
   if (jeSpravne) {
     seriaSpravnych++;
+    najvyssiaSeriaSpravnych = Math.max(najvyssiaSeriaSpravnych, seriaSpravnych);
   } else {
     seriaSpravnych = 0;
   }
@@ -918,7 +929,6 @@ function odoberAktualnuOtazku() {
   poradieOtazok = poradieOtazok.filter((polozka) => ziskajIdOtazky(polozka) !== ziskajIdOtazky(otazka));
   aktualneOtazky = aktualneOtazky.filter((polozka) => ziskajIdOtazky(polozka) !== ziskajIdOtazky(otazka));
   stavStlpca = Math.min(stavStlpca, poradieOtazok.length);
-  najvyssiStavStlpca = Math.min(najvyssiStavStlpca, poradieOtazok.length);
 
   if (aktualnyIndex >= poradieOtazok.length) {
     aktualnyIndex = Math.max(0, poradieOtazok.length - 1);
