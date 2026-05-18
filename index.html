@@ -26,7 +26,7 @@
       <section id="panelNastaveni" class="panel-nastaveni skryte" aria-label="Nastavenia">
         <label class="nastavenie">
           <span>Hlasitosť</span>
-          <input id="posuvnikHlasitosti" type="range" min="0" max="100" value="100">
+          <input id="posuvnikHlasitosti" type="range" min="0" max="100" value="50">
         </label>
 
         <div class="nastavenie">
@@ -55,6 +55,14 @@
             <span id="pocetFiltra" class="pocet-filtra">0 otázok</span>
           </div>
         </div>
+
+        <section id="blokOdstranenych" class="blok-odstranenych skryte">
+          <div class="hlavicka-odstranenych">
+            <span>Odstránené otázky</span>
+            <button id="tlacidloVratitVsetkyOtazky" class="mini-tlacidlo" type="button">Vrátiť všetky</button>
+          </div>
+          <div id="zoznamOdstranenychOtazok" class="zoznam-odstranenych"></div>
+        </section>
       </section>
     </header>
 
@@ -64,8 +72,14 @@
     </nav>
 
     <section id="rezimTest">
-      <aside class="stlpec-uspesnosti" aria-label="Stĺpec úspešnosti">
-        <div id="vyplnStlpca" class="vypln-stlpca"></div>
+      <aside class="stlpec-panel" aria-label="Stav testu">
+        <div class="stlpec-uspesnosti">
+          <div id="vyplnStlpca" class="vypln-stlpca"></div>
+        </div>
+        <div class="streak-panel">
+          <span id="streakAktualny">Streak 0</span>
+          <span id="streakNajlepsi">Max 0</span>
+        </div>
       </aside>
 
       <section class="panel">
@@ -79,9 +93,9 @@
         <pre id="kod" class="kod skryte"></pre>
         <div id="moznosti" class="moznosti"></div>
         <div id="vysledok" class="vysledok skryte"></div>
-        <div id="predoslyVysledok" class="predosly-vysledok skryte"></div>
 
         <div class="ovladanie">
+          <button id="tlacidloOdstranitOtazku" class="tlacidlo-odstranit" type="button">Odobrať otázku</button>
           <button id="tlacidloMedzernik" class="tlacidlo-medzernik" type="button" aria-label="Medzerník: skontrolovať odpoveď alebo prejsť na ďalšiu otázku">
             <img class="obrazok-medzernika" src="assets/spacebar_lines.svg" alt="">
           </button>

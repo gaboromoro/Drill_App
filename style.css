@@ -18,16 +18,33 @@ body {
   color: var(--text);
 }
 
-.stlpec-uspesnosti {
+.stlpec-panel {
   position: sticky;
   top: 28px;
-  width: 68px;
-  height: min(48vh, 360px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
   margin-top: 80px;
-  transform: translateX(-70px);
-  border: 2px solid #000000;
+  transform: translateX(-34px);
+}
+
+.stlpec-uspesnosti {
+  position: relative;
+  width: 96px;
+  height: min(42vh, 320px);
+  border: 2px solid #ffffff;
   background: transparent;
   overflow: hidden;
+}
+
+.streak-panel {
+  display: grid;
+  gap: 8px;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .vypln-stlpca {
@@ -49,8 +66,8 @@ body {
   top: -14px;
   height: 22px;
   background:
-    linear-gradient(#000000 0 0) 0 8px / 16px 14px repeat-x,
-    linear-gradient(#000000 0 0) 8px 2px / 16px 20px repeat-x;
+    linear-gradient(#ff6000 0 0) 0 8px / 16px 14px repeat-x,
+    linear-gradient(#ff7a1a 0 0) 8px 2px / 16px 20px repeat-x;
   image-rendering: pixelated;
   animation: pixelHladina 800ms steps(4) infinite;
 }
@@ -60,8 +77,8 @@ body {
   position: absolute;
   inset: 0;
   background:
-    repeating-linear-gradient(0deg, transparent 0 14px, rgba(255, 96, 0, 0.18) 14px 18px),
-    repeating-linear-gradient(90deg, transparent 0 18px, rgba(255, 96, 0, 0.12) 18px 22px);
+    repeating-linear-gradient(0deg, transparent 0 14px, rgba(255, 96, 0, 0.62) 14px 18px),
+    repeating-linear-gradient(90deg, transparent 0 18px, rgba(255, 122, 26, 0.5) 18px 22px);
   background-size: 44px 44px;
   image-rendering: pixelated;
   opacity: 0.72;
@@ -171,8 +188,8 @@ textarea {
 
 #rezimTest {
   display: grid;
-  grid-template-columns: 68px minmax(0, 1fr);
-  column-gap: 18px;
+  grid-template-columns: 170px minmax(0, 1fr);
+  column-gap: 4px;
   align-items: start;
 }
 
@@ -268,34 +285,46 @@ textarea {
 
 #posuvnikHlasitosti {
   width: 100%;
-  accent-color: #b94300;
+  height: 30px;
+  appearance: none;
+  background: transparent;
+  accent-color: #000000;
 }
 
 #posuvnikHlasitosti::-webkit-slider-runnable-track {
-  height: 7px;
+  height: 12px;
   border-radius: 0;
-  background: #b94300;
+  background: #000000;
 }
 
 #posuvnikHlasitosti::-webkit-slider-thumb {
-  margin-top: -5px;
+  width: 24px;
+  height: 24px;
+  margin-top: -6px;
+  border: 2px solid #000000;
   background: #000000;
+  box-shadow: 0 0 0 2px var(--pozadie);
+  appearance: none;
 }
 
 #posuvnikHlasitosti::-moz-range-track {
-  height: 7px;
+  height: 12px;
   border-radius: 0;
-  background: #b94300;
+  background: #000000;
 }
 
 #posuvnikHlasitosti::-moz-range-progress {
-  height: 7px;
-  background: #b94300;
+  height: 12px;
+  background: #000000;
 }
 
 #posuvnikHlasitosti::-moz-range-thumb {
-  border: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #000000;
+  border-radius: 0;
   background: #000000;
+  box-shadow: 0 0 0 2px var(--pozadie);
 }
 
 #vyberPrezentacie {
@@ -371,6 +400,39 @@ textarea {
 
 .pocet-filtra {
   font-size: 14px;
+}
+
+.blok-odstranenych {
+  display: grid;
+  gap: 10px;
+  border-top: 2px solid var(--ciara);
+  padding-top: 14px;
+}
+
+.hlavicka-odstranenych {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.zoznam-odstranenych {
+  display: grid;
+  gap: 8px;
+  max-height: min(28vh, 220px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.odstranena-otazka {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  border-bottom: 1px solid var(--ciara);
+  padding-bottom: 8px;
+  font-size: 14px;
+  line-height: 1.25;
 }
 
 .nadpisok {
@@ -602,28 +664,19 @@ h3 {
   color: var(--text);
 }
 
-.predosly-vysledok {
-  margin-top: 16px;
-  border: 2px dashed var(--ciara);
-  padding: 12px;
-  line-height: 1.45;
-}
-
-.predosly-vysledok h3 {
-  margin: 0 0 8px;
-}
-
-.predosly-vysledok p {
-  margin-bottom: 8px;
-}
-
 .ovladanie {
+  margin-top: 18px;
+}
+
+.tlacidlo-odstranit {
+  align-self: center;
   margin-top: 18px;
 }
 
 .tlacidlo-medzernik {
   display: block;
   position: relative;
+  flex: 1 1 100%;
   width: min(92%, 700px);
   height: 62px;
   margin: 0 auto;
@@ -733,15 +786,24 @@ button.sekundarne {
   }
 
   #rezimTest {
-    grid-template-columns: 42px minmax(0, 1fr);
+    grid-template-columns: 92px minmax(0, 1fr);
     column-gap: 10px;
   }
 
-  .stlpec-uspesnosti {
-    width: 42px;
-    height: min(42vh, 300px);
+  .stlpec-panel {
+    gap: 8px;
     margin-top: 42px;
     transform: translateX(-6px);
+  }
+
+  .stlpec-uspesnosti {
+    width: 44px;
+    height: min(42vh, 300px);
+  }
+
+  .streak-panel {
+    font-size: 13px;
+    gap: 5px;
   }
 
   .panel {
