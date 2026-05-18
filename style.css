@@ -21,12 +21,10 @@ body {
 .stlpec-panel {
   position: sticky;
   top: 28px;
-  display: grid;
-  grid-template-columns: auto 96px;
+  display: block;
   align-items: center;
-  gap: 14px;
   margin-top: 80px;
-  transform: translateX(-34px);
+  transform: translateX(-64px);
 }
 
 .stlpec-uspesnosti {
@@ -39,11 +37,24 @@ body {
 }
 
 .streak-highscore {
-  color: #000000;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1;
-  white-space: nowrap;
+  position: absolute;
+  left: -8px;
+  right: -8px;
+  bottom: 0;
+  z-index: 4;
+  height: 4px;
+  background: #ff6000;
+  box-shadow:
+    -2px 0 #000000,
+    2px 0 #000000,
+    0 -2px #000000,
+    0 2px #000000;
+  transform: translateY(50%);
+  pointer-events: none;
+}
+
+.streak-highscore.skryta-ciara {
+  display: none;
 }
 
 .streak-aktualny {
@@ -83,47 +94,76 @@ body {
 .vypln-stlpca::before {
   content: "";
   position: absolute;
-  left: -32px;
-  right: -32px;
-  top: -14px;
-  height: 22px;
+  left: -18px;
+  right: -18px;
+  top: -18px;
+  z-index: 2;
+  height: 24px;
   background:
-    linear-gradient(#ff6000 0 0) 0 8px / 16px 14px repeat-x,
-    linear-gradient(#ff7a1a 0 0) 8px 2px / 16px 20px repeat-x;
+    linear-gradient(#000000 0 0) 0 12px / 14px 10px repeat-x,
+    linear-gradient(#000000 0 0) 7px 4px / 18px 18px repeat-x,
+    linear-gradient(#000000 0 0) 4px 0 / 8px 8px repeat-x;
   image-rendering: pixelated;
-  animation: pixelHladina 800ms steps(4) infinite;
+  animation: ciernyPovrch 820ms steps(5, end) infinite;
 }
 
 .vypln-stlpca::after {
   content: "";
   position: absolute;
-  inset: 0;
+  left: -12px;
+  right: -12px;
+  top: -62px;
+  z-index: 1;
+  height: 54px;
   background:
-    repeating-linear-gradient(0deg, transparent 0 14px, rgba(255, 96, 0, 0.62) 14px 18px),
-    repeating-linear-gradient(90deg, transparent 0 18px, rgba(255, 122, 26, 0.5) 18px 22px);
-  background-size: 44px 44px;
+    linear-gradient(#000000 0 0) 10px 42px / 6px 6px no-repeat,
+    linear-gradient(#000000 0 0) 28px 34px / 8px 8px no-repeat,
+    linear-gradient(#000000 0 0) 52px 44px / 6px 6px no-repeat,
+    linear-gradient(#000000 0 0) 74px 30px / 8px 8px no-repeat,
+    linear-gradient(#000000 0 0) 92px 40px / 6px 6px no-repeat,
+    linear-gradient(#000000 0 0) 16px 18px / 5px 5px no-repeat,
+    linear-gradient(#000000 0 0) 60px 12px / 5px 5px no-repeat;
   image-rendering: pixelated;
-  opacity: 0.72;
-  animation: pixelTekutina 1s steps(4) infinite;
+  opacity: 0.8;
+  animation: ciernaPara 1.45s steps(6, end) infinite;
 }
 
-@keyframes pixelHladina {
+@keyframes ciernyPovrch {
   0% {
     transform: translateX(0);
   }
 
+  50% {
+    transform: translateX(-10px);
+  }
+
   100% {
-    transform: translateX(16px);
+    transform: translateX(14px);
   }
 }
 
-@keyframes pixelTekutina {
+@keyframes ciernaPara {
   0% {
-    background-position: 0 0, 0 0;
+    opacity: 0;
+    transform: translate(0, 12px);
+  }
+
+  18% {
+    opacity: 0.85;
+  }
+
+  45% {
+    transform: translate(-8px, -8px);
+  }
+
+  70% {
+    opacity: 0.55;
+    transform: translate(10px, -22px);
   }
 
   100% {
-    background-position: 0 -18px, 22px 0;
+    opacity: 0;
+    transform: translate(-4px, -34px);
   }
 }
 
@@ -847,19 +887,13 @@ button.sekundarne {
   }
 
   .stlpec-panel {
-    gap: 8px;
-    grid-template-columns: auto 44px;
     margin-top: 42px;
-    transform: translateX(-6px);
+    transform: translateX(-20px);
   }
 
   .stlpec-uspesnosti {
     width: 44px;
     height: min(42vh, 300px);
-  }
-
-  .streak-highscore {
-    font-size: 13px;
   }
 
   .streak-aktualny {

@@ -401,10 +401,14 @@ function aktualizujStlpec() {
 }
 
 function aktualizujStreak(animuj = false) {
+  const maximum = Math.max(poradieOtazok.length, 1);
   const velkost = Math.min(34 + seriaSpravnych * 2.2, 72);
+  const poziciaMaxima = Math.min(100, Math.round((najlepsiStreak / maximum) * 100));
   prvokStreakAktualny.textContent = String(seriaSpravnych);
   prvokStreakAktualny.style.setProperty("--streak-velkost", `${velkost}px`);
-  prvokStreakNajlepsi.textContent = `Highscore: ${najlepsiStreak}`;
+  prvokStreakNajlepsi.textContent = "";
+  prvokStreakNajlepsi.style.bottom = `${poziciaMaxima}%`;
+  prvokStreakNajlepsi.classList.toggle("skryta-ciara", najlepsiStreak === 0);
 
   if (!animuj) {
     return;
@@ -806,6 +810,7 @@ function odoberAktualnuOtazku() {
   vykresliOdstraneneOtazky();
   aktualizujPocetFiltra();
   aktualizujStlpec();
+  aktualizujStreak();
 
   if (poradieOtazok.length === 0) {
     zobrazPrazdnyVyber();
