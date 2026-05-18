@@ -2706,5 +2706,1085 @@ const czsOtazky = [
     "vysvetlenie": "Prvé tri tvrdenia sú základ CZS 2. Stabilita nesúvisí s nutnosťou používať budúce vzorky.",
     "slideRef": "CZS_2_03.pdf",
     "subtema": "CZS 2: Súhrn"
+  },
+  {
+    "id": "czs3-001",
+    "tema": "CZS 3: LTI systém",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré tvrdenia sú nutné na to, aby bol výstup systému možné vyjadriť konvolúciou y[n] = x[n] * h[n]?",
+    "moznosti": [
+      "Systém musí byť lineárny, aby sa odozva na súčet impulzov dala zložiť zo súčtu odoziev.",
+      "Systém musí byť časovo invariantný, aby odozva na posunutý impulz bola posunutá verzia jednej impulznej charakteristiky.",
+      "Stačí, aby bol systém kauzálny; linearita ani časová invariantnosť nie sú potrebné.",
+      "Stačí, aby bola impulzná charakteristika konečná; potom konvolučný popis platí aj pre nelineárny systém."
+    ],
+    "spravne": [0, 1],
+    "vysvetlenie": "Konvolučný popis vychádza z rozkladu vstupu na vážené impulzy. Linearita dovolí sčítať vážené odozvy a časová invariantnosť dovolí používať jednu h[n] pre všetky posuny.",
+    "slideRef": "CZS_3_03.pdf slides 2, 3",
+    "subtema": "CZS 3: LTI a konvolučný popis"
+  },
+  {
+    "id": "czs3-002",
+    "tema": "CZS 3: LTI systém",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Prečo pri LTI systéme stačí poznať jednu impulznú charakteristiku h[n]?",
+    "moznosti": [
+      "Lebo časová invariantnosť zaručí, že odozva na δ[n - k] je iba posunutá h[n - k].",
+      "Lebo linearita sama zaručí, že odozva na každý posunutý impulz má rovnakú polohu aj tvar.",
+      "Lebo kauzalita zaručí, že všetky impulzné charakteristiky pred n = 0 sú rovnaké.",
+      "Lebo stabilita zaručí, že odozva na každý impulz má konečný počet vzoriek."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Lineárny systém môže mať pre rôzne časy rôzne impulzné odozvy, ak nie je časovo invariantný. Jedna h[n] stačí až v LTI prípade.",
+    "slideRef": "CZS_3_03.pdf slide 3",
+    "subtema": "CZS 3: LTI a konvolučný popis"
+  },
+  {
+    "id": "czs3-003",
+    "tema": "CZS 3: LTI systém",
+    "typ": "jedna",
+    "format": "najdi_chybu",
+    "uroven": "tazka",
+    "otazka": "Nájdi chybu: „Ak poznám h[n], viem konvolúciou popísať každý diskrétny systém, aj keď je nelineárny.“",
+    "moznosti": [
+      "Impulzná charakteristika jednoznačne určuje vstupno-výstupný vzťah len pri LTI systéme.",
+      "Tvrdenie je správne, impulzná charakteristika vždy stačí pre ľubovoľný diskrétny systém.",
+      "Chyba je iba v tom, že pri nelineárnom systéme treba namiesto konvolúcie použiť koreláciu.",
+      "Stačí pridať podmienku kauzality; nelinearita potom nevadí."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Nelineárny systém nereaguje na súčet impulzov ako súčet jednotlivých odoziev, preto rozklad cez vážené impulzy nevedie na konvolúciu.",
+    "slideRef": "CZS_3_03.pdf slides 2, 3",
+    "subtema": "CZS 3: LTI a konvolučný popis"
+  },
+  {
+    "id": "czs3-004",
+    "tema": "CZS 3: LTI systém",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak je x[n] = 3δ[n] - 2δ[n - 1] a systém je LTI s impulznou charakteristikou h[n], aký je výstup?",
+    "moznosti": [
+      "y[n] = 3h[n] - 2h[n - 1]",
+      "y[n] = 3h[n] - 2h[n + 1]",
+      "y[n] = h[3n] - h[2n - 1]",
+      "y[n] = 3δ[n] * h[n - 2]"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Každý vážený a posunutý impulz vyvolá rovnakým spôsobom váženú a posunutú impulznú odozvu.",
+    "slideRef": "CZS_3_03.pdf slides 2, 3",
+    "subtema": "CZS 3: LTI a konvolučný popis"
+  },
+  {
+    "id": "czs3-005",
+    "tema": "CZS 3: LTI systém",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré interpretácie impulznej charakteristiky h[n] sú správne?",
+    "moznosti": [
+      "Je to odozva LTI systému na jednotkový impulz δ[n].",
+      "Pri LTI systéme určuje, ako systém ovplyvní ľubovoľný vstup cez konvolúciu.",
+      "Pri časovo premennom lineárnom systéme musí byť rovnaká pre každý časový posun impulzu.",
+      "Ak je h[n] konečná, systém je FIR; ak je nekonečná, systém môže byť IIR."
+    ],
+    "spravne": [0, 1, 3],
+    "vysvetlenie": "Tretia možnosť je pasca: rovnaká odozva pre posunuté impulzy je vlastnosť časovej invariantnosti, nie všeobecného časovo premenného systému.",
+    "slideRef": "CZS_3_03.pdf slides 3, 23, 26",
+    "subtema": "CZS 3: Impulzná charakteristika"
+  },
+  {
+    "id": "czs3-006",
+    "tema": "CZS 3: Konvolúcia",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktorý zápis diskrétnej konvolúcie správne zodpovedá výstupu LTI systému?",
+    "moznosti": [
+      "y[n] = Σ_k x[k] · h[n - k]",
+      "y[n] = Σ_k x[k] · h[n + k]",
+      "y[n] = Σ_k x[n] · h[k], teda x[n] sa v sume nemení.",
+      "y[n] = Σ_k x[k] · h[k - n], čo je vždy rovnaké ako korelácia bez otočenia."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Konvolúcia obsahuje otočenie a posun jednej postupnosti. Zápis s h[n - k] je štandardný konvolučný tvar.",
+    "slideRef": "CZS_3_03.pdf slides 4, 5",
+    "subtema": "CZS 3: Diskrétna konvolúcia"
+  },
+  {
+    "id": "czs3-007",
+    "tema": "CZS 3: Konvolúcia",
+    "typ": "jedna",
+    "format": "najdi_chybu",
+    "uroven": "tazka",
+    "otazka": "Nájdi chybu: „Pri ručnom výpočte konvolúcie stačí jednu postupnosť iba posúvať, netreba ju otáčať.“",
+    "moznosti": [
+      "Pri konvolúcii sa jedna postupnosť najprv zmení na funkciu indexu k, potom sa otočí a až potom posúva.",
+      "Tvrdenie je správne, otočenie patrí ku korelácii, nie ku konvolúcii.",
+      "Otočenie netreba iba vtedy, keď sú obe postupnosti konečné.",
+      "Otočenie sa nahrádza tým, že zameníme x[n] a h[n]; tým vždy dostaneme koreláciu."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Pasca je zámenná s koreláciou. Konvolúcia vyžaduje otočenie jednej postupnosti a posúvanie cez všetky n.",
+    "slideRef": "CZS_3_03.pdf slides 5, 6",
+    "subtema": "CZS 3: Diskrétna konvolúcia"
+  },
+  {
+    "id": "czs3-008",
+    "tema": "CZS 3: Konvolúcia",
+    "typ": "jedna",
+    "format": "vypocet",
+    "uroven": "tazka",
+    "otazka": "Ak x[n] = {1, 2} so začiatkom pri prvej vzorke a h[n] = {3, 4, 5} so začiatkom pri prvej vzorke, aký je lineárny konvolučný výsledok?",
+    "moznosti": [
+      "{3, 10, 13, 10}",
+      "{3, 8, 15, 10}",
+      "{5, 14, 11, 6}",
+      "{10, 13, 10}"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Postupne: 1·3 = 3, 1·4 + 2·3 = 10, 1·5 + 2·4 = 13, 2·5 = 10. Tretia možnosť pripomína zamenený/otočený výpočet.",
+    "slideRef": "CZS_3_03.pdf slides 6, 7",
+    "subtema": "CZS 3: Výpočet konvolúcie"
+  },
+  {
+    "id": "czs3-009",
+    "tema": "CZS 3: Konvolúcia",
+    "typ": "jedna",
+    "format": "vypocet",
+    "uroven": "tazka",
+    "otazka": "Ak x[n] = {1, -1, 2} a h[n] = {2, 1}, aký je výsledok x[n] * h[n]?",
+    "moznosti": [
+      "{2, -1, 3, 2}",
+      "{2, 1, -1, 2}",
+      "{1, 1, 1, 2}",
+      "{2, -2, 4, 0}"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Výsledok má dĺžku 3 + 2 - 1 = 4. Hodnoty sú 1·2, 1·1 + (-1)·2, (-1)·1 + 2·2, 2·1.",
+    "slideRef": "CZS_3_03.pdf slides 6, 7",
+    "subtema": "CZS 3: Výpočet konvolúcie"
+  },
+  {
+    "id": "czs3-010",
+    "tema": "CZS 3: Konvolúcia",
+    "typ": "jedna",
+    "format": "vypocet",
+    "uroven": "tazka",
+    "otazka": "Dve konečné postupnosti majú dĺžky M = 5 a N = 3. Aká je dĺžka ich lineárnej konvolúcie?",
+    "moznosti": [
+      "7",
+      "8",
+      "5",
+      "15"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Dĺžka lineárnej konvolúcie je M + N - 1. Pasca M + N ignoruje prekrytie prvého/posledného nenulového člena.",
+    "slideRef": "CZS_3_03.pdf slide 8",
+    "subtema": "CZS 3: Výpočet konvolúcie"
+  },
+  {
+    "id": "czs3-011",
+    "tema": "CZS 3: Konvolúcia",
+    "typ": "jedna",
+    "format": "vypocet",
+    "uroven": "tazka",
+    "otazka": "Nech x[n] má prvý nenulový index -1 a dĺžku 4, h[n] má prvý nenulový index 2 a dĺžku 3. Kde začína y[n] = x[n] * h[n]?",
+    "moznosti": [
+      "Na indexe n = 1.",
+      "Na indexe n = -3.",
+      "Na indexe n = 2.",
+      "Na indexe n = 0, lebo konvolúcia vždy začína v nule."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Začiatok konvolúcie je súčet prvých nenulových indexov: -1 + 2 = 1. Poloha začiatku nie je automaticky nula.",
+    "slideRef": "CZS_3_03.pdf slide 8",
+    "subtema": "CZS 3: Výpočet konvolúcie"
+  },
+  {
+    "id": "czs3-012",
+    "tema": "CZS 3: Konvolúcia",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré tvrdenia o lineárnej konvolúcii konečných postupností sú správne?",
+    "moznosti": [
+      "Poradie postupností možno zameniť bez zmeny výsledných hodnôt.",
+      "Dĺžka výsledku je súčet dĺžok mínus jedna.",
+      "Začiatok výsledku je súčet začiatkov oboch postupností.",
+      "Komutativnosť konvolúcie znamená, že sa pri ručnom výpočte nemusí otáčať žiadna postupnosť."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Komutativnosť neodstraňuje princíp otočenia a posunu pri ručnom algoritme. Hovorí iba, že x*h a h*x dávajú rovnaký výsledok.",
+    "slideRef": "CZS_3_03.pdf slides 8, 9, 11",
+    "subtema": "CZS 3: Vlastnosti konvolúcie"
+  },
+  {
+    "id": "czs3-013",
+    "tema": "CZS 3: Konvolúcia",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Čo presne znamená komutativita konvolúcie v kontexte LTI systému?",
+    "moznosti": [
+      "Z matematického hľadiska je x[n] * h[n] = h[n] * x[n], hoci fyzikálne zostáva h[n] impulznou odozvou systému.",
+      "Vstupný signál a systém sú fyzikálne vždy zameniteľné, teda každý vstup možno považovať za filter.",
+      "Komutativita platí iba pre kauzálne FIR systémy, nie pre všeobecné LTI systémy.",
+      "Komutativita znamená, že korelácia a konvolúcia sú rovnaká operácia."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Matematicky sú postupnosti v konvolúcii rovnocenné, ale v systémovej interpretácii má h[n] význam impulznej charakteristiky.",
+    "slideRef": "CZS_3_03.pdf slides 9, 11",
+    "subtema": "CZS 3: Vlastnosti konvolúcie"
+  },
+  {
+    "id": "czs3-014",
+    "tema": "CZS 3: Konvolúcia",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré vlastnosti konvolúcie sú správne spárované s dôsledkom pri LTI systémoch?",
+    "moznosti": [
+      "Asociativita → sériovo zapojené LTI systémy možno združiť do jednej impulznej charakteristiky.",
+      "Distributivita → paralelné vetvy možno nahradiť súčtom impulzných charakteristík.",
+      "Komutativita → poradie kaskádnych LTI systémov neovplyvní výslednú impulznú charakteristiku.",
+      "Distributivita → výstup paralelného zapojenia je vždy súčin impulzných charakteristík."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Paralelné zapojenie vedie na h[n] = h1[n] + h2[n], nie na súčin impulzných charakteristík.",
+    "slideRef": "CZS_3_03.pdf slides 11, 13, 14",
+    "subtema": "CZS 3: Spájanie LTI systémov"
+  },
+  {
+    "id": "czs3-015",
+    "tema": "CZS 3: Konvolúcia",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak sú dva LTI systémy s impulznými charakteristikami h1[n] a h2[n] zapojené sériovo, aká je výsledná impulzná charakteristika?",
+    "moznosti": [
+      "h[n] = h1[n] * h2[n]",
+      "h[n] = h1[n] + h2[n]",
+      "h[n] = h1[n] · h2[n] vzorka po vzorke",
+      "h[n] = h1[n - h2[n]]"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Kaskáda systémov znamená, že výstup prvého systému prejde druhým, takže impulzné charakteristiky sa konvolvujú.",
+    "slideRef": "CZS_3_03.pdf slide 13",
+    "subtema": "CZS 3: Spájanie LTI systémov"
+  },
+  {
+    "id": "czs3-016",
+    "tema": "CZS 3: Konvolúcia",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak sú dva LTI systémy s impulznými charakteristikami h1[n] a h2[n] zapojené paralelne a výstupy sa sčítajú, aká je výsledná impulzná charakteristika?",
+    "moznosti": [
+      "h[n] = h1[n] + h2[n]",
+      "h[n] = h1[n] * h2[n]",
+      "h[n] = h1[n] - h2[-n]",
+      "h[n] = h1[n] · h2[n] vzorka po vzorke"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "V paralelnom zapojení obe vetvy reagujú na rovnaký vstup a ich výstupy sa sčítajú, preto sa sčítajú aj impulzné charakteristiky.",
+    "slideRef": "CZS_3_03.pdf slide 14",
+    "subtema": "CZS 3: Spájanie LTI systémov"
+  },
+  {
+    "id": "czs3-017",
+    "tema": "CZS 3: Špeciálne konvolúcie",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Čo spôsobí konvolúcia x[n] * δ[n - k]?",
+    "moznosti": [
+      "Posunie signál x[n] o k vzoriek doprava: x[n - k].",
+      "Posunie signál x[n] o k vzoriek doľava: x[n + k].",
+      "Vynuluje všetky vzorky okrem n = k.",
+      "Vytvorí autokoreláciu signálu x[n] s posunom k."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Impulz pri n = k v konvolúcii funguje ako oneskorenie o k vzoriek. Znamienko posunu je častá pasca.",
+    "slideRef": "CZS_3_03.pdf slide 12",
+    "subtema": "CZS 3: Špeciálne prípady konvolúcie"
+  },
+  {
+    "id": "czs3-018",
+    "tema": "CZS 3: Špeciálne konvolúcie",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak y[n] = x[n] * u[n], čo tento systém robí?",
+    "moznosti": [
+      "Akumuluje súčet aktuálnej a predchádzajúcich vzoriek vstupu.",
+      "Derivuje vstup ako rozdiel x[n] - x[n - 1].",
+      "Posunie vstup o jednu vzorku doprava bez zmeny tvaru.",
+      "Vytvorí trojuholníkový signál bez ohľadu na vstup."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Konvolúcia s jednotkovým skokom zodpovedá kumulatívnemu súčtu. Pasca je zámena s derivátorom alebo s impulzom.",
+    "slideRef": "CZS_3_03.pdf slide 12",
+    "subtema": "CZS 3: Špeciálne prípady konvolúcie"
+  },
+  {
+    "id": "czs3-019",
+    "tema": "CZS 3: Špeciálne konvolúcie",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak sa konvolvujú dva jednotkové skoky u[n] * u[n], aký typ priebehu vznikne?",
+    "moznosti": [
+      "Rampový signál.",
+      "Jednotkový impulz.",
+      "Znovu jednotkový skok s rovnakou amplitúdou.",
+      "Konečný obdĺžnikový signál."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Sčítanie jednotiek cez rastúci počet prekrytí vytvorí rampový priebeh.",
+    "slideRef": "CZS_3_03.pdf slide 12",
+    "subtema": "CZS 3: Špeciálne prípady konvolúcie"
+  },
+  {
+    "id": "czs3-020",
+    "tema": "CZS 3: Špeciálne konvolúcie",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Prečo konvolúcia obdĺžnikového signálu so sebou typicky vytvorí trojuholníkový priebeh?",
+    "moznosti": [
+      "Počet prekrytých nenulových vzoriek najprv rastie a potom klesá.",
+      "Pretože každý obdĺžnikový signál je periodický s periódou 3.",
+      "Pretože konvolúcia vždy zmení konečný signál na harmonický.",
+      "Pretože sa pri konvolúcii sčíta iba prvá a posledná vzorka."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Tvar výsledku určuje veľkosť prekrytia dvoch konečných blokov pri posúvaní.",
+    "slideRef": "CZS_3_03.pdf slide 12",
+    "subtema": "CZS 3: Špeciálne prípady konvolúcie"
+  },
+  {
+    "id": "czs3-021",
+    "tema": "CZS 3: Periodické signály",
+    "typ": "jedna",
+    "format": "najdi_chybu",
+    "uroven": "tazka",
+    "otazka": "Nájdi chybu: „Ak je vstup periodický, konvolúcia s konečnou h[n] dá vždy konečný neperiodický výstup s dĺžkou M + N - 1.“",
+    "moznosti": [
+      "Pri periodickom vstupe sa po zohľadnení periód výsledok periodizuje s rovnakou periódou.",
+      "Tvrdenie je správne, lineárna konvolúcia vždy končí po M + N - 1 vzorkách.",
+      "Chyba je iba v tom, že dĺžka má byť M · N.",
+      "Periodický vstup sa pred konvolúciou musí vždy nahradiť autokoreláciou."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "M + N - 1 platí pre jednu konečnú lineárnu konvolúciu. Pri periodickom signáli sa príspevky periód skladajú do periodického výsledku.",
+    "slideRef": "CZS_3_03.pdf slide 10",
+    "subtema": "CZS 3: Periodické signály a konvolúcia"
+  },
+  {
+    "id": "czs3-022",
+    "tema": "CZS 3: Periodické signály",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak periodický vstup x[n] s periódou T prechádza LTI systémom, čo možno očakávať o výstupe po ustálení podľa prezentácie?",
+    "moznosti": [
+      "Výstup bude periodický s rovnakou periódou T.",
+      "Výstup bude mať vždy periódu danú dĺžkou impulznej charakteristiky.",
+      "Výstup bude neperiodický, ak h[n] nie je jednotkový impulz.",
+      "Výstup bude mať periódu T + dĺžka h[n] - 1."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "LTI systém zachová periodicitu vstupu; mení tvar vzoriek v perióde, nie základnú periódu.",
+    "slideRef": "CZS_3_03.pdf slide 10",
+    "subtema": "CZS 3: Periodické signály a konvolúcia"
+  },
+  {
+    "id": "czs3-023",
+    "tema": "CZS 3: Kauzalita LTI",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Aká je nutná a postačujúca podmienka kauzality LTI systému z pohľadu impulznej charakteristiky?",
+    "moznosti": [
+      "h[n] = 0 pre všetky n < 0.",
+      "h[n] = 0 pre všetky n > 0.",
+      "h[n] musí mať konečný počet nenulových vzoriek.",
+      "Σ |h[n]| musí byť konečné."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Nenulové hodnoty h[n] pre záporné indexy by pri konvolúcii vyžadovali budúce vzorky vstupu vzhľadom na aktuálny čas.",
+    "slideRef": "CZS_3_03.pdf slides 15, 17",
+    "subtema": "CZS 3: Kauzalita LTI systémov"
+  },
+  {
+    "id": "czs3-024",
+    "tema": "CZS 3: Kauzalita LTI",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré impulzné charakteristiky patria kauzálnym LTI systémom?",
+    "moznosti": [
+      "h[n] = δ[n] - 0,5δ[n - 2]",
+      "h[n] = u[n]",
+      "h[n] = δ[n + 1] + δ[n]",
+      "h[n] = 0,2δ[n - 1] + 0,7δ[n - 3]"
+    ],
+    "spravne": [0, 1, 3],
+    "vysvetlenie": "Kauzálne sú tie, ktoré nemajú nenulové vzorky pre n < 0. Člen δ[n + 1] je nenulový pri n = -1, preto je nekauzálny.",
+    "slideRef": "CZS_3_03.pdf slides 15, 17",
+    "subtema": "CZS 3: Kauzalita LTI systémov"
+  },
+  {
+    "id": "czs3-025",
+    "tema": "CZS 3: Kauzalita LTI",
+    "typ": "jedna",
+    "format": "najdi_chybu",
+    "uroven": "tazka",
+    "otazka": "Nájdi chybu: „FIR systém je automaticky kauzálny, lebo jeho impulzná charakteristika je konečná.“",
+    "moznosti": [
+      "FIR môže byť nekauzálny, ak má nenulové hodnoty h[n] pre záporné indexy.",
+      "Tvrdenie je správne, konečná dĺžka impulznej charakteristiky vždy stačí na kauzalitu.",
+      "FIR je kauzálny iba vtedy, keď je jeho impulzná charakteristika symetrická okolo n = 0.",
+      "FIR nemôže byť kauzálny, lebo nemá spätnú väzbu."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Kauzalita rieši polohu nenulových vzoriek v čase, nie iba ich počet.",
+    "slideRef": "CZS_3_03.pdf slides 15, 23, 25",
+    "subtema": "CZS 3: Kauzalita LTI systémov"
+  },
+  {
+    "id": "czs3-026",
+    "tema": "CZS 3: Stabilita LTI",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Aká je podmienka BIBO stability LTI systému vyjadrená cez impulznú charakteristiku?",
+    "moznosti": [
+      "Σ_n |h[n]| < ∞",
+      "Σ_n h[n] = 0",
+      "h[n] = 0 pre n < 0",
+      "h[n] musí byť symetrická"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Pre stabilitu nestačí obyčajný súčet h[n], lebo kladné a záporné hodnoty sa môžu rušiť. Treba absolútnu sumovateľnosť.",
+    "slideRef": "CZS_3_03.pdf slide 18",
+    "subtema": "CZS 3: Stabilita LTI systémov"
+  },
+  {
+    "id": "czs3-027",
+    "tema": "CZS 3: Stabilita LTI",
+    "typ": "jedna",
+    "format": "najdi_chybu",
+    "uroven": "tazka",
+    "otazka": "Nájdi chybu: „Ak je súčet Σ h[n] konečný alebo nulový, LTI systém je určite stabilný.“",
+    "moznosti": [
+      "Stabilita vyžaduje konečnosť Σ |h[n]|, nie iba podmienené rušenie kladných a záporných členov.",
+      "Tvrdenie je správne, znamienka impulznej charakteristiky nemajú pri stabilite význam.",
+      "Stačí overiť kauzalitu h[n] = 0 pre n < 0, potom je systém automaticky stabilný.",
+      "Stačí, aby h[n] nebola periodická; absolútna suma sa už nerieši."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "BIBO stabilita musí obmedziť najhorší prípad vstupu, preto sa používa suma absolútnych hodnôt.",
+    "slideRef": "CZS_3_03.pdf slide 18",
+    "subtema": "CZS 3: Stabilita LTI systémov"
+  },
+  {
+    "id": "czs3-028",
+    "tema": "CZS 3: Stabilita LTI",
+    "typ": "jedna",
+    "format": "vypocet",
+    "uroven": "tazka",
+    "otazka": "Pre h[n] = a^n u[n], kedy je LTI systém BIBO stabilný?",
+    "moznosti": [
+      "|a| < 1",
+      "a ≤ 1 vrátane a = 1",
+      "a > 0 bez ohľadu na veľkosť",
+      "|a| ≥ 1, lebo nekonečná impulzná odozva je potom tlmená"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Absolútna suma geometrickej rady konverguje práve pre |a| < 1. Pri a = 1 ide o nekonečný súčet jednotiek.",
+    "slideRef": "CZS_3_03.pdf slides 19, 20",
+    "subtema": "CZS 3: Stabilita LTI systémov"
+  },
+  {
+    "id": "czs3-029",
+    "tema": "CZS 3: Stabilita LTI",
+    "typ": "jedna",
+    "format": "vypocet",
+    "uroven": "tazka",
+    "otazka": "Je systém s h[n] = (-0,8)^n u[n] stabilný?",
+    "moznosti": [
+      "Áno, lebo Σ |(-0,8)^n| = Σ 0,8^n konverguje.",
+      "Nie, lebo h[n] strieda znamienko a preto absolútna suma diverguje.",
+      "Áno, ale iba preto, že obyčajný súčet h[n] je nulový.",
+      "Nie, lebo každá nekonečná impulzná charakteristika je nestabilná."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Striedanie znamienka samo nevadí. Rozhoduje absolútna hodnota základu, ktorá je 0,8 < 1.",
+    "slideRef": "CZS_3_03.pdf slides 18, 20",
+    "subtema": "CZS 3: Stabilita LTI systémov"
+  },
+  {
+    "id": "czs3-030",
+    "tema": "CZS 3: Stabilita LTI",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré tvrdenia o kauzalite a stabilite LTI systémov sú správne?",
+    "moznosti": [
+      "Kauzalita a stabilita sú nezávislé vlastnosti; jedna automaticky nezaručuje druhú.",
+      "h[n] = u[n] je kauzálna impulzná charakteristika, ale nie je absolútne sumovateľná.",
+      "Každý FIR systém je stabilný, ak má konečný počet konečných koeficientov.",
+      "Každý IIR systém je nestabilný, lebo má nekonečnú impulznú charakteristiku."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "IIR môže byť stabilný, ak je jeho impulzná odozva absolútne sumovateľná, napríklad a^n u[n] pre |a| < 1.",
+    "slideRef": "CZS_3_03.pdf slides 18, 20, 23, 26",
+    "subtema": "CZS 3: Kauzalita a stabilita"
+  },
+  {
+    "id": "czs3-031",
+    "tema": "CZS 3: FIR",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Čo presne znamená FIR systém?",
+    "moznosti": [
+      "Diskrétny systém s konečnou impulznou charakteristikou.",
+      "Diskrétny systém bez oneskorení v realizácii.",
+      "Diskrétny systém s konečnou dĺžkou vstupného signálu.",
+      "Systém, ktorého prenosová funkcia musí obsahovať póly mimo počiatku."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "FIR znamená Finite Impulse Response. Konečný vstup ešte neurobí zo systému FIR; rozhoduje impulzná odozva.",
+    "slideRef": "CZS_3_03.pdf slide 23",
+    "subtema": "CZS 3: FIR systémy"
+  },
+  {
+    "id": "czs3-032",
+    "tema": "CZS 3: FIR",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré vlastnosti FIR systémov podľa prezentácie platia?",
+    "moznosti": [
+      "Majú konečný počet prvkov impulznej charakteristiky.",
+      "Sú vždy stabilné, ak koeficienty sú konečné.",
+      "Pri symetrickej alebo antisymetrickej impulznej charakteristike môžu mať lineárnu fázovú charakteristiku.",
+      "Vždy vyžadujú spätnú väzbu, preto majú malú pamäť a nekonečnú impulznú odozvu."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Štvrtá možnosť opisuje skôr IIR vlastnosti so spätnou väzbou, nie FIR.",
+    "slideRef": "CZS_3_03.pdf slide 23",
+    "subtema": "CZS 3: FIR systémy"
+  },
+  {
+    "id": "czs3-033",
+    "tema": "CZS 3: FIR",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktorá diferenčná rovnica je FIR systém?",
+    "moznosti": [
+      "y[n] = 0,25x[n] + 0,25x[n - 1] + 0,25x[n - 2] + 0,25x[n - 3]",
+      "y[n] = 0,9y[n - 1] + x[n]",
+      "y[n] = y[n - 1] - 0,5y[n - 2] + x[n]",
+      "y[n] = x[n] + 0,3y[n - 1]"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "FIR rovnica obsahuje len konečný počet aktuálnych a oneskorených vstupov, nie oneskorené výstupy.",
+    "slideRef": "CZS_3_03.pdf slides 21, 29, 30",
+    "subtema": "CZS 3: FIR systémy"
+  },
+  {
+    "id": "czs3-034",
+    "tema": "CZS 3: FIR",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak FIR filter má N koeficientov b0 až bN-1, aký je jeho rád podľa prezentácie?",
+    "moznosti": [
+      "N - 1",
+      "N",
+      "2N - 1",
+      "Počet nenulových vzoriek vstupu mínus jedna"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Rád FIR filtra je najväčšie oneskorenie, teda pri N koeficientoch ide o N - 1.",
+    "slideRef": "CZS_3_03.pdf slide 21",
+    "subtema": "CZS 3: FIR systémy"
+  },
+  {
+    "id": "czs3-035",
+    "tema": "CZS 3: FIR",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Aká impulzná charakteristika zodpovedá čistému zosilňovaču y[n] = kx[n]?",
+    "moznosti": [
+      "h[n] = kδ[n]",
+      "h[n] = δ[n - k]",
+      "h[n] = k u[n]",
+      "h[n] = δ[n] + kδ[n - 1]"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Zosilňovač mení iba amplitúdu bez oneskorenia, preto je impulzná odozva vážený impulz v nule.",
+    "slideRef": "CZS_3_03.pdf slide 24",
+    "subtema": "CZS 3: FIR príklady"
+  },
+  {
+    "id": "czs3-036",
+    "tema": "CZS 3: FIR",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Aká impulzná charakteristika zodpovedá oneskoreniu y[n] = x[n - k]?",
+    "moznosti": [
+      "h[n] = δ[n - k]",
+      "h[n] = δ[n + k]",
+      "h[n] = kδ[n]",
+      "h[n] = u[n - k]"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Konvolúcia s δ[n - k] oneskorí signál o k vzoriek. Znamienko v impulze je rozhodujúce.",
+    "slideRef": "CZS_3_03.pdf slide 24",
+    "subtema": "CZS 3: FIR príklady"
+  },
+  {
+    "id": "czs3-037",
+    "tema": "CZS 3: FIR",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Aká impulzná charakteristika zodpovedá derivátoru y[n] = x[n] - x[n - 1]?",
+    "moznosti": [
+      "h[n] = δ[n] - δ[n - 1]",
+      "h[n] = δ[n] + δ[n - 1]",
+      "h[n] = δ[n - 1] - δ[n]",
+      "h[n] = u[n] - u[n - 1]"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Derivátor je rozdiel aktuálnej a predchádzajúcej vzorky. Posledná možnosť je síce rovná δ[n], ale nie derivátoru.",
+    "slideRef": "CZS_3_03.pdf slide 24",
+    "subtema": "CZS 3: FIR príklady"
+  },
+  {
+    "id": "czs3-038",
+    "tema": "CZS 3: FIR",
+    "typ": "jedna",
+    "format": "najdi_chybu",
+    "uroven": "tazka",
+    "otazka": "Nájdi chybu: „Nekauzálny priemerovací FIR filter 3. rádu je nepoužiteľný, lebo nie je stabilný.“",
+    "moznosti": [
+      "Nekauzalita neznamená nestabilitu; FIR s konečnou impulznou odozvou je stabilný, ale vyžaduje budúce vzorky alebo posun realizácie.",
+      "Tvrdenie je správne, každý nekauzálny FIR je nestabilný.",
+      "Chyba je iba v tom, že priemerovací filter nikdy nemôže byť FIR.",
+      "Nekauzálny filter sa stane stabilným až po pridaní spätnej väzby."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Pre offline spracovanie môže byť nekauzálny filter použiteľný. Stabilitu určuje absolútna sumovateľnosť h[n], nie kauzalita.",
+    "slideRef": "CZS_3_03.pdf slide 25",
+    "subtema": "CZS 3: FIR príklady"
+  },
+  {
+    "id": "czs3-039",
+    "tema": "CZS 3: FIR",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Aký je hlavný rozdiel medzi nekauzálnym a kauzálnym 3-bodovým priemerovacím filtrom v príklade z prezentácie?",
+    "moznosti": [
+      "Majú podobné váhy, ale kauzálna verzia je časovo posunutá, teda má fázové oneskorenie.",
+      "Nekauzálna verzia je IIR, kauzálna verzia je FIR.",
+      "Kauzálna verzia musí mať nekonečnú impulznú odozvu.",
+      "Nekauzálna verzia je nestabilná, kauzálna stabilná."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Kauzalita sa dosiahne posunom použitej vzorkovej trojice do minulosti, čo pridá oneskorenie.",
+    "slideRef": "CZS_3_03.pdf slide 25",
+    "subtema": "CZS 3: FIR príklady"
+  },
+  {
+    "id": "czs3-040",
+    "tema": "CZS 3: IIR",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Čo presne znamená IIR systém?",
+    "moznosti": [
+      "Diskrétny systém s nekonečnou impulznou charakteristikou.",
+      "Systém s konečnou impulznou charakteristikou, ale nekonečným vstupom.",
+      "Systém, ktorý musí byť vždy časovo premenný.",
+      "Systém, ktorý nemôže mať prenosovú funkciu."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "IIR znamená Infinite Impulse Response. Typicky vzniká vďaka spätnej väzbe/rekurzii.",
+    "slideRef": "CZS_3_03.pdf slide 26",
+    "subtema": "CZS 3: IIR systémy"
+  },
+  {
+    "id": "czs3-041",
+    "tema": "CZS 3: IIR",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré tvrdenia o IIR systémoch podľa prezentácie platia?",
+    "moznosti": [
+      "Môžu mať nekonečný počet prvkov impulznej charakteristiky.",
+      "Ich stabilita je problematická a treba ju overovať.",
+      "Často potrebujú menej pamäte na koeficienty diferenčnej rovnice než dlhý FIR filter.",
+      "Vždy majú lineárnu fázovú charakteristiku v celom rozsahu."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "Pre IIR je typická nelineárna fázová charakteristika v celom rozsahu; lineárna fáza je skôr výhoda symetrických FIR filtrov.",
+    "slideRef": "CZS_3_03.pdf slide 26",
+    "subtema": "CZS 3: IIR systémy"
+  },
+  {
+    "id": "czs3-042",
+    "tema": "CZS 3: IIR",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktorá rovnica je typický IIR systém?",
+    "moznosti": [
+      "y[n] = 0,8y[n - 1] + 5x[n]",
+      "y[n] = 0,25x[n] + 0,25x[n - 1] + 0,25x[n - 2] + 0,25x[n - 3]",
+      "y[n] = x[n] - x[n - 1]",
+      "y[n] = 3x[n - 2]"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Prítomnosť minulého výstupu y[n - 1] znamená spätnú väzbu a potenciálne nekonečnú impulznú odozvu.",
+    "slideRef": "CZS_3_03.pdf slides 27, 28",
+    "subtema": "CZS 3: IIR systémy"
+  },
+  {
+    "id": "czs3-043",
+    "tema": "CZS 3: IIR",
+    "typ": "jedna",
+    "format": "vypocet",
+    "uroven": "tazka",
+    "otazka": "Pre systém y[n] = 0,8y[n - 1] + 5x[n] s nulovou počiatočnou podmienkou a vstupom δ[n], aké sú prvé tri vzorky h[0], h[1], h[2]?",
+    "moznosti": [
+      "5; 4; 3,2",
+      "0; 5; 4",
+      "5; 0,8; 0,64",
+      "0,8; 5; 4"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "h[0] = 5, h[1] = 0,8·5 = 4, h[2] = 0,8·4 = 3,2.",
+    "slideRef": "CZS_3_03.pdf slide 28",
+    "subtema": "CZS 3: IIR príklady"
+  },
+  {
+    "id": "czs3-044",
+    "tema": "CZS 3: IIR",
+    "typ": "jedna",
+    "format": "vypocet",
+    "uroven": "tazka",
+    "otazka": "Pre y[n] = 0,9y[n - 1] + x[n] s nulovou počiatočnou podmienkou a vstupom δ[n], aký tvar má impulzná charakteristika?",
+    "moznosti": [
+      "h[n] = 0,9^n u[n]",
+      "h[n] = 0,9δ[n] + δ[n - 1]",
+      "h[n] = 0,9^n bez obmedzenia pre záporné n",
+      "h[n] = δ[n] - 0,9δ[n - 1]"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Rekurzia opakovane násobí predchádzajúci výstup koeficientom 0,9 a začína impulzom v n = 0.",
+    "slideRef": "CZS_3_03.pdf slides 32, 34",
+    "subtema": "CZS 3: IIR príklady"
+  },
+  {
+    "id": "czs3-045",
+    "tema": "CZS 3: FIR/IIR",
+    "typ": "jedna",
+    "format": "najdi_chybu",
+    "uroven": "tazka",
+    "otazka": "Nájdi chybu: „Ak rovnica obsahuje x[n - 3], systém musí byť IIR, lebo používa starú vzorku.“",
+    "moznosti": [
+      "Staré vstupné vzorky ešte neznamenajú IIR; IIR naznačujú hlavne minulé výstupy alebo nekonečná impulzná odozva.",
+      "Tvrdenie je správne, každé oneskorenie je spätná väzba.",
+      "Systém s x[n - 3] je vždy nekauzálny.",
+      "Ak je oneskorenie väčšie než 1, impulzná odozva je automaticky nekonečná."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "FIR filtre bežne používajú viac oneskorených vstupných vzoriek. Rozhoduje, či impulzná odozva skončí.",
+    "slideRef": "CZS_3_03.pdf slides 21, 29, 30",
+    "subtema": "CZS 3: Rozlíšenie FIR/IIR"
+  },
+  {
+    "id": "czs3-046",
+    "tema": "CZS 3: FIR/IIR",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré systémy sú FIR?",
+    "moznosti": [
+      "y[n] = x[n] - x[n - 1]",
+      "y[n] = 0,25x[n] + 0,25x[n - 1] + 0,25x[n - 2] + 0,25x[n - 3]",
+      "y[n] = 0,9y[n - 1] + x[n]",
+      "y[n] = 2x[n - 5]"
+    ],
+    "spravne": [0, 1, 3],
+    "vysvetlenie": "FIR systémy obsahujú konečný počet vstupných členov. Rovnicia s y[n - 1] je rekurzívna a typicky IIR.",
+    "slideRef": "CZS_3_03.pdf slides 24, 29, 30, 32",
+    "subtema": "CZS 3: Rozlíšenie FIR/IIR"
+  },
+  {
+    "id": "czs3-047",
+    "tema": "CZS 3: FIR/IIR",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré systémy sú IIR alebo sa tak správajú pri impulznom vstupe?",
+    "moznosti": [
+      "y[n] = 0,8y[n - 1] + 5x[n]",
+      "y[n] = y[n - 1] - 0,4y[n - 2] + x[n]",
+      "y[n] = x[n] + x[n - 1] + x[n - 2]",
+      "y[n] = -0,5y[n - 1] + 0,2x[n - 1]"
+    ],
+    "spravne": [0, 1, 3],
+    "vysvetlenie": "Všetky správne možnosti obsahujú spätnú väzbu cez minulé výstupy. Tretia je konečná suma vstupov, teda FIR.",
+    "slideRef": "CZS_3_03.pdf slides 26, 27, 28",
+    "subtema": "CZS 3: Rozlíšenie FIR/IIR"
+  },
+  {
+    "id": "czs3-048",
+    "tema": "CZS 3: Prenosová funkcia",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ako sa v Z-oblasti typicky prejaví FIR systém?",
+    "moznosti": [
+      "Prenosová funkcia má iba čitateľ s konečným počtom členov z^-k.",
+      "Prenosová funkcia musí mať menovateľ s pólmi mimo počiatku.",
+      "Prenosová funkcia neexistuje, lebo FIR nemá spätnú väzbu.",
+      "Prenosová funkcia má vždy nekonečný počet pólov."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "FIR filter je konečný polynóm v z^-1. IIR má racionálny tvar s menovateľom zodpovedajúcim spätnej väzbe.",
+    "slideRef": "CZS_3_03.pdf slides 21, 22",
+    "subtema": "CZS 3: Z-popis FIR/IIR"
+  },
+  {
+    "id": "czs3-049",
+    "tema": "CZS 3: Prenosová funkcia",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ako sa v Z-oblasti typicky prejaví IIR systém so spätnou väzbou?",
+    "moznosti": [
+      "Prenosová funkcia má čitateľ aj menovateľ; póly súvisia s rekurzívnou časťou.",
+      "Prenosová funkcia má vždy iba čitateľ, rovnako ako FIR.",
+      "Prenosová funkcia sa nedá zapísať, ak má impulzná odozva nekonečne veľa vzoriek.",
+      "Menovateľ prenosovej funkcie opisuje iba oneskorené vstupné vzorky."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Rekurzívne členy vedú na menovateľ prenosovej funkcie a tým na póly systému.",
+    "slideRef": "CZS_3_03.pdf slide 27",
+    "subtema": "CZS 3: Z-popis FIR/IIR"
+  },
+  {
+    "id": "czs3-050",
+    "tema": "CZS 3: Prenosová funkcia",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Prečo tvrdenie „IIR filter má menšiu pamäť než FIR filter“ treba chápať opatrne?",
+    "moznosti": [
+      "Myslí sa menší počet uložených koeficientov alebo stavov pri podobnom filtračnom efekte, nie nulová pamäť systému.",
+      "Je vždy nepravdivé, pretože IIR má nekonečnú impulznú odozvu a musí ukladať všetky jej vzorky.",
+      "Platí iba vtedy, keď je IIR nekauzálny.",
+      "Znamená, že IIR systém nesmie obsahovať z^-1."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "IIR nemusí ukladať celú nekonečnú impulznú odozvu; používa rekurziu a stavové premenné.",
+    "slideRef": "CZS_3_03.pdf slide 26",
+    "subtema": "CZS 3: Z-popis FIR/IIR"
+  },
+  {
+    "id": "czs3-051",
+    "tema": "CZS 3: Stavový popis",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Prečo sa pri stavovom popise systému 3. rádu zavedú tri stavové premenné?",
+    "moznosti": [
+      "Každá stavová premenná reprezentuje jeden pamäťový krok/oneskorenie potrebné pre vnútorný opis.",
+      "Pretože systém 3. rádu musí mať práve tri vstupy.",
+      "Pretože FIR systém vždy potrebuje toľko stavov, koľko má výstupných vzoriek.",
+      "Pretože tretí rád znamená tri rôzne vzorkovacie frekvencie."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Stavové premenné uchovávajú vnútorný stav systému a umožňujú prepísať vyšší rád do sústavy prvého rádu.",
+    "slideRef": "CZS_3_03.pdf slide 35",
+    "subtema": "CZS 3: Stavový popis"
+  },
+  {
+    "id": "czs3-052",
+    "tema": "CZS 3: Stavový popis",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré tvrdenia o stavovom popise diskrétneho LTI systému sú správne?",
+    "moznosti": [
+      "Stavový popis používa vnútorné premenné, ktoré sa aktualizujú v čase.",
+      "Maticový tvar vie oddeliť stavovú rovnicu a výstupnú rovnicu.",
+      "Stavový popis je použiteľný iba pre statické systémy bez pamäti.",
+      "Počet stavových premenných súvisí s rádom realizácie systému."
+    ],
+    "spravne": [0, 1, 3],
+    "vysvetlenie": "Stavový popis je práve nástroj pre systémy s pamäťou. Statický systém by vnútorný stav nepotreboval.",
+    "slideRef": "CZS_3_03.pdf slides 35, 38, 39",
+    "subtema": "CZS 3: Stavový popis"
+  },
+  {
+    "id": "czs3-053",
+    "tema": "CZS 3: Stavový popis",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktorý všeobecný tvar najlepšie vystihuje diskrétny stavový popis?",
+    "moznosti": [
+      "v[n + 1] = A v[n] + B x[n], y[n] = C v[n] + D x[n]",
+      "v[n] = A x[n + 1], y[n] = B / x[n]",
+      "y[n] = x[n] * h[n] bez akejkoľvek vnútornej premennej",
+      "A[n] = v[n] + x[n], pričom výstup y[n] sa v stavovom popise nepíše"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Stavový popis má rovnicu aktualizácie stavu a rovnicu výstupu. Matice A, B, C, D určujú väzby.",
+    "slideRef": "CZS_3_03.pdf slides 38, 39",
+    "subtema": "CZS 3: Stavový popis"
+  },
+  {
+    "id": "czs3-054",
+    "tema": "CZS 3: Súhrn",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré kombinácie vlastností sú možné?",
+    "moznosti": [
+      "FIR systém môže byť nekauzálny, ale stále stabilný.",
+      "IIR systém môže byť kauzálny a stabilný.",
+      "LTI systém môže byť popísaný konvolúciou s impulznou charakteristikou.",
+      "Nelineárny systém je LTI, ak má konečnú impulznú odozvu."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "LTI znamená lineárny a časovo invariantný. Nelineárny systém preto nemôže byť LTI bez ohľadu na tvar nejakej odozvy.",
+    "slideRef": "CZS_3_03.pdf",
+    "subtema": "CZS 3: Integrované pasce"
+  },
+  {
+    "id": "czs3-055",
+    "tema": "CZS 3: Súhrn",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Systém má h[n] = δ[n + 1] + 0,5δ[n] + δ[n - 1]. Ktoré tvrdenie je najpresnejšie?",
+    "moznosti": [
+      "Je FIR a stabilný, ale nie je kauzálny.",
+      "Je FIR, kauzálny a stabilný.",
+      "Je IIR, stabilný, ale nie kauzálny.",
+      "Je FIR, ale nestabilný, pretože má záporný index."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Má konečný počet vzoriek, teda FIR a stabilný. Člen δ[n + 1] je nenulový pri n = -1, preto systém nie je kauzálny.",
+    "slideRef": "CZS_3_03.pdf slides 15, 17, 23",
+    "subtema": "CZS 3: Integrované pasce"
+  },
+  {
+    "id": "czs3-056",
+    "tema": "CZS 3: Súhrn",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Systém má h[n] = 1,1^n u[n]. Ktoré tvrdenie je najpresnejšie?",
+    "moznosti": [
+      "Je kauzálny IIR, ale nie je BIBO stabilný.",
+      "Je kauzálny FIR a stabilný.",
+      "Je nekauzálny IIR, ale stabilný, lebo 1,1^n je kladné.",
+      "Je stabilný, lebo h[n] je definovaná len pre n ≥ 0."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "u[n] zabezpečí kauzalitu, ale geometrická rada s |1,1| > 1 nie je absolútne sumovateľná.",
+    "slideRef": "CZS_3_03.pdf slides 18, 20, 26",
+    "subtema": "CZS 3: Integrované pasce"
+  },
+  {
+    "id": "czs3-057",
+    "tema": "CZS 3: Súhrn",
+    "typ": "jedna",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré tvrdenie najlepšie odlíši konvolúciu od korelácie v ručnom výpočte?",
+    "moznosti": [
+      "Pri konvolúcii sa jedna postupnosť otočí a posúva; korelácia meria podobnosť bez tej istej systémovej interpretácie h[n] ako impulznej odozvy.",
+      "Pri konvolúcii sa nikdy nerobí otočenie, pri korelácii áno.",
+      "Konvolúcia aj korelácia sú rovnaké, rozdiel je iba v názve parametra m.",
+      "Konvolúcia sa používa iba pre náhodné signály, korelácia iba pre LTI systémy."
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Obe operácie sú príbuzné, ale pri LTI systéme má konvolúcia presný význam vstup * impulzná charakteristika.",
+    "slideRef": "CZS_3_03.pdf slides 4, 5",
+    "subtema": "CZS 3: Integrované pasce"
+  },
+  {
+    "id": "czs3-058",
+    "tema": "CZS 3: Súhrn",
+    "typ": "jedna",
+    "format": "vypocet",
+    "uroven": "tazka",
+    "otazka": "Sú kaskádne zapojené dva FIR filtre s dĺžkami impulzných charakteristík 4 a 5. Aká je dĺžka výslednej impulznej charakteristiky?",
+    "moznosti": [
+      "8",
+      "9",
+      "20",
+      "5"
+    ],
+    "spravne": [0],
+    "vysvetlenie": "Kaskáda znamená konvolúciu impulzných charakteristík. Dĺžka je 4 + 5 - 1 = 8.",
+    "slideRef": "CZS_3_03.pdf slides 8, 13",
+    "subtema": "CZS 3: Integrované pasce"
+  },
+  {
+    "id": "czs3-059",
+    "tema": "CZS 3: Súhrn",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré výroky by si odmietol ako nepresné?",
+    "moznosti": [
+      "Každý stabilný LTI systém musí byť FIR.",
+      "Každý kauzálny LTI systém musí byť stabilný.",
+      "Každý FIR systém s konečnými koeficientmi je stabilný.",
+      "Každý IIR systém musí byť nelineárny."
+    ],
+    "spravne": [0, 1, 3],
+    "vysvetlenie": "Stabilný systém môže byť IIR, kauzalita nezaručuje stabilitu a IIR môže byť lineárny. Tretie tvrdenie je správne.",
+    "slideRef": "CZS_3_03.pdf slides 18, 23, 26",
+    "subtema": "CZS 3: Integrované pasce"
+  },
+  {
+    "id": "czs3-060",
+    "tema": "CZS 3: Súhrn",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktoré tvrdenia sú správne pre komplexné pochopenie LTI systémov?",
+    "moznosti": [
+      "Konvolúcia vyjadruje výstup LTI systému z vstupu a impulznej charakteristiky.",
+      "Kauzalita LTI systému sa dá určiť z toho, či h[n] má nenulové hodnoty pre n < 0.",
+      "BIBO stabilita LTI systému sa dá určiť z absolútnej sumovateľnosti h[n].",
+      "FIR/IIR rozlíšenie závisí od dĺžky vstupného signálu, nie od impulznej charakteristiky."
+    ],
+    "spravne": [0, 1, 2],
+    "vysvetlenie": "FIR/IIR rozlišuje impulzná odozva systému. Vstup môže byť konečný alebo nekonečný nezávisle od typu systému.",
+    "slideRef": "CZS_3_03.pdf",
+    "subtema": "CZS 3: Integrované pasce"
   }
 ];

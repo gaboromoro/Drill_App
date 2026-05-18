@@ -37,6 +37,7 @@ CZS obsahuje otázky podľa prezentácií:
 
 - `CZS_1_03`: základný blok číslicového spracovania, diskrétny signál, vzorkovanie, aliasing, kvantovanie, jednotkový impulz, jednotkový skok a základné operácie so signálom
 - `CZS_2_03`: korelácia, autokorelácia, popis diskrétnych systémov, akumulátor, počiatočné podmienky, rekurzia, blokové diagramy, linearita, časová invariantnosť, kauzalita a stabilita
+- `CZS_3_03`: LTI systém, impulzná charakteristika, diskrétna konvolúcia, spájanie LTI systémov, kauzalita a stabilita LTI, FIR/IIR systémy a stavový popis
 
 V nastaveniach sa dá vybrať predmet, prezentácia aj konkrétne podokruhy. Z vybraných otázok sa test vždy náhodne zamieša.
 
