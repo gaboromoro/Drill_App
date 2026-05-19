@@ -2494,12 +2494,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Ktora jednovetova definicia VCO je najpresnejsia?",
     "moznosti": [
-      "VCO je oscilator, ktoreho frekvencia je riadena napatim.",
-      "VCO je filter, ktoreho cutoff je riadeny amplitudou vstupneho signalu.",
-      "VCO je zosilnovac, ktory meni hlasitost podla obalky.",
-      "VCO je modulacny efekt, ktory oneskoruje zvuk v case."
+      "VCO je napatim riadeny oscilator, pri ktorom riadiace napatie urcuje frekvenciu vystupneho priebehu.",
+      "VCO je napatim riadeny filter, pri ktorom riadiace napatie urcuje medznu frekvenciu prenosu.",
+      "VCO je napatim riadeny zosilnovac, pri ktorom riadiace napatie urcuje okamzitu amplitudu signalu.",
+      "VCO je nizkofrekvencny oscilator, ktory sa pouziva len ako pomaly modulacny zdroj a nie ako audio zdroj.",
+      "VCO je generator obalky, pri ktorom riadiace napatie urcuje cas Attack a Release.",
+      "VCO je oscilator, pri ktorom riadiace napatie primarne meni sirku impulzu, ale nie frekvenciu priebehu."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "VCO = voltage controlled oscillator. Kluc je riadenie frekvencie/vysky tonu napatim; filter je VCF a zosilnovac je VCA.",
     "slideRef": "HEL_01_Analogove_syntezy.pdf; HEL_02_Analogove_syntezatory.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2513,12 +2516,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Ktora definicia VCF je spravna?",
     "moznosti": [
-      "VCF je napatim riadeny filter, ktory meni spektrum signalu.",
-      "VCF je napatim riadeny oscilator, ktory urcuje zakladnu frekvenciu tonu.",
-      "VCF je obalka, ktora sama vytvara audio priebeh.",
-      "VCF je kruhovy modulator, ktory vzdy potlaca nosnu zlozku."
+      "VCF je napatim riadeny filter, ktory meni prenos spektra cez cutoff, rezonanciu alebo typ filtra.",
+      "VCF je napatim riadeny oscilator, ktory meni vysku tonu cez zakladnu frekvenciu priebehu.",
+      "VCF je napatim riadeny zosilnovac, ktory meni celkovu amplitudu bez zmeny pomerov harmonickych.",
+      "VCF je riadiaca obalka, ktora v case vytvara napatie pre VCA alebo VCO.",
+      "VCF je modulacny nasobic, ktory zo vstupnych frekvencii vytvara sucet a rozdiel.",
+      "VCF je filter, ktory meni vysku vsetkych harmonickych tak, ako keby sa preladil VCO."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "VCF = voltage controlled filter. Meni farbu zvuku cez cutoff, rezonanciu alebo typ filtra; VCO generuje ton.",
     "slideRef": "HEL_01_Analogove_syntezy.pdf; HEL_02_Analogove_syntezatory.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2532,12 +2538,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Co je VCA?",
     "moznosti": [
-      "Napatim riadeny zosilnovac, ktory meni amplitudu alebo hlasitost signalu.",
-      "Napatim riadeny filter, ktory urcuje medznu frekvenciu.",
-      "Generator sumu s presne ladenou zakladnou frekvenciou.",
-      "Digitalny protokol na prenos udalosti Note On a Note Off."
+      "VCA je napatim riadeny zosilnovac, ktory meni okamzitu amplitudu alebo hlasitost signalu.",
+      "VCA je napatim riadeny filter, ktory meni medznu frekvenciu a spektralnu farbu signalu.",
+      "VCA je napatim riadeny oscilator, ktory meni zakladnu frekvenciu vystupneho priebehu.",
+      "VCA je napatim riadeny tvarovac, ktory meni prevodnu charakteristiku y = f(x).",
+      "VCA je generator obalky, ktory vytvara Attack, Decay, Sustain a Release bez audio vstupu.",
+      "VCA je amplitudovy modulator, pri ktorom sa nosna vzdy potlaci ako pri kruhovej modulacii."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "VCA = voltage controlled amplifier. Typicky ho riadi obalka, aby ton mal nabeh, drzanie a dobeh hlasitosti.",
     "slideRef": "HEL_02_Analogove_syntezatory.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2551,12 +2560,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Ktora definicia PWM je najlepsia?",
     "moznosti": [
-      "PWM je modulacia sirky impulzu alebo striedy periodickeho priebehu.",
-      "PWM je modulacia okamzitej frekvencie nosnej sinusovym modulatorom.",
-      "PWM je nasobenie dvoch signalov s potlacenou nosnou.",
-      "PWM je filtracia, ktora posuva vsetky harmonicke na novu frekvenciu."
+      "PWM je modulacia sirky impulzu alebo striedy periodickeho priebehu pri zachovani jeho periodicity.",
+      "PWM je modulacia okamzitej frekvencie nosneho priebehu podla modulacneho signalu.",
+      "PWM je modulacia amplitudy nosnej tak, ze v spektre zostava vyrazna nosna zlozka.",
+      "PWM je nasobenie dvoch audio signalov, pri ktorom idealne mizne povodna nosna.",
+      "PWM je modulacia cutoff frekvencie filtra pri nemennej striede impulzneho priebehu.",
+      "PWM je scitanie harmonickych zloziek s vlastnymi amplitudovymi obalkami."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "PWM = pulse width modulation. Nemenim priamo frekvenciu ako pri FM, ale sirku impulzu v ramci periody, cim sa meni spektrum.",
     "slideRef": "HEL_01_Analogove_syntezy.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2570,12 +2582,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Co je waveshaping?",
     "moznosti": [
-      "Nelinearne tvarovanie signalu pomocou prevodnej charakteristiky y = f(x).",
-      "Linearne oneskorenie signalu bez zmeny jeho spektra.",
-      "Zmena cutoff frekvencie dolnopriepustneho filtra.",
-      "Scitanie viacerych sinusovych zloziek do vysledneho tonu."
+      "Waveshaping je nelinearne tvarovanie amplitudy signalu pomocou prevodnej charakteristiky y = f(x).",
+      "Waveshaping je linearne tvarovanie spektra pomocou cutoff frekvencie a rezonancie filtra.",
+      "Waveshaping je frekvencna modulacia, pri ktorej modulator meni okamzitu frekvenciu nosnej.",
+      "Waveshaping je amplitudova modulacia, pri ktorej modulator meni len hlasitost nosnej.",
+      "Waveshaping je scitanie parcialov, kde kazda zlozka ma vlastnu frekvenciu a obalku.",
+      "Waveshaping je zmena sirky impulzu, pri ktorej sa nemeni prevodna charakteristika amplitudy."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "Waveshaping je nelinearny prevod amplitudy. Preto moze vytvarat nove harmonicke; scitanie zloziek je aditivna synteza.",
     "slideRef": "HEL_01_Analogove_syntezy.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2589,12 +2604,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Ktora definicia AM je spravna?",
     "moznosti": [
-      "AM meni amplitudu nosnej podla modulacneho signalu.",
-      "AM meni okamzitu frekvenciu nosnej podla modulacneho signalu.",
-      "AM meni sirku impulzu pri zachovani amplitudy.",
-      "AM je filter, ktory potlaca vsetky zlozky nad cutoff frekvenciou."
+      "AM je modulacia amplitudy nosnej podla modulacneho signalu, pricom nosna zlozka typicky ostava pritomna.",
+      "AM je modulacia okamzitej frekvencie nosnej podla modulacneho signalu, pricom amplituda ostava idealne konstantna.",
+      "AM je modulacia sirky impulzu podla modulacneho signalu, pricom zakladna perioda zostava zachovana.",
+      "AM je nasobenie dvoch signalov bez jednosmernej zlozky, pri ktorom sa nosna idealne potlaci.",
+      "AM je modulacia cutoff frekvencie filtra podla obalky alebo LFO.",
+      "AM je scitanie harmonickych zloziek s meniacimi sa amplitudami parcialov."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "AM = amplitude modulation. Pomalym modulatorom vznikne tremolo, audio-rate modulacia vytvara bocne pasma okolo nosnej.",
     "slideRef": "HEL_01_Analogove_syntezy.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2608,12 +2626,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Co najpresnejsie vystihuje RM?",
     "moznosti": [
-      "RM je nasobenie dvoch signalov, pri ktorom sa v idealnom pripade potlaca nosna.",
-      "RM je modulacia sirky impulzu obdlznikoveho priebehu.",
-      "RM je zmena cutoff frekvencie filtra podla klaviatury.",
-      "RM je pomala zmena hlasitosti bez vytvarania novych spektralnych zloziek."
+      "RM je nasobenie dvoch signalov, pri ktorom sa v idealnom pripade potlaca povodna nosna zlozka.",
+      "RM je amplitudova modulacia s jednosmernou zlozkou, pri ktorej nosna typicky ostava pritomna.",
+      "RM je frekvencna modulacia, pri ktorej modulator meni okamzitu frekvenciu nosnej.",
+      "RM je modulacia sirky impulzu, pri ktorej sa meni strieda obdlznikoveho priebehu.",
+      "RM je rezonancna filtracia, pri ktorej sa zdorazni oblast okolo cutoff frekvencie.",
+      "RM je scitanie neharmonickych parcialov bez nasobenia casovych priebehov."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "RM = ring modulation. Dva sinusy daju hlavne sucet a rozdiel frekvencii; nosna sa na rozdiel od klasickej AM idealne potlaca.",
     "slideRef": "HEL_01_Analogove_syntezy.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2627,12 +2648,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Ktora definicia FM je spravna?",
     "moznosti": [
-      "FM meni okamzitu frekvenciu nosnej podla modulacneho signalu.",
-      "FM meni iba amplitudu nosnej a frekvencia zostava nemodulovana.",
-      "FM je scitanie viacerych harmonickych zloziek.",
-      "FM je filtracia bohateho spektra dolnou priepustou."
+      "FM je modulacia okamzitej frekvencie nosnej podla modulacneho signalu.",
+      "FM je modulacia amplitudy nosnej podla modulacneho signalu pri nemennej frekvencii nosnej.",
+      "FM je modulacia sirky impulzu periodickeho priebehu pri nemennej okamzitej frekvencii nosnej.",
+      "FM je nasobenie nosnej a modulatora, pri ktorom sa idealne potlaca nosna zlozka.",
+      "FM je modulacia cutoff frekvencie filtra, pri ktorej sa frekvencia oscilatora nemeni.",
+      "FM je scitanie viacerych harmonickych parcialov bez modulacie nosneho oscilatora."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "FM = frequency modulation. Nizka modulacna frekvencia znie ako vibrato, audio-rate FM vytvara bocne pasma a zlozite spektrum.",
     "slideRef": "HEL_01_Analogove_syntezy.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2646,12 +2670,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Co je cutoff pri filtri?",
     "moznosti": [
-      "Frekvencia alebo oblast, od ktorej filter zacina vyrazne menit prenos spektra.",
-      "Frekvencia VCO, ktora priamo urcuje zakladnu vysku tonu.",
-      "Rychlost nabehu obalky Attack.",
-      "Pomer sirky impulzu k celej periode pri PWM."
+      "Cutoff je medzna alebo prechodova frekvencia filtra, od ktorej sa vyrazne meni prenos spektra.",
+      "Cutoff je zakladna frekvencia oscilatora, od ktorej sa odvija vyska hranej noty.",
+      "Cutoff je frekvencia LFO, ktorou sa periodicky moduluje iny parameter syntetizatora.",
+      "Cutoff je pomer sirky impulzu k celej periode pri impulznom priebehu.",
+      "Cutoff je cas nabehu obalky, pocas ktoreho amplituda stupne na maximum.",
+      "Cutoff je index modulacie, ktory pri FM urcuje pocet bocnych pasiem."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "Cutoff patri k filtru, nie k VCO ani ADSR. Pri dolnej priepusti urcuje, odkial sa vyssie zlozky potlacaju.",
     "slideRef": "HEL_01_Analogove_syntezy.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2665,12 +2692,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Co znamena rezonancia filtra?",
     "moznosti": [
-      "Zdoraznenie okolia cutoff alebo stredovej frekvencie filtra.",
-      "Automaticke zdvojnasobenie zakladnej frekvencie VCO.",
-      "Potlacenie vsetkych zloziek okrem jednosmernej zlozky.",
-      "Zmena sirky impulzu bez zmeny spektra."
+      "Rezonancia filtra je zdoraznenie okolia cutoff alebo stredovej frekvencie filtra.",
+      "Rezonancia filtra je preladenie zakladnej frekvencie VCO na najblizsiu harmonicku.",
+      "Rezonancia filtra je rovnomerne zosilnenie celeho spektra bez zmeny jeho tvaru.",
+      "Rezonancia filtra je potlacenie nosnej zlozky pri nasobeni dvoch signalov.",
+      "Rezonancia filtra je zmena striedy impulzneho priebehu pri nemennom cutoff.",
+      "Rezonancia filtra je rychlost nabehu obalky pri otvoreni VCA."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "Rezonancia zvysuje prenos v okoli vybranej frekvencie. Pri velkej hodnote moze filter prejst az do samooscilacie.",
     "slideRef": "HEL_01_Analogove_syntezy.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2684,12 +2714,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Co je LFO?",
     "moznosti": [
-      "Nizkofrekvencny oscilator pouzivany hlavne ako zdroj modulacie.",
-      "Hlavny audio oscilator, ktory vzdy urcuje vysku hranej noty.",
-      "Filter, ktory meni spektrum podla cutoff frekvencie.",
-      "MIDI sprava na zmenu programu syntetizatora."
+      "LFO je nizkofrekvencny oscilator pouzivany hlavne ako periodicky modulacny zdroj.",
+      "LFO je audiofrekvencny oscilator pouzivany hlavne ako zakladny zdroj vysky hranej noty.",
+      "LFO je napatim riadeny filter pouzivany hlavne na tvarovanie spektra cez cutoff.",
+      "LFO je generator obalky pouzivany hlavne na jednorazovy nabeh a dobeh parametra.",
+      "LFO je napatim riadeny zosilnovac pouzivany hlavne na zmenu amplitudy audio signalu.",
+      "LFO je kruhovy modulator pouzivany hlavne na vytvorenie suctovej a rozdielovej zlozky."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "LFO = low frequency oscillator. Zvycajne je prilis pomaly na priamy audio ton a pouziva sa na vibrato, tremolo, PWM alebo filter sweep.",
     "slideRef": "HEL_02_Analogove_syntezatory.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2703,12 +2736,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Co je obalka EG v syntetizatore?",
     "moznosti": [
-      "Casovy priebeh riadiaceho signalu, ktory moze ovladat napr. VCA alebo VCF.",
-      "Audio oscilator s pevnou frekvenciou a bohatym spektrom.",
-      "Filter, ktory vzdy potlaca nizke frekvencie.",
-      "Kruhovy modulator vytvarajuci sucet a rozdiel frekvencii."
+      "EG je casovy priebeh riadiaceho signalu, ktory moze ovladat napriklad VCA alebo VCF.",
+      "EG je periodicky nizkofrekvencny oscilator, ktory sa opakuje pocas celeho drzania tonu.",
+      "EG je audiofrekvencny oscilator, ktory generuje zakladnu frekvenciu hranej noty.",
+      "EG je napatim riadeny filter, ktory meni spektrum podla cutoff frekvencie.",
+      "EG je napatim riadeny zosilnovac, ktory priamo zosilnuje audio signal.",
+      "EG je modulator sirky impulzu, ktory meni striedu kazdej periody."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "EG = envelope generator. Nie je to audio zdroj; je to riadiaci priebeh, ktory meni parameter v case.",
     "slideRef": "HEL_02_Analogove_syntezatory.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2722,12 +2758,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Co je keyboard tracking?",
     "moznosti": [
-      "Riadenie parametra, typicky cutoff filtra, podla vysky hranej noty.",
-      "Riadenie parametra iba podla sily uderu velocity.",
-      "Spustenie kratkeho impulzu pri stlaceni klavesu.",
-      "Seriovy digitalny prenos MIDI sprav medzi nastrojmi."
+      "Keyboard tracking je riadenie parametra, typicky cutoff filtra, podla vysky hranej noty.",
+      "Keyboard tracking je riadenie parametra podla sily uderu, teda podla velocity a nie podla vysky noty.",
+      "Keyboard tracking je riadenie parametra kratkym trigger impulzom pri stlaceni klavesu.",
+      "Keyboard tracking je riadenie amplitudy gate signalom pocas drzania klavesu.",
+      "Keyboard tracking je riadenie frekvencie LFO podla tempa sekvencera.",
+      "Keyboard tracking je riadenie sirky impulzu vzdy rovnakou hodnotou pre celu klaviaturu."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "Keyboard tracking sleduje polohu/vysku klavesu. Nie je to velocity, Gate ani MIDI komunikacia.",
     "slideRef": "HEL_02_Analogove_syntezatory.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2741,12 +2780,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Ktore rozlisenie Gate a Trigger je spravne?",
     "moznosti": [
-      "Gate trva pocas drzania klavesu, Trigger je kratky impulz udalosti.",
-      "Gate urcuje vysku tonu a Trigger meni cutoff filtra podla klaviatury.",
-      "Gate je audio filter a Trigger je typ oscilatora.",
-      "Gate aj Trigger su vzdy digitalne MIDI spravy Note On."
+      "Gate je stavovy signal pocas drzania klavesu, Trigger je kratky impulz pri udalosti.",
+      "Gate je kratky impulz pri udalosti, Trigger je stavovy signal pocas drzania klavesu.",
+      "Gate je riadiace napatie pre vysku tonu, Trigger je riadiace napatie pre cutoff filtra.",
+      "Gate je amplitudova obalka ADSR, Trigger je nizkofrekvencny periodicky oscilator.",
+      "Gate je modulator sirky impulzu, Trigger je frekvencny modulator nosnej.",
+      "Gate je vystup audio oscilatora, Trigger je vystup audio filtra."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "Gate = stav drzim/nedrzim, Trigger = okamih stlacenia alebo spustenia. Casto sa pletu, ale riesia inu informaciu.",
     "slideRef": "HEL_02_Analogove_syntezatory.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2760,12 +2802,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Ktora definicia subtraktivnej syntezy je najpresnejsia?",
     "moznosti": [
-      "Zacina spektralne bohatym signalom a filtrom alebo modifikatorom odobera cast spektra.",
-      "Sklada zvuk scitanim samostatnych parcialov s vlastnymi obalkami.",
-      "Meni okamzitu frekvenciu nosnej pomocou modulacneho signalu.",
-      "Nasobi dva signaly tak, aby sa idealne potlacila nosna."
+      "Subtraktivna synteza zacina spektralne bohatym signalom a filtrom alebo modifikatorom ubera cast spektra.",
+      "Subtraktivna synteza zacina sadou parcialov a vysledok sklada ich scitanim s vlastnymi obalkami.",
+      "Subtraktivna synteza zacina nosnou a modulatorom, ktory meni okamzitu frekvenciu nosnej.",
+      "Subtraktivna synteza zacina dvoma signalmi, ktore sa nasobia a vytvaraju suctove a rozdielove zlozky.",
+      "Subtraktivna synteza zacina impulznym priebehom a meni najma jeho striedu v ramci periody.",
+      "Subtraktivna synteza zacina nelinearnym tvarovacom y = f(x), ktory vytvara nove harmonicke."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "Subtraktivna synteza = bohaty zdroj plus filtracia. Scitanie parcialov je aditivna, zmena frekvencie je FM, nasobenie je RM.",
     "slideRef": "HEL_01_Analogove_syntezy.pdf",
     "prezentacia": "HEL Skuska 1",
@@ -2779,12 +2824,15 @@ const helSkuskaZakladnePojmyOtazky = [
     "uroven": "tazka",
     "otazka": "Ktora definicia aditivnej syntezy je najpresnejsia?",
     "moznosti": [
-      "Vytvara zvuk scitanim viacerych zloziek, casto sinusov alebo parcialov.",
-      "Vytvara zvuk iba potlacanim vysokych frekvencii dolnou priepustou.",
-      "Vytvara zvuk zmenou sirky impulzu v ramci jednej periody.",
-      "Vytvara zvuk nasobenim dvoch audio signalov s potlacenou nosnou."
+      "Aditivna synteza vytvara zvuk scitanim viacerych zloziek, casto sinusov alebo parcialov.",
+      "Aditivna synteza vytvara zvuk filtrovanim spektralne bohateho zdroja cez VCF.",
+      "Aditivna synteza vytvara zvuk modulaciou okamzitej frekvencie nosnej modulatorom.",
+      "Aditivna synteza vytvara zvuk nasobenim dvoch signalov s potlacenou nosnou zlozkou.",
+      "Aditivna synteza vytvara zvuk zmenou striedy impulzneho priebehu.",
+      "Aditivna synteza vytvara zvuk nelinearnym prevodom amplitudy cez charakteristiku y = f(x)."
     ],
     "spravne": [0],
+    "pocetZobrazenychMoznosti": 4,
     "vysvetlenie": "Aditivna = skladam zlozky. Je to zaklad pre harmonicku, zlozkovu aj resyntezu; nie je to filtracia ani RM.",
     "slideRef": "HEL_01_Analogove_syntezy.pdf",
     "prezentacia": "HEL Skuska 1",
