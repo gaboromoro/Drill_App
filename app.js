@@ -2,9 +2,9 @@ let poradieOtazok = [];
 let aktualnyIndex = 0;
 let skore = 0;
 let vyhodnotene = false;
-let aktualnyPredmet = "czs";
-let zakladneOtazkyPredmetu = czsOtazky;
-let aktualneOtazky = czsOtazky;
+let aktualnyPredmet = "test";
+let zakladneOtazkyPredmetu = [];
+let aktualneOtazky = [];
 let aktualneMoznosti = [];
 let stavStlpca = 0;
 let seriaSpravnych = 0;
@@ -71,8 +71,8 @@ const posuvnikHlasitosti = document.getElementById("posuvnikHlasitosti");
 const klavesyMoznosti = ["1", "2", "3", "4", "5", "6"];
 const pocetStlpcovPixelov = 24;
 const pocetRiadkovPixelov = 4;
-const minimalnyCasPixelu = 1000;
-const maximalnyCasPixelu = 5000;
+const minimalnyCasPixelu = 500;
+const maximalnyCasPixelu = 2500;
 const skusobneOtazky = Array.from({ length: 20 }, (_, index) => vytvorSkusobnuOtazku(index + 1));
 let casovacPixelovStlpca = null;
 let poradieKodovychUloh = [];
@@ -113,18 +113,18 @@ function vytvorSkusobnuOtazku(cislo) {
 
 function pravdepodobnostPixelu(riadokOdHladiny) {
   if (riadokOdHladiny === 0) {
-    return 0.7;
+    return 0.88;
   }
 
   if (riadokOdHladiny === 1) {
-    return 0.42;
+    return 0.56;
   }
 
   if (riadokOdHladiny === 2) {
-    return 0.22;
+    return 0.28;
   }
 
-  return 0.08;
+  return 0.1;
 }
 
 function nastavDalsiuZmenuPixelu(pixel, teraz) {
@@ -161,7 +161,7 @@ function spustiPixelyStlpca() {
     return;
   }
 
-  casovacPixelovStlpca = window.setInterval(prepocitajPixelyStlpca, 300);
+  casovacPixelovStlpca = window.setInterval(prepocitajPixelyStlpca, 150);
 }
 
 function vytvorPixelyStlpca() {
@@ -1139,5 +1139,5 @@ document.addEventListener("keydown", obsluzKlavesnicu);
 vytvorPixelyStlpca();
 nastavHlasitost(posuvnikHlasitosti.value);
 nastavTemu("oranzova");
-nastavPredmet("czs");
+nastavPredmet("test");
 nastavKodovePoradie();

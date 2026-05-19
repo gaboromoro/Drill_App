@@ -21,7 +21,7 @@ body {
 
 body.tema-zlta {
   --pozadie: #fed811;
-  --filter-klaves: hue-rotate(38deg) saturate(1.35) brightness(1.08);
+  --filter-klaves: none;
 }
 
 .stlpec-panel {
@@ -683,6 +683,10 @@ h3 {
   pointer-events: none;
 }
 
+body.tema-zlta .obrazokKlavesy {
+  content: url("assets/keycap_lines_zlta.svg");
+}
+
 .cisloKlavesy {
   display: flex;
   align-items: center;
@@ -706,6 +710,10 @@ h3 {
 
 .moznost input:checked + .klavesa .obrazokKlavesy {
   content: url("assets/keycap_lines_selected.svg");
+}
+
+body.tema-zlta .moznost input:checked + .klavesa .obrazokKlavesy {
+  content: url("assets/keycap_lines_selected_zlta.svg");
 }
 
 .moznost.spravna .klavesa {
@@ -803,6 +811,10 @@ h3 {
   filter: var(--filter-klaves);
   object-fit: fill;
   pointer-events: none;
+}
+
+body.tema-zlta .obrazok-medzernika {
+  content: url("assets/spacebar_lines_zlta.svg");
 }
 
 button {
