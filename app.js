@@ -701,6 +701,52 @@ function vykresliMoznosti(otazka, moznosti, vybrane = [], ukazVyhodnotenie = fal
   aktualizujVybraneMoznosti();
 }
 
+function pocetZobrazenychMoznosti(otazka) {
+  const nastavene = Number(otazka.pocetZobrazenychMoznosti);
+  if (Number.isInteger(nastavene) && nastavene > 0) {
+    return Math.min(nastavene, otazka.moznosti.length);
+  }
+
+  return otazka.moznosti.length >= 7 ? 5 : otazka.moznosti.length;
+}
+
+function vyberMoznostiOtazky(otazka) {
+  const moznosti = otazka.moznosti.map((text, povodnyIndex) => ({
+    text,
+    povodnyIndex
+  }));
+  const pocet = pocetZobrazenychMoznosti(otazka);
+
+  if (pocet >= moznosti.length) {
+    return zamiesaj(moznosti);
+  }
+
+  const spravne = zamiesaj(moznosti.filter((moznost) => otazka.spravne.includes(moznost.povodnyIndex)));
+  const chytaky = zamiesaj(moznosti.filter((moznost) => !otazka.spravne.includes(moznost.povodnyIndex)));
+  const vybrane = [];
+
+  if (spravne.length > 0) {
+    vybrane.push(spravne.shift());
+  }
+
+  if (chytaky.length > 0 && vybrane.length < pocet) {
+    vybrane.push(chytaky.shift());
+  }
+
+  const maximalnyPocetChytakov = Math.min(chytaky.length, Math.max(0, pocet - 2));
+  const dalsieChytaky = maximalnyPocetChytakov > 0 ? nahodneCeleCislo(0, maximalnyPocetChytakov) : 0;
+  for (let i = 0; i < dalsieChytaky && vybrane.length < pocet; i++) {
+    vybrane.push(chytaky.shift());
+  }
+
+  const zvysne = zamiesaj([...spravne, ...chytaky]);
+  while (vybrane.length < pocet && zvysne.length > 0) {
+    vybrane.push(zvysne.shift());
+  }
+
+  return zamiesaj(vybrane);
+}
+
 function zobrazOtazku() {
   zrusCasovacDalsejOtazky();
   const otazka = aktualnaOtazka();
@@ -726,10 +772,7 @@ function zobrazOtazku() {
 
   nastavMediaOtazky(otazka);
 
-  aktualneMoznosti = zamiesaj(otazka.moznosti.map((text, povodnyIndex) => ({
-    text,
-    povodnyIndex
-  })));
+  aktualneMoznosti = vyberMoznostiOtazky(otazka);
 
   vykresliMoznosti(otazka, aktualneMoznosti);
 }
@@ -849,6 +892,12 @@ function textSpravnychOdpovedi(otazka, moznosti = aktualneMoznosti) {
     .join(" | ");
 }
 
+function spravneZobrazeneIndexy(otazka, moznosti = aktualneMoznosti) {
+  return moznosti
+    .filter((moznost) => otazka.spravne.includes(moznost.povodnyIndex))
+    .map((moznost) => moznost.povodnyIndex);
+}
+
 function skontrolujOdpoved() {
   if (vyhodnotene || zobrazujePredoslyVysledok) {
     return;
@@ -865,7 +914,7 @@ function skontrolujOdpoved() {
 
   vyhodnotene = true;
 
-  const jeSpravne = rovnakePolia(vybrane, otazka.spravne);
+  const jeSpravne = rovnakePolia(vybrane, spravneZobrazeneIndexy(otazka));
   ulozPredoslyVysledok(otazka, vybrane, jeSpravne);
 
   if (jeSpravne) {

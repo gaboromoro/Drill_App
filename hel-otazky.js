@@ -1880,7 +1880,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Ak sa amplitudy zloziek menia v case, meni sa aj casovy vyvoj farby zvuku.",
       "Kazda zlozka moze mat vlastnu amplitudovu obalku, preto vie aditivna synteza napodobnit dynamicke spektrum realneho nastroja.",
       "Resynteza znamena analyzovat realny zvuk a nasledne ho znovu poskladat zo zloziek.",
-      "Principom aditivnej syntezy je vyrobit bohate spektrum a potom z neho odoberat harmonicke filtrom."
+      "Principom aditivnej syntezy je vyrobit bohate spektrum a potom z neho odoberat harmonicke filtrom.",
+      "Ak su amplitudy parcialov raz nastavene, obalky jednotlivych zloziek uz nemozu menit farbu tonu v case."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: aditivna = skladam zlozky. Dolezite su frekvencie, amplitudy a ich zmena v case. Posledna moznost je subtraktivna logika: najprv bohate spektrum, potom filter.",
@@ -1901,7 +1902,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Zlozkova alebo parcialna synteza moze pracovat aj s neharmonickymi parcialmi.",
       "Neharmonicke parcialy su dolezite napriklad pri kovovych, zvonovych alebo perkusivnych zvukoch.",
       "Ak zlozky nie su celistve nasobky zakladnej frekvencie, stale moze ist o aditivnu syntezu, ale nie cisto harmonicku.",
-      "Ak sa v zlozkovej synteze objavi neharmonicky parcial, uz nejde o aditivny princip, ale automaticky o FM."
+      "Ak sa v zlozkovej synteze objavi neharmonicky parcial, uz nejde o aditivny princip, ale automaticky o FM.",
+      "Ak su vsetky zlozky harmonicke, ich amplitudy musia klesat presne podla rady 1/n."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: harmonicka = parcialy su 1f0, 2f0, 3f0... Zlozkova/parcialna je vseobecnejsia a moze byt aj neharmonicka. Chytak je zamienat aditivnu syntezu za iba harmonicku syntezu.",
@@ -1922,7 +1924,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Potom sa zvuk znovu vytvori pomocou syntetickych zloziek.",
       "Presnost resyntezy zavisi od toho, ako dobre zachytim casovy vyvoj parcialov.",
       "Pri resynteze staci zachovat priemerne amplitudy parcialov; casovy vyvoj frekvencii a amplitud je nepodstatny.",
-      "Ak analyza najde dost parcialov, vysledok sa da znovu poskladat bez akejkolvek chyby aj pri silnom sume a nestabilnom spektre."
+      "Ak analyza najde dost parcialov, vysledok sa da znovu poskladat bez akejkolvek chyby aj pri silnom sume a nestabilnom spektre.",
+      "Fazove vztahy parcialov sa pri resynteze daju vzdy ignorovat bez vplyvu na casovy priebeh zvuku."
     ],
     "spravne": [0, 1, 2, 3],
     "vysvetlenie": "Zapamataj si: resynteza = analyza -> parametre zloziek -> opatovne poskladanie. Pasce: nestaci priemerne spektrum bez casu a analyza nikdy automaticky negarantuje dokonalu rekonstrukciu.",
@@ -1943,7 +1946,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Dolezita je zmena pomerov v case, teda pohyb farby medzi zdrojmi.",
       "Zdrojmi mozu byt napriklad priebehy, vzorky alebo synteticke zvuky.",
       "Ak su zdroje vektorovej syntezy sinusy, vysledok musi mat vzdy iba staticke harmonicke nasobky f0 bez pohybu farby.",
-      "Pri vektorovej synteze nie je podstatna vyska tonu, ale mapovanie a miesanie farieb."
+      "Pri vektorovej synteze nie je podstatna vyska tonu, ale mapovanie a miesanie farieb.",
+      "Poloha medzi zdrojmi vo vektorovej synteze musi vzdy menit iba vysku tonu, nie pomer amplitud zdrojov."
     ],
     "spravne": [0, 1, 2, 3, 5],
     "vysvetlenie": "Zapamataj si: vektorova = miesam viac zdrojov podla polohy alebo drahy. Nie je to automaticky FM; jej hlavny princip je crossfade/morphing medzi zdrojmi.",
@@ -1964,7 +1968,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Obdlznik so striedou 50 % obsahuje najma neparne harmonicke.",
       "Trojuholnikovy priebeh obsahuje neparne harmonicke, ktore klesaju rychlejsie ako pri obdlzniku.",
       "Impulzny priebeh s meniacou sa striedou ma spektrum zavisle od sirky impulzu.",
-      "Pilovy, obdlznikovy a trojuholnikovy priebeh maju pri rovnakej zakladnej frekvencii zhodne amplitudove spektrum; lisia sa iba fazou."
+      "Pilovy, obdlznikovy a trojuholnikovy priebeh maju pri rovnakej zakladnej frekvencii zhodne amplitudove spektrum; lisia sa iba fazou.",
+      "Trojuholnikovy priebeh ma rovnake harmonicke amplitudy ako obdlznikovy, iba su vsetky harmonicke rovnako zoslabene."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: sinus = jedna zlozka, pila = vsetky harmonicke, square 50 % = neparne, triangle = neparne ale rychlejsie klesajuce, pulse = spektrum zavisi od striedy. Rozne priebehy nemaju rovnake amplitudove spektra.",
@@ -1985,7 +1990,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Zmena striedy meni spektralne rozlozenie harmonickych.",
       "Velmi uzky impulz ma velmi bohate spektrum.",
       "Modulacia striedy je princip PWM.",
-      "Pri zmene striedy sa meni hlavne faza harmonickych, ale amplitudove spektrum zostava rovnake ako pri 50 % obdlzniku."
+      "Pri zmene striedy sa meni hlavne faza harmonickych, ale amplitudove spektrum zostava rovnake ako pri 50 % obdlzniku.",
+      "Pri PWM sa meni iba jednosmerna zlozka impulzneho priebehu; pomery harmonickych zostavaju nezmenene."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: duty/strieda je kluc k PWM aj k farbe impulzneho priebehu. Chytak je mysliet si, ze menim len hlasitost; v skutocnosti menim spektrum.",
@@ -2006,7 +2012,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Pre stabilne kmitanie musi byt splnena fazova a amplitudova podmienka v slucke.",
       "Energia kmitania pochadza z napajania, nie z nicoho.",
       "Amplituda sa v praxi stabilizuje nelinearitou alebo regulaciou zisku.",
-      "Ak je sluckovy zisk na zvolenej frekvencii vacsi ako 1, amplituda zostane automaticky stabilna aj bez nelinearity alebo regulacie."
+      "Ak je sluckovy zisk na zvolenej frekvencii vacsi ako 1, amplituda zostane automaticky stabilna aj bez nelinearity alebo regulacie.",
+      "Fazova podmienka oscilatora je dolezita iba pri LC oscilatoroch; RC oscilatory kmitaju bez urceneho fazoveho posunu."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: oscilator = aktivny obvod so spatnou vazbou. Musi mat spravnu fazu, dostatocny zisk a stabilizaciu amplitudy. Pasivny stratovy obvod bez napajania by dokmitaval, nie trvalo generoval.",
@@ -2027,7 +2034,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Komparator alebo Schmittov klopny obvod moze preklapat smer nabijania integratora.",
       "Z trojuholnikoveho priebehu sa da nelinearnym tvarovanim ziskat sinusovo podobny priebeh.",
       "Ak komparator preklapa prahy integratora, meni sa iba amplituda vystupu; frekvencia nemoze zavisiet od prudu nabijania.",
-      "Frekvencia funkcneho generatora suvisi s rychlostou nabijania/vybijania a prahmi preklapania."
+      "Frekvencia funkcneho generatora suvisi s rychlostou nabijania/vybijania a prahmi preklapania.",
+      "Zmena prahov komparatora ovplyvni iba amplitudu trojuholnika; perioda nabijania integratora sa tym nemoze zmenit."
     ],
     "spravne": [0, 1, 2, 3, 5],
     "vysvetlenie": "Zapamataj si: funkcny generator casto robi trojuholnik cez integrator a obdlznik cez komparator. Frekvencia zavisi od nabijacieho/vybijacieho prudu a prahov, sinus sa moze ziskat tvarovacom.",
@@ -2048,7 +2056,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Aktivna cast doplna straty a udrziava kmitanie.",
       "Nelinearita alebo regulacia zabrania nekonecnemu rastu amplitudy.",
       "Ak sa zmeni parameter C alebo R, moze sa zmenit frekvencia oscilatora.",
-      "Frekvencne selektivna siet v LC/RC oscilatore urcuje iba amplitudu signalu, ale nema vplyv na frekvenciu kmitania."
+      "Frekvencne selektivna siet v LC/RC oscilatore urcuje iba amplitudu signalu, ale nema vplyv na frekvenciu kmitania.",
+      "RC oscilator ma principialne vzdy stabilnejsie ladenie ako LC oscilator, pretoze odpor a kondenzator nikdy nemenia hodnotu."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: selektivna siet urci frekvenciu, aktivna cast doplni energiu, nelinearita obmedzi amplitudu. Chytak je ignorovat straty realnych suciastok.",
@@ -2069,7 +2078,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Integrator sa sprava ako dolnopriepustny prvok, teda potlaca rychle zmeny a vysoke frekvencie.",
       "Pri idealnom integratore klesa amplituda s rastucou frekvenciou.",
       "Integrator zvycajne prinasa fazovy posun suvisiaci s integraciou.",
-      "Ak integrator z obdlznika vytvara trojuholnik, znamena to, ze zvyraznil vyssie harmonicke oproti zakladnej."
+      "Ak integrator z obdlznika vytvara trojuholnik, znamena to, ze zvyraznil vyssie harmonicke oproti zakladnej.",
+      "Integrator ma rovnaky amplitudovy sklon ako derivator; rozdiel je iba v znamienku fazoveho posunu."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: integrator hladza a potlaca vysoke zlozky. V syntetizatoroch je dolezity pri tvorbe trojuholnikoveho priebehu a pri filtracnom mysleni.",
@@ -2090,7 +2100,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Diferenciaciou trojuholnikoveho priebehu moze vzniknut obdlznikovy priebeh.",
       "Diferenciaciou obdlznikoveho priebehu vznikaju impulzy na hranach.",
       "Derivator je principovo blizky hornopriepustnemu spravaniu.",
-      "Diferenciacia trojuholnika na obdlznik znamena, ze derivator je vhodny hlavne na potlacenie hran a vyhladenie signalu."
+      "Diferenciacia trojuholnika na obdlznik znamena, ze derivator je vhodny hlavne na potlacenie hran a vyhladenie signalu.",
+      "Derivator sa pri tvarovani priebehov sprava ako dolnopriepustny clanok, preto z obdlznika odstraňuje hrany."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: derivator sleduje zmeny. Preto zvyrazni hrany a vysky. Chytak je zamienat ho s integratorom, ktory naopak vyhladzuje.",
@@ -2111,7 +2122,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "VCA a obalka casto urcuju casovy priebeh hlasitosti.",
       "VCF s cutoffom a rezonanciou je typicky zaklad zmeny farby zvuku.",
       "Subtraktivna synteza je opacna k aditivnej v tom, ze zacina bohatym signalom a cast spektra ubera.",
-      "Ak subtraktivna synteza pouzije rezonancny filter, nejde uz o subtraktivnu metodu, ale automaticky o FM."
+      "Ak subtraktivna synteza pouzije rezonancny filter, nejde uz o subtraktivnu metodu, ale automaticky o FM.",
+      "Ak je zdrojom sum, subtraktivna synteza uz nemoze vytvorit tonovo vnimany alebo rezonancny zvuk."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: subtraktivna = bohaty zdroj + filter/modifikatory. Nie je to primarne odcitanie dvoch oscilatorov, ale tvarovanie spektra.",
@@ -2132,7 +2144,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Obalka moze riadit VCA alebo VCF a tym menit hlasitost alebo farbu v case.",
       "LFO moze pomaly modulovat cutoff, amplitudu, vysku alebo PWM.",
       "Rezonancia filtra zvyraznuje okolie cutoff frekvencie.",
-      "Obalka vo VCF meni len vysku tonu VCO; cutoff filtra zostava staticky, lebo filter nie je riaditelny napätim."
+      "Obalka vo VCF meni len vysku tonu VCO; cutoff filtra zostava staticky, lebo filter nie je riaditelny napätim.",
+      "VCA riadeny obalkou meni spektrum rovnakym sposobom ako VCF, pretoze kazda zmena amplitudy je vzdy filtracia."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: modifikatory su bloky, ktore menia signal alebo jeho parametre. VCF = farba, VCA = hlasitost, EG/LFO = zmena v case. Filter moze byt riadeny napätim, preto obalka vie menit cutoff.",
@@ -2153,7 +2166,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Pasmova priepust prepusta oblast okolo urcitej frekvencie.",
       "Pasmova zadrz potlaca oblast okolo urcitej frekvencie.",
       "Rezonancia zvysuje zdoraznenie okolia cutoff alebo stredovej frekvencie.",
-      "Zmena cutoff pri dolnej priepusti je ekvivalentna zmene frekvencie VCO, lebo posuva vsetky harmonicke na nove frekvencie."
+      "Zmena cutoff pri dolnej priepusti je ekvivalentna zmene frekvencie VCO, lebo posuva vsetky harmonicke na nove frekvencie.",
+      "Rezonancia dolnej priepusti znamena, ze sa cutoff vzdy posunie o oktavu vyssie, nie ze sa zdorazni oblast okolo cutoff."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si typy filtrov: LP, HP, BP, notch. Cutoff/stredova frekvencia rozhoduje, ktora cast spektra sa meni; nie je to iba celkova hlasitost.",
@@ -2174,7 +2188,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Pomaha udrzat podobne vnimanu farbu zvuku v roznych polohach klaviatury.",
       "Moze mat roznu mieru ucinku, napriklad ziadny, ciastocny alebo plny tracking.",
       "Nie je to to iste ako Gate; Gate hovori o stlaceni klavesu, tracking o vyske klavesu.",
-      "Keyboard tracking je to iste ako velocity tracking; v oboch pripadoch filter reaguje iba na silu uderu, nie na vysku noty."
+      "Keyboard tracking je to iste ako velocity tracking; v oboch pripadoch filter reaguje iba na silu uderu, nie na vysku noty.",
+      "Plny keyboard tracking znamena, ze cutoff sa musi menit presne o 1 Hz pri kazdom poltone."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: tracking = parameter sleduje klaviaturu. Najcastejsie cutoff sleduje vysku tonu. Chytak je zamenit tracking s Gate alebo Trigger.",
@@ -2195,7 +2210,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Ak sa strieda moduluje LFO, vznikne pohybliva farba casto vyuzivana pri syntetizatoroch.",
       "Pri striede 50 % ide o symetricky obdlznikovy priebeh s prevahou neparnych harmonickych.",
       "PWM nie je primarne zmena frekvencie oscilatora, ale zmena tvaru v ramci periody.",
-      "PWM s audio-rate modulaciou striedy je to iste ako klasicka FM, lebo v oboch pripadoch sa priamo moduluje okamzita frekvencia nosnej."
+      "PWM s audio-rate modulaciou striedy je to iste ako klasicka FM, lebo v oboch pripadoch sa priamo moduluje okamzita frekvencia nosnej.",
+      "Pri PWM zostava spektrum rovnake ako pri obdlzniku so striedou 50 %, ak sa nezmeni zakladna frekvencia oscilatora."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: PWM meni sirku impulzu, a tym spektrum. Nie je to RM ani cista zmena vysky. Chytaky budu casto miesat PWM s AM/RM/FM.",
@@ -2216,7 +2232,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Pri audio-rate modulacii vznikaju bocne pasma okolo nosnej frekvencie.",
       "V klasickej AM zostava v spektre aj nosna zlozka.",
       "AM moze mat v spektre zlozky suvisiace so suctom a rozdielom nosnej a modulacnej frekvencie.",
-      "Pri AM s audio-rate sinusovym modulatorom sa meni iba pomala obalka hlasitosti, ale spektrum ostava len jedna nosna frekvencia."
+      "Pri AM s audio-rate sinusovym modulatorom sa meni iba pomala obalka hlasitosti, ale spektrum ostava len jedna nosna frekvencia.",
+      "Ak modulator nema jednosmernu zlozku, klasicka AM a RM maju vzdy rovnake spektrum vratane nosnej."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: AM = menim amplitudu nosnej. Nizka frekvencia modulatora = tremolo, audio frekvencia = sidebands. Nosna pri AM zvycajne ostava.",
@@ -2237,7 +2254,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Pre dva sinusy vznikaju najma zlozky na sucte a rozdiele frekvencii.",
       "Ak pomer frekvencii nie je jednoduchy harmonicky, zvuk moze byt kovovy alebo neharmonicky.",
       "RM je blizka AM bez jednosmernej zlozky, preto sa lahko miesa s AM.",
-      "Ak do RM vstupia dva sinusy s frekvenciami fc a fm, vysledok je hlavne povodna nosna fc s malou zmenou hlasitosti."
+      "Ak do RM vstupia dva sinusy s frekvenciami fc a fm, vysledok je hlavne povodna nosna fc s malou zmenou hlasitosti.",
+      "RM s celociselnym pomerom frekvencii nemoze vytvorit harmonicky posobiace spektrum, pretoze vzdy znie len neharmonicky."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: RM = nasobenie, potlacena nosna, sum/difference produkty. Chytak je tvrdit, ze nosna urcite ostava; to je skor klasicka AM.",
@@ -2258,7 +2276,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "RM casto posobi kovovejsie, hlavne pri neharmonickych pomeroch frekvencii.",
       "AM s pomalym modulatorom sa moze vnimat ako tremolo.",
       "RM je vhodny priklad nelinearneho spracovania signalu.",
-      "Ak v spektre ostava silna nosna zlozka, ide vzdy o RM a nikdy o AM."
+      "Ak v spektre ostava silna nosna zlozka, ide vzdy o RM a nikdy o AM.",
+      "Rozdiel medzi AM a RM sa neda rozpoznat zo spektra, pretoze obe metody vzdy zachovavaju nosnu rovnako."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: AM/RM patria k modulacnym nelinearnym metodam, nie k obycajnym filtrom. Hlavny rozdiel v skratke: AM nosna ostava, RM nosnu potlaca.",
@@ -2279,7 +2298,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Pri audio-rate modulacii vznikaju bocne pasma okolo nosnej.",
       "Index modulacie ovplyvnuje sirku spektra a pocet vyraznych bocnych zloziek.",
       "Celociselny pomer nosnej a modulacnej frekvencie vedie skor k harmonickemu spektru.",
-      "FM s audio-rate modulatorom sa da posudit len ako tremolo; bocne pasma vznikaju iba pri AM alebo RM."
+      "FM s audio-rate modulatorom sa da posudit len ako tremolo; bocne pasma vznikaju iba pri AM alebo RM.",
+      "Index modulacie pri FM meni iba hlasitost nosnej zlozky, ale nikdy neovplyvni pocet vyraznych bocnych pasiem."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: FM = menim frekvenciu, nie amplitudu. Pomalá FM = vibrato, rychla FM = nove spektralne zlozky. Index modulacie je klucovy pre farbu.",
@@ -2300,7 +2320,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Neharmonicky pomer fc/fm moze vytvorit zvonove alebo kovove farby.",
       "Pri nulovom alebo velmi malom indexe modulacie zostava spektrum blizsie samotnej nosnej.",
       "FM vie vytvorit komplexne spektrum aj z dvoch jednoduchych sinusovych oscilatorov.",
-      "Pri zvyseni indexu modulacie sa pocet vyraznych bocnych pasiem znizuje, preto sa zvuk vzdy blizi cistemu sinusu."
+      "Pri zvyseni indexu modulacie sa pocet vyraznych bocnych pasiem znizuje, preto sa zvuk vzdy blizi cistemu sinusu.",
+      "Pri necelociselnom pomere fc/fm sa bocne pasma aj tak vzdy zarovnaju na harmonicke nasobky jednej zakladnej frekvencie."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: FM nema len dve bocne zlozky ako jednoduche AM/RM s dvoma sinusmi. Pri vacsom indexe vznikaju rady bocnych pasiem.",
@@ -2321,7 +2342,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "RM nasobi dva signaly a v idealnom pripade potlaca nosnu.",
       "FM meni okamzitu frekvenciu nosnej.",
       "Vsetky tieto metody mozu menit spektrum a farbu zvuku.",
-      "Ak AM, RM a FM pouziju rovnake frekvencie nosnej a modulatora, ich spektralne zlozky aj amplitudy budu rovnake; lisi sa iba nazov metody."
+      "Ak AM, RM a FM pouziju rovnake frekvencie nosnej a modulatora, ich spektralne zlozky aj amplitudy budu rovnake; lisi sa iba nazov metody.",
+      "PWM a AM su pri pomalom LFO modulatori totozne metody, lebo posluchac vnima pri oboch iba pohyb zvuku v case."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si tabulku: PWM = sirka, AM = amplituda s nosnou, RM = nasobenie s potlacenou nosnou, FM = okamzita frekvencia. Aj pri rovnakych frekvenciach nemaju tieto metody rovnake spektrum.",
@@ -2342,7 +2364,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Vysledne spektrum zavisi aj od amplitudy vstupneho signalu.",
       "Po tvarovani sa moze pouzit filter na obmedzenie alebo upravu spektra.",
       "Tvarovanie vlny je priklad nelinearnej syntetickej metody.",
-      "Ak je prevodna charakteristika nelinearna, vysledok zavisi iba od frekvencie vstupu; amplituda vstupu nema na spektrum vplyv."
+      "Ak je prevodna charakteristika nelinearna, vysledok zavisi iba od frekvencie vstupu; amplituda vstupu nema na spektrum vplyv.",
+      "Ak je vstup do waveshapera sinusovy, na vystupe nemozu vzniknut nove harmonicke, lebo vstup obsahuje iba jednu frekvenciu."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: waveshaper je nelinearna mapa vstupnej amplitudy na vystupnu amplitudu. Preto vznika nove spektrum. Linearne oneskorenie samo o sebe nove harmonicke nevytvara.",
@@ -2363,7 +2386,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Usmernovac alebo absolutna hodnota meni symetriu signalu a moze vytvarat parne harmonicke.",
       "Foldback alebo vlnove prekladanie moze pri vacsej amplitude vytvarat komplexne spektrum.",
       "Logaritmicky alebo exponencialny menic je priklad nelinearneho prevodu.",
-      "Makky a tvrdy clipping su spektralne rovnake, ak maju rovnaku maximalnu vystupnu amplitudu."
+      "Makky a tvrdy clipping su spektralne rovnake, ak maju rovnaku maximalnu vystupnu amplitudu.",
+      "Usmernenie zachovava symetriu signalu okolo nuly, preto nemoze zvysit podiel parnych harmonickych."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si priklady: clipping, saturacia, usmernenie, foldback, log/exp prevod. Spolocne maju nelinearnu charakteristiku, preto menia spektrum.",
@@ -2384,7 +2408,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Tvrdsia nelinearita zvycajne vytvara bohatsie vysoke harmonicke.",
       "Ak zmenim vstupnu amplitudu do waveshapera, mozem zmenit aj farbu vystupu.",
       "V digitalnej realizacii waveshapingu treba davat pozor na aliasing.",
-      "Symetria nelinearity ovplyvnuje len DC zlozku, ale nikdy pomer parnych a neparnych harmonickych."
+      "Symetria nelinearity ovplyvnuje len DC zlozku, ale nikdy pomer parnych a neparnych harmonickych.",
+      "Tvrdsi clipping v digitalnej realizacii vzdy znizuje aliasing, lebo obmedzenie amplitudy automaticky odstrani vysoke harmonicke."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: nelinearita nie je len volume. Tvar krivky, symetria a vstupna amplituda rozhodnu o spektre. V digitale nove harmonicke mozu preliezt nad Nyquist a aliasovat.",
@@ -2405,7 +2430,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "PWM meni striedu impulzneho priebehu.",
       "RM pracuje s nasobenim signalov a kombinacnymi zlozkami.",
       "FM meni okamzitu frekvenciu nosnej.",
-      "Vektorova synteza sa od aditivnej lisi tym, ze nemoze miesat viac zdrojov naraz; vzdy vybera iba jeden aktivny zdroj."
+      "Vektorova synteza sa od aditivnej lisi tym, ze nemoze miesat viac zdrojov naraz; vzdy vybera iba jeden aktivny zdroj.",
+      "Subtraktivna synteza a waveshaping su linearne metody; rozdiel je iba v tom, ci sa ovlada cutoff alebo vstupna amplituda."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si rychle rozlisenie: skladam = aditivna, uberam filtrom = subtraktivna, menim sirku = PWM, nasobim = RM, menim frekvenciu = FM, miesam zdroje = vektorova.",
@@ -2426,7 +2452,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "AM/RM/FM pri audio-rate modulacii mozu vytvorit nove spektralne zlozky.",
       "Waveshaping vytvara nove harmonicke prave vdaka nelinearnej prevodnej charakteristike.",
       "Subtraktivna synteza sa spolieha na filtraciu spektra, nie na povinne generovanie kazdej zlozky osobitne.",
-      "Ak linearny filter zmeni amplitudy harmonickych, je to dokaz, ze vytvoril nove harmonicke rovnako ako waveshaper."
+      "Ak linearny filter zmeni amplitudy harmonickych, je to dokaz, ze vytvoril nove harmonicke rovnako ako waveshaper.",
+      "Ak sa po spracovani objavia nove harmonicke, muselo ist o linearny filter s vysokou rezonanciou, nie o nelinearitu."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si hranicu: linearne filtre menia existujuce spektrum, nelinearne metody vytvaraju nove zlozky. Toto je asi najcastejsi skuskovy chytak.",
@@ -2447,7 +2474,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Pri oscilatoroch spomenut priebehy a ich spektra: sinus, pila, obdlznik, trojuholnik, impulz.",
       "Pri subtraktivnej spomenut bohaty zdroj, VCF, VCA, obalky, LFO, rezonanciu a keyboard tracking.",
       "Pri modulacnych metodach odlisit PWM, AM, RM a FM podla toho, co sa moduluje.",
-      "V odpovedi staci uviest iba nazvy metod; princip spektra, oscilatorov, filtrov a modulacii nie je potrebny."
+      "V odpovedi staci uviest iba nazvy metod; princip spektra, oscilatorov, filtrov a modulacii nie je potrebny.",
+      "Najbezpecnejsie je venovat sa iba historickym nastrojom, pretoze priebehy oscilatorov a spektra su pre tento okruh nepodstatne."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si kostru odpovede: 1) aditivna, 2) oscilatory a spektra, 3) filtracne/integracne/derivacne principy, 4) subtraktivna, 5) modulacie, 6) waveshaping.",
