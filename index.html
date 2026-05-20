@@ -33,10 +33,11 @@
         <div class="nastavenie">
           <span>Predmet</span>
           <div class="prepinace prepinace-nastaveni" aria-label="Predmet">
-            <button id="tlacidloPredmetCzs" class="aktivny" type="button">CZS</button>
-            <button id="tlacidloPredmetHel" class="sekundarne" type="button">HEL</button>
-            <button id="tlacidloPredmetPc2" class="sekundarne" type="button">PC2</button>
             <button id="tlacidloPredmetTest" class="sekundarne" type="button">TEST</button>
+            <button id="tlacidloPredmetVs2" class="sekundarne" type="button">VS2</button>
+            <button id="tlacidloPredmetPc2" class="sekundarne" type="button">PC2</button>
+            <button id="tlacidloPredmetHel" class="sekundarne" type="button">HEL</button>
+            <button id="tlacidloPredmetCzs" class="aktivny" type="button">CZS</button>
           </div>
         </div>
 
@@ -49,8 +50,27 @@
             <button id="tlacidloTemaZlta" class="tlacidlo-temy" type="button" aria-label="Zlta tema">
               <span class="vzorka-temy vzorka-zlta" aria-hidden="true"></span>
             </button>
+            <button id="tlacidloTemaSiva" class="tlacidlo-temy" type="button" aria-label="Siva tema">
+              <span class="vzorka-temy vzorka-siva" aria-hidden="true"></span>
+            </button>
+            <button id="tlacidloTemaFialova" class="tlacidlo-temy" type="button" aria-label="Violet tema">
+              <span class="vzorka-temy vzorka-fialova" aria-hidden="true"></span>
+            </button>
+            <button id="tlacidloTemaTyrkysova" class="tlacidlo-temy" type="button" aria-label="Cyan tema">
+              <span class="vzorka-temy vzorka-tyrkysova" aria-hidden="true"></span>
+            </button>
           </div>
         </div>
+
+        <label class="nastavenie nastavenie-prepinac">
+          <span>Citáty</span>
+          <input id="prepinacCitatov" class="prepinac-volby" type="checkbox" checked>
+        </label>
+
+        <label class="nastavenie nastavenie-prepinac">
+          <span>Speedmode</span>
+          <input id="prepinacRychlehoRezimu" class="prepinac-volby" type="checkbox">
+        </label>
 
         <div id="nastavenieOkruhu" class="nastavenie nastavenie-okruhu">
           <label class="nastavenie">
@@ -103,6 +123,7 @@
 
         <h2 id="otazka">Načítavam otázku...</h2>
         <img id="obrazokOtazky" class="obrazok-otazky skryte" alt="">
+        <div id="mediaOtazky" class="media-otazky skryte"></div>
         <pre id="kod" class="kod skryte"></pre>
         <div id="moznosti" class="moznosti"></div>
         <div id="vysledok" class="vysledok skryte"></div>
@@ -110,10 +131,20 @@
         <div class="ovladanie">
           <button id="tlacidloOdstranitOtazku" class="tlacidlo-odstranit" type="button">Odobrať otázku</button>
           <button id="tlacidloMedzernik" class="tlacidlo-medzernik" type="button" aria-label="Medzerník: skontrolovať odpoveď alebo prejsť na ďalšiu otázku">
-            <img class="obrazok-medzernika" src="assets/spacebar_lines.svg" alt="">
+            <svg class="obrazok-medzernika" xmlns="http://www.w3.org/2000/svg" width="708" height="98" viewBox="0 0 708 98" preserveAspectRatio="none" aria-hidden="true">
+              <polygon class="okraj-klavesy" points="0 10 10 0 10 80 0 95"></polygon>
+              <polygon class="okraj-klavesy" points="690 0 705 7 705 95 690 80"></polygon>
+              <polygon class="okraj-klavesy" points="0 95 10 80 690 80 705 95"></polygon>
+              <rect class="vrch-klavesy" x="10" y="0" width="680" height="80"></rect>
+              <path class="obrys-klavesy" d="M10 0 H690 L705 7 V95 H0 V10 Z M10 0 V80 L0 95 M690 0 V80 L705 95 M10 80 H690 M131 59 H571" stroke-width="4"></path>
+            </svg>
           </button>
         </div>
       </section>
+
+      <aside id="blokCitatuTest" class="blok-citatu" aria-live="polite">
+        <p id="textCitatuTest" class="text-citatu"></p>
+      </aside>
 
     </section>
 
@@ -135,13 +166,19 @@
         <div id="kodVysledok" class="vysledok skryte"></div>
         <pre id="kodRiesenie" class="kod skryte"></pre>
       </section>
+
+      <aside id="blokCitatuKod" class="blok-citatu" aria-live="polite">
+        <p id="textCitatuKod" class="text-citatu"></p>
+      </aside>
     </section>
   </main>
 
   <script src="otazky.js"></script>
   <script src="czs-otazky.js"></script>
   <script src="hel-otazky.js"></script>
+  <script src="vs2-otazky.js"></script>
   <script src="kodove-ulohy.js"></script>
+  <script src="citaty.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

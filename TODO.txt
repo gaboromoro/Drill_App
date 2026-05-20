@@ -1,10 +1,11 @@
 1.
 
-pri zvoleni nespravnej odpovedi oznac spravnu odpoved farbou #00F562
-a zvolenu nestrapvnu odpoved farbou #FF4800
+K CZS otazkam spravit okruh zakladnych pojmov IIR, FIR ... a ich strucne definicie
 
 2.
 
-bar este viac nalavo
+namiesto 4 moznosti nech je v kode 6 moznosti a rnadom sa vyberu 4 moznosti pre test aby sa sa nedali mozsnoti biflovat
 
 3.
+
+pridat skusobny test kde sa bude testovat Ui - teda spravan odpoved bude vzdy 100% jasna - da sa vyskusat feel STREAK

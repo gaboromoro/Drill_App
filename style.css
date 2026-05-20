@@ -3,7 +3,19 @@
   --pozadie: #ff6000;
   --text: #000000;
   --ciara: #000000;
+  --farba-stlpca: #000000;
+  --farba-cisla-stlpca: var(--pozadie);
+  --tien-cisla-stlpca: #000000;
+  --farba-posuvnika: #000000;
   --filter-klaves: none;
+  --klaves-vrch: #ff7a2f;
+  --klaves-okraj: #d94d00;
+  --klaves-obrys: #000000;
+  --klaves-pismo: #000000;
+  --klaves-vybrany-vrch: #8a3000;
+  --klaves-vybrany-okraj: #5a1f00;
+  --klaves-vybrany-obrys: #000000;
+  --klaves-vybrany-pismo: var(--pozadie);
 }
 
 * {
@@ -21,7 +33,81 @@ body {
 
 body.tema-zlta {
   --pozadie: #fed811;
+  --farba-cisla-stlpca: #fed811;
   --filter-klaves: none;
+  --klaves-vrch: #ffd93d;
+  --klaves-okraj: #f5bd1f;
+  --klaves-obrys: #000000;
+  --klaves-pismo: #000000;
+  --klaves-vybrany-vrch: #c49100;
+  --klaves-vybrany-okraj: #946800;
+  --klaves-vybrany-obrys: #000000;
+  --klaves-vybrany-pismo: #000000;
+}
+
+body.tema-zlta-tmava {
+  --pozadie: #fed811;
+  --farba-cisla-stlpca: #fed811;
+  --filter-klaves: none;
+  --klaves-vrch: #303030;
+  --klaves-okraj: #000000;
+  --klaves-obrys: #000000;
+  --klaves-pismo: #ffffff;
+  --klaves-vybrany-vrch: #1f1f1f;
+  --klaves-vybrany-okraj: #000000;
+  --klaves-vybrany-obrys: #000000;
+  --klaves-vybrany-pismo: #ffffff;
+}
+
+body.tema-siva {
+  --pozadie: #303030;
+  --text: #ffffff;
+  --ciara: #ffffff;
+  --farba-stlpca: #ffffff;
+  --farba-cisla-stlpca: #ffffff;
+  --tien-cisla-stlpca: #000000;
+  --farba-posuvnika: #ffffff;
+  --filter-klaves: none;
+  --klaves-vrch: #303030;
+  --klaves-okraj: #303030;
+  --klaves-obrys: #ffffff;
+  --klaves-pismo: #ffffff;
+  --klaves-vybrany-vrch: #1f1f1f;
+  --klaves-vybrany-okraj: #1f1f1f;
+  --klaves-vybrany-obrys: #d6d6d6;
+  --klaves-vybrany-pismo: #ffffff;
+}
+
+body.tema-fialova {
+  --pozadie: #aab2ff;
+  --text: #000000;
+  --ciara: #000000;
+  --farba-cisla-stlpca: #aab2ff;
+  --filter-klaves: none;
+  --klaves-vrch: #aab2ff;
+  --klaves-okraj: #aab2ff;
+  --klaves-obrys: #000000;
+  --klaves-pismo: #000000;
+  --klaves-vybrany-vrch: #747dd8;
+  --klaves-vybrany-okraj: #747dd8;
+  --klaves-vybrany-obrys: #000000;
+  --klaves-vybrany-pismo: #000000;
+}
+
+body.tema-tyrkysova {
+  --pozadie: #84ffc9;
+  --text: #000000;
+  --ciara: #000000;
+  --farba-cisla-stlpca: #84ffc9;
+  --filter-klaves: none;
+  --klaves-vrch: #c2ffe4;
+  --klaves-okraj: #aab2ff;
+  --klaves-obrys: #036666;
+  --klaves-pismo: #000000;
+  --klaves-vybrany-vrch: #64cfa4;
+  --klaves-vybrany-okraj: #747dd8;
+  --klaves-vybrany-obrys: #024a4a;
+  --klaves-vybrany-pismo: #000000;
 }
 
 .stlpec-panel {
@@ -41,7 +127,7 @@ body.tema-zlta {
   --viditelnost-pixelov: 0;
   --velkost-pixelu-stlpca: 4px;
   box-sizing: content-box;
-  border: 2px solid #000000;
+  border: 2px solid var(--farba-stlpca);
   background: transparent;
   overflow: hidden;
 }
@@ -51,15 +137,15 @@ body.tema-zlta {
   left: 50%;
   top: 50%;
   z-index: 3;
-  color: var(--pozadie);
+  color: var(--farba-cisla-stlpca);
   font-size: var(--streak-velkost, 34px);
   font-weight: 900;
   line-height: 1;
   text-shadow:
-    -2px 0 #000000,
-    0 2px #000000,
-    2px 0 #000000,
-    0 -2px #000000;
+    -2px 0 var(--tien-cisla-stlpca),
+    0 2px var(--tien-cisla-stlpca),
+    2px 0 var(--tien-cisla-stlpca),
+    0 -2px var(--tien-cisla-stlpca);
   transform: translate(-50%, -50%);
   transition: font-size 140ms ease-out;
   pointer-events: none;
@@ -75,7 +161,7 @@ body.tema-zlta {
   right: 0;
   bottom: 0;
   height: 0;
-  background: #000000;
+  background: var(--farba-stlpca);
   overflow: visible;
   transition: height 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
@@ -88,7 +174,7 @@ body.tema-zlta {
   top: -4px;
   z-index: 2;
   height: 4px;
-  background: #000000;
+  background: var(--farba-stlpca);
   image-rendering: pixelated;
 }
 
@@ -121,12 +207,12 @@ body.tema-zlta {
 }
 
 .pixel-stlpca.aktivny {
-  background: #000000;
+  background: var(--farba-stlpca);
 }
 
 @keyframes streakNarast {
   0% {
-    color: var(--pozadie);
+    color: var(--farba-cisla-stlpca);
     transform: translate(-50%, -50%) scale(1);
     filter: brightness(1);
   }
@@ -152,7 +238,7 @@ body.tema-zlta {
   }
 
   100% {
-    color: var(--pozadie);
+    color: var(--farba-cisla-stlpca);
     transform: translate(-50%, -50%) scale(1);
     filter: brightness(1);
   }
@@ -234,19 +320,21 @@ textarea {
 }
 
 .stranka {
-  width: min(1040px, calc(100% - 32px));
+  width: min(1280px, calc(100% - 32px));
   margin: 0 auto;
   padding: 28px 0 36px;
 }
 
-#rezimTest {
+#rezimTest,
+#rezimKod {
   display: grid;
-  grid-template-columns: 170px minmax(0, 1fr);
-  column-gap: 4px;
+  grid-template-columns: 170px minmax(0, 1fr) 220px;
+  column-gap: 24px;
   align-items: start;
 }
 
-#rezimTest.skryte {
+#rezimTest.skryte,
+#rezimKod.skryte {
   display: none;
 }
 
@@ -332,8 +420,19 @@ textarea {
   color: var(--text);
 }
 
+.nastavenie-prepinac {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
 .prepinace-nastaveni {
   margin-bottom: 0;
+}
+
+.prepinac-volby {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--ciara);
 }
 
 .vyber-temy {
@@ -374,26 +473,38 @@ textarea {
   background: #fed811;
 }
 
+.vzorka-siva {
+  background: #303030;
+}
+
+.vzorka-fialova {
+  background: #aab2ff;
+}
+
+.vzorka-tyrkysova {
+  background: #84ffc9;
+}
+
 #posuvnikHlasitosti {
   width: 100%;
   height: 30px;
   appearance: none;
   background: transparent;
-  accent-color: #000000;
+  accent-color: var(--farba-posuvnika);
 }
 
 #posuvnikHlasitosti::-webkit-slider-runnable-track {
   height: 12px;
   border-radius: 0;
-  background: #000000;
+  background: var(--farba-posuvnika);
 }
 
 #posuvnikHlasitosti::-webkit-slider-thumb {
   width: 24px;
   height: 24px;
   margin-top: -6px;
-  border: 2px solid #000000;
-  background: #000000;
+  border: 2px solid var(--farba-posuvnika);
+  background: var(--farba-posuvnika);
   box-shadow: 0 0 0 2px var(--pozadie);
   appearance: none;
 }
@@ -401,20 +512,20 @@ textarea {
 #posuvnikHlasitosti::-moz-range-track {
   height: 12px;
   border-radius: 0;
-  background: #000000;
+  background: var(--farba-posuvnika);
 }
 
 #posuvnikHlasitosti::-moz-range-progress {
   height: 12px;
-  background: #000000;
+  background: var(--farba-posuvnika);
 }
 
 #posuvnikHlasitosti::-moz-range-thumb {
   width: 20px;
   height: 20px;
-  border: 2px solid #000000;
+  border: 2px solid var(--farba-posuvnika);
   border-radius: 0;
-  background: #000000;
+  background: var(--farba-posuvnika);
   box-shadow: 0 0 0 2px var(--pozadie);
 }
 
@@ -605,6 +716,23 @@ h3 {
   padding: 22px 0;
 }
 
+.blok-citatu {
+  grid-column: 3;
+  position: sticky;
+  top: 104px;
+  max-width: 220px;
+  padding-top: 86px;
+  color: var(--text);
+}
+
+.text-citatu {
+  margin: 0;
+  white-space: pre-line;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 1.45;
+}
+
 .kod,
 .kodova-odpoved {
   border: 2px solid var(--ciara);
@@ -628,6 +756,16 @@ h3 {
   border: 2px solid var(--ciara);
   border-radius: 0;
   background: var(--pozadie);
+}
+
+.media-otazky {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 16px;
+}
+
+.media-otazky .obrazok-otazky {
+  margin: 0;
 }
 
 .moznosti {
@@ -665,7 +803,10 @@ h3 {
   width: 54px;
   height: 51px;
   margin-top: -4px;
-  color: #000000;
+  --aktivny-vrch-klavesy: var(--klaves-vrch);
+  --aktivny-okraj-klavesy: var(--klaves-okraj);
+  --aktivny-obrys-klavesy: var(--klaves-obrys);
+  color: var(--klaves-pismo);
   font-size: 24px;
   line-height: 1;
   pointer-events: none;
@@ -678,13 +819,23 @@ h3 {
   display: block;
   width: 100%;
   height: 100%;
-  filter: var(--filter-klaves);
   object-fit: contain;
   pointer-events: none;
 }
 
-body.tema-zlta .obrazokKlavesy {
-  content: url("assets/keycap_lines_zlta.svg");
+.okraj-klavesy {
+  fill: var(--aktivny-okraj-klavesy);
+}
+
+.vrch-klavesy {
+  fill: var(--aktivny-vrch-klavesy);
+}
+
+.obrys-klavesy {
+  fill: none;
+  stroke: var(--aktivny-obrys-klavesy);
+  stroke-linecap: square;
+  stroke-linejoin: miter;
 }
 
 .cisloKlavesy {
@@ -705,34 +856,28 @@ body.tema-zlta .obrazokKlavesy {
 }
 
 .moznost input:checked + .klavesa {
-  color: var(--pozadie);
+  --aktivny-vrch-klavesy: var(--klaves-vybrany-vrch);
+  --aktivny-okraj-klavesy: var(--klaves-vybrany-okraj);
+  --aktivny-obrys-klavesy: var(--klaves-vybrany-obrys);
+  color: var(--klaves-vybrany-pismo);
 }
 
-.moznost input:checked + .klavesa .obrazokKlavesy {
-  content: url("assets/keycap_lines_selected.svg");
-}
-
-body.tema-zlta .moznost input:checked + .klavesa .obrazokKlavesy {
-  content: url("assets/keycap_lines_selected_zlta.svg");
-}
-
-.moznost.spravna .klavesa {
+.moznost.spravna .klavesa,
+.moznost.spravna input:checked + .klavesa {
+  --aktivny-vrch-klavesy: #00f562;
+  --aktivny-okraj-klavesy: #00b946;
+  --aktivny-obrys-klavesy: #000000;
   color: #000000;
-}
-
-.moznost.spravna .klavesa .obrazokKlavesy,
-.moznost.spravna input:checked + .klavesa .obrazokKlavesy {
-  content: url("assets/keycap_lines_correct.svg");
-  filter: none;
 }
 
 .moznost.chybna .klavesa {
   color: #000000;
 }
 
-.moznost.chybna input:checked + .klavesa .obrazokKlavesy {
-  content: url("assets/keycap_lines_wrong.svg");
-  filter: none;
+.moznost.chybna input:checked + .klavesa {
+  --aktivny-vrch-klavesy: #ff4800;
+  --aktivny-okraj-klavesy: #c93600;
+  --aktivny-obrys-klavesy: #000000;
 }
 
 .moznost input:disabled {
@@ -741,6 +886,20 @@ body.tema-zlta .moznost input:checked + .klavesa .obrazokKlavesy {
 
 .textMoznosti {
   padding-top: 3px;
+}
+
+.obsahMoznosti {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.obrazok-moznosti {
+  display: block;
+  max-width: min(100%, 260px);
+  height: auto;
+  border: 2px solid var(--ciara);
+  background: var(--pozadie);
 }
 
 .moznost.spravna {
@@ -790,6 +949,9 @@ body.tema-zlta .moznost input:checked + .klavesa .obrazokKlavesy {
   margin-top: 56px;
   border: 0;
   padding: 0;
+  --aktivny-vrch-klavesy: var(--klaves-vrch);
+  --aktivny-okraj-klavesy: var(--klaves-okraj);
+  --aktivny-obrys-klavesy: var(--klaves-obrys);
   background: transparent;
   color: var(--text);
   transition: transform 120ms ease-out;
@@ -808,13 +970,8 @@ body.tema-zlta .moznost input:checked + .klavesa .obrazokKlavesy {
   display: block;
   width: 100%;
   height: 100%;
-  filter: var(--filter-klaves);
   object-fit: fill;
   pointer-events: none;
-}
-
-body.tema-zlta .obrazok-medzernika {
-  content: url("assets/spacebar_lines_zlta.svg");
 }
 
 button {
@@ -872,7 +1029,7 @@ button.sekundarne {
 
 @media (max-width: 720px) {
   .stranka {
-    width: min(100% - 20px, 1040px);
+    width: min(100% - 20px, 1280px);
     padding-top: 18px;
   }
 
@@ -897,9 +1054,17 @@ button.sekundarne {
     font-size: 20px;
   }
 
-  #rezimTest {
+  #rezimTest,
+  #rezimKod {
     grid-template-columns: 92px minmax(0, 1fr);
     column-gap: 10px;
+  }
+
+  .blok-citatu {
+    grid-column: 2;
+    position: static;
+    max-width: none;
+    padding-top: 18px;
   }
 
   .stlpec-panel {

@@ -1,0 +1,147 @@
+Vseobence pravidla pre Otazky
+
+-žiadne očividné blbosti medzi možnosťami
+-každá nesprávna odpoveď musí byť realistická chyba
+-možnosti budú často veľmi podobné
+-otázka má testovať vzťah, podmienku, znamienko, index, posun, kauzalitu, stabilitu, interpretáciu grafu alebo dôsledok
+-viac otázok bude typu viac
+-úroveň bude hlavne tazka
+-vysvetlenie bude hovoriť nielen čo je správne, ale aj prečo sú -pasce nebezpečné
+
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+
+
+Variant D: viac správnych, skúškovo ťažšie
+Otázka testuje viac vlastností naraz.
+
+Príklad:
+Pre aditívnu syntézu platí:
+
+1. výsledný signál vzniká súčtom výstupov viacerých generátorov
+2. jednotlivé zložky môžu mať vlastné amplitúdové obálky
+3. základným princípom je odfiltrovanie časti spektra zo šumového alebo pílového signálu
+4. harmonická syntéza je špeciálny prípad, kde frekvencie zložiek sú násobkami základnej frekvencie
+Správne: 1, 2, 4
+Pasca: 3 opisuje subtraktívnu syntézu.
+
+Variant B: veľmi podobné možnosti
+Otázka testuje jemný rozdiel medzi pojmami.
+
+Príklad:
+Čo najpresnejšie vystihuje subtraktívnu syntézu?
+
+1. skladanie výsledného zvuku súčtom samostatne riadených harmonických zložiek
+2. vytvorenie spektrálne bohatého signálu a následné odoberanie zložiek filtráciou
+3. vytváranie kombinačných zložiek nelineárnym prvkom
+4. zmena amplitúdy nosného signálu modulačným signálom
+Správne: 2
+Pasce: 1 je aditívna syntéza, 3 nelineárne/modulačné spracovanie, 4 AM/RM oblasť.
+
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+
+KOMPLEXNY PROMPT:
+
+Jasné. Tu je prompt, ktorý môžeš neskôr použiť na generovanie ďalších otázok v rovnakom štýle:
+
+```text
+Chcem vytvoriť drill otázky do testovacej aplikácie.
+
+Cieľ:
+- Nechcem ľahké kvízové otázky.
+- Chcem sa naučiť presné skúškové výroky, definície, vzťahy a rozdiely medzi pojmami.
+- Otázky majú byť tvrdé, ale férové.
+- Každá otázka má testovať pochopenie, nie memorovanie poradia možností.
+
+Štýl otázok:
+- Každá otázka bude typu „vyber všetky pravdivé tvrdenia“.
+- Ku každej otázke vytvor 7 možností.
+- V aplikácii sa neskôr náhodne zobrazí iba 5 z nich.
+- Preto musia všetky možnosti fungovať samostatne.
+- Správnych možností môže byť 3 až 5 zo 7.
+- Nesprávne možnosti musia byť realistické chytáky, nie očividné blbosti.
+
+Zakázané:
+- Nepoužívaj smiešne alebo očividne nesprávne možnosti typu:
+  „filter je to isté ako MIDI kábel“
+  „každý signál má iba základnú frekvenciu“
+  „všetko je dolnopriepustný filter“
+- Nepíš možnosti, ktoré sa dajú vylúčiť bez znalosti témy.
+- Nepoužívaj extrémy „vždy“, „nikdy“, „iba“, ak nejde o reálny skúškový chyták.
+
+Ako majú vyzerať chytáky:
+- Miešaj podobné pojmy.
+- Zamieňaj príčinu a dôsledok.
+- Použi tvrdenia, ktoré znejú odborne, ale majú chybu v jednom detaile.
+- Testuj rozdiely ako:
+  lineárne vs nelineárne spracovanie,
+  AM vs RM vs FM,
+  cutoff vs frekvencia VCO,
+  amplitúda vs spektrum,
+  harmonické vs neharmonické zložky,
+  obálka vs LFO,
+  Gate vs Trigger,
+  keyboard tracking vs velocity tracking.
+
+Každá otázka má mať:
+- `id`
+- `tema`
+- `typ: "viac"`
+- `format: "klasicka"`
+- `uroven: "tazka"`
+- `otazka`
+- `moznosti`: presne 7 tvrdení
+- `spravne`: indexy správnych možností
+- `vysvetlenie`: krátke, skúškovo použiteľné vysvetlenie, ktoré povie:
+  čo je správne,
+  prečo sú chytáky nebezpečné,
+  aký je hlavný princíp na zapamätanie
+- `prezentacia`
+- `subtema`
+
+Formát výstupu:
+Vráť otázky ako JavaScript objekty v poli, napríklad:
+
+const noveOtazky = [
+  {
+    "id": "hel-s2-001",
+    "tema": "...",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "...",
+    "moznosti": [
+      "...",
+      "...",
+      "...",
+      "...",
+      "...",
+      "...",
+      "..."
+    ],
+    "spravne": [0, 2, 4],
+    "vysvetlenie": "...",
+    "prezentacia": "...",
+    "subtema": "..."
+  }
+];
+
+Dôležité:
+- Otázky majú byť didaktické.
+- Každá otázka má človeka naučiť niekoľko konkrétnych statements.
+- Výroky majú byť formulované tak, aby sa z nich dala skladať ústna skúšková odpoveď.
+- Výsledok má byť vhodný na rýchly drill pred skúškou.
+```
+
+Toto je už celkom dobrý “štýlový kompas” pre ďalšie okruhy.
+
+////////////////////////////////////////////////////
+
+Pre rýchle otázky na základné pojmy:
+- Každá otázka môže mať 6 interných možností, ale používateľovi sa zobrazia iba 4 náhodné.
+- Všetky možnosti musia používať podobný slovosled, podobnú dĺžku a podobnú odbornú formuláciu.
+- Správna možnosť nesmie byť jediná, ktorá znie vedecky alebo presne.
+- Nesprávne možnosti musia byť z rovnakej oblasti pojmov, nie odveci.
+- Chytáky majú zamieňať blízke princípy: VCO/VCF/VCA, AM/RM/FM/PWM, cutoff/rezonancia, LFO/EG/Gate/Trigger.
+- Nepoužívať možnosti, ktoré sa dajú vylúčiť len podľa štýlu vety.

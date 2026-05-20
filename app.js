@@ -1,6 +1,7 @@
 let poradieOtazok = [];
 let aktualnyIndex = 0;
 let skore = 0;
+let pocetVyhodnotenychOtazok = 0;
 let vyhodnotene = false;
 let aktualnyPredmet = "test";
 let zakladneOtazkyPredmetu = [];
@@ -16,15 +17,20 @@ let vybranePodokruhy = new Set();
 let predoslyVysledok = null;
 let zobrazujePredoslyVysledok = false;
 let nahladAktualnejOtazky = null;
+let aktualnaTema = "oranzova";
+let aktualnyIndexCitatu = -1;
 const odstraneneOtazky = new Map();
 const hodnotaVsetko = "__vsetko";
-const zvukSpravne = new Audio("Audio-samples/ESM_Simple_Google_Soundalike_Alert_20_Beep_Chirp_Notification_Synth_Electronic.wav");
-const zvukZle = new Audio("Audio-samples/FF_CF_foley_fart_green.wav");
+const priestorSvg = "http://www.w3.org/2000/svg";
+const zvukSpravne = new Audio("Audio-samples/correct/ESM_Simple_Google_Soundalike_Alert_20_Beep_Chirp_Notification_Synth_Electronic.wav");
+const zvukZle = new Audio("Audio-samples/wrong/FF_CF_foley_fart_green.wav");
+const zvukVyberuVolby = new Audio("Audio-samples/select/ESM_Perfect_Clean_App_Button_Click_2_Organic_Simple_Classic_Game_Click.wav");
 
 const prvokTema = document.getElementById("tema");
 const prvokTypOtazky = document.getElementById("typOtazky");
 const prvokOtazka = document.getElementById("otazka");
 const prvokObrazokOtazky = document.getElementById("obrazokOtazky");
+const prvokMediaOtazky = document.getElementById("mediaOtazky");
 const prvokKod = document.getElementById("kod");
 const prvokMoznosti = document.getElementById("moznosti");
 const prvokVysledok = document.getElementById("vysledok");
@@ -49,6 +55,8 @@ const prvokKodZadanie = document.getElementById("kodZadanie");
 const prvokKodOdpoved = document.getElementById("kodOdpoved");
 const prvokKodVysledok = document.getElementById("kodVysledok");
 const prvokKodRiesenie = document.getElementById("kodRiesenie");
+const blokyCitatu = [...document.querySelectorAll(".blok-citatu")];
+const prvkyTextuCitatu = [...document.querySelectorAll(".text-citatu")];
 
 const tlacidloMedzernik = document.getElementById("tlacidloMedzernik");
 const tlacidloNastavenia = document.getElementById("tlacidloNastavenia");
@@ -58,6 +66,7 @@ const tlacidloVratitVsetkyOtazky = document.getElementById("tlacidloVratitVsetky
 const tlacidloPredmetPc2 = document.getElementById("tlacidloPredmetPc2");
 const tlacidloPredmetCzs = document.getElementById("tlacidloPredmetCzs");
 const tlacidloPredmetHel = document.getElementById("tlacidloPredmetHel");
+const tlacidloPredmetVs2 = document.getElementById("tlacidloPredmetVs2");
 const tlacidloPredmetTest = document.getElementById("tlacidloPredmetTest");
 const tlacidloVsetkyPodokruhy = document.getElementById("tlacidloVsetkyPodokruhy");
 const tlacidloZiadnePodokruhy = document.getElementById("tlacidloZiadnePodokruhy");
@@ -67,12 +76,16 @@ const tlacidloKodKontrola = document.getElementById("tlacidloKodKontrola");
 const tlacidloKodDalsia = document.getElementById("tlacidloKodDalsia");
 const tlacidloTemaOranzova = document.getElementById("tlacidloTemaOranzova");
 const tlacidloTemaZlta = document.getElementById("tlacidloTemaZlta");
+const tlacidloTemaSiva = document.getElementById("tlacidloTemaSiva");
+const tlacidloTemaFialova = document.getElementById("tlacidloTemaFialova");
+const tlacidloTemaTyrkysova = document.getElementById("tlacidloTemaTyrkysova");
 const posuvnikHlasitosti = document.getElementById("posuvnikHlasitosti");
+const prepinacCitatov = document.getElementById("prepinacCitatov");
+const prepinacRychlehoRezimu = document.getElementById("prepinacRychlehoRezimu");
 const klavesyMoznosti = ["1", "2", "3", "4", "5", "6"];
 const pocetStlpcovPixelov = 24;
 const pocetRiadkovPixelov = 4;
-const minimalnyCasPixelu = 500;
-const maximalnyCasPixelu = 2500;
+const selektorVolitelnychPrvkov = "button, .moznost, select, input[type='checkbox'], input[type='radio'], input[type='range']";
 const skusobneOtazky = Array.from({ length: 20 }, (_, index) => vytvorSkusobnuOtazku(index + 1));
 let casovacPixelovStlpca = null;
 let poradieKodovychUloh = [];
@@ -98,42 +111,63 @@ function vytvorSkusobnuOtazku(cislo) {
 
   return {
     id: `test-${String(cislo).padStart(2, "0")}`,
-    tema: "Skusobny test",
+    tema: "TESTT",
     typ: "jedna",
     format: "klasicka",
     uroven: "test",
-    otazka: `Skusobna otazka ${cislo}: vyber moznost s hodnotou 1.`,
+    otazka: "1 ?",
     moznosti,
     spravne: [spravnyIndex],
-    vysvetlenie: "Spravna odpoved je jedina moznost s hodnotou 1.",
-    prezentacia: "Skusobny test",
+    vysvetlenie: "",
+    prezentacia: "TESTT",
     subtema: "Kontrola fungovania appky"
   };
 }
 
 function pravdepodobnostPixelu(riadokOdHladiny) {
   if (riadokOdHladiny === 0) {
-    return 0.88;
+    return 0.95;
   }
 
   if (riadokOdHladiny === 1) {
-    return 0.56;
+    return 0.90;
   }
 
   if (riadokOdHladiny === 2) {
-    return 0.28;
+    return 0.50;
   }
 
-  return 0.1;
+  return 0.035;
+}
+
+function casZmenyPixelu(riadokOdHladiny) {
+  if (riadokOdHladiny <= 1) {
+    return {
+      minimum: 1400,
+      maximum: 3000
+    };
+  }
+
+  if (riadokOdHladiny === 2) {
+    return {
+      minimum: 500,
+      maximum: 2500
+    };
+  }
+
+  return {
+    minimum: 100,
+    maximum: 1000
+  };
 }
 
 function nastavDalsiuZmenuPixelu(pixel, teraz) {
-  pixel.dataset.dalsiaZmena = String(teraz + nahodneCeleCislo(minimalnyCasPixelu, maximalnyCasPixelu));
+  const rozsah = casZmenyPixelu(Number(pixel.dataset.riadokOdHladiny));
+  pixel.dataset.dalsiaZmena = String(teraz + nahodneCeleCislo(rozsah.minimum, rozsah.maximum));
 }
 
 function nastavStavPixelu(pixel, teraz) {
-  const riadok = Number(pixel.dataset.riadok);
-  const riadokOdHladiny = pocetRiadkovPixelov - 1 - riadok;
+  const riadokOdHladiny = Number(pixel.dataset.riadokOdHladiny);
   const jeAktivny = Math.random() < pravdepodobnostPixelu(riadokOdHladiny);
   pixel.classList.toggle("aktivny", jeAktivny);
   nastavDalsiuZmenuPixelu(pixel, teraz);
@@ -173,6 +207,7 @@ function vytvorPixelyStlpca() {
       const pixel = document.createElement("span");
       pixel.className = "pixel-stlpca";
       pixel.dataset.riadok = String(riadok);
+      pixel.dataset.riadokOdHladiny = String(pocetRiadkovPixelov - 1 - riadok);
       pixel.dataset.stlpec = String(stlpec);
       nastavStavPixelu(pixel, teraz);
       prvokPixelyStlpca.appendChild(pixel);
@@ -204,15 +239,195 @@ function pocetPrehratiZvuku(jeSpravne, dlzkaSerie) {
 
 function nastavHlasitost(hodnota) {
   hlasitost = Math.max(0, Math.min(1, Number(hodnota) / 100));
-  zvukSpravne.volume = hlasitost;
-  zvukZle.volume = hlasitost;
+  [zvukSpravne, zvukZle, zvukVyberuVolby].forEach((zvuk) => {
+    zvuk.volume = hlasitost;
+  });
 }
 
 function nastavTemu(tema) {
-  const jeZlta = tema === "zlta";
-  document.body.classList.toggle("tema-zlta", jeZlta);
-  tlacidloTemaOranzova.classList.toggle("aktivny", !jeZlta);
-  tlacidloTemaZlta.classList.toggle("aktivny", jeZlta);
+  aktualnaTema = tema;
+  document.body.classList.remove("tema-zlta", "tema-zlta-tmava", "tema-siva", "tema-fialova", "tema-tyrkysova");
+
+  if (tema !== "oranzova") {
+    const triedyTemy = {
+      zlta: "tema-zlta",
+      zltaTmava: "tema-zlta-tmava",
+      siva: "tema-siva",
+      fialova: "tema-fialova",
+      tyrkysova: "tema-tyrkysova"
+    };
+
+    const triedaTemy = triedyTemy[tema];
+    if (triedaTemy) {
+      document.body.classList.add(triedaTemy);
+    }
+  }
+
+  tlacidloTemaOranzova.classList.toggle("aktivny", tema === "oranzova");
+  tlacidloTemaZlta.classList.toggle("aktivny", tema === "zlta" || tema === "zltaTmava");
+  tlacidloTemaSiva.classList.toggle("aktivny", tema === "siva");
+  tlacidloTemaFialova.classList.toggle("aktivny", tema === "fialova");
+  tlacidloTemaTyrkysova.classList.toggle("aktivny", tema === "tyrkysova");
+}
+
+function prepniZltuTemu() {
+  nastavTemu(aktualnaTema === "zlta" ? "zltaTmava" : "zlta");
+}
+
+function vytvorSvgPrvok(nazov, atributy) {
+  const prvok = document.createElementNS(priestorSvg, nazov);
+
+  Object.entries(atributy).forEach(([atribut, hodnota]) => {
+    prvok.setAttribute(atribut, hodnota);
+  });
+
+  return prvok;
+}
+
+function vytvorObrazokKlavesy() {
+  const obrazokKlavesy = vytvorSvgPrvok("svg", {
+    class: "obrazokKlavesy",
+    width: "147",
+    height: "138",
+    viewBox: "0 0 147 138",
+    "aria-hidden": "true",
+    focusable: "false"
+  });
+
+  obrazokKlavesy.append(
+    vytvorSvgPrvok("polygon", {
+      class: "okraj-klavesy",
+      points: "0 10 10 0 10 120 0 135"
+    }),
+    vytvorSvgPrvok("polygon", {
+      class: "okraj-klavesy",
+      points: "130 0 145 15 145 135 130 120"
+    }),
+    vytvorSvgPrvok("polygon", {
+      class: "okraj-klavesy",
+      points: "0 135 10 120 130 120 145 135"
+    }),
+    vytvorSvgPrvok("rect", {
+      class: "vrch-klavesy",
+      x: "10",
+      y: "0",
+      width: "120",
+      height: "120"
+    }),
+    vytvorSvgPrvok("path", {
+      class: "obrys-klavesy",
+      d: "M10 0 H130 L145 15 V135 H0 V10 Z M10 0 V120 L0 135 M130 0 V120 L145 135 M10 120 H130",
+      "stroke-width": "4"
+    })
+  );
+
+  return obrazokKlavesy;
+}
+
+function dostupneCitaty() {
+  if (typeof citaty === "undefined" || !Array.isArray(citaty)) {
+    return [];
+  }
+
+  return citaty;
+}
+
+function zlozTextCitatu(citat) {
+  return [citat.zdroj, citat.text].filter(Boolean).join("\n\n");
+}
+
+function vyberIndexCitatu(zoznamCitatov) {
+  if (zoznamCitatov.length <= 1) {
+    return 0;
+  }
+
+  let novyIndex = aktualnyIndexCitatu;
+  while (novyIndex === aktualnyIndexCitatu) {
+    novyIndex = nahodneCeleCislo(0, zoznamCitatov.length - 1);
+  }
+
+  return novyIndex;
+}
+
+function nastavNahodnyCitat() {
+  const zoznamCitatov = dostupneCitaty();
+
+  if (!prepinacCitatov.checked || zoznamCitatov.length === 0) {
+    blokyCitatu.forEach((blok) => blok.classList.add("skryte"));
+    return;
+  }
+
+  aktualnyIndexCitatu = vyberIndexCitatu(zoznamCitatov);
+  const citat = zoznamCitatov[aktualnyIndexCitatu];
+  const textCitatu = zlozTextCitatu(citat);
+
+  prvkyTextuCitatu.forEach((prvok) => {
+    prvok.textContent = textCitatu;
+  });
+  blokyCitatu.forEach((blok) => blok.classList.remove("skryte"));
+}
+
+function posunCitatPoOtazkach() {
+  pocetVyhodnotenychOtazok++;
+
+  if (pocetVyhodnotenychOtazok % 10 === 0) {
+    nastavNahodnyCitat();
+  }
+}
+
+function nastavZobrazenieCitatov() {
+  if (prepinacCitatov.checked) {
+    nastavNahodnyCitat();
+    return;
+  }
+
+  blokyCitatu.forEach((blok) => blok.classList.add("skryte"));
+}
+
+function nastavRychlyRezim() {
+  if (!prepinacRychlehoRezimu.checked) {
+    zrusCasovacDalsejOtazky();
+  }
+}
+
+function najdiVolitelnyPrvok(ciel) {
+  if (!(ciel instanceof Element)) {
+    return null;
+  }
+
+  const prvok = ciel.closest(selektorVolitelnychPrvkov);
+  if (!prvok || prvok.closest(".skryte")) {
+    return null;
+  }
+
+  if (prvok.classList.contains("moznost")) {
+    const vstup = prvok.querySelector("input");
+    return vstup && !vstup.disabled ? prvok : null;
+  }
+
+  if ("disabled" in prvok && prvok.disabled) {
+    return null;
+  }
+
+  return prvok;
+}
+
+function obsluzKlikVolitelnehoPrvku(udalost) {
+  const prvok = najdiVolitelnyPrvok(udalost.target);
+  if (!prvok || !prvok.matches("button") || prvok === tlacidloMedzernik) {
+    return;
+  }
+
+  prehrajZvuk(zvukVyberuVolby);
+}
+
+function obsluzZmenuVolitelnehoPrvku(udalost) {
+  const prvok = najdiVolitelnyPrvok(udalost.target);
+  if (!prvok || prvok.closest(".moznost")) {
+    return;
+  }
+
+  prehrajZvuk(zvukVyberuVolby);
 }
 
 function prepniNastavenia() {
@@ -400,6 +615,10 @@ function textyOdpovedi(indexy, moznosti = aktualneMoznosti) {
     .map((moznost) => moznost.text);
 }
 
+function zlozSpravnyVysledok(otazka) {
+  return ["WHEEEEEEEEEEE", otazka.vysvetlenie].filter(Boolean).join(" ");
+}
+
 function ulozPredoslyVysledok(otazka, vybrane, jeSpravne) {
   const moznosti = aktualneMoznosti.map((moznost) => ({ ...moznost }));
   predoslyVysledok = {
@@ -408,7 +627,7 @@ function ulozPredoslyVysledok(otazka, vybrane, jeSpravne) {
     moznosti,
     vybrane: [...vybrane],
     textVysledku: jeSpravne
-      ? `Správne. ${otazka.vysvetlenie}`
+      ? zlozSpravnyVysledok(otazka)
       : `Nesprávne. Správna odpoveď: ${textSpravnychOdpovedi(otazka, moznosti)}. ${otazka.vysvetlenie}`
   };
   tlacidloPredoslyVysledok.disabled = false;
@@ -585,6 +804,7 @@ function nastavPoradie() {
   poradieOtazok = zamiesaj(aktualneOtazky);
   aktualnyIndex = 0;
   skore = 0;
+  pocetVyhodnotenychOtazok = 0;
   stavStlpca = 0;
   seriaSpravnych = 0;
   najvyssiaSeriaSpravnych = 0;
@@ -622,6 +842,8 @@ function zobrazPrazdnyVyber() {
   prvokVysledok.className = "vysledok skryte";
   prvokVysledok.textContent = "";
   prvokObrazokOtazky.classList.add("skryte");
+  prvokMediaOtazky.classList.add("skryte");
+  prvokMediaOtazky.innerHTML = "";
   prvokKod.classList.add("skryte");
   prvokKod.textContent = "";
   tlacidloMedzernik.disabled = true;
@@ -629,15 +851,36 @@ function zobrazPrazdnyVyber() {
   tlacidloPredoslyVysledok.textContent = "Predošlé";
 }
 
+function vytvorObrazokMedia(src, alt) {
+  const obrazok = document.createElement("img");
+  obrazok.src = src;
+  obrazok.alt = alt;
+  obrazok.className = "obrazok-otazky";
+  return obrazok;
+}
+
 function nastavMediaOtazky(otazka) {
-  if (otazka.obrazok) {
+  const obrazky = Array.isArray(otazka.obrazky) ? otazka.obrazky : [];
+  prvokMediaOtazky.innerHTML = "";
+
+  if (obrazky.length > 0) {
+    prvokObrazokOtazky.removeAttribute("src");
+    prvokObrazokOtazky.alt = "";
+    prvokObrazokOtazky.classList.add("skryte");
+    obrazky.forEach((obrazok, index) => {
+      prvokMediaOtazky.appendChild(vytvorObrazokMedia(obrazok, `Obrázok k otázke ${index + 1}`));
+    });
+    prvokMediaOtazky.classList.remove("skryte");
+  } else if (otazka.obrazok) {
     prvokObrazokOtazky.src = otazka.obrazok;
     prvokObrazokOtazky.alt = otazka.popisObrazka || "Obrázok k otázke";
     prvokObrazokOtazky.classList.remove("skryte");
+    prvokMediaOtazky.classList.add("skryte");
   } else {
     prvokObrazokOtazky.removeAttribute("src");
     prvokObrazokOtazky.alt = "";
     prvokObrazokOtazky.classList.add("skryte");
+    prvokMediaOtazky.classList.add("skryte");
   }
 
   if (otazka.kod) {
@@ -680,21 +923,30 @@ function vykresliMoznosti(otazka, moznosti, vybrane = [], ukazVyhodnotenie = fal
     const klavesa = document.createElement("span");
     klavesa.className = "klavesa";
 
-    const obrazokKlavesy = document.createElement("img");
-    obrazokKlavesy.className = "obrazokKlavesy";
-    obrazokKlavesy.src = "assets/keycap_lines.svg";
-    obrazokKlavesy.alt = "";
+    const obrazokKlavesy = vytvorObrazokKlavesy();
 
     const cisloKlavesy = document.createElement("span");
     cisloKlavesy.className = "cisloKlavesy";
     cisloKlavesy.textContent = String(index + 1);
     klavesa.append(obrazokKlavesy, cisloKlavesy);
 
+    const obsah = document.createElement("span");
+    obsah.className = "obsahMoznosti";
+
     const text = document.createElement("span");
     text.className = "textMoznosti";
     text.textContent = moznost.text;
+    obsah.appendChild(text);
 
-    popisok.append(vstup, klavesa, text);
+    if (moznost.obrazok) {
+      const obrazok = document.createElement("img");
+      obrazok.src = moznost.obrazok;
+      obrazok.alt = moznost.text || "Obrázok možnosti";
+      obrazok.className = "obrazok-moznosti";
+      obsah.appendChild(obrazok);
+    }
+
+    popisok.append(vstup, klavesa, obsah);
     prvokMoznosti.appendChild(popisok);
   });
 
@@ -710,11 +962,24 @@ function pocetZobrazenychMoznosti(otazka) {
   return otazka.moznosti.length >= 7 ? 5 : otazka.moznosti.length;
 }
 
-function vyberMoznostiOtazky(otazka) {
-  const moznosti = otazka.moznosti.map((text, povodnyIndex) => ({
-    text,
+function vytvorMoznostOtazky(moznost, povodnyIndex) {
+  if (moznost && typeof moznost === "object") {
+    return {
+      text: moznost.text || `Možnosť ${povodnyIndex + 1}`,
+      obrazok: moznost.obrazok || "",
+      povodnyIndex
+    };
+  }
+
+  return {
+    text: String(moznost),
+    obrazok: "",
     povodnyIndex
-  }));
+  };
+}
+
+function vyberMoznostiOtazky(otazka) {
+  const moznosti = otazka.moznosti.map(vytvorMoznostOtazky);
   const pocet = pocetZobrazenychMoznosti(otazka);
 
   if (pocet >= moznosti.length) {
@@ -927,11 +1192,12 @@ function skontrolujOdpoved() {
   upravStlpec(jeSpravne);
   aktualizujStreak(jeSpravne);
   spustiSpatnuVazbu(jeSpravne, seriaSpravnych);
+  posunCitatPoOtazkach();
 
   if (jeSpravne) {
     skore++;
     prvokVysledok.className = "vysledok ok";
-    prvokVysledok.textContent = `Správne. ${otazka.vysvetlenie}`;
+    prvokVysledok.textContent = zlozSpravnyVysledok(otazka);
   } else {
     prvokVysledok.className = "vysledok zle";
     prvokVysledok.textContent = `Nesprávne. Správna odpoveď: ${textSpravnychOdpovedi(otazka)}. ${otazka.vysvetlenie}`;
@@ -956,7 +1222,7 @@ function skontrolujOdpoved() {
 
   prvokSkore.textContent = `Skóre: ${skore}`;
 
-  if (jeSpravne) {
+  if (jeSpravne && prepinacRychlehoRezimu.checked) {
     naplanujDalsiuOtazku();
   }
 }
@@ -1032,6 +1298,10 @@ function ziskajOtazkyPredmetu(predmet) {
     return helOtazky;
   }
 
+  if (predmet === "vs2") {
+    return typeof vs2Otazky === "undefined" ? [] : vs2Otazky;
+  }
+
   return czsOtazky;
 }
 
@@ -1045,6 +1315,8 @@ function nastavPredmet(predmet) {
   tlacidloPredmetCzs.classList.toggle("sekundarne", predmet !== "czs");
   tlacidloPredmetHel.classList.toggle("aktivny", predmet === "hel");
   tlacidloPredmetHel.classList.toggle("sekundarne", predmet !== "hel");
+  tlacidloPredmetVs2.classList.toggle("aktivny", predmet === "vs2");
+  tlacidloPredmetVs2.classList.toggle("sekundarne", predmet !== "vs2");
   tlacidloPredmetTest.classList.toggle("aktivny", predmet === "test");
   tlacidloPredmetTest.classList.toggle("sekundarne", predmet !== "test");
   prvokPrepinacRezimu.classList.toggle("skryte", predmet !== "pc2");
@@ -1158,11 +1430,19 @@ tlacidloPredmetCzs.addEventListener("click", () => {
 tlacidloPredmetHel.addEventListener("click", () => {
   nastavPredmet("hel");
 });
+tlacidloPredmetVs2.addEventListener("click", () => {
+  nastavPredmet("vs2");
+});
 tlacidloPredmetTest.addEventListener("click", () => {
   nastavPredmet("test");
 });
 tlacidloTemaOranzova.addEventListener("click", () => nastavTemu("oranzova"));
-tlacidloTemaZlta.addEventListener("click", () => nastavTemu("zlta"));
+tlacidloTemaZlta.addEventListener("click", prepniZltuTemu);
+tlacidloTemaSiva.addEventListener("click", () => nastavTemu("siva"));
+tlacidloTemaFialova.addEventListener("click", () => nastavTemu("fialova"));
+tlacidloTemaTyrkysova.addEventListener("click", () => nastavTemu("tyrkysova"));
+prepinacCitatov.addEventListener("change", nastavZobrazenieCitatov);
+prepinacRychlehoRezimu.addEventListener("change", nastavRychlyRezim);
 prvokVyberPrezentacie.addEventListener("change", () => {
   vybranaPrezentacia = prvokVyberPrezentacie.value;
   nastavVsetkyPodokruhy();
@@ -1183,10 +1463,13 @@ tlacidloRezimTest.addEventListener("click", () => nastavRezim("test"));
 tlacidloRezimKod.addEventListener("click", () => nastavRezim("kod"));
 tlacidloKodKontrola.addEventListener("click", vyhodnotKodovuOdpoved);
 tlacidloKodDalsia.addEventListener("click", dalsiaKodovaUloha);
+document.addEventListener("click", obsluzKlikVolitelnehoPrvku);
+document.addEventListener("change", obsluzZmenuVolitelnehoPrvku);
 document.addEventListener("keydown", obsluzKlavesnicu);
 
 vytvorPixelyStlpca();
 nastavHlasitost(posuvnikHlasitosti.value);
 nastavTemu("oranzova");
+nastavNahodnyCitat();
 nastavPredmet("test");
 nastavKodovePoradie();
