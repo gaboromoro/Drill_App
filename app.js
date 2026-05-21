@@ -12,6 +12,9 @@ let seriaSpravnych = 0;
 let najvyssiaSeriaSpravnych = 0;
 let casovacDalsejOtazky = null;
 let hlasitost = 0.5;
+let pociatocnyPocetPoolu = 0;
+let cakaNaVyradenieOtazky = false;
+let poolDokonceny = false;
 let vybranaPrezentacia = "__vsetko";
 let vybranePodokruhy = new Set();
 let predoslyVysledok = null;
@@ -82,6 +85,7 @@ const tlacidloTemaTyrkysova = document.getElementById("tlacidloTemaTyrkysova");
 const posuvnikHlasitosti = document.getElementById("posuvnikHlasitosti");
 const prepinacCitatov = document.getElementById("prepinacCitatov");
 const prepinacRychlehoRezimu = document.getElementById("prepinacRychlehoRezimu");
+const prepinacPrejdeniaPoolu = document.getElementById("prepinacPrejdeniaPoolu");
 const klavesyMoznosti = ["1", "2", "3", "4", "5", "6"];
 const pocetStlpcovPixelov = 24;
 const pocetRiadkovPixelov = 4;
@@ -388,6 +392,15 @@ function nastavRychlyRezim() {
   if (!prepinacRychlehoRezimu.checked) {
     zrusCasovacDalsejOtazky();
   }
+}
+
+function jeRezimPrejdeniaPoolu() {
+  return Boolean(prepinacPrejdeniaPoolu && prepinacPrejdeniaPoolu.checked);
+}
+
+function nastavRezimPrejdeniaPoolu() {
+  cakaNaVyradenieOtazky = false;
+  nastavPoradie();
 }
 
 function najdiVolitelnyPrvok(ciel) {
@@ -750,8 +763,12 @@ function spustiSpatnuVazbu(jeSpravne, dlzkaSerie = 0) {
   spustiEfekt(jeSpravne, dlzkaSerie);
 }
 
+function maximumStlpca() {
+  return Math.max(jeRezimPrejdeniaPoolu() ? pociatocnyPocetPoolu : poradieOtazok.length, 1);
+}
+
 function aktualizujStlpec() {
-  const maximum = Math.max(poradieOtazok.length, 1);
+  const maximum = maximumStlpca();
   const vyska = Math.round((stavStlpca / maximum) * 100);
   prvokVyplnStlpca.style.height = `${vyska}%`;
   prvokVyplnStlpca.parentElement.style.setProperty("--vyska-liquidu", `${vyska}%`);
@@ -760,8 +777,9 @@ function aktualizujStlpec() {
 }
 
 function aktualizujStreak(animuj = false) {
-  const velkost = Math.min(34 + seriaSpravnych * 4.4, 112);
-  prvokStreakAktualny.textContent = String(seriaSpravnych);
+  const zobrazenaHodnota = jeRezimPrejdeniaPoolu() ? stavStlpca : seriaSpravnych;
+  const velkost = Math.min(34 + zobrazenaHodnota * 4.4, 112);
+  prvokStreakAktualny.textContent = String(zobrazenaHodnota);
   prvokStreakAktualny.style.setProperty("--streak-velkost", `${velkost}px`);
   prvokStreakNajlepsi.textContent = `HS: ${najvyssiaSeriaSpravnych}`;
 
@@ -775,8 +793,14 @@ function aktualizujStreak(animuj = false) {
 }
 
 function upravStlpec(jeSpravne) {
-  const maximum = Math.max(poradieOtazok.length, 1);
-  stavStlpca += jeSpravne ? 1 : -1;
+  const maximum = maximumStlpca();
+
+  if (jeRezimPrejdeniaPoolu()) {
+    stavStlpca += jeSpravne ? 1 : 0;
+  } else {
+    stavStlpca += jeSpravne ? 1 : -1;
+  }
+
   stavStlpca = Math.max(0, Math.min(maximum, stavStlpca));
   aktualizujStlpec();
 }
@@ -802,12 +826,15 @@ function nastavPoradie() {
   zrusCasovacDalsejOtazky();
   aktualneOtazky = ziskajOtazkyPodlaFiltra();
   poradieOtazok = zamiesaj(aktualneOtazky);
+  pociatocnyPocetPoolu = poradieOtazok.length;
   aktualnyIndex = 0;
   skore = 0;
   pocetVyhodnotenychOtazok = 0;
   stavStlpca = 0;
   seriaSpravnych = 0;
   najvyssiaSeriaSpravnych = 0;
+  cakaNaVyradenieOtazky = false;
+  poolDokonceny = false;
   vycistiPredoslyVysledok();
   aktualizujStlpec();
   aktualizujStreak();
@@ -1023,6 +1050,8 @@ function zobrazOtazku() {
   vyhodnotene = false;
   zobrazujePredoslyVysledok = false;
   nahladAktualnejOtazky = null;
+  cakaNaVyradenieOtazky = false;
+  poolDokonceny = false;
 
   prvokTema.textContent = otazka.tema;
   prvokTypOtazky.textContent = otazka.typ === "viac" ? "Vyber jednu alebo viac možností" : "Vyber jednu možnosť";
@@ -1128,6 +1157,11 @@ function pouziMedzernik() {
     return;
   }
 
+  if (poolDokonceny) {
+    nastavPoradie();
+    return;
+  }
+
   if (zobrazujePredoslyVysledok) {
     obnovNahladAktualnejOtazky();
     return;
@@ -1181,6 +1215,7 @@ function skontrolujOdpoved() {
 
   const jeSpravne = rovnakePolia(vybrane, spravneZobrazeneIndexy(otazka));
   ulozPredoslyVysledok(otazka, vybrane, jeSpravne);
+  cakaNaVyradenieOtazky = jeSpravne && jeRezimPrejdeniaPoolu();
 
   if (jeSpravne) {
     seriaSpravnych++;
@@ -1227,9 +1262,74 @@ function skontrolujOdpoved() {
   }
 }
 
+function vyradSpravneZodpovedanuOtazku() {
+  if (!cakaNaVyradenieOtazky) {
+    return false;
+  }
+
+  const otazka = aktualnaOtazka();
+  cakaNaVyradenieOtazky = false;
+
+  if (!otazka) {
+    return false;
+  }
+
+  const idOtazky = ziskajIdOtazky(otazka);
+  poradieOtazok = poradieOtazok.filter((polozka) => ziskajIdOtazky(polozka) !== idOtazky);
+  aktualneOtazky = aktualneOtazky.filter((polozka) => ziskajIdOtazky(polozka) !== idOtazky);
+
+  if (aktualnyIndex >= poradieOtazok.length) {
+    aktualnyIndex = 0;
+  }
+
+  return true;
+}
+
+function zobrazDokoncenyPool() {
+  poolDokonceny = true;
+  vyhodnotene = true;
+  zobrazujePredoslyVysledok = false;
+  nahladAktualnejOtazky = null;
+  prvokTema.textContent = "Pool hotovy";
+  prvokTypOtazky.textContent = "Vsetko spravne";
+  prvokOtazka.textContent = "Vsetky otazky v aktualnom poole boli zodpovedane spravne.";
+  prvokPocitadlo.textContent = `${stavStlpca} / ${pociatocnyPocetPoolu}`;
+  prvokSkore.textContent = `Skore: ${skore}`;
+  prvokMoznosti.innerHTML = "";
+  prvokVysledok.className = "vysledok ok";
+  prvokVysledok.textContent = "Stlac medzernik pre novy beh toho isteho poolu.";
+  prvokObrazokOtazky.classList.add("skryte");
+  prvokMediaOtazky.classList.add("skryte");
+  prvokMediaOtazky.innerHTML = "";
+  prvokKod.classList.add("skryte");
+  prvokKod.textContent = "";
+  tlacidloMedzernik.disabled = false;
+  tlacidloOdstranitOtazku.disabled = true;
+  tlacidloPredoslyVysledok.textContent = "Predosle";
+}
+
 function dalsiaOtazka() {
+  const boloVyradene = vyradSpravneZodpovedanuOtazku();
+
+  if (poradieOtazok.length === 0) {
+    zobrazDokoncenyPool();
+    return;
+  }
+
+  if (boloVyradene) {
+    zobrazOtazku();
+    return;
+  }
+
   if (aktualnyIndex < poradieOtazok.length - 1) {
     aktualnyIndex++;
+    zobrazOtazku();
+    return;
+  }
+
+  if (jeRezimPrejdeniaPoolu()) {
+    poradieOtazok = zamiesaj(poradieOtazok);
+    aktualnyIndex = 0;
     zobrazOtazku();
     return;
   }
@@ -1250,9 +1350,15 @@ function odoberAktualnuOtazku() {
 
   zrusCasovacDalsejOtazky();
   odstraneneOtazky.set(ziskajIdOtazky(otazka), otazka);
+  cakaNaVyradenieOtazky = false;
   poradieOtazok = poradieOtazok.filter((polozka) => ziskajIdOtazky(polozka) !== ziskajIdOtazky(otazka));
   aktualneOtazky = aktualneOtazky.filter((polozka) => ziskajIdOtazky(polozka) !== ziskajIdOtazky(otazka));
-  stavStlpca = Math.min(stavStlpca, poradieOtazok.length);
+
+  if (jeRezimPrejdeniaPoolu()) {
+    pociatocnyPocetPoolu = Math.max(stavStlpca, pociatocnyPocetPoolu - 1);
+  }
+
+  stavStlpca = Math.min(stavStlpca, maximumStlpca());
 
   if (aktualnyIndex >= poradieOtazok.length) {
     aktualnyIndex = Math.max(0, poradieOtazok.length - 1);
@@ -1443,6 +1549,7 @@ tlacidloTemaFialova.addEventListener("click", () => nastavTemu("fialova"));
 tlacidloTemaTyrkysova.addEventListener("click", () => nastavTemu("tyrkysova"));
 prepinacCitatov.addEventListener("change", nastavZobrazenieCitatov);
 prepinacRychlehoRezimu.addEventListener("change", nastavRychlyRezim);
+prepinacPrejdeniaPoolu.addEventListener("change", nastavRezimPrejdeniaPoolu);
 prvokVyberPrezentacie.addEventListener("change", () => {
   vybranaPrezentacia = prvokVyberPrezentacie.value;
   nastavVsetkyPodokruhy();

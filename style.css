@@ -425,6 +425,37 @@ textarea {
   align-items: center;
 }
 
+.nastavenie-s-hintom {
+  position: relative;
+}
+
+.hint-nastavenia {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 35;
+  width: min(360px, calc(100vw - 52px));
+  border: 2px solid var(--ciara);
+  background: var(--pozadie);
+  color: var(--text);
+  padding: 8px 10px;
+  font-size: 14px;
+  line-height: 1.25;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease;
+}
+
+.nastavenie-s-hintom:hover .hint-nastavenia,
+.nastavenie-s-hintom:focus-within .hint-nastavenia {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1s;
+}
+
 .prepinace-nastaveni {
   margin-bottom: 0;
 }
