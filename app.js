@@ -71,6 +71,7 @@ const tlacidloNastavenia = document.getElementById("tlacidloNastavenia");
 const tlacidloPredoslyVysledok = document.getElementById("tlacidloPredoslyVysledok");
 const tlacidloOdstranitOtazku = document.getElementById("tlacidloOdstranitOtazku");
 const tlacidloPridatTazkuOtazku = document.getElementById("tlacidloPridatTazkuOtazku");
+const tlacidloNeviem = document.getElementById("tlacidloNeviem");
 const tlacidloVratitVsetkyOtazky = document.getElementById("tlacidloVratitVsetkyOtazky");
 const tlacidloSpustitTazkyPool = document.getElementById("tlacidloSpustitTazkyPool");
 const tlacidloVypnutTazkyPool = document.getElementById("tlacidloVypnutTazkyPool");
@@ -79,6 +80,7 @@ const tlacidloPredmetPc2 = document.getElementById("tlacidloPredmetPc2");
 const tlacidloPredmetCzs = document.getElementById("tlacidloPredmetCzs");
 const tlacidloPredmetHel = document.getElementById("tlacidloPredmetHel");
 const tlacidloPredmetVs2 = document.getElementById("tlacidloPredmetVs2");
+const tlacidloPredmetAud = document.getElementById("tlacidloPredmetAud");
 const tlacidloPredmetTest = document.getElementById("tlacidloPredmetTest");
 const tlacidloVsetkyPodokruhy = document.getElementById("tlacidloVsetkyPodokruhy");
 const tlacidloZiadnePodokruhy = document.getElementById("tlacidloZiadnePodokruhy");
@@ -590,6 +592,11 @@ function aktualizujTlacidloTazkejOtazky() {
   tlacidloPridatTazkuOtazku.textContent = jePridana ? "V tazkom poole" : "Pridat otazku";
 }
 
+function aktualizujTlacidloNeviem() {
+  const otazka = aktualnaOtazka();
+  tlacidloNeviem.disabled = !otazka || vyhodnotene || zobrazujePredoslyVysledok || poolDokonceny;
+}
+
 function vykresliTazkeOtazky() {
   const otazky = [...tazkeOtazky.values()];
   prvokBlokTazkychOtazok.classList.toggle("skryte", otazky.length === 0 && !pouzivaTazkyPool);
@@ -617,6 +624,7 @@ function vykresliTazkeOtazky() {
   });
 
   aktualizujTlacidloTazkejOtazky();
+  aktualizujTlacidloNeviem();
 }
 
 function pridajAktualnuOtazkuDoTazkych() {
@@ -752,7 +760,11 @@ function zlozSpravnyVysledok(otazka) {
   return ["WHEEEEEEEEEEE", otazka.vysvetlenie].filter(Boolean).join(" ");
 }
 
-function ulozPredoslyVysledok(otazka, vybrane, jeSpravne) {
+function zlozZlyVysledok(otazka, moznosti = aktualneMoznosti, uvod = "Nespravne") {
+  return `${uvod}. Spravna odpoved: ${textSpravnychOdpovedi(otazka, moznosti)} ${otazka.vysvetlenie}`;
+}
+
+function ulozPredoslyVysledok(otazka, vybrane, jeSpravne, textVysledku = null) {
   const moznosti = aktualneMoznosti.map((moznost) => ({ ...moznost }));
   predoslyVysledok = {
     jeSpravne,
@@ -763,6 +775,9 @@ function ulozPredoslyVysledok(otazka, vybrane, jeSpravne) {
       ? zlozSpravnyVysledok(otazka)
       : `Nesprávne. Správna odpoveď: ${textSpravnychOdpovedi(otazka, moznosti)}. ${otazka.vysvetlenie}`
   };
+  if (textVysledku) {
+    predoslyVysledok.textVysledku = textVysledku;
+  }
   tlacidloPredoslyVysledok.disabled = false;
   tlacidloPredoslyVysledok.textContent = "Predošlé";
 }
@@ -810,6 +825,7 @@ function obnovNahladAktualnejOtazky() {
   tlacidloMedzernik.disabled = false;
   tlacidloOdstranitOtazku.disabled = false;
   aktualizujTlacidloTazkejOtazky();
+  aktualizujTlacidloNeviem();
   tlacidloPredoslyVysledok.textContent = "Predošlé";
 }
 
@@ -839,6 +855,7 @@ function vykresliPredoslyVysledok() {
   tlacidloMedzernik.disabled = false;
   tlacidloOdstranitOtazku.disabled = true;
   aktualizujTlacidloTazkejOtazky();
+  aktualizujTlacidloNeviem();
   tlacidloPredoslyVysledok.textContent = "Aktuálna";
 }
 
@@ -1001,6 +1018,7 @@ function zobrazPrazdnyVyber() {
   tlacidloMedzernik.disabled = true;
   tlacidloOdstranitOtazku.disabled = true;
   aktualizujTlacidloTazkejOtazky();
+  aktualizujTlacidloNeviem();
   tlacidloPredoslyVysledok.textContent = "Predošlé";
 }
 
@@ -1189,6 +1207,7 @@ function zobrazOtazku() {
   tlacidloMedzernik.disabled = false;
   tlacidloOdstranitOtazku.disabled = false;
   aktualizujTlacidloTazkejOtazky();
+  aktualizujTlacidloNeviem();
   tlacidloPredoslyVysledok.textContent = "Predošlé";
 
   nastavMediaOtazky(otazka);
@@ -1324,15 +1343,13 @@ function spravneZobrazeneIndexy(otazka, moznosti = aktualneMoznosti) {
     .map((moznost) => moznost.povodnyIndex);
 }
 
-function skontrolujOdpoved() {
+function skontrolujOdpoved(vybrane = ziskajVybraneIndexy(), povolPrazdnu = false, uvodZlejOdpovede = "Nespravne") {
   if (vyhodnotene || zobrazujePredoslyVysledok) {
     return;
   }
 
   const otazka = aktualnaOtazka();
-  const vybrane = ziskajVybraneIndexy();
-
-  if (vybrane.length === 0) {
+  if (vybrane.length === 0 && !povolPrazdnu) {
     prvokVysledok.className = "vysledok zle";
     prvokVysledok.textContent = "Najprv vyber odpoveď.";
     return;
@@ -1341,7 +1358,8 @@ function skontrolujOdpoved() {
   vyhodnotene = true;
 
   const jeSpravne = rovnakePolia(vybrane, spravneZobrazeneIndexy(otazka));
-  ulozPredoslyVysledok(otazka, vybrane, jeSpravne);
+  const textVysledku = jeSpravne ? zlozSpravnyVysledok(otazka) : zlozZlyVysledok(otazka, aktualneMoznosti, uvodZlejOdpovede);
+  ulozPredoslyVysledok(otazka, vybrane, jeSpravne, textVysledku);
   cakaNaVyradenieOtazky = jeSpravne && jeRezimPrejdeniaPoolu();
 
   if (jeSpravne) {
@@ -1359,10 +1377,14 @@ function skontrolujOdpoved() {
   if (jeSpravne) {
     skore++;
     prvokVysledok.className = "vysledok ok";
-    prvokVysledok.textContent = zlozSpravnyVysledok(otazka);
+    prvokVysledok.textContent = textVysledku;
   } else {
     prvokVysledok.className = "vysledok zle";
     prvokVysledok.textContent = `Nesprávne. Správna odpoveď: ${textSpravnychOdpovedi(otazka)}. ${otazka.vysvetlenie}`;
+  }
+
+  if (!jeSpravne) {
+    prvokVysledok.textContent = textVysledku;
   }
 
   [...prvokMoznosti.children].forEach((popisok, index) => {
@@ -1384,9 +1406,15 @@ function skontrolujOdpoved() {
 
   prvokSkore.textContent = `Skóre: ${skore}`;
 
+  aktualizujTlacidloNeviem();
+
   if (jeSpravne && prepinacRychlehoRezimu.checked) {
     naplanujDalsiuOtazku();
   }
+}
+
+function odpovedzNeviem() {
+  skontrolujOdpoved([], true, "Neviem");
 }
 
 function vyradSpravneZodpovedanuOtazku() {
@@ -1433,6 +1461,7 @@ function zobrazDokoncenyPool() {
   tlacidloMedzernik.disabled = false;
   tlacidloOdstranitOtazku.disabled = true;
   aktualizujTlacidloTazkejOtazky();
+  aktualizujTlacidloNeviem();
   tlacidloPredoslyVysledok.textContent = "Predosle";
 }
 
@@ -1536,6 +1565,10 @@ function ziskajOtazkyPredmetu(predmet) {
     return typeof vs2Otazky === "undefined" ? [] : vs2Otazky;
   }
 
+  if (predmet === "aud") {
+    return typeof audOtazky === "undefined" ? [] : audOtazky;
+  }
+
   return czsOtazky;
 }
 
@@ -1551,6 +1584,8 @@ function nastavPredmet(predmet) {
   tlacidloPredmetHel.classList.toggle("sekundarne", predmet !== "hel");
   tlacidloPredmetVs2.classList.toggle("aktivny", predmet === "vs2");
   tlacidloPredmetVs2.classList.toggle("sekundarne", predmet !== "vs2");
+  tlacidloPredmetAud.classList.toggle("aktivny", predmet === "aud");
+  tlacidloPredmetAud.classList.toggle("sekundarne", predmet !== "aud");
   tlacidloPredmetTest.classList.toggle("aktivny", predmet === "test");
   tlacidloPredmetTest.classList.toggle("sekundarne", predmet !== "test");
   prvokPrepinacRezimu.classList.toggle("skryte", predmet !== "pc2");
@@ -1654,6 +1689,7 @@ tlacidloNastavenia.addEventListener("click", prepniNastavenia);
 tlacidloPredoslyVysledok.addEventListener("click", prepniPredoslyVysledok);
 tlacidloOdstranitOtazku.addEventListener("click", odoberAktualnuOtazku);
 tlacidloPridatTazkuOtazku.addEventListener("click", pridajAktualnuOtazkuDoTazkych);
+tlacidloNeviem.addEventListener("click", odpovedzNeviem);
 tlacidloVratitVsetkyOtazky.addEventListener("click", vratVsetkyOtazky);
 tlacidloSpustitTazkyPool.addEventListener("click", spustiTazkyPool);
 tlacidloVypnutTazkyPool.addEventListener("click", vypniTazkyPool);
@@ -1670,6 +1706,9 @@ tlacidloPredmetHel.addEventListener("click", () => {
 });
 tlacidloPredmetVs2.addEventListener("click", () => {
   nastavPredmet("vs2");
+});
+tlacidloPredmetAud.addEventListener("click", () => {
+  nastavPredmet("aud");
 });
 tlacidloPredmetTest.addEventListener("click", () => {
   nastavPredmet("test");
