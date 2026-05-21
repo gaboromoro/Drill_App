@@ -27,7 +27,7 @@
       <section id="panelNastaveni" class="panel-nastaveni skryte" aria-label="Nastavenia">
         <label class="nastavenie">
           <span>Hlasitosť</span>
-          <input id="posuvnikHlasitosti" type="range" min="0" max="100" value="50">
+          <input id="posuvnikHlasitosti" type="range" min="0" max="100" value="33">
         </label>
 
         <div class="nastavenie">
@@ -105,6 +105,18 @@
           </div>
           <div id="zoznamOdstranenychOtazok" class="zoznam-odstranenych"></div>
         </section>
+
+        <section id="blokTazkychOtazok" class="blok-odstranenych skryte">
+          <div class="hlavicka-odstranenych">
+            <span>Ťažké otázky <span id="pocetTazkychOtazok" class="pocet-filtra">0</span></span>
+            <div class="tlacidla-podokruhov">
+              <button id="tlacidloSpustitTazkyPool" class="mini-tlacidlo" type="button">Precvičiť</button>
+              <button id="tlacidloVypnutTazkyPool" class="mini-tlacidlo" type="button">Filter</button>
+              <button id="tlacidloVycistitTazkyPool" class="mini-tlacidlo" type="button">Vyčistiť</button>
+            </div>
+          </div>
+          <div id="zoznamTazkychOtazok" class="zoznam-odstranenych"></div>
+        </section>
       </section>
     </header>
 
@@ -136,7 +148,10 @@
         <div id="vysledok" class="vysledok skryte"></div>
 
         <div class="ovladanie">
-          <button id="tlacidloOdstranitOtazku" class="tlacidlo-odstranit" type="button">Odobrať otázku</button>
+          <div class="tlacidla-otazky">
+            <button id="tlacidloOdstranitOtazku" class="tlacidlo-otazky" type="button">Odobrať otázku</button>
+            <button id="tlacidloPridatTazkuOtazku" class="tlacidlo-otazky" type="button">Pridať otázku</button>
+          </div>
           <button id="tlacidloMedzernik" class="tlacidlo-medzernik" type="button" aria-label="Medzerník: skontrolovať odpoveď alebo prejsť na ďalšiu otázku">
             <svg class="obrazok-medzernika" xmlns="http://www.w3.org/2000/svg" width="708" height="98" viewBox="0 0 708 98" preserveAspectRatio="none" aria-hidden="true">
               <polygon class="okraj-klavesy" points="0 10 10 0 10 80 0 95"></polygon>

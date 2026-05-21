@@ -15,6 +15,7 @@ let hlasitost = 0.5;
 let pociatocnyPocetPoolu = 0;
 let cakaNaVyradenieOtazky = false;
 let poolDokonceny = false;
+let pouzivaTazkyPool = false;
 let vybranaPrezentacia = "__vsetko";
 let vybranePodokruhy = new Set();
 let predoslyVysledok = null;
@@ -23,6 +24,7 @@ let nahladAktualnejOtazky = null;
 let aktualnaTema = "oranzova";
 let aktualnyIndexCitatu = -1;
 const odstraneneOtazky = new Map();
+const tazkeOtazky = new Map();
 const hodnotaVsetko = "__vsetko";
 const priestorSvg = "http://www.w3.org/2000/svg";
 const zvukSpravne = new Audio("Audio-samples/correct/ESM_Simple_Google_Soundalike_Alert_20_Beep_Chirp_Notification_Synth_Electronic.wav");
@@ -50,6 +52,9 @@ const prvokZoznamPodokruhov = document.getElementById("zoznamPodokruhov");
 const prvokPocetFiltra = document.getElementById("pocetFiltra");
 const prvokBlokOdstranenych = document.getElementById("blokOdstranenych");
 const prvokZoznamOdstranenychOtazok = document.getElementById("zoznamOdstranenychOtazok");
+const prvokBlokTazkychOtazok = document.getElementById("blokTazkychOtazok");
+const prvokZoznamTazkychOtazok = document.getElementById("zoznamTazkychOtazok");
+const prvokPocetTazkychOtazok = document.getElementById("pocetTazkychOtazok");
 const prvokRezimTest = document.getElementById("rezimTest");
 const prvokRezimKod = document.getElementById("rezimKod");
 const prvokKodTema = document.getElementById("kodTema");
@@ -65,7 +70,11 @@ const tlacidloMedzernik = document.getElementById("tlacidloMedzernik");
 const tlacidloNastavenia = document.getElementById("tlacidloNastavenia");
 const tlacidloPredoslyVysledok = document.getElementById("tlacidloPredoslyVysledok");
 const tlacidloOdstranitOtazku = document.getElementById("tlacidloOdstranitOtazku");
+const tlacidloPridatTazkuOtazku = document.getElementById("tlacidloPridatTazkuOtazku");
 const tlacidloVratitVsetkyOtazky = document.getElementById("tlacidloVratitVsetkyOtazky");
+const tlacidloSpustitTazkyPool = document.getElementById("tlacidloSpustitTazkyPool");
+const tlacidloVypnutTazkyPool = document.getElementById("tlacidloVypnutTazkyPool");
+const tlacidloVycistitTazkyPool = document.getElementById("tlacidloVycistitTazkyPool");
 const tlacidloPredmetPc2 = document.getElementById("tlacidloPredmetPc2");
 const tlacidloPredmetCzs = document.getElementById("tlacidloPredmetCzs");
 const tlacidloPredmetHel = document.getElementById("tlacidloPredmetHel");
@@ -502,10 +511,18 @@ function ziskajDostupnePodokruhy() {
   return unikatneHodnoty(ziskajOtazkyPrePrezentaciu().map(ziskajPodokruh));
 }
 
-function ziskajOtazkyPodlaFiltra() {
+function ziskajOtazkyZBeznychFiltrov() {
   return ziskajOtazkyPrePrezentaciu().filter((otazka) => (
     vybranePodokruhy.has(ziskajPodokruh(otazka)) && !odstraneneOtazky.has(ziskajIdOtazky(otazka))
   ));
+}
+
+function ziskajOtazkyPodlaFiltra() {
+  if (pouzivaTazkyPool) {
+    return [...tazkeOtazky.values()].filter((otazka) => !odstraneneOtazky.has(ziskajIdOtazky(otazka)));
+  }
+
+  return ziskajOtazkyZBeznychFiltrov();
 }
 
 function nastavVsetkyPodokruhy() {
@@ -514,7 +531,8 @@ function nastavVsetkyPodokruhy() {
 
 function aktualizujPocetFiltra() {
   const pocet = ziskajOtazkyPodlaFiltra().length;
-  prvokPocetFiltra.textContent = pocet === 1 ? "1 otázka" : `${pocet} otázok`;
+  const textPoctu = pocet === 1 ? "1 otazka" : `${pocet} otazok`;
+  prvokPocetFiltra.textContent = pouzivaTazkyPool ? `${textPoctu} v tazkom poole` : textPoctu;
 }
 
 function vykresliOdstraneneOtazky() {
@@ -559,6 +577,106 @@ function vratVsetkyOtazky() {
   nastavPoradie();
 }
 
+function jeOtazkaVTazkomPoole(otazka) {
+  return Boolean(otazka && tazkeOtazky.has(ziskajIdOtazky(otazka)));
+}
+
+function aktualizujTlacidloTazkejOtazky() {
+  const otazka = aktualnaOtazka();
+  const jeDostupna = Boolean(otazka) && !zobrazujePredoslyVysledok && !poolDokonceny;
+  const jePridana = jeOtazkaVTazkomPoole(otazka);
+
+  tlacidloPridatTazkuOtazku.disabled = !jeDostupna || jePridana;
+  tlacidloPridatTazkuOtazku.textContent = jePridana ? "V tazkom poole" : "Pridat otazku";
+}
+
+function vykresliTazkeOtazky() {
+  const otazky = [...tazkeOtazky.values()];
+  prvokBlokTazkychOtazok.classList.toggle("skryte", otazky.length === 0 && !pouzivaTazkyPool);
+  prvokPocetTazkychOtazok.textContent = `(${otazky.length})`;
+  tlacidloSpustitTazkyPool.disabled = otazky.length === 0 || pouzivaTazkyPool;
+  tlacidloVypnutTazkyPool.disabled = !pouzivaTazkyPool;
+  tlacidloVycistitTazkyPool.disabled = otazky.length === 0;
+  prvokZoznamTazkychOtazok.innerHTML = "";
+
+  otazky.forEach((otazka) => {
+    const riadok = document.createElement("div");
+    riadok.className = "odstranena-otazka";
+
+    const text = document.createElement("span");
+    text.textContent = `${ziskajPodokruh(otazka)}: ${otazka.otazka}`;
+
+    const tlacidlo = document.createElement("button");
+    tlacidlo.type = "button";
+    tlacidlo.className = "mini-tlacidlo";
+    tlacidlo.textContent = "Odstranit";
+    tlacidlo.addEventListener("click", () => odoberTazkuOtazku(ziskajIdOtazky(otazka)));
+
+    riadok.append(text, tlacidlo);
+    prvokZoznamTazkychOtazok.appendChild(riadok);
+  });
+
+  aktualizujTlacidloTazkejOtazky();
+}
+
+function pridajAktualnuOtazkuDoTazkych() {
+  if (zobrazujePredoslyVysledok || poolDokonceny) {
+    return;
+  }
+
+  const otazka = aktualnaOtazka();
+  if (!otazka) {
+    return;
+  }
+
+  tazkeOtazky.set(ziskajIdOtazky(otazka), otazka);
+  vykresliTazkeOtazky();
+}
+
+function odoberTazkuOtazku(idOtazky) {
+  tazkeOtazky.delete(idOtazky);
+
+  if (pouzivaTazkyPool) {
+    poradieOtazok = poradieOtazok.filter((otazka) => ziskajIdOtazky(otazka) !== idOtazky);
+    if (tazkeOtazky.size === 0) {
+      pouzivaTazkyPool = false;
+    }
+    nastavPoradie();
+    return;
+  }
+
+  vykresliTazkeOtazky();
+}
+
+function spustiTazkyPool() {
+  if (tazkeOtazky.size === 0) {
+    return;
+  }
+
+  pouzivaTazkyPool = true;
+  nastavPoradie();
+}
+
+function vypniTazkyPool() {
+  if (!pouzivaTazkyPool) {
+    return;
+  }
+
+  pouzivaTazkyPool = false;
+  nastavPoradie();
+}
+
+function vycistiTazkyPool() {
+  if (tazkeOtazky.size === 0) {
+    return;
+  }
+
+  tazkeOtazky.clear();
+  pouzivaTazkyPool = false;
+  vykresliTazkeOtazky();
+  nastavPoradie();
+}
+
 function vykresliVyberPrezentacie() {
   prvokVyberPrezentacie.innerHTML = "";
 
@@ -593,6 +711,7 @@ function vykresliPodokruhy() {
       } else {
         vybranePodokruhy.delete(podokruh);
       }
+      pouzivaTazkyPool = false;
       aktualizujPocetFiltra();
       nastavPoradie();
     });
@@ -608,6 +727,7 @@ function vykresliPodokruhy() {
 }
 
 function obnovFiltrePredmetu() {
+  pouzivaTazkyPool = false;
   vybranaPrezentacia = hodnotaVsetko;
   vykresliVyberPrezentacie();
   nastavVsetkyPodokruhy();
@@ -689,6 +809,7 @@ function obnovNahladAktualnejOtazky() {
   vykresliMoznosti(otazka, aktualneMoznosti, nahlad.vybrane, nahlad.vyhodnotene);
   tlacidloMedzernik.disabled = false;
   tlacidloOdstranitOtazku.disabled = false;
+  aktualizujTlacidloTazkejOtazky();
   tlacidloPredoslyVysledok.textContent = "Predošlé";
 }
 
@@ -717,6 +838,7 @@ function vykresliPredoslyVysledok() {
   vykresliMoznosti(otazka, aktualneMoznosti, predoslyVysledok.vybrane, true);
   tlacidloMedzernik.disabled = false;
   tlacidloOdstranitOtazku.disabled = true;
+  aktualizujTlacidloTazkejOtazky();
   tlacidloPredoslyVysledok.textContent = "Aktuálna";
 }
 
@@ -839,6 +961,7 @@ function nastavPoradie() {
   aktualizujStlpec();
   aktualizujStreak();
   vykresliOdstraneneOtazky();
+  vykresliTazkeOtazky();
 
   if (poradieOtazok.length === 0) {
     zobrazPrazdnyVyber();
@@ -860,7 +983,9 @@ function zobrazPrazdnyVyber() {
     .filter((otazka) => vybranePodokruhy.has(ziskajPodokruh(otazka))).length;
   prvokTema.textContent = "Výber otázok";
   prvokTypOtazky.textContent = "0 otázok";
-  prvokOtazka.textContent = pocetPredOdstranenim > 0
+  prvokOtazka.textContent = pouzivaTazkyPool
+    ? "Tazky pool je prazdny. Pridaj do neho otazky alebo sa vrat na bezny filter."
+    : pocetPredOdstranenim > 0
     ? "V aktuálnom poole už nie sú otázky. Vráť niektorú odstránenú otázku v nastaveniach."
     : "Vyber aspoň jeden podokruh v nastaveniach.";
   prvokPocitadlo.textContent = "0 / 0";
@@ -875,6 +1000,7 @@ function zobrazPrazdnyVyber() {
   prvokKod.textContent = "";
   tlacidloMedzernik.disabled = true;
   tlacidloOdstranitOtazku.disabled = true;
+  aktualizujTlacidloTazkejOtazky();
   tlacidloPredoslyVysledok.textContent = "Predošlé";
 }
 
@@ -1062,6 +1188,7 @@ function zobrazOtazku() {
   prvokVysledok.textContent = "";
   tlacidloMedzernik.disabled = false;
   tlacidloOdstranitOtazku.disabled = false;
+  aktualizujTlacidloTazkejOtazky();
   tlacidloPredoslyVysledok.textContent = "Predošlé";
 
   nastavMediaOtazky(otazka);
@@ -1305,6 +1432,7 @@ function zobrazDokoncenyPool() {
   prvokKod.textContent = "";
   tlacidloMedzernik.disabled = false;
   tlacidloOdstranitOtazku.disabled = true;
+  aktualizujTlacidloTazkejOtazky();
   tlacidloPredoslyVysledok.textContent = "Predosle";
 }
 
@@ -1525,7 +1653,11 @@ tlacidloMedzernik.addEventListener("click", pouziMedzernik);
 tlacidloNastavenia.addEventListener("click", prepniNastavenia);
 tlacidloPredoslyVysledok.addEventListener("click", prepniPredoslyVysledok);
 tlacidloOdstranitOtazku.addEventListener("click", odoberAktualnuOtazku);
+tlacidloPridatTazkuOtazku.addEventListener("click", pridajAktualnuOtazkuDoTazkych);
 tlacidloVratitVsetkyOtazky.addEventListener("click", vratVsetkyOtazky);
+tlacidloSpustitTazkyPool.addEventListener("click", spustiTazkyPool);
+tlacidloVypnutTazkyPool.addEventListener("click", vypniTazkyPool);
+tlacidloVycistitTazkyPool.addEventListener("click", vycistiTazkyPool);
 posuvnikHlasitosti.addEventListener("input", () => nastavHlasitost(posuvnikHlasitosti.value));
 tlacidloPredmetPc2.addEventListener("click", () => {
   nastavPredmet("pc2");
@@ -1551,17 +1683,20 @@ prepinacCitatov.addEventListener("change", nastavZobrazenieCitatov);
 prepinacRychlehoRezimu.addEventListener("change", nastavRychlyRezim);
 prepinacPrejdeniaPoolu.addEventListener("change", nastavRezimPrejdeniaPoolu);
 prvokVyberPrezentacie.addEventListener("change", () => {
+  pouzivaTazkyPool = false;
   vybranaPrezentacia = prvokVyberPrezentacie.value;
   nastavVsetkyPodokruhy();
   vykresliPodokruhy();
   nastavPoradie();
 });
 tlacidloVsetkyPodokruhy.addEventListener("click", () => {
+  pouzivaTazkyPool = false;
   nastavVsetkyPodokruhy();
   vykresliPodokruhy();
   nastavPoradie();
 });
 tlacidloZiadnePodokruhy.addEventListener("click", () => {
+  pouzivaTazkyPool = false;
   vybranePodokruhy.clear();
   vykresliPodokruhy();
   nastavPoradie();
