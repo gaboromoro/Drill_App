@@ -68,10 +68,21 @@
           <input id="prepinacCitatov" class="prepinac-volby" type="checkbox" checked>
         </label>
 
+        <label class="nastavenie nastavenie-prepinac">
+          <span>Random</span>
+          <input id="prepinacNahodnehoPoradia" class="prepinac-volby" type="checkbox">
+        </label>
+
         <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
-          <span>Speedmode</span>
+          <span>LearnMode</span>
+          <input id="prepinacUcenia" class="prepinac-volby" type="checkbox">
+          <span class="hint-nastavenia" role="tooltip">Vypne testovanie a ukaze iba spravne odpovede. Otazkami prechadzas sipkami.</span>
+        </label>
+
+        <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+          <span id="textRychlehoRezimu">SpeedMode</span>
           <input id="prepinacRychlehoRezimu" class="prepinac-volby" type="checkbox">
-          <span class="hint-nastavenia" role="tooltip">Po spravnej odpovedi automaticky prejde na dalsiu otazku.</span>
+          <span id="hintRychlehoRezimu" class="hint-nastavenia" role="tooltip">Po spravnej odpovedi automaticky prejde na dalsiu otazku.</span>
         </label>
 
         <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
@@ -149,10 +160,16 @@
         <div id="vysledok" class="vysledok skryte"></div>
 
         <div class="ovladanie">
-          <div class="tlacidla-otazky">
-            <button id="tlacidloOdstranitOtazku" class="tlacidlo-otazky" type="button">Odobrať otázku</button>
-            <button id="tlacidloPridatTazkuOtazku" class="tlacidlo-otazky" type="button">Pridať otázku</button>
-            <button id="tlacidloNeviem" class="tlacidlo-otazky" type="button">Neviem</button>
+          <div class="riadok-ovladania">
+            <div class="tlacidla-otazky">
+              <button id="tlacidloOdstranitOtazku" class="tlacidlo-otazky" type="button">Trash</button>
+              <button id="tlacidloPridatTazkuOtazku" class="tlacidlo-otazky" type="button">Hard</button>
+              <button id="tlacidloNeviem" class="tlacidlo-otazky" type="button">Idk</button>
+            </div>
+            <div id="tlacidlaUcenia" class="tlacidla-otazky tlacidla-sipok" aria-label="Ovládanie LearnMode">
+              <button id="tlacidloSipkaVlavo" class="tlacidlo-otazky tlacidlo-sipky" type="button">Vlavo</button>
+              <button id="tlacidloSipkaVpravo" class="tlacidlo-otazky tlacidlo-sipky" type="button">Vpravo</button>
+            </div>
           </div>
           <button id="tlacidloMedzernik" class="tlacidlo-medzernik" type="button" aria-label="Medzerník: skontrolovať odpoveď alebo prejsť na ďalšiu otázku">
             <svg class="obrazok-medzernika" xmlns="http://www.w3.org/2000/svg" width="708" height="98" viewBox="0 0 708 98" preserveAspectRatio="none" aria-hidden="true">

@@ -8,7 +8,8 @@ const audOkruhy = {
   G: "G. ADC a DAC prevodniky a metody snizeni degradace cislicoveho signalu",
   H: "H. Redukce datoveho toku a komprimace audio signalu",
   I: "I. Analogovy a digitalni zaznam bez redukce a s redukci datoveho toku",
-  J: "J. Metody mereni analogovych a digitalnich nizkofrekvencnich signalu"
+  J: "J. Metody mereni analogovych a digitalnich nizkofrekvencnich signalu",
+  P: "P. Pojmy"
 };
 
 const audPrednasky = {
@@ -21,11 +22,507 @@ const audPrednasky = {
   G: "aud_prednaska_8.pdf",
   H: "aud_prednaska_9.pdf",
   I: "aud_prednaska_10.pdf",
-  J: "aud_prednaska_6.pdf"
+  J: "aud_prednaska_6.pdf",
+  P: "AUD pojmy"
+};
+
+const audTvrdsieMoznosti = {
+  "a-01-3": {
+    chytaky: [
+      "Vyjadruji stejnou objektivni hladinu akustickeho tlaku pro vsechny frekvence.",
+      "Popisuji jen prah bolesti, ale ne rozdily subjektivni hlasitosti mezi frekvencemi.",
+      "Predpokladaji, ze ucho ma pri stejnem dB SPL stejnou citlivost v celem audio pasmu."
+    ]
+  },
+  "a-03-1": {
+    chytaky: [
+      "Zdroj signalu, regulace hlasitosti a vykonovy zesilovac staci; vstupni prizpusobeni se v NF retezci neuvazuje.",
+      "Korekcni a predzesilovaci cast patri az za elektroakusticky menic, aby upravovala akusticky tlak v mistnosti.",
+      "Vykonovy zesilovac se radi pred zdroj signalu, protoze nejprve vytvori linkovou uroven pro dalsi zpracovani."
+    ]
+  },
+  "a-03-3": {
+    chytaky: [
+      "Vstup ma mit impedanci srovnatelnou se zdrojem, aby se napeti rozdelilo rovnomerne mezi oba odpory.",
+      "Nizka vstupni impedance je vyhodna, protoze zdroj vic zatizi a tim snizi sumove napeti na vstupu.",
+      "Vysoka vstupni impedance je dulezita jen u vykonoveho vystupu, u napetoveho vstupu nema vliv na prenos."
+    ]
+  },
+  "a-04-1": {
+    chytaky: [
+      "Je to vystupni napeti zesilovace pri nulovem vstupnim signalu a odpojene zatezi.",
+      "Je to nejmensi impedance zdroje, pri ktere jeste nevznikne frekvencni pokles.",
+      "Je to rezerva mezi beznym poslechem a prahem bolesti vyjadrena v dB SPL."
+    ]
+  },
+  "a-04-3": {
+    chytaky: [
+      "Pomer jmenoviteho vystupniho vykonu k ucinnosti koncoveho stupne.",
+      "Rozdil mezi uzitecnou urovni a celkovym harmonickym zkreslenim pri stejne frekvenci.",
+      "Rozsah mezi nejmensi a nejvetsi frekvenci, kterou zesilovac prenese bez poklesu."
+    ]
+  },
+  "b-01-1": {
+    chytaky: [
+      "Stridava slozka atmosferickeho tlaku po casovem zprumerovani, bez okamzitych odchylek.",
+      "Efektivni hodnota rychlosti kmitani castic, ktera se s tlakem shoduje jen v rovine vlne.",
+      "Hladina akustickeho vykonu zdroje prepocitana na referencni vzdalenost 1 m."
+    ]
+  },
+  "b-01-2": {
+    chytaky: [
+      "Tlakovou hladinu v konkretnim bode prostoru, ktera se vzdalenosti od zdroje nemeni.",
+      "Elektricky prikon menice, pokud je prepocten pres jmenovitou impedanci reproduktoru.",
+      "Subjektivni hlasitost zdroje po korekci krivkami stejne hlasitosti."
+    ]
+  },
+  "b-01-3": {
+    chytaky: [
+      "Pole, ve kterem prevlada pouze primy zvuk a odrazene slozky jsou zanedbatelne.",
+      "Pole s jednim vyraznym smerem prichodu zvuku, ale s rovnomernou frekvencni charakteristikou.",
+      "Pole, kde je akusticky tlak stejny, ale intenzita ma pevny smer od zdroje k posluchaci."
+    ]
+  },
+  "b-02-1": {
+    chytaky: [
+      "Zavislost citlivosti mikrofonu na frekvenci pri stale stejnem uhlu dopadu.",
+      "Zavislost vystupniho napeti na akustickem tlaku bez ohledu na smer dopadu.",
+      "Zavislost vlastniho sumu mikrofonu na zatizeni vstupu predzesilovace."
+    ]
+  },
+  "b-02-2": {
+    chytaky: [
+      "Vznikne souctem dvou tlakove-gradientnich slozek se stejnou polaritou.",
+      "Vznikne jen tlakovy princip s casovym zpozdenim ve vystupnim predzesilovaci.",
+      "Vznikne elektrickou ekvalizaci kulove charakteristiky bez pristupu zvuku k zadni strane membrany."
+    ]
+  },
+  "b-03-1": {
+    chytaky: [
+      "Pred prenosem dynamiku rozsiri a po prijmu ji znovu zkomprimuje, aby se zmensila uroven nosne.",
+      "Pouziva se jen jako limiter spickove urovne; odstup od sumu prenosove cesty tim neovlivni.",
+      "Meni citlivost mikrofonni kapsle podle urovne signalu, ale nepracuje s dynamikou prenosove cesty."
+    ]
+  },
+  "b-03-2": {
+    chytaky: [
+      "Demoduluje prijatou nosnou a obnovuje linkovy signal pro vstup mixazniho pultu.",
+      "Zpracuje signal az po prijimaci; do vysilane nosne se mikrofonni signal nemoduluje.",
+      "Jen stabilizuje napajeni kapsle, zatimco radiovy prenos vytvari az prijimac."
+    ]
+  },
+  "b-03-3": {
+    chytaky: [
+      "Zesili vystup pri ztrate nosne, aby expander udrzel stejnou hlasitost.",
+      "Zavira se pri velke urovni prijateho signalu, aby potlacila modulaci nosne.",
+      "Odstrani sum demodulatoru tak, ze zmeni smerovou charakteristiku mikrofonu."
+    ]
+  },
+  "b-04-1": {
+    chytaky: [
+      "Meni se jen kvuli indukcnosti kmitaci civky; mechanicka rezonance a ozvucnice se v impedanci neprojevi.",
+      "Je konstantni v audio pasmu a zmena se uvadi jen kvuli toleranci stejnosmerneho odporu civky.",
+      "Zavisi hlavne na nastaveni hlasitosti zesilovace, proto se pri mereni pouziva jmenovity vykon."
+    ]
+  },
+  "b-04-2": {
+    chytaky: [
+      "Frekvence, pri ktere je impedance menice rovna presne jmenovite hodnote.",
+      "Horni mez pasma, kde indukcnost civky jeste nema vliv na proud reproduktorem.",
+      "Frekvence, pri ktere ozvucnice uplne odstrani vychylku membrany."
+    ]
+  },
+  "b-04-3": {
+    spravnaOdpoved: "Zjednoduseny udaj pro volbu zesilovace, i kdyz skutecna impedance se s frekvenci meni.",
+    chytaky: [
+      "Nejnizsi okamzita impedance v celem prenasenem pasmu.",
+      "Stejnosmerny odpor kmitaci civky meritelny ohmmetrem.",
+      "Prumer impedance pres audio pasmo bez ohledu na minima impedancni krivky."
+    ]
+  },
+  "b-05-1": {
+    chytaky: [
+      "Kvuli zvyseni stejnosmerneho odporu civky, aby se zesilovac mene proudove zatezoval.",
+      "Kvuli presnemu srovnani impedance v celem pasmu, coz samotny menic bez skrine nedokaze.",
+      "Kvuli mechanickemu oddeleni vyhybky od membrany, aby se nemenila smerovost."
+    ]
+  },
+  "b-05-2": {
+    chytaky: [
+      "Je to uzavrena ozvucnice, kde se zadni vlna uplne pohlti a otvor nevyzaruje.",
+      "Otvor slouzi jen k vyrovnani statickeho tlaku, nema byt naladen na akustickou rezonanci.",
+      "Zadni strana membrany je vyuzita v protifazi tak, aby se basove frekvence zamerne vykompenzovaly."
+    ]
+  },
+  "b-05-3": {
+    chytaky: [
+      "Sjednoti impedanci soustavy na konstantni hodnotu bez ohledu na frekvenci.",
+      "Rozdeli vykon podle citlivosti menicu, ale frekvencni obsah ponecha v kazde vetvi stejny.",
+      "Nahradi akusticke ladeni ozvucnice, protoze oddeli predni a zadni vlnu membrany."
+    ]
+  },
+  "c-01-1": {
+    spravnaOdpoved: "Tepelny sum odporu, proudovy a napetovy sum aktivnich prvku a pri nizkych frekvencich i blikavy sum.",
+    chytaky: [
+      "Jen tepelny sum odporu; sum aktivniho prvku se pri malych signalovych urovnich obvykle neprojevi.",
+      "Hlavne kvantizacni sum, pokud je za predzesilovacem pripojen A/D prevodnik.",
+      "Pouze sum napajeciho zdroje; vstupni tranzistor se v malosignalovem modelu povazuje za bezsumovy."
+    ]
+  },
+  "c-01-2": {
+    chytaky: [
+      "Volba impedanci pro maximalni prenos vykonu, i kdyz tim celkovy vstupni sum vzroste.",
+      "Nastaveni vstupu tak, aby byl sum zdroje a sum zesilovace stejne velky pri kazde frekvenci.",
+      "Pridani odporu do serie se zdrojem, aby se potlacilo zkresleni bez ohledu na vlastni sum odporu."
+    ]
+  },
+  "c-01-3": {
+    chytaky: [
+      "Udava absolutni vystupni sum, ale neporovnava ho se sumem idealniho vstupniho prvku.",
+      "Je to odstup signal-sum celeho zarizeni po vykonovem zesilovaci a reproduktoru.",
+      "Popisuje jen sum napajeni, protoze tepelny a proudovy sum jsou zahrnuty do zkresleni."
+    ]
+  },
+  "c-02-1": {
+    chytaky: [
+      "Protoze tranzistor je v malem signalu popsan jen limitaci a saturaci, nikoli pracovnim bodem.",
+      "Protoze dynamicke parametry plati pro libovolne velky signal a nahrazuji nelinearni charakteristiky.",
+      "Protoze se tim z malych zmen signalu urci stejnosmerne otepleni pouzdra pri maximalnim vykonu."
+    ]
+  },
+  "c-02-2": {
+    chytaky: [
+      "Jen stejnosmerny pracovni bod; vstupni a vystupni odpor patri az do velkosignalove analyzy.",
+      "Pouze proudove zesileni, zatimco napetovy prenos je z h-parametru neurcitelny.",
+      "Parametry pri saturaci a limitaci, ne linearizovany model okolo pracovniho bodu."
+    ]
+  },
+  "c-02-3": {
+    chytaky: [
+      "Zavadi kladnou zpetnou vazbu, proto zvetsi zesileni a obvykle zhorsi stabilitu pracovního bodu.",
+      "Ovlivni jen dolni mezni frekvenci, protoze v malem signalu se emitorovy proud nemeni.",
+      "Zmensi vystupni odpor na nulu, ale zesileni a linearita zustanou prakticky stejne."
+    ]
+  },
+  "c-03-1": {
+    chytaky: [
+      "Vraci cast vystupu ve stejne fazi a tim stabilizuje zesilovac za cenu vetsiho zesileni.",
+      "Vraci se jen stejnosmerna slozka vystupu, stridavy signal se zpetnou vazbou neovlivni.",
+      "Zvysi otevreny zisk aktivniho prvku, protoze k nemu prida cast vystupniho napeti."
+    ]
+  },
+  "c-03-3": {
+    chytaky: [
+      "Protoze kazdy fazovy posuv automaticky zmeni zapornou vazbu na kladnou i pri velmi malem zisku smycky.",
+      "Protoze pri jednotkovem zisku je kazda smycka nestabilni bez ohledu na fazovou rezervu.",
+      "Protoze stabilitu urcuje jen velikost vstupniho kondenzatoru a ne faze otevrene smycky."
+    ]
+  },
+  "c-04-1": {
+    chytaky: [
+      "Oddeluji vysoke frekvence a spolu s odpory urcuji hlavne horni mezni frekvenci.",
+      "Propousteji stejnosmernou slozku mezi stupni, aby se sjednotily pracovni body.",
+      "Slouzi jen k blokovani sumu napajeni; signalovy prenos pres ne neni urcen impedancemi."
+    ]
+  },
+  "c-04-2": {
+    chytaky: [
+      "Omezuji hlavne dolni mezni frekvenci, protoze se pri nizkych frekvencich jevi jako zkrat.",
+      "Na vysokych frekvencich zvetsuji prenos, protoze obchazeji signalove odpory bez fazoveho posuvu.",
+      "Projevi se jen ve vstupni impedanci, zatimco napetovy prenos zustava frekvencne nezavisly."
+    ]
+  },
+  "c-04-3": {
+    chytaky: [
+      "Jen mezni frekvence pri poklesu -3 dB, protoze fazovy posuv nema vliv na stabilitu smycky.",
+      "Fazova rezerva pri nulovem zisku otevrene smycky, ale ziskova rezerva se neuvazuje.",
+      "Pouze velikost vystupniho napeti pred limitaci, protoze nestabilita vznikne az po prebuzeni."
+    ]
+  },
+  "c-05-1": {
+    chytaky: [
+      "Zmensuje efektivni impedanci tim, ze zvetsi signalovy rozdil na odporu.",
+      "Je to stejnosmerna zpetna vazba, ktera meni hlavne pracovni bod a ne signalovou impedanci.",
+      "Nahrazuje vazebni kondenzator tim, ze propousti jen stejnosmernou slozku mezi stupni."
+    ]
+  },
+  "c-05-2": {
+    chytaky: [
+      "Ke zmenseni vstupni impedance, aby se zdroj vice zatizil a snizilo se vystupni napeti.",
+      "K primemu zvyseni otevreneho proudoveho zesileni tranzistoru bez vlivu na zatezovaci impedanci.",
+      "Pouze ke zmene dolni mezni frekvence, ne k signalovemu odlehčení predchoziho stupne."
+    ]
+  },
+  "c-05-3": {
+    chytaky: [
+      "Bez zpetne vazby realizuje presne linearni zesileni, protoze ma velmi velky otevreny zisk.",
+      "Pouziva se hlavne jako vykonovy koncovy stupen pro primé buzeni nizkoohmoveho reproduktoru.",
+      "V predzesilovaci slouzi jen ke stabilizaci napajeni, signalove zesileni urcuje pasivni delič."
+    ]
+  },
+  "d-01-1": {
+    chytaky: [
+      "Pri prehravani znovu zdurazni vysky stejnym smerem jako zaznamova ekvalizace.",
+      "Slouzi jen ke zvyseni citlivosti phono vstupu; frekvencni prenos zustava linearni.",
+      "Kompenzuje jen mechanickou rezonanci prenosky, ne zaznamove omezeni basu a zdurazneni vysek."
+    ]
+  },
+  "d-02-1": {
+    chytaky: [
+      "Pri male hlasitosti snizuje basy a vysky, aby byl prenos objektivne linearnejsi.",
+      "Upravuje vsechny frekvence stejnym pomerem, jen podle polohy regulatoru hlasitosti.",
+      "Kompenzuje pouze vlastni sum zesilovace, ne nizsi citlivost sluchu na kraji pasma."
+    ]
+  },
+  "d-03-1": {
+    chytaky: [
+      "Pomoci RC siti meni frekvencni prenos a zaroven umi dodat kladne zesileni bez aktivniho prvku.",
+      "Meni jen celkovou uroven, protoze pasivni RC sit nemuze frekvencne rozlisovat signal.",
+      "Pracuji jen v reproduktorove vyhybce na vysokem vykonu, ne na signalove urovni."
+    ]
+  },
+  "d-03-2": {
+    chytaky: [
+      "Frekvence, pri ktere ma korektor jednotkove zesileni bez ohledu na nastaveni regulatoru.",
+      "Pevna hranice mezi basovym a vyskovym reproduktorem v pasivni vyhybce.",
+      "Bod, kde se meni jen faze signalu, zatimco amplitudovy prenos zustava rovny."
+    ]
+  },
+  "d-04-1": {
+    chytaky: [
+      "Pevny vysokofrekvencni filtr, ktery stejne potlaci sum i uzitecny signal pri zaznamu i prehravani.",
+      "Kompander s obracenym poradim: pri zaznamu expanduje a pri prehravani komprimuje dynamiku.",
+      "Lineární ekvalizer bez urovnove zavislosti; ucinek je stejny pro tiche i hlasite pasaze."
+    ]
+  },
+  "d-05-2": {
+    chytaky: [
+      "Deli vysoky reproduktorovy vykon az za koncovymi zesilovaci a nepotrebuje vlastni napajeni.",
+      "Je to pasivni vyhybka doplnena o ochranu reproduktoru, ale bez aktivnich filtru.",
+      "Deli signal az po elektroakustickem menici, aby se upravila smerovost jednotliveho reproduktoru."
+    ]
+  },
+  "e-01-1": {
+    chytaky: [
+      "Aktivni prvek vede priblizne pul periody, proto je linearita vysoka i bez klidoveho proudu.",
+      "Pracuje ve spinacim rezimu s PWM, proto ma pri linearni reprodukci nejmensi ztraty.",
+      "Klidovy proud je nastaven nulovy, aby se odstranilo tepelne zahrivani za cenu vetsiho zkresleni."
+    ]
+  },
+  "e-02-1": {
+    chytaky: [
+      "Vznikne hlavne pri velkem vybuzeni v saturaci, nikoli v okoli prechodu nulou.",
+      "Vznikne pri dokonale nastavenem predpeti obou tranzistoru, protoze se prekryva jejich vodeni.",
+      "Je to druh frekvencniho zkresleni vystupniho filtru, ne nelinearita predani proudu mezi prvky."
+    ]
+  },
+  "e-03-1": {
+    chytaky: [
+      "Budi zatez dvema vystupy ve stejne fazi, takze se zvetsi proud, ale ne napetovy rozkmit.",
+      "Pripoji jeden konec reproduktoru na zem a druhy na zdvojeny zdroj, bez protifazoveho buzeni.",
+      "Spoji dva zesilovace paralelne na stejnou svorku zateze, cimz se zdvojnasobi napeti."
+    ]
+  },
+  "e-04-3": {
+    chytaky: [
+      "Omezuje jen maximalni proud, protoze napeti a doba trvani pretizeni nejsou pro tranzistor dulezite.",
+      "Je to oblast linearniho zesileni bez zkresleni, ne oblast tepelne a proudove bezpecnosti.",
+      "Udava jen dovolenou teplotu chladiče pri jmenovitem vykonu."
+    ]
+  },
+  "e-05-1": {
+    chytaky: [
+      "Tranzistory pracuji stale v linearni oblasti, ale ztraty snizi vysoky vystupni filtr.",
+      "Ucinnost je vysoka hlavne proto, ze se nepouziva klidovy proud ani zadna zpetna vazba.",
+      "Vysoka ucinnost vznikne az v reproduktoru, kde se PWM premeni na akusticky tlak bez ztrat."
+    ]
+  },
+  "e-05-2": {
+    chytaky: [
+      "Vytvari PWM prubeh z analogoveho vstupu; samotny vykonovy stupen pak uz filtr nepotrebuje.",
+      "Potlaci nizkofrekvencni audio slozku a ponecha jen spinaci frekvenci pro reproduktor.",
+      "Je nutny jen kvuli stejnosmerne ochrane reproduktoru, ne kvuli vysokofrekvencni spinaci slozce."
+    ]
+  },
+  "f-01-2": {
+    chytaky: [
+      "Pouziva se az po ADC, aby odstranil kvantizacni sum vznikly zaokrouhlenim vzorku.",
+      "Omezuje spektrum nad polovinou bitove hloubky, ne nad polovinou vzorkovaci frekvence.",
+      "Zarucuje, ze signal pod Nyquistovou mezi nebude mit zadny kvantizacni sum."
+    ]
+  },
+  "f-01-3": {
+    chytaky: [
+      "Potlaci frekvence nad Nyquistem jeste pred vzorkovanim, proto patri pred ADC.",
+      "Zvysi bitovou hloubku vystupu DAC, aby se odstranily schodovite urovne bez filtrace.",
+      "Nahrazuje vzorkovani drzenim hodnoty, aby se vystupni signal nemenil mezi vzorky."
+    ]
+  },
+  "f-02-1": {
+    chytaky: [
+      "Vznikne casovou nejistotou okamziku vzorkovani, i kdyz amplituda ma nekonecne mnoho hladin.",
+      "Je to chyba analogoveho filtru, ktery propusti slozky nad Nyquistovou frekvenci.",
+      "Je to jen pridany nahodny dither, pokud neni korelovany se signalem."
+    ]
+  },
+  "f-02-3": {
+    chytaky: [
+      "Odstrani kvantizacni chybu uplne, protoze zvetsi pocet kvantizacnich hladin.",
+      "Zmensi sumove dno bez pridani energie do signalu, pokud je spravne tvarovan.",
+      "Nahradi antialias filtr, protoze dekorelace chyby zabrani preklopeni spektra."
+    ]
+  },
+  "f-03-3": {
+    chytaky: [
+      "Nejprve vynecha vzorky a teprve potom digitalne potlaci aliasy, ktere vznikly.",
+      "Snizi bitovou hloubku bez zmeny vzorkovaci frekvence a tim omezi datovy tok.",
+      "Znamena doplneni nul mezi vzorky a filtraci obrazoveho spektra."
+    ]
+  },
+  "g-01-1": {
+    chytaky: [
+      "Urcuje bity paralelne pomoci odporove site bez postupneho porovnavani s vnitrnim DAC.",
+      "Integruje vstup po pevny cas a vysledek urci z doby vybijeni integratoru.",
+      "Porovnava vstup jen jednou s pevnou referenci, proto je prevod rychly, ale jednobitovy."
+    ]
+  },
+  "g-01-3": {
+    chytaky: [
+      "DNL popisuje celkovou odchylku od idealni primky, INL chybu jednoho kodoveho kroku.",
+      "DNL i INL popisuji pouze nahodny sum prevodniku, ne tvar prevodove charakteristiky.",
+      "INL je chyba casu vzorkovani a DNL je chyba rekonstrukcniho filtru."
+    ]
+  },
+  "g-03-2": {
+    chytaky: [
+      "Vznikne, kdyz je krok prilis maly pro rychlou zmenu a odhad za signalem zaostava.",
+      "Vznikne, kdyz se velikost kroku adaptivne zvetsi pri prudke zmene signalu.",
+      "Vznikne jen pri nulovem vstupu, protoze delta modulator tehdy nema zadnou zpetnou vazbu."
+    ]
+  },
+  "g-04-2": {
+    chytaky: [
+      "Pouziva prevzorkovani bez zpetne vazby, proto kvantizacni sum zustava rovnomerne v pasmu.",
+      "Je to delta modulace s pevnym krokem bez integracni casti a bez tvarovani sumu.",
+      "Presnost zvysi jen zvetsenim poctu bitu v kazdem vzorku, ne presunutim sumu mimo pasmo."
+    ]
+  },
+  "g-05-1": {
+    chytaky: [
+      "Shlukove chyby soustredi do jednoho bloku, aby je prehravac mohl cele ztlumit.",
+      "Nahrazuje korekcni kod tim, ze zmeni poradi audio vzorku bez redundance.",
+      "Pouziva se az po dekodovani audia, proto neovlivni opravu chyb z media."
+    ]
+  },
+  "h-01-1": {
+    chytaky: [
+      "Datovy tok se redukuje hlavne zvysenim vzorkovaci frekvence a naslednym presnejsim kvantovanim.",
+      "Redukce datoveho toku znamena vzdy bezeztratove zkraceni kodu bez zmeny slysitele informace.",
+      "Pri ztratove redukci se odstranuje jen statisticka redundance, psychoakustika se nepouziva."
+    ]
+  },
+  "h-01-3": {
+    chytaky: [
+      "Urci, ktere slozky jsou elektricky rusene, a ty opravi pridanim Reed-Solomonovy redundance.",
+      "Rozdeli signal na pasma se stejnym poctem bitu bez ohledu na maskovani.",
+      "Slouzi jen k vyrovnani hlasitosti kanalu, ne k rozhodovani o kvantizacnim sumu."
+    ]
+  },
+  "h-02-3": {
+    chytaky: [
+      "Kdyz je kvantizacni sum tesne nad maskovacim prahem, sluch ho spolehlive ignoruje.",
+      "Maskovani funguje jen pro ciste sinusy, proto se v audio kodecich kvantizacni sum neschovava.",
+      "Kvantizacni sum se skryje tim, ze se presune do stejneho pasma jako nejslabsi slozka signalu."
+    ]
+  },
+  "h-04-2": {
+    chytaky: [
+      "Prideli kazdemu pasmu stejny pocet bitu, aby byla chyba rovnomerne rozlozena v Hz.",
+      "Prideli vice bitu tam, kde je maskovaci prah vysoky a chyba by byla mene slyset.",
+      "Je to jen rozdeleni bitstreamu na ramce, ne rozhodovani o presnosti koeficientu."
+    ]
+  },
+  "h-05-1": {
+    chytaky: [
+      "Ztracene odstrani psychoakusticky maskovane slozky a tim samo rozhoduje o kvalite audia.",
+      "Prideli vsem symbolum stejne dlouhe kody, aby bylo dekodovani jednoznacne.",
+      "Zkrati vzorky s mensi amplitudou a delsi kody priradi hlasitym vzorkum bez ohledu na cetnost."
+    ]
+  },
+  "i-01-1": {
+    chytaky: [
+      "Je to ztratova psychoakusticka komprese, ktera zmensuje pocet audio vzorku na CD.",
+      "Prevadi ctyrnactibitove kanalove symboly zpet na osmibitove uz pri zaznamu, aby snizil tok.",
+      "Slouzi k oprave chyb pomoci parity, zatimco omezeni prechodu resi az CIRC."
+    ]
+  },
+  "i-01-3": {
+    chytaky: [
+      "Je to samotne EFM kanalove kodovani bez prokladani a bez Reed-Solomonovych kodu.",
+      "Opravi jen jednotlive izolovane chyby, ale shlukove chyby z poskrabani disku neumí rozlozit.",
+      "Je to psychoakusticky kodek, ktery pred zaznamem odstrani mene slysitelne slozky."
+    ]
+  },
+  "i-02-1": {
+    chytaky: [
+      "Bezeztratovy kanalovy kod DCC, ktery nemeni audio data a slouzi jen k fyzickemu cteni.",
+      "Transformacni kodek totozny s AC-3, pouzity hlavne pro vicekanalovy filmovy zvuk.",
+      "Analogova redukce sumu pro magneticky zaznam, ktera komprimuje a expanduje dynamiku."
+    ]
+  },
+  "i-03-1": {
+    chytaky: [
+      "Kanalovy kod pro CD, ktery nekomprimuje audio a resi hlavne nevhodne prechody v zaznamu.",
+      "Bezeztratovy archivni format, ktery po dekodovani obnovi bitove totozne PCM.",
+      "Analogovy system redukce sumu, kde se pri zaznamu meni dynamika bez transformacniho kodovani."
+    ]
+  },
+  "i-04-1": {
+    chytaky: [
+      "Pouziva opticky disk s nekomprimovanym PCM bez datove redukce jako standardni rezim.",
+      "Pouziva ciste magneticky zapis a bezeztratovou kompresi podobnou FLAC.",
+      "Pouziva mechanickou drazku a elektrickou RIAA korekci podobne jako gramofon."
+    ]
+  },
+  "j-01-1": {
+    chytaky: [
+      "Vznik slozek na libovolnych souctovych a rozdilovych frekvencich pri dvoutonovem buzeni.",
+      "Zmena amplitudy signalu bez vzniku novych spektralnich slozek.",
+      "Vznik nahodneho sumu nezavisleho na vstupni frekvenci a bez harmonicke vazby."
+    ]
+  },
+  "j-02-2": {
+    chytaky: [
+      "THD+N je vzdy mensi nez THD, protoze se z harmonickych slozek odecte sumove dno.",
+      "THD zahrnuje sum i neharmonicke slozky, THD+N pouze ciste harmonicke.",
+      "Obe hodnoty jsou stejne, pokud se meri notch filtrem, protoze sum se potlaci spolu s fundamentalem."
+    ]
+  },
+  "j-03-1": {
+    chytaky: [
+      "Vznik pouze celociselnych nasobku jedne vstupni frekvence pri sinusovem buzeni.",
+      "Vznik slozek jen nad audio pasmem, proto se pri NF mereni neuvazuje.",
+      "Zmena casoveho zpozdeni signalu bez novych frekvencnich slozek."
+    ]
+  },
+  "j-04-2": {
+    chytaky: [
+      "Nejvyssi frekvence sinusoveho signalu, kterou zesilovac prenese pri malem vykonu.",
+      "Cas, za ktery ochrana pripoji reproduktor po zapnuti zesilovace.",
+      "Rychlost zmeny vstupniho proudu pri konstantnim vystupnim napeti."
+    ]
+  },
+  "j-05-1": {
+    chytaky: [
+      "Staci definovat jmenovitou impedanci; frekvence, zkresleni a pocet kanalu vykon neovlivni.",
+      "Je nutne merit bez zateze, aby se vyloucilo tepelne a proudove omezeni koncoveho stupne.",
+      "Dulezita je hlavne citlivost reproduktoru, protoze vykon zesilovace se z ni primo vypocte."
+    ]
+  }
 };
 
 function rozdelAudZadanie(otazka) {
-  const zhoda = otazka.match(/^([A-J]\s+\d+\.\d+)\s+(.+)$/);
+  const zhoda = otazka.match(/^([A-JP]\s+\d+\.\d+)\s+(.+)$/);
   if (!zhoda) {
     return { kod: "", text: otazka };
   }
@@ -38,18 +535,24 @@ function rozdelAudZadanie(otazka) {
 
 function vytvorAudOtazku([id, okruh, otazka, spravnaOdpoved, chytaky, vysvetlenie]) {
   const zadanie = rozdelAudZadanie(otazka);
+  const tvrdsiaVerzia = audTvrdsieMoznosti[id] || {};
+  const pouzitaSpravnaOdpoved = tvrdsiaVerzia.spravnaOdpoved || spravnaOdpoved;
+  const pouziteChytaky = tvrdsiaVerzia.chytaky || chytaky;
+  const spravneOdpovede = Array.isArray(pouzitaSpravnaOdpoved) ? pouzitaSpravnaOdpoved : [pouzitaSpravnaOdpoved];
+  const jeViacMoznosti = Array.isArray(pouzitaSpravnaOdpoved);
+
   return {
     id: `aud-${id}`,
     tema: zadanie.kod ? `AUD ${zadanie.kod}` : `AUD ${okruh}: ${audOkruhy[okruh].slice(3)}`,
-    typ: "jedna",
+    typ: jeViacMoznosti ? "viac" : "jedna",
     format: "klasicka",
     uroven: "tazka",
     otazka: zadanie.text,
     kodOtazky: zadanie.kod,
-    moznosti: [spravnaOdpoved, ...chytaky],
-    spravne: [0],
-    pocetZobrazenychMoznosti: 3,
-    odpoved: spravnaOdpoved,
+    moznosti: [...spravneOdpovede, ...pouziteChytaky],
+    spravne: spravneOdpovede.map((_, index) => index),
+    pocetZobrazenychMoznosti: jeViacMoznosti ? 5 : 3,
+    odpoved: spravneOdpovede.join(", "),
     vysvetlenie,
     prezentacia: audPrednasky[okruh],
     subtema: audOkruhy[okruh]
@@ -84,24 +587,24 @@ const audOtazky = [
   ["b-03-3", "B", "B 3.3 Proc muze byt v prijimaci bezdratoveho mikrofonu sumova brana?", "Sumova brana potlaci vystup pri male nebo chybne prijimane urovni, aby nebyl slyset sum a ruseni.", ["Sumova brana zamerne zvysi vystup pri ztrate nosne, aby se zachovala hlasitost.", "Sumova brana meni smerovou charakteristiku mikrofonu podle polohy anteny.", "Sumova brana nahrazuje demodulator pri prijmu FM signalu."], "Noise gate je ochrana proti pocutelnemu sumu v pauzach alebo pri slabom prijme."],
   ["b-04-1", "B", "B 4.1 Proc neni impedance reproduktoru konstantni?", "Impedance reproduktoru zavisi na frekvenci vlivem mechanicke rezonance, indukcnosti civky a ozvucnice.", ["Impedance reproduktoru je konstantni, meni se jen citlivost mikrofonu v mistnosti.", "Impedance reproduktoru zavisi pouze na delce pripojovaciho kabelu.", "Impedance reproduktoru je dana jen nastavenim hlasitosti zesilovace."], "Reproduktor je elektromechanicky system, preto jeho zataz nie je cisty odpor."],
   ["b-04-2", "B", "B 4.2 Co je rezonancni frekvence reproduktoru?", "Rezonancni frekvence je oblast, kde mechanicka soustava membrany a zavesu vykazuje zvyseny kmitavy odezvovy ucin.", ["Rezonancni frekvence je vzorkovaci frekvence nutna pro digitalni zaznam reproduktoru.", "Rezonancni frekvence je vzdy horni mez prenaseneho pasma zesilovace.", "Rezonancni frekvence je frekvence, pri ktere je mikrofon dokonale vsesmerovy."], "Rezonancia je mechanicka vlastnost menica a vyrazne sa prejavi aj v impedancnej krivke."],
-  ["b-04-3", "B", "B 4.3 Proc se u reproduktoru uvadi jmenovita impedance?", "Jmenovita impedance je zjednoduseny udaj pro volbu zesilovace, i kdyz skutecna impedance se s frekvenci meni.", ["Jmenovita impedance je presna hodnota impedance pri kazde frekvenci v audio pasmu.", "Jmenovita impedance je prumerna hlasitost reproduktoru ve vzdalenosti 1 m.", "Jmenovita impedance urcuje jen mechanicky prumer membrany."], "Menovita impedancia je prakticky parameter zataze, nie konstantna fyzikalna hodnota v celom pasme."],
+  ["b-04-3", "B", "B 4.3 Proc se u reproduktoru uvadi jmenovita impedance?", "Zjednoduseny udaj pro volbu zesilovace, i kdyz skutecna impedance se s frekvenci meni.", ["Nejnizsi okamzita impedance v celem prenasenem pasmu.", "Stejnosmerny odpor kmitaci civky meritelny ohmmetrem.", "Prumer impedance pres audio pasmo bez ohledu na minima impedancni krivky."], "Menovita impedancia je prakticky parameter zataze, nie konstantna fyzikalna hodnota v celom pasme."],
   ["b-05-1", "B", "B 5.1 Proc se reproduktor montuje do ozvucnice?", "Ozvucnice omezuje akusticky zkrat mezi predni a zadni stranou membrany a ovlivnuje basovou odezvu.", ["Ozvucnice slouzi hlavne k prevodu elektrickeho signalu na magneticke pole civky.", "Ozvucnice zpusobuje, ze impedance reproduktoru je naprosto konstantni.", "Ozvucnice nahrazuje vyhybku mezi basovym a vyskovym reproduktorem."], "Bez ozvucnice sa hlavne nizke frekvencie rusili medzi prednou a zadnou vlnou."],
-  ["b-05-2", "B", "B 5.2 Jak pracuje bassreflexova ozvucnice?", "Bassreflex vyuziva rezonator s otvorem k posileni vyzarovani v oblasti nizkych frekvenci.", ["Bassreflex mechanicky uzavira vzduch za membranou tak, aby zadny zvuk nikdy nevychazel ven.", "Bassreflex je elektricky filtr zapojeny mezi zesilovac a reproduktor.", "Bassreflex pracuje jen jako tlumici material pohlcujici vsechny basy uvnitr skrine."], "Bassreflex je naladeny akusticky rezonator; chytak je zamena s uzavretou ozvucnicou."],
+  ["b-05-2", "B", "B 5.2 Jak pracuje bassreflexova ozvucnice?", "Bassreflex vyuziva rezonator s otvorem k posileni vyzarovani v oblasti nizkych frekvenci.", ["Je to uzavrena ozvucnice, kde se zadni vlna uplne pohlti a otvor nevyzaruje.", "Otvor slouzi jen k vyrovnani statickeho tlaku, nema byt naladen na akustickou rezonanci.", "Zadni strana membrany je vyuzita v protifazi tak, aby se basove frekvence zamerne vykompenzovaly."], "Bassreflex je naladeny akusticky rezonator; chytak je zamena s uzavretou ozvucnicou."],
   ["b-05-3", "B", "B 5.3 K cemu slouzi reproduktorova vyhybka?", "Vyhybka rozdeli signal do frekvencnich pasem vhodnych pro jednotlive menice.", ["Vyhybka slouzi k bezdratovemu prenosu signalu mezi mikrofonem a prijimacem.", "Vyhybka zmeni akusticky tlak na elektricke napeti ve vstupnim predzesilovaci.", "Vyhybka sjednoti impedanci reproduktoru na presnou hodnotu pri vsech frekvencich."], "Vyhybka chrani menice a deli pasmo na basovu, stredovu a vyskovu cast."],
 
-  ["c-01-1", "C", "C 1.1 Jake zdroje sumu jsou dulezite ve vstupnim zesilovaci?", "Dulezity je tepelny sum odporu, proudovy a napetovy sum aktivnich prvku a pri nizkych frekvencich i blikavy sum.", ["Dulezity je hlavne kvantizacni sum, i kdyz je obvod ciste analogovy.", "Dulezity je jen akusticky sum reproduktoru, vstupni stupen vlastni sum nevytvari.", "Dulezity je pouze harmonicky sum, ktery ma vzdy frekvenci druhe harmonicke."], "Vstupny stupen pracuje s malym signalom, preto sa sumove zdroje velmi prejavia."],
+  ["c-01-1", "C", "C 1.1 Jake zdroje sumu jsou dulezite ve vstupnim zesilovaci?", "Tepelny sum odporu, proudovy a napetovy sum aktivnich prvku a pri nizkych frekvencich i blikavy sum.", ["Jen tepelny sum odporu; sum aktivniho prvku se pri malych signalovych urovnich obvykle neprojevi.", "Hlavne kvantizacni sum, pokud je za predzesilovacem pripojen A/D prevodnik.", "Pouze sum napajeciho zdroje; vstupni tranzistor se v malosignalovem modelu povazuje za bezsumovy."], "Vstupny stupen pracuje s malym signalom, preto sa sumove zdroje velmi prejavia."],
   ["c-01-2", "C", "C 1.2 Co znamena sumove prizpusobeni zdroje a vstupu?", "Sumove prizpusobeni voli impedanci a prvek tak, aby byl celkovy sum vstupniho retezce minimalni.", ["Sumove prizpusobeni znamena nastavit vstupni a vystupni impedanci na maximalni prenos vykonu.", "Sumove prizpusobeni znamena pridat zamerne sum, aby se potlacilo zkresleni.", "Sumove prizpusobeni je stejne jako frekvencni korekce RIAA."], "Nejde len o napetove prisposobenie; pri sume zalezi na impedancii zdroja aj type prvku."],
   ["c-01-3", "C", "C 1.3 Co vyjadruje sumove cislo predzesilovace?", "Sumove cislo vyjadruje, o kolik predzesilovac zhorsi odstup signal-sum proti idealnimu bezsumovemu prvku.", ["Sumove cislo vyjadruje maximalni vystupni vykon predzesilovace v decibelech.", "Sumove cislo vyjadruje mezni frekvenci dolni propusti ve vstupnim obvodu.", "Sumove cislo je pocet sumovych bran v bezdratovem mikrofonu."], "Sumove cislo je degradacia SNR sposobena realnym vstupnym obvodom."],
   ["c-02-1", "C", "C 2.1 Proc se tranzistor v malem signalu popisuje dynamickymi parametry?", "Dynamicke parametry linearizuji chovani tranzistoru v pracovnim bode pro male zmeny signalu.", ["Dynamicke parametry popisuji jen teplotu pouzdra pri maximalnim vykonu.", "Dynamicke parametry nahrazuji potrebu pracovního bodu v libovolne velkem signalu.", "Dynamicke parametry jsou shodne s mechanickymi parametry membrany reproduktoru."], "Malosignalovy model plati okolo pracovného bodu, nie pre lubovolne velku nelinearnu oblast."],
-  ["c-02-2", "C", "C 2.2 Co lze z h-parametru tranzistoroveho stupne urcit?", "Z h-parametru lze urcovat vstupni a vystupni odpor, proudove zesileni a napetovy prenos v malem signalu.", ["Z h-parametru se urcuje jen akusticky vykon reproduktoru v ozvucnici.", "Z h-parametru se urcuje vzorkovaci frekvence digitalniho prevodniku.", "Z h-parametru se urcuje pouze smerova charakteristika mikrofonu."], "h-parametre su nahradny model tranzistora pre analyzu zosilnovacieho stupna."],
+  ["c-02-2", "C", "C 2.2 Co lze z h-parametru tranzistoroveho stupne urcit?", "Z h-parametru lze urcovat vstupni a vystupni odpor, proudove zesileni a napetovy prenos v malem signalu.", ["Jen stejnosmerny pracovni bod; vstupni a vystupni odpor patri az do velkosignalove analyzy.", "Pouze proudove zesileni, zatimco napetovy prenos je z h-parametru neurcitelny.", "Parametry pri saturaci a limitaci, ne linearizovany model okolo pracovniho bodu."], "h-parametre su nahradny model tranzistora pre analyzu zosilnovacieho stupna."],
   ["c-02-3", "C", "C 2.3 Jak se projevi emitorovy odpor bez premosteni kondenzatorem?", "Nepremosteny emitorovy odpor zavadi zapornou zpetnou vazbu a zmensuje zesileni, ale zlepsuje linearitu.", ["Nepremosteny emitorovy odpor zpusobi kladnou zpetnou vazbu a zvysi zkresleni.", "Nepremosteny emitorovy odpor nema vliv na zesileni, ovlivni jen barvu ozvucnice.", "Nepremosteny emitorovy odpor prevadi zesilovac na digitalni delta modulator."], "Emitorova degeneracia stabilizuje pracovny bod a linearizuje, ale znizuje zosilnenie."],
   ["c-03-1", "C", "C 3.1 Co je zaporna zpetna vazba v zesilovaci?", "Zaporna zpetna vazba vraci cast vystupu na vstup v opacne fazi a tim zmensuje vysledne zesileni.", ["Zaporna zpetna vazba vraci vystup na vstup ve stejne fazi a tim rozkmita obvod.", "Zaporna zpetna vazba je pouze mechanicke tlumeni membrany reproduktoru.", "Zaporna zpetna vazba znamena pridani sumu do vstupu pro dither."], "Negativna spatna vazba obetuje cast zisku za lepsie parametre."],
   ["c-03-2", "C", "C 3.2 Jake ucinky ma zaporna zpetna vazba?", "Zaporna zpetna vazba obvykle snizuje zkresleni, stabilizuje prenos, rozsiri pasmo a zmeni impedance podle zapojeni.", ["Zaporna zpetna vazba vzdy zvysuje zkresleni a zuzuje pasmo, proto se v audiu nepouziva.", "Zaporna zpetna vazba meni jen barvu podsviceni pristroje, elektricke parametry zustanou stejne.", "Zaporna zpetna vazba vzdy snizuje vstupni odpor a zvysuje vystupni odpor bez ohledu na topologii."], "Ucinok vazby zalezi na topologii, ale typicky zlepsuje linearitu a stabilitu prenosu."],
   ["c-03-3", "C", "C 3.3 Proc muze zpetna vazba zpusobit nestabilitu?", "Kvuli fazovemu posuvu pri vysokych frekvencich se muze zaporna vazba zmenit ucinkem na kladnou.", ["Protoze kazda zaporna vazba je nestabilni uz pri nulove frekvenci.", "Protoze zpetna vazba zvysuje vzorkovaci frekvenci nad Nyquistovu mez.", "Protoze zpetna vazba odstrani vsechny kapacity v obvodu."], "Stabilitu treba hodnotit cez amplitudovu a fazovu rezervu."],
   ["c-04-1", "C", "C 4.1 Jakou ulohu maji vazebni kondenzatory v predzesilovaci?", "Vazebni kondenzatory oddeluji stejnosmerne pracovni body a spolu s odpory urcuji dolni mezni frekvenci.", ["Vazebni kondenzatory zesiluji stejnosmerny signal a urcuji vystupni vykon.", "Vazebni kondenzatory meni mikrofonni smerovost z kulove na kardioidni.", "Vazebni kondenzatory provadeji Huffmanovo kodovani audio dat."], "Kondenzator pusti AC zlozku, ale blokuje DC; s odporom tvori horni propust."],
-  ["c-04-2", "C", "C 4.2 Proc parazitni kapacity omezuji horni mezni frekvenci?", "Parazitni kapacity s odpory vytvareji dolnopropustne clanky a pri vyssich frekvencich zmensuji prenos.", ["Parazitni kapacity zmensuji pouze dolni mezni frekvenci a vysoke frekvence neovlivnuji.", "Parazitni kapacity zvysuji vykon reproduktoru v basech.", "Parazitni kapacity urcuji jen prah slysení lidskeho ucha."], "Kapacity sa na vysokych frekvenciach viac uplatnia, preto orezavaju horne pasmo."],
+  ["c-04-2", "C", "C 4.2 Proc parazitni kapacity omezuji horni mezni frekvenci?", "Parazitni kapacity s odpory vytvareji dolnopropustne clanky a pri vyssich frekvencich zmensuji prenos.", ["Omezuji hlavne dolni mezni frekvenci, protoze se pri nizkych frekvencich jevi jako zkrat.", "Na vysokych frekvencich zvetsuji prenos, protoze obchazeji signalove odpory bez fazoveho posuvu.", "Projevi se jen ve vstupni impedanci, zatimco napetovy prenos zustava frekvencne nezavisly."], "Kapacity sa na vysokych frekvenciach viac uplatnia, preto orezavaju horne pasmo."],
   ["c-04-3", "C", "C 4.3 Co se sleduje na Bodeho charakteristice kvuli stabilite?", "Sleduje se ziskova a fazova rezerva, hlavne zda pri jednotkovem zisku neni fazovy posuv blizko 180 stupnu.", ["Sleduje se jen pocet harmonickych slozek v periodickem signalu.", "Sleduje se pouze stejnosmerny odpor reproduktorove civky.", "Sleduje se jen teplota chladiče pri jmenovitem vykonu."], "Nebezpecny je stav, ked spatna vazba ziska fazu kladnej vazby."],
-  ["c-05-1", "C", "C 5.1 Co je bootstrap v tranzistorovem zesilovaci?", "Bootstrap zveda efektivni impedanci obvodu tim, ze se jeden bod pohybuje signalove podobne jako druhy.", ["Bootstrap je metoda komprese audio dat pred ulozenim na CD.", "Bootstrap je ochrana reproduktoru proti stejnosmernemu napeti na vystupu.", "Bootstrap je vzdy pouze pasivni korektor basu a vysek."], "Bootstrap sposobuje, ze na prvku je mensi signalovy rozdiel, a preto sa javi ako vyssia impedancia."],
+  ["c-05-1", "C", "C 5.1 Co je bootstrap v tranzistorovem zesilovaci?", "Bootstrap zveda efektivni impedanci obvodu tim, ze se jeden bod pohybuje signalove podobne jako druhy.", ["Zmensuje efektivni impedanci tim, ze zvetsi signalovy rozdil na odporu.", "Je to stejnosmerna zpetna vazba, ktera meni hlavne pracovni bod a ne signalovou impedanci.", "Nahrazuje vazebni kondenzator tim, ze propousti jen stejnosmernou slozku mezi stupni."], "Bootstrap sposobuje, ze na prvku je mensi signalovy rozdiel, a preto sa javi ako vyssia impedancia."],
   ["c-05-2", "C", "C 5.2 Proc se bootstrap pouziva ve vstupnich nebo budicich obvodech?", "Pouziva se ke zvyseni vstupni nebo zatezovaci impedance bez velke zmeny stejnosmerneho nastaveni.", ["Pouziva se k primemu zvyseni akustickeho vykonu reproduktoru.", "Pouziva se k prevodu PCM signalu na EFM kod.", "Pouziva se jen k merici filtraci zakladni harmonicke."], "Cielom je vacsia efektivna impedancia a mensie zatazenie predchadzajuceho stupna."],
   ["c-05-3", "C", "C 5.3 Jaka je typicka uloha operacniho zesilovace v predzesilovaci?", "Operacni zesilovac se zapornou zpetnou vazbou realizuje presne zesileni, filtraci nebo korekci.", ["Operacni zesilovac slouzi primarne jako reproduktorova membrana s velkou plochou.", "Operacni zesilovac bez zpetne vazby se pouziva pro presne linearni audio zesileni.", "Operacni zesilovac nahrazuje mechanickou ozvucnici u bassreflexu."], "Op-amp je univerzalny aktivny blok; presne vlastnosti urcuje najma spatna vazba."],
 
@@ -215,5 +718,66 @@ const audOtazky = [
   ["j-04-3", "J", "J 4.3 Proc se pro DIM pouziva signal s prudkymi hranami?", "Prudke hrany odhali omezeni rychlosti prebehu a prechodove chovani, ktere cisty pomaly sinus nemusi ukazat.", ["Prudke hrany se pouziji proto, aby se vyloucily vsechny vysoke frekvence.", "Prudke hrany slouzi jen ke zmereni odporu reproduktorove civky.", "Prudke hrany jsou potreba pouze pro RIAA korekci gramofonu."], "Rychle transienty su pre spatnu vazbu a slew rate narocnejsie nez hladky sinus."],
   ["j-05-1", "J", "J 5.1 Jake podminky jsou dulezite pri mereni vykonu zesilovace?", "Je nutne definovat zatez, frekvenci, povolene zkresleni, napajeni a pocet buzenych kanalu.", ["Staci uvest jen barvu reproduktorove ozvucnice a smerovost mikrofonu.", "Staci uvest jen vzorkovaci frekvenci, protoze analogova zatez nema vliv.", "Staci merit bez zateze, protoze vystupni napeti pak odpovida vykonu do reproduktoru."], "Vykon bez podmienok je nejednoznacny udaj."],
   ["j-05-2", "J", "J 5.2 Jak se meri frekvencni charakteristika zesilovace?", "Meri se zmena vystupni urovne pri konstantnim vstupnim signalu v zavislosti na frekvenci.", ["Meri se jen pocet harmonickych pri jedne frekvenci 1 kHz.", "Meri se pouze impedance reproduktoru bez buzeni zesilovace.", "Meri se rychlost cteni dat z optickeho disku."], "Frekvencna charakteristika je amplitudovy prenos vs. frekvencia."],
-  ["j-05-3", "J", "J 5.3 Co je preslech mezi kanaly?", "Preslech je nezadouci pronikani signalu z jednoho kanalu do druheho, udavane jako odstup v dB.", ["Preslech je stejne jako harmonicke zkresleni druheho radu v jednom kanalu.", "Preslech je akusticky vykon reproduktoru vyzareny do mistnosti.", "Preslech je korekce hlasitosti podle Fletcher-Munsonovych krivek."], "Pri stereo pristrojoch treba merat aj oddelenie kanalov, nielen skreslenie a vykon."]
+  ["j-05-3", "J", "J 5.3 Co je preslech mezi kanaly?", "Preslech je nezadouci pronikani signalu z jednoho kanalu do druheho, udavane jako odstup v dB.", ["Preslech je stejne jako harmonicke zkresleni druheho radu v jednom kanalu.", "Preslech je akusticky vykon reproduktoru vyzareny do mistnosti.", "Preslech je korekce hlasitosti podle Fletcher-Munsonovych krivek."], "Pri stereo pristrojoch treba merat aj oddelenie kanalov, nielen skreslenie a vykon."],
+
+  ["p-01-1", "P", "P 1.1 sumove prizpusobeni", ["impedance", "prvek"], ["vykonovy prenos", "jmenovita zatez", "loudness", "DSV"], "Sumove prisposobenie spaja impedanciu zdroja s typom vstupneho prvku."],
+  ["p-01-2", "P", "P 1.2 dynamicke parametry", ["linearizace", "pracovni bod"], ["saturace", "DSV", "maskovaci prah", "akusticky zkrat"], "Dynamicke parametre su malosignalovy opis okolo pracovneho bodu."],
+  ["p-01-3", "P", "P 1.3 sumove cislo", ["zhorseni SNR", "idealni prvek"], ["klidovy proud", "vystupni zatez", "kriticke pasmo", "kanalovy kod"], "Sumove cislo hovori, o kolko realny vstup zhorsi odstup oproti idealu."],
+  ["p-01-4", "P", "P 1.4 bootstrap", ["efektivni impedance", "signalove sledovani", "odlehčení"], ["mrtva zona", "kompander", "DSV", "prokladani"], "Bootstrap zvysuje javovu impedanciu tym, ze body maju podobny signalovy pohyb."],
+  ["p-01-5", "P", "P 1.5 zaporna zpetna vazba", ["opacna faze", "linearita", "rezerva stability"], ["kladne buzeni", "preecho", "osmicka", "EFM"], "Spatna vazba obetuje zisk za lepsie parametre, ale treba strazit stabilitu."],
+
+  ["p-02-1", "P", "P 2.1 akusticky tlak", ["odchylka tlaku", "Pa", "efektivni hodnota"], ["akusticky vykon", "V/Pa", "phone", "dBFS"], "Akusticky tlak je lokalna zmena tlaku sposobena zvukom."],
+  ["p-02-2", "P", "P 2.2 Fletcher-Munson", ["stejna hlasitost", "phony", "citlivost sluchu"], ["DSV", "DNL", "klidovy proud", "CIRC"], "Krivky rovnakej hlasitosti prepajaju subjektivnu hlasitost s hladinou."],
+  ["p-02-3", "P", "P 2.3 dBu", ["0,775 V", "napetova uroven"], ["1 V", "1 mW", "20 uPa", "8 ohm"], "dBu je napetova referencia 0,775 V, nie dBV ani dBm."],
+  ["p-02-4", "P", "P 2.4 tlumici cinitel", ["vystupni impedance", "kontrola membrany", "zatez"], ["vstupni citlivost", "prah bolesti", "Huffman", "predmaskovani"], "Tlumici cinitel suvisi s nizkou vystupnou impedanciou a riadenim menica."],
+  ["p-02-5", "P", "P 2.5 difuzni pole", ["odrazy", "vsechny smery", "dozvuk"], ["primy zvuk", "stereo báze", "mrtva zona", "kvantizacni krok"], "Difuzne pole znamena prichod energie z mnohych smerov."],
+
+  ["p-03-1", "P", "P 3.1 kardioida", ["tlakova slozka", "gradientni slozka", "zadni potlaceni"], ["kulova kapsle", "kompander", "Reed-Solomon", "slew rate"], "Kardioida je kombinacia tlakoveho a gradientneho principu."],
+  ["p-03-2", "P", "P 3.2 kompander", ["komprese", "expanze", "odstup od sumu"], ["linearizace", "pracovni bod", "kanalovy kod", "Kerruv efekt"], "Kompander zmensi dynamiku pred prenosom a obnovi ju po nom."],
+  ["p-03-3", "P", "P 3.3 sumova brana", ["prah", "umlčení", "slaby prijem"], ["downmix", "klidovy proud", "R-2R", "DNL"], "Sumova brana zavrie vystup pri malej alebo chybnej urovni prijmu."],
+  ["p-03-4", "P", "P 3.4 jmenovita impedance", ["orientacni hodnota", "volba zateze"], ["hlasitost 1 m", "stejny prubeh", "citlivost V/Pa", "phone"], "Menovita impedancia je prakticky udaj, nie presna konstanta v celom priebehu."],
+  ["p-03-5", "P", "P 3.5 bassreflex", ["otvor", "rezonator", "zadni vlna"], ["uzavrena skrin", "tlumici material", "prechod nuly", "notch"], "Bassreflex vyuziva naladeny otvor a zadnu stranu membrany."],
+
+  ["p-04-1", "P", "P 4.1 RIAA", ["zaznamova ekvalizace", "inverzni korekce", "basy/vysky"], ["kvantizace", "delta krok", "kriticke pasmo", "SOA"], "RIAA je dvojica zaznamovej a prehravacej korekcie."],
+  ["p-04-2", "P", "P 4.2 fyziologicka regulace", ["loudness", "krivky hlasitosti", "basy"], ["DNL", "EFM", "mrtva zona", "SAR"], "Fyziologicka regulacia kompenzuje vnimanie pri malej hlasitosti."],
+  ["p-04-3", "P", "P 4.3 Dolby", ["kompander", "dynamika", "sum pasku"], ["kanalovy kod", "jmenovita zatez", "R-2R", "Kerruv efekt"], "Dolby analogovo pracuje s dynamikou a sumom, nie s chybovym kodom."],
+  ["p-04-4", "P", "P 4.4 aktivni vyhybka", ["pred koncovymi stupni", "vetve", "aktivni RC"], ["za menicem", "CIRC", "preecho", "vstupni sum"], "Aktivna vyhybka deli signal este pred vykonovymi vetvami."],
+
+  ["p-05-1", "P", "P 5.1 trida A", ["cely cyklus", "klidovy proud", "nizka ucinnost"], ["PWM", "mrtva zona", "dvouton", "DSV"], "Trieda A vedie cely cas, preto je linearna a stratova."],
+  ["p-05-2", "P", "P 5.2 trida AB", ["klidovy proud", "prechod nuly", "prechodove zkresleni"], ["DSD", "EFM", "kriticke pasmo", "Kerruv efekt"], "AB zmiernuje mrtvu zonu triedy B predpätim."],
+  ["p-05-3", "P", "P 5.3 trida D", ["PWM", "spinani", "LC vystup"], ["cely cyklus", "RIAA", "Huffman", "vstupni citlivost"], "Trieda D je spinany vykonovy princip s naslednym vyhladenim vystupu."],
+  ["p-05-4", "P", "P 5.4 SOA", ["napeti", "proud", "teplota", "cas"], ["preecho", "phony", "osmicka", "downmix"], "SOA je bezpecna oblast kombinacie prudu, napatia, teploty a trvania."],
+
+  ["p-06-1", "P", "P 6.1 antialias", ["Nyquist", "preklopeni spektra", "pred ADC"], ["rekonstrukce", "DNL", "notch", "mrtva zona"], "Antialias obmedzi zlozky, ktore by sa po vzorkovani preklopili."],
+  ["p-06-2", "P", "P 6.2 dither", ["dekorelace", "kvantizacni chyba", "sumove dno"], ["kladna vazba", "DSV", "vystupni zatez", "gradientni slozka"], "Dither meni korelovanu chybu na mene rusive sumove spravanie."],
+  ["p-06-3", "P", "P 6.3 sample-and-hold", ["odebrani", "drzeni", "kondenzator"], ["kompander", "maskovani", "R-2R", "bassreflex"], "S/H odoberie hodnotu a podrzi ju pocas prevodu."],
+  ["p-06-4", "P", "P 6.4 aperturova chyba", ["casova nejistota", "strmost", "amplitudova chyba"], ["mrtva zona", "stejna hlasitost", "kanalovy kod", "zadni vlna"], "Aperturova chyba je casova nepresnost prevedena na amplitudovu chybu."],
+
+  ["p-07-1", "P", "P 7.1 SAR ADC", ["vnitrni DAC", "komparator", "MSB"], ["Huffman", "Kerruv efekt", "loudness", "zadni potlaceni"], "SAR hlada bity postupnym porovnavanim od najvyssieho bitu."],
+  ["p-07-2", "P", "P 7.2 INL/DNL", ["kodovy krok", "idealni primka", "linearita"], ["predmaskovani", "klidovy proud", "akusticky zkrat", "downmix"], "DNL je chyba kroku, INL celkova odchylka od idealnej priamky."],
+  ["p-07-3", "P", "P 7.3 R-2R", ["dve hodnoty odporu", "binarni vahy", "DAC"], ["kriticke pasmo", "sum pasku", "mrtva zona", "phone"], "R-2R vytvara vazene prispevky z dvoch odporovych hodnot."],
+  ["p-07-4", "P", "P 7.4 delta modulace", ["jeden bit", "krok", "odhad"], ["notch", "DSV", "basy/vysky", "SOA"], "Delta modulacia prenasa smer zmeny odhadu pevnym krokom."],
+  ["p-07-5", "P", "P 7.5 granularni sum", ["velky krok", "kmitani", "male zmeny"], ["maly krok", "rychla zmena", "prokladani", "downmix"], "Granularny sum vznika pri prilis velkom kroku okolo jemnych zmien."],
+  ["p-07-6", "P", "P 7.6 pretizeni strmosti", ["maly krok", "rychla zmena", "zpozdeni odhadu"], ["velky krok", "kmitani", "kriticke pasmo", "CIRC"], "Slope overload je opacny problem: odhad nestaci dobehnut rychlu zmenu."],
+  ["p-07-7", "P", "P 7.7 sigma-delta modulace", ["prevzorkovani", "zpetna vazba", "tvarovani sumu"], ["Huffman", "mrtva zona", "RIAA", "jmenovita zatez"], "Sigma-delta vyuziva oversampling, smycku a presun sumu."],
+
+  ["p-08-1", "P", "P 8.1 Reed-Solomon", ["redundance", "blok", "oprava chyb"], ["maskovaci prah", "PWM", "klidovy proud", "V/Pa"], "Reed-Solomon pridava blokovu redundanciu na opravu chyb."],
+  ["p-08-2", "P", "P 8.2 prokladani", ["shlukove chyby", "rozptyleni", "burst"], ["kvantizacni krok", "prechod nuly", "loudness", "R-2R"], "Interleaving rozlozi burst chybu na lahsie opravitelne miesta."],
+  ["p-08-3", "P", "P 8.3 psychoakusticky model", ["maskovani", "prahy", "bitova alokace"], ["DSV", "SOA", "vystupni impedance", "Kerruv efekt"], "Psychoakusticky model rozhoduje, kde chyba nebude pocutelna."],
+  ["p-08-4", "P", "P 8.4 kriticka pasma", ["Bark", "sluchove oblasti", "maskovani"], ["MSB", "mrtva zona", "CIRC", "zadni vlna"], "Kriticke pasma su sluchove oblasti, kde sa zlozky navzajom maskuju."],
+  ["p-08-5", "P", "P 8.5 preecho", ["transient", "predmaskovani", "kratke bloky"], ["DNL", "klidovy proud", "osmicka", "bassreflex"], "Preecho je pocutelny artefakt pred prudkym dejom."],
+  ["p-08-6", "P", "P 8.6 Huffman", ["cetnost symbolu", "kratke kody", "bezeztrata"], ["psychoakusticke mazani", "PWM", "Kerruv efekt", "pracovni bod"], "Huffman je entropicke bezstratove kodovanie podla cetnosti."],
+
+  ["p-09-1", "P", "P 9.1 EFM", ["8 na 14", "kanalovy kod", "DSV"], ["psychoakustika", "klidovy proud", "mrtva zona", "R-2R"], "EFM je kanalovy kod CD, nie stratova audio kompresia."],
+  ["p-09-2", "P", "P 9.2 CIRC", ["prokladani", "Reed-Solomon", "maskovani chyb"], ["loudness", "PWM", "DNL", "zadni potlaceni"], "CIRC kombinuje prokladanie a Reed-Solomonove kody."],
+  ["p-09-3", "P", "P 9.3 PASC", ["DCC", "podpasmove", "psychoakustika"], ["EFM", "RIAA", "SOA", "vstupni sum"], "PASC je perceptualne podpasmove kodovanie pre DCC."],
+  ["p-09-4", "P", "P 9.4 AC-3", ["vicekanal", "metadata", "downmix"], ["R-2R", "mrtva zona", "otvor", "pracovni bod"], "AC-3 riesi viackanalovy perceptualny zapis aj pomocne metadata."],
+  ["p-09-5", "P", "P 9.5 ATRAC", ["MiniDisc", "psychoakustika", "bloky"], ["CIRC", "jeden bit", "klidovy proud", "V/Pa"], "ATRAC patri k MiniDiscu a vyuziva perceptualne spracovanie."],
+  ["p-09-6", "P", "P 9.6 DSD", ["1 bit", "vysoky tok", "noise shaping"], ["8 na 14", "kompander", "pracovni bod", "phone"], "DSD je jednobitovy vysokorychlostny tok s tvarovanim sumu."],
+
+  ["p-10-1", "P", "P 10.1 THD", ["harmonicke slozky", "fundamental", "nelinearita"], ["souctove slozky", "burst", "DSV", "downmix"], "THD sleduje harmonicke produkty jednej zakladnej zlozky."],
+  ["p-10-2", "P", "P 10.2 THD+N", ["sum", "zbytky", "notch"], ["kriticke pasmo", "PWM", "R-2R", "loudness"], "THD+N obsahuje harmonicke aj sumove/neidealne zbytky po potlaceni fundamentu."],
+  ["p-10-3", "P", "P 10.3 IMD", ["souctove slozky", "rozdilove slozky", "dvouton"], ["fundamental", "DSV", "zadni vlna", "klidovy proud"], "IMD vznikne zo vzajomneho miesania viacerych vstupnych zloziek."],
+  ["p-10-4", "P", "P 10.4 slew rate", ["V/us", "rychlost zmeny napeti", "prechodove chovani"], ["Bark", "phone", "CIRC", "akusticky zkrat"], "Slew rate obmedzuje, ako rychlo sa moze menit vystupne napatie."],
+  ["p-10-5", "P", "P 10.5 preslech", ["pronik kanalu", "odstup dB", "stereo"], ["harmonicke slozky", "preecho", "MSB", "efektivni impedance"], "Preslech je neziaduce prenikanie signalu medzi kanalmi."]
 ].map(vytvorAudOtazku);

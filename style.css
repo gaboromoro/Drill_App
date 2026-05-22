@@ -72,10 +72,10 @@ body.tema-siva {
   --klaves-okraj: #303030;
   --klaves-obrys: #ffffff;
   --klaves-pismo: #ffffff;
-  --klaves-vybrany-vrch: #1f1f1f;
-  --klaves-vybrany-okraj: #1f1f1f;
-  --klaves-vybrany-obrys: #d6d6d6;
-  --klaves-vybrany-pismo: #ffffff;
+  --klaves-vybrany-vrch: #f2f2f2;
+  --klaves-vybrany-okraj: #cfcfcf;
+  --klaves-vybrany-obrys: #ffffff;
+  --klaves-vybrany-pismo: #000000;
 }
 
 body.tema-fialova {
@@ -245,7 +245,8 @@ body.tema-tyrkysova {
 }
 
 body.flash-spravne::after,
-body.flash-zle::after {
+body.flash-zle::after,
+body.flash-citat::after {
   content: "";
   position: fixed;
   inset: 0;
@@ -263,6 +264,18 @@ body.flash-zle::after {
 
 body.flash-zle .stranka {
   animation: tmavyStutter 240ms steps(2, end);
+}
+
+body.flash-citat::after {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(254, 216, 17, 0.22) 48%, rgba(255, 255, 255, 0.15)),
+    url("assets/heaven_1600x900.jpg") center / cover no-repeat;
+  opacity: 0;
+  animation: nebeskyFlash 720ms ease-out forwards;
+}
+
+body.flash-citat .stranka {
+  animation: nebeskyNadych 620ms ease-out;
 }
 
 @keyframes svetlyFlash {
@@ -288,6 +301,42 @@ body.flash-zle .stranka {
 
   100% {
     background: rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes nebeskyFlash {
+  0% {
+    opacity: 0.98;
+    filter: brightness(2.2) saturate(1.35);
+    transform: scale(1.04);
+  }
+
+  18% {
+    opacity: 0.88;
+    filter: brightness(1.55) saturate(1.18);
+    transform: scale(1.02);
+  }
+
+  100% {
+    opacity: 0;
+    filter: brightness(1) saturate(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes nebeskyNadych {
+  0% {
+    filter: brightness(1.45) saturate(1.35);
+    transform: translateY(-2px) scale(1.006);
+  }
+
+  45% {
+    filter: brightness(1.22) saturate(1.18);
+  }
+
+  100% {
+    filter: brightness(1) saturate(1);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -748,20 +797,27 @@ h3 {
 }
 
 .blok-citatu {
-  grid-column: 3;
-  position: sticky;
-  top: 104px;
-  max-width: 220px;
-  padding-top: 86px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 10000;
+  width: min(820px, calc(100vw - 36px));
+  max-height: min(78vh, 760px);
+  border: 3px solid var(--ciara);
+  background: var(--pozadie);
+  box-shadow: 10px 10px 0 var(--ciara);
+  padding: 32px 38px;
+  overflow: auto;
   color: var(--text);
+  transform: translate(-50%, -50%);
 }
 
 .text-citatu {
   margin: 0;
   white-space: pre-line;
-  font-size: 18px;
+  font-size: 24px;
   font-style: italic;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 .kod,
@@ -886,6 +942,10 @@ h3 {
   transform: translateY(-1px);
 }
 
+.moznost.ucenie {
+  cursor: default;
+}
+
 .moznost input:checked + .klavesa {
   --aktivny-vrch-klavesy: var(--klaves-vybrany-vrch);
   --aktivny-okraj-klavesy: var(--klaves-vybrany-okraj);
@@ -965,6 +1025,16 @@ h3 {
   margin-top: 18px;
 }
 
+.riadok-ovladania {
+  display: flex;
+  flex: 1 1 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+  margin-top: 18px;
+}
+
 .tlacidla-otazky {
   display: flex;
   flex-wrap: wrap;
@@ -972,8 +1042,73 @@ h3 {
   margin-top: 18px;
 }
 
+.riadok-ovladania .tlacidla-otazky {
+  margin-top: 0;
+}
+
+.tlacidla-sipok {
+  display: none;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
+body.rezim-ucenia .tlacidla-sipok {
+  display: flex;
+}
+
+body.rezim-ucenia #tlacidloNeviem,
+body.rezim-ucenia #tlacidloMedzernik {
+  display: none;
+}
+
 .tlacidlo-otazky {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   align-self: center;
+  min-height: 54px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.tlacidlo-otazky:hover,
+.tlacidlo-otazky.aktivny {
+  text-decoration: none;
+}
+
+.klavesa-tlacidla {
+  flex: 0 0 auto;
+  width: 54px;
+  height: 51px;
+  margin-top: 0;
+  font-size: 24px;
+}
+
+.tlacidlo-sipky .klavesa-tlacidla {
+  width: 54px;
+}
+
+.tlacidlo-otazky:hover .klavesa-tlacidla {
+  transform: translateY(-1px);
+}
+
+.tlacidlo-otazky:active .klavesa-tlacidla,
+.tlacidlo-otazky.stlacene .klavesa-tlacidla,
+.tlacidlo-otazky.vybrana .klavesa-tlacidla {
+  --aktivny-vrch-klavesy: var(--klaves-vybrany-vrch);
+  --aktivny-okraj-klavesy: var(--klaves-vybrany-okraj);
+  --aktivny-obrys-klavesy: var(--klaves-vybrany-obrys);
+  color: var(--klaves-vybrany-pismo);
+}
+
+.tlacidlo-otazky.stlacene .klavesa-tlacidla {
+  transform: translateY(2px);
+}
+
+.text-tlacidla-otazky {
+  line-height: 1;
 }
 
 .tlacidlo-medzernik {
@@ -1127,20 +1262,20 @@ button.sekundarne {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  #rezimKod .panel,
-  #rezimKod .blok-citatu {
+  #rezimKod .panel {
     grid-column: 1;
   }
 
   .blok-citatu {
-    grid-column: 1 / -1;
-    position: static;
-    max-width: none;
-    padding-top: 14px;
+    width: calc(100vw - 24px);
+    max-height: 72vh;
+    border-width: 2px;
+    box-shadow: 6px 6px 0 var(--ciara);
+    padding: 22px 20px;
   }
 
   .text-citatu {
-    font-size: 13px;
+    font-size: 16px;
     line-height: 1.35;
   }
 
