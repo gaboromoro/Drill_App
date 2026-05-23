@@ -3334,11 +3334,11 @@ const helSkuska2ZakladnePojmyOtazky = [
     "otazka": "Ktore vysvetlenie klaviatury analogoveho syntezatora je najpresnejsie?",
     "moznosti": [
       "Klaviatura moze vytvarat CV odporovym delicom, Gate komparatorom z CV a Trig monostabilnym obvodom z Gate.",
-      "Klaviatura moze vytvarat CV iba z LFO, Gate iba z VCF a Trig iba z audio vystupu VCA.",
-      "Klaviatura moze vytvarat CV hodinovym delicom, Gate sample&hold obvodom a Trig sledovacom klaviatury.",
-      "Klaviatura moze vytvarat CV modulacnou maticou, Gate mixerom a Trig filtrom s rezonanciou.",
-      "Klaviatura moze vytvarat CV iba po uvolneni klavesy, Gate iba pri stlaceni a Trig pocas celeho drzania.",
-      "Klaviatura moze vytvarat CV iba pre amplitudu, Gate iba pre cutoff a Trig iba pre vysku tonu."
+      "Klaviatura moze vytvarat CV odporovym delicom, Gate monostabilnym obvodom z CV a Trig komparatorom z Gate.",
+      "Klaviatura moze vytvarat CV komparatorom, Gate odporovym delicom a Trig z ustalenej hodnoty CV.",
+      "Klaviatura moze vytvarat CV odporovym delicom, ale Gate aj Trig su rovnako dlhe stavove signaly pocas drzania klavesy.",
+      "Klaviatura moze vytvarat CV az za portamento clankom, pricom Gate a Trig potom nesu rovnaku spojitu vysku tonu.",
+      "Klaviatura moze vytvarat CV pre VCF, kym Gate urcuje vysku VCO a Trig drzi obalku v Sustain."
     ],
     "spravne": [0],
     "pocetZobrazenychMoznosti": 4,
@@ -3356,11 +3356,11 @@ const helSkuska2ZakladnePojmyOtazky = [
     "otazka": "Ktora definicia polyfonie N hlasov je najpresnejsia?",
     "moznosti": [
       "Polyfonia N hlasov znamena, ze je k dispozicii N VCO a riadiaci vstup niektoreho VCO sa musi dynamicky pripojit ku stlacenej klavese.",
-      "Polyfonia N hlasov znamena, ze kazda klavesa ma vlastny VCO bez ohladu na pocet klaves a nepotrebuje sa priradovacia logika.",
-      "Polyfonia N hlasov znamena, ze jeden VCO je vzdy rozdeleny filtrom na N sucasne znejucich vysiek.",
-      "Polyfonia N hlasov znamena, ze N urcuje iba pocet segmentov obalky a nie pocet sucasne znejucich tonov.",
-      "Polyfonia N hlasov znamena, ze N urcuje iba pocet clock impulzov na stvrtovu notu.",
-      "Polyfonia N hlasov znamena, ze N urcuje iba pocet vystupov modulacnej matice."
+      "Polyfonia N hlasov znamena, ze je k dispozicii N hlasov, ale priradovacia logika nie je potrebna, ak sa pouzije priorita poslednej klavesy.",
+      "Polyfonia N hlasov znamena, ze jeden VCO sa rozdeli na N filtrov a kazdy filter vytvori samostatnu vysku tonu.",
+      "Polyfonia N hlasov znamena, ze jeden VCO sa rychlo prepina medzi N klavesami a tym nahradza samostatne hlasy.",
+      "Polyfonia N hlasov znamena, ze je k dispozicii N VCA, ale vsetky stlacene klavesy maju spolocnu vysku jedneho VCO.",
+      "Polyfonia N hlasov znamena, ze pocet obalok moze byt N, ale vyska vsetkych hlasov zostava spolocna."
     ],
     "spravne": [0],
     "pocetZobrazenychMoznosti": 4,
@@ -3459,9 +3459,2137 @@ const helSkuska2ZakladnePojmyOtazky = [
   }
 ];
 
+const helSkuskaAnalogoveSyntezatoryOtazky = [
+  {
+    "id": "hel-s2-001",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pre riadiace napatie CV v analogovom syntezatore plati:",
+    "moznosti": [
+      "Velkost CV moze zodpovedat vyske stlacenej klavesy alebo hodnote riadeneho parametra.",
+      "Pri standarde V/Hz zodpoveda konstantny prirastok napatia konstantnemu prirastku frekvencie v Hz.",
+      "Pri standarde V/oct zodpoveda konstantny prirastok napatia posunu o oktavu.",
+      "CV je stavovy signal, ktory je aktivny pocas celeho drzania klavesy.",
+      "CV moze riadit VCO, VCF alebo VCA cez ich riadiace vstupy.",
+      "V/oct je linearne voci frekvencii v Hz a V/Hz je exponencialne po oktavach.",
+      "CV je kratky spustaci impulz s informaciou o stlaceni alebo uvolneni klavesy."
+    ],
+    "spravne": [0, 1, 2, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Riadiace signaly"
+  },
+  {
+    "id": "hel-s2-002",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Rozlis Gate, Trig a Clock v analogovom syntezatore:",
+    "moznosti": [
+      "Gate indikuje drzanie klavesy a ma kludovy a aktivny stav.",
+      "Trig je kratky impulz suvisiaci so stlacenim alebo uvolnenim klavesy.",
+      "Clock je periodicky impulzny signal, ktory moze casovat sekvencer.",
+      "Gate nesie spojitu hodnotu vysky tonu v standarde V/oct.",
+      "Trig zostava aktivny pocas celej dlzky drzania klavesy.",
+      "Kmitocet clocku sa moze vyjadrovat poctom tikov za stvrtovu notu.",
+      "Clock je amplitudova obalka, ktora urcuje Attack, Decay, Sustain a Release."
+    ],
+    "spravne": [0, 1, 2, 5],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Riadiace signaly"
+  },
+  {
+    "id": "hel-s2-003",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktore zdroje riadenia a ich typicke ciele su spravne priradene?",
+    "moznosti": [
+      "Klaviatura moze riadit VCO vyskou tonu a VCF cez sledovac klaviatury.",
+      "LFO moze riadit VCO pri vibrate alebo PWM, VCA pri tremole a VCF pri dynamickom filtri.",
+      "EG typicky riadi VCA, pripadne VCF alebo VCO na zaciatku tonu.",
+      "Sekvencer moze riadit VCO, VCF alebo VCA.",
+      "Clock generator moze casovat sekvencer, preto sa jeho impulzy zvycajne pouzivaju ako spojite CV pre ladenie VCO.",
+      "Klaviatura moze spustat generatory obalky a pripadne resetovat LFO.",
+      "Gate a Trig mozu spustat EG, preto sa ich funkcia casto zamiena s vystupom samotnej obalky."
+    ],
+    "spravne": [0, 1, 2, 3, 5],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Riadiace signaly"
+  },
+  {
+    "id": "hel-s2-004",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pri zakladnom prepojeni modulov a riadiacich signalov plati:",
+    "moznosti": [
+      "Audio cesta moze viest zo zdrojov ako VCO alebo NG cez VCF do VCA.",
+      "CV nemusi byt pocutelny signal; nesie hodnotu parametra pre modul.",
+      "Gate a Trig casto spustaju alebo riadia generatory obalky.",
+      "Clock sa pouziva na casovanie sekvencera alebo krokovych udalosti.",
+      "CV a audio signal mozu mat podobny napatovy priebeh, preto sa v zapojeni bezne pripajaju do rovnakych vstupov.",
+      "Vystup LFO je v tejto architekture typicky pomaly riadiaci priebeh.",
+      "Vystup EG moze tvarovat VCA alebo VCF, preto sa v audio ceste obvykle pripaja ako dalsi zdroj pred VCF."
+    ],
+    "spravne": [0, 1, 2, 3, 5],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Zakladne prepojenie modulov"
+  },
+  {
+    "id": "hel-s2-005",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Standardy V/Hz a V/oct pri riadeni vysky tonu:",
+    "moznosti": [
+      "V/Hz predstavuje linearnu zavislost napatia od frekvencie v Hz.",
+      "V/oct predstavuje hudobne exponencialnu zavislost po oktavach.",
+      "Prevod medzi V/Hz a V/oct vyzaduje nelinearnu, logaritmicku alebo exponencialnu zmenu.",
+      "V/oct znamena jeden volt na jeden hertz a V/Hz znamena jeden volt na oktavu.",
+      "Oba standardy mozu prenasat informaciu o vyske tonu, ale s inou mierkou.",
+      "Gate a Trig pouzivaju standard V/Hz alebo V/oct rovnako ako CV.",
+      "Ak rovnaky prirastok napatia zvysi frekvenciu o rovnaky pocet Hz, prevod sa sprava linearne a zodpoveda skor V/Hz nez V/oct."
+    ],
+    "spravne": [0, 1, 2, 4, 6],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Riadiace signaly"
+  },
+  {
+    "id": "hel-s2-006",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Zakladne moduly analogoveho syntezatora: vyber presne tvrdenia.",
+    "moznosti": [
+      "VCO je napatim riadeny oscilator, pri ktorom CV typicky ovlada kmitocet.",
+      "VCF je napatim riadeny filter, pri ktorom CV typicky ovlada medzny alebo stredny kmitocet.",
+      "VCA je napatim riadeny zosilnovac, pri ktorom CV typicky ovlada zisk alebo amplitudu.",
+      "NG je generator sumu alebo spektralne bohateho nahodneho signalu.",
+      "Waveshaper moze stat pred filtrom podobne ako mixer, ale jeho podstatou je nastavenie zisku jednotlivych vetiev bez nelinearneho prevodu.",
+      "Modulacna matica moze priradovat zdroje modulacie do cielov s nastavitelnou hlbkou.",
+      "Mixer aj modulacna matica pracuju s viacerymi vetvami, ale mixer sa v tejto ulohe chape ako smerovanie modulacnych zdrojov do cielov."
+    ],
+    "spravne": [0, 1, 2, 3, 5],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Zakladne prepojenie modulov"
+  },
+  {
+    "id": "hel-s2-007",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Typicka audio cesta a modulacie v analogovom syntezatore:",
+    "moznosti": [
+      "Vystupy VCO a NG sa mozu miesat pred vstupom do VCF.",
+      "VCF meni spektrum audio signalu pred tym, ako signal prejde do VCA.",
+      "VCA typicky urcuje vyslednu amplitudu, casto podla obalky AEG.",
+      "LFO moze modulovat VCO, VCF alebo VCA bez toho, aby bol hlavnym audio zdrojom.",
+      "Clock sa v zakladnej audio ceste pripaja namiesto VCO na vstup VCF.",
+      "Sekvencer moze dodat CV a spustacie signaly, pricom clock ho casuje.",
+      "Gate je audio signal, ktory sa filtruje vo VCF rovnako ako vystup VCO."
+    ],
+    "spravne": [0, 1, 2, 3, 5],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Zakladne prepojenie modulov"
+  },
+  {
+    "id": "hel-s2-008",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ktore priradenia obalok a riadiacich cielov su spravne?",
+    "moznosti": [
+      "PEG riadi kmitocet oscilatorov alebo vysku tonu.",
+      "FEG riadi medzny alebo stredny kmitocet filtra.",
+      "AEG riadi priebeh amplitudy signalu.",
+      "Sledovac klaviatury sa moze scitat s Cutoff nastavenim a LFO pri riadeni VCF.",
+      "LFO a EG mozu ovladat rovnaky ciel, ale po scitani na jednom vstupe LFO uz nemoze sposobit periodicku zmenu okolo obalky.",
+      "Modulacna matica moze menit priradenie zdrojov riadenia k cielom.",
+      "VCA priamo urcuje vysku VCO a VCO priamo urcuje amplitudovu obalku."
+    ],
+    "spravne": [0, 1, 2, 3, 5],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Zakladne prepojenie modulov"
+  },
+  {
+    "id": "hel-s2-009",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Klaviatura analogoveho syntezatora: ktore tvrdenia su spravne?",
+    "moznosti": [
+      "CV moze vznikat odporovym delicom s odbockami.",
+      "Pri monofonnom riadeni sa moze pouzit priorita najvyssej alebo najnizsej klavesy.",
+      "Duofonny nastroj moze vyuzivat kombinaciu priority najvyssej a najnizsej klavesy.",
+      "Gate moze byt odvodeny komparatorom z CV.",
+      "Trig moze byt odvodeny monostabilnym klopnym obvodom z Gate.",
+      "CV klaviatury moze vznikat z odporoveho delica, ale pri duofonnom rezime musi byt odvodene az za VCF z vysledneho audio signalu.",
+      "Trig nesie spojitu hodnotu vysky tonu pocas celeho drzania klavesy."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Klaviatura"
+  },
+  {
+    "id": "hel-s2-010",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Portamento v analogovom syntezatore:",
+    "moznosti": [
+      "Portamento je plynule preladenie tonu z jednej vysky na inu.",
+      "Realizuje sa filtraciou signalu CV integracnym clankom.",
+      "Casova konstanta portamenta moze byt nastavovana pouzivatelom potenciometrom.",
+      "Portamento meni hlavne dlzku Gate signalu, nie priebeh vysky tonu.",
+      "Portamento je iny nazov pre sledovac klaviatury pri riadeni cutoffu.",
+      "Prilis dlhe portamento moze sposobit pocutelne smykanie vysky medzi notami.",
+      "Portamento vznika monostabilnym impulzom Trigger bez zmeny CV v case."
+    ],
+    "spravne": [0, 1, 2, 5],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Klaviatura"
+  },
+  {
+    "id": "hel-s2-011",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Sledovac klaviatury / Keyboard follower: vyber pravdive tvrdenia.",
+    "moznosti": [
+      "Jeho vystupne napatie je umerne vyske tonu stlacenej klavesy.",
+      "Moze riadit medzny alebo stredny kmitocet VCF podla vysky tonu.",
+      "Jeho cielom moze byt udrzanie pomeru f : fC, aby sa nemenila farba tonu.",
+      "Miera sledovania sa moze nastavovat napatovym delicom Keyboard Track.",
+      "Sledovac klaviatury je obvod, ktory vytvara Gate z CV pomocou komparatora.",
+      "Ak je cutoff filtra pevny, farba signalu sa moze menit s vyskou tonu.",
+      "Sledovac klaviatury kompenzuje zmenu vysky tonu tak, ze cutoff ostava pevny a meni sa iba rezonancia filtra."
+    ],
+    "spravne": [0, 1, 2, 3, 5],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Klaviatura"
+  },
+  {
+    "id": "hel-s2-012",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Polyfonna klaviatura analogoveho nastroja:",
+    "moznosti": [
+      "Neobmedzena polyfonia znamena, ze pocet VCO je rovnaky ako pocet klaves.",
+      "Pri polyfonii N hlasov je k dispozicii N VCO a treba ich priradovat ku klavesam.",
+      "Jednoduchsia logika moze pouzit pevne priradenie VCO skupine klaves s prioritou najvyssej alebo najnizsej klavesy.",
+      "Narocnejsia logika moze priradovat VCO vyskam v skupine sucasne znejucich tonov s prioritou prvej alebo poslednej klavesy.",
+      "Polyfonia N hlasov sa sprava ako neobmedzena polyfonia, ak logika priradenia pouziva prioritu poslednej klavesy.",
+      "Jeden VCO moze vytvorit N nezavislych vysiek len prepnutim VCF do polyfonneho rezimu.",
+      "Pri prekroceni poctu hlasov sa pouziva rozhodovanie typu ignorovanie alebo odpojenie niektorej znejucej klavesy."
+    ],
+    "spravne": [0, 1, 2, 3, 6],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Klaviatura"
+  },
+  {
+    "id": "hel-s2-013",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Voice allocation / voice stealing pri polyfonii: co plati?",
+    "moznosti": [
+      "Ak su vyuzite vsetky VCO, novo stlacena klavesa moze byt ignorovana.",
+      "Logika moze odpojit najnizsiu alebo najvyssiu stlacenu klavesu a pripojit novu.",
+      "Logika moze odpojit prvu alebo poslednu stlacenu klavesu a pripojit novu.",
+      "Logika moze odpojit klavesu najblizsiu novo stlacenej klavese.",
+      "Voice stealing odpaja len cutoff vo VCF, ale ponechava povodny VCO pripojeny ku klavese.",
+      "Problem vznikne vtedy, ked pocet sucasne drzanych klaves presiahne dostupny pocet hlasov.",
+      "Voice stealing je iny nazov pre sledovac klaviatury riadiaci filter."
+    ],
+    "spravne": [0, 1, 2, 3, 5],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Klaviatura"
+  },
+  {
+    "id": "hel-s2-014",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Nizkofrekvencny oscilator LFO:",
+    "moznosti": [
+      "LFO je generator periodickych priebehov CV.",
+      "Jeho kmitocet je typicky od desatin Hz do desiatok Hz.",
+      "Typicke priebehy su sinus, pila, trojuholnik, obdlznik a nahodny S&H priebeh.",
+      "Moze mat fazovy posun pre vzajomne rozladenie viacerych LFO.",
+      "Moze byt synchronizovane spustany klaviaturou resetom cez Trig.",
+      "LFO ma podobne tvary priebehov ako VCO, preto sa v tejto prezentacii pouziva hlavne ako zdroj zakladnej vysky tonu.",
+      "Vystup LFO je Gate signal aktivny pocas drzania klavesy."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "LFO a S&H"
+  },
+  {
+    "id": "hel-s2-015",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Sample and Hold v analogovom syntezatore:",
+    "moznosti": [
+      "Vzorkuje napatie plynule sa meniaceho analogoveho signalu.",
+      "Udrzuje hodnotu na konstantnej urovni pocas nastaveneho casu.",
+      "Moze obsahovat FET spinac, kondenzator a operacny zosilnovac.",
+      "V rezime hold sa kondenzator prakticky pomaly vybija, preto drzi hodnotu pocas intervalu.",
+      "S&H vytvara plynule portamento filtraciou CV integracnym clankom.",
+      "Nahodny priebeh LFO moze vzniknut vzorkovanim nahodneho signalu.",
+      "S&H je komparator, ktory z CV odvodzuje Gate signal."
+    ],
+    "spravne": [0, 1, 2, 3, 5],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "LFO a S&H"
+  },
+  {
+    "id": "hel-s2-016",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Generator obalky EG: zakladny princip a typy obalok.",
+    "moznosti": [
+      "EG generuje po castiach monotonny priebeh riadiaceho signalu.",
+      "EG je spustany a zastavovany Gate signalom z klaviatury.",
+      "Tradicne obalky su popisane hlavne dlzkami segmentov a maju obmedzene definovanie urovni prechodov.",
+      "Multi-ramp obalky mozu byt definovane parmi suradnic cas-uroven.",
+      "EG je periodicky oscilator nezavisly od klavesy, preto je funkcne zhodny s LFO.",
+      "Oznacenia PEG, FEG a AEG su dane tym, ktory obvod obalka riadi.",
+      "EG ma segmenty podobne casovemu priebehu tonu, preto sa jeho vystup typicky scita s audio signalom pred VCF ako dalsia harmonicka zlozka."
+    ],
+    "spravne": [0, 1, 2, 3, 5],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Generatory obalky"
+  },
+  {
+    "id": "hel-s2-017",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Parametre generatora obalky: vyber spravne definicie.",
+    "moznosti": [
+      "Attack time je cas, za ktory parameter dosiahne maximum.",
+      "Hold time je cas, pocas ktoreho je udrzana maximalna hodnota.",
+      "Decay time je cas poklesu z maxima na ustalenu uroven.",
+      "Sustain level je hodnota udrziavana pocas drzania klavesy.",
+      "Release time je cas poklesu po uvolneni klavesy.",
+      "Break point je pocet hodinovych tikov za stvrtovu notu.",
+      "Attack slope urcuje pocet sucasne znejucich hlasov polyfonneho nastroja."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Generatory obalky"
+  },
+  {
+    "id": "hel-s2-018",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "ADSR a AHDSR obalka:",
+    "moznosti": [
+      "ADSR po stlaceni klavesy prejde Attackom na maximum a Decayom na Sustain.",
+      "Sustain sa drzi do uvolnenia klavesy a potom nasleduje Release.",
+      "AHDSR pridava Hold: po Attacku sa maximum drzi urcity cas pred Decay.",
+      "Hold v AHDSR nahradza Sustain, preto sa po Decay uz nic nedrzi.",
+      "Release v ADSR sa casovo nastavuje podobne ako Decay, preto sa spusta hned po dosiahnuti Sustain level bez ohladu na Gate.",
+      "Sustain je casova konstanta poklesu, nie uroven.",
+      "H v AHDSR oznacuje casovy segment obalky, nie hodinovy Clock."
+    ],
+    "spravne": [0, 1, 2, 6],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Generatory obalky"
+  },
+  {
+    "id": "hel-s2-019",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Spustanie obalky pri polyfonnych nastrojoch:",
+    "moznosti": [
+      "Free-run alebo one-shot moze prebehnut cez attack, decay a release bez ohladu na okamih uvolnenia klavesy.",
+      "Retrigger spusta obalku novo stlacenej klavesy od zaciatku.",
+      "Multi-trigger alebo mono zacina novu obalku od miesta, kde sa nachadzal predchadzajuci generator obalky.",
+      "Single-trigger alebo legato zacina novy ton na urovni Sustain znejuceho tonu.",
+      "Retrigger znamena, ze nova klavesa pokracuje v obalke z aktualnej Sustain urovne predchadzajuceho tonu.",
+      "Legato znamena, ze kazda nova nota znovu resetuje Attack od nuly aj pri viazanom hrani.",
+      "Tieto rezimy popisuju sposob startu obalky, nie tvar priebehu VCO."
+    ],
+    "spravne": [0, 1, 2, 3, 6],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Generatory obalky"
+  },
+  {
+    "id": "hel-s2-020",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Syntezator s pevnou strukturou: co patri do skuskovej odpovede?",
+    "moznosti": [
+      "Bloky su pevne prepojene a struktura je dana vnutornym zapojenim.",
+      "Casto ide o East-Coast koncepciu doplnenu aj o dalsie moznosti.",
+      "Typicke varianty mozu obsahovat retazce VCO-VCF-VCA alebo VCO-mixer-(Waveshaper)-VCF-VCA.",
+      "Dvojica VCO moze byt doplnena RM, AM alebo FM modulaciou.",
+      "Riadiace obvody mozu byt pevne pridelene, prepinatelne 1:1 alebo priraditelne cez modulacnu maticu.",
+      "Syntezator s pevnou strukturou moze mat zakladne bloky pevne prepojene, preto sa externe CV/Trig I/O tyka iba modularnych nastrojov.",
+      "Ak pevna struktura obsahuje modulacnu maticu, prestava byt pevnou strukturou a stava sa plne modularnym systemom."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Pevna struktura a modularne systemy"
+  },
+  {
+    "id": "hel-s2-021",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Modularne syntezatory a modularne formaty:",
+    "moznosti": [
+      "Struktura modularneho syntezatora nie je pevna a vznika prepojenim modulov kablami.",
+      "Jednym formatom moze byt kompaktna konstrukcia s klaviaturou, pevne instalovanymi blokmi a prepojovanim na paneli.",
+      "Zasuvne moduly maju standardizovanu velkost, konektory, napajanie a zbernicu.",
+      "Lunchbox zabezpecuje rozvod napajania a riadiacich signalov.",
+      "Jednotlive bloky modularneho systemu su typicky monofonne.",
+      "Predny panel zasuvnych modulov sluzi hlavne na indikaciu stavu, zatial co audio a CV prepojenia sa robia len zadnou zbernicou.",
+      "Rozmery formatov ako 6U, 5U, 4U a 3U vychadzaju z rackovych standardov."
+    ],
+    "spravne": [0, 1, 2, 3, 4, 6],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Pevna struktura a modularne systemy"
+  },
+  {
+    "id": "hel-s2-022",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Eurorack: ktore technicke tvrdenia zodpovedaju prezentacii?",
+    "moznosti": [
+      "Eurorack je spajany s Dieterom Doepferom.",
+      "Moduly maju vysku 3U a sirku v nasobkoch HP.",
+      "1HP je Horizontal Pitch 5,08 mm.",
+      "Na prednom paneli sa pouzivaju konektory 1/8'' TS, teda 3,5 mm mono jack.",
+      "Zadny konektor modulu ma rozostup pinov 2,54 mm.",
+      "Eurorack pouziva 3,5 mm konektory na paneli, ale audio a CV sa pri beznom patchovani vedu hlavne zadnym bus boardom.",
+      "HP v Euroracku znamena Height Parameter a rovna sa 1 mm."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Eurorack"
+  },
+  {
+    "id": "hel-s2-023",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Eurorack: napajanie, CV, Gate a impedancie:",
+    "moznosti": [
+      "Zadny konektor podla prezentacie prenasa napajanie +/-15 V a 5 V.",
+      "CV moze byt bipolarne -2,5 az +2,5 V alebo unipolarne 0 az 8 V.",
+      "Norma pre vysku tonu je 1 V/oct.",
+      "Gate je uvadzany ako 0 a 5 V.",
+      "Vstupna impedancia ma byt vacsia ako 100 kOhm a vystupna mensia ako 1 kOhm.",
+      "Zadna zbernica prenasa napajanie a vybrane riadiace signaly, preto nie je potrebne patchovat audio a CV na prednom paneli.",
+      "Desatpinovy konektor je plna verzia so vsetkymi signalmi CV, Gate aj 5 V."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Eurorack"
+  },
+  {
+    "id": "hel-s2-024",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "East Coast a West Coast koncepcia analogovych syntezatorov:",
+    "moznosti": [
+      "East Coast koncepcia sa viaze na Moog pristup, subtraktivnu syntezu, jednoduche oscilatory a klaviaturu.",
+      "West Coast koncepcia sa viaze na Buchla pristup, aditivne prvky, waveshaping, FM a sekvencer alebo komplexnu obalku.",
+      "East Coast typicky dobre zapada do retazca VCO-VCF-VCA.",
+      "West Coast moze pouzivat sekvencer alebo komplexny generator obalky, ale jeho jadrom zostava rovnaky subtraktivny retazec VCO-VCF-VCA ako pri Moogu.",
+      "East Coast a West Coast su historicko-koncepcne pristupy, ale v prezentacii sa rozlisuju najma podla formatu 3U alebo 5U.",
+      "Syntezatory s pevnou strukturou byvaju prevazne East-Coast, ale mozu byt doplnene dalsimi metodami.",
+      "West Coast koncepcia vylucuje waveshaping a frekvencnu modulaciu."
+    ],
+    "spravne": [0, 1, 2, 5],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Pevna struktura a modularne systemy"
+  },
+  {
+    "id": "hel-s2-025",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak dostanes siroku otazku 'Analogove syntezatory', ktore body maju tvorit jadro odpovede?",
+    "moznosti": [
+      "Rozlisit CV, Gate, Trig a Clock ako rozdielne druhy riadiacich signalov.",
+      "Opisat audio cestu a moduly ako VCO alebo NG, VCF a VCA.",
+      "Uviest zdroje riadenia ako klaviatura, LFO, EG a sekvencer.",
+      "Vysvetlit klaviaturu, portamento, sledovac klaviatury a riesenie polyfonie.",
+      "Porovnat pevnu strukturu, modularny syntezator a Eurorack.",
+      "V odpovedi staci opisat audio cestu VCO-VCF-VCA, pretoze CV, Gate, Trig a Clock su len ine nazvy pre audio vetvy.",
+      "Tvrdit, ze Gate a Trig su standardy pre prevod vysky tonu V/Hz a V/oct."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Skuskova odpoved"
+  },
+  {
+    "id": "hel-s2-026",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Kde su najnebezpecnejsie zameny pojmov pri tomto okruhu?",
+    "moznosti": [
+      "CV treba odlisit od Gate, pretoze CV nesie hodnotu parametra a Gate stav drzania.",
+      "Trig treba odlisit od Gate, pretoze Trig je impulz a Gate stav.",
+      "LFO treba odlisit od EG, pretoze LFO je periodicky modulacny zdroj a EG je obalka spustana Gate.",
+      "Portamento treba odlisit od keyboard followeru, pretoze portamento vyhladzuje zmenu vysky a follower sleduje vysku pre riadenie parametra.",
+      "Mixer treba odlisit od modulacnej matice, pretoze mixer scitava vetvy a matica smeruje modulacie.",
+      "VCA treba zamienat s VCF, pretoze oba menia hlavne medzny kmitocet filtra.",
+      "Clock treba zamienat s CV, pretoze oba prenasaju spojitu hodnotu vysky tonu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Skuskova odpoved"
+  },
+  {
+    "id": "hel-s2-027",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "CV, Gate, Trig a Clock v praktickom patchi:",
+    "moznosti": [
+      "CV z klaviatury moze riadit vysku VCO.",
+      "Gate z klaviatury moze otvorit alebo spustit obalku pre VCA.",
+      "Trig moze resetovat LFO alebo spustit zaciatok obalky.",
+      "Clock moze krokovat sekvencer, ktory potom meni CV v case.",
+      "Gate sa pripaja hlavne do audio vstupu VCF, pretoze jeho aktivny stav nesie vysku tonu.",
+      "CV sa moze menit spojito alebo po krokoch aj pocas aktivneho Gate.",
+      "Clock je spojita hodnota riadeneho parametra, preto priamo nahradza CV pre ladenie VCO."
+    ],
+    "spravne": [0, 1, 2, 3, 5],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Riadiace signaly"
+  },
+  {
+    "id": "hel-s2-028",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Riadiaca cesta klaviatury v analogovom syntezatore:",
+    "moznosti": [
+      "Stlacena klavesa moze pripojit prislusnu odbocku odporoveho delica a vytvorit CV.",
+      "Pri monofonnom riadeni moze obvod vybrat najvyssiu alebo najnizsiu stlacenu klavesu.",
+      "Duofonny rezim moze vyuzit sucasne informaciu o najvyssej a najnizsej klavese.",
+      "Gate moze vzniknut komparatorom z informacie, ze je stlacena aspon jedna klavesa.",
+      "Trig moze vzniknut monostabilnym klopnym obvodom z hrany Gate.",
+      "Rychlost uhozu je v popisanom odporovom delici hlavny signal, ktory urcuje vysku VCO.",
+      "Ak nie je stlacena ziadna klavesa, Gate ma byt aktivny a obalka ma ostat v Attack faze."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Klaviatura"
+  },
+  {
+    "id": "hel-s2-029",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Portamento a Sample and Hold: ktore rozlisenia su presne?",
+    "moznosti": [
+      "Portamento vyhladzuje zmenu CV pre vysku tonu integracnym alebo dolnopriepustnym clankom.",
+      "Vacsi casovy konstant portamenta znamena pomalsi prechod medzi vyskou povodnej a novej noty.",
+      "Sample and Hold odoberie vzorku napatia a drzi ju do dalsieho vzorkovacieho okamihu.",
+      "Portamento aj S&H menia casovy priebeh CV, ale portamento ho vyhladzuje a S&H ho skor schodikuje.",
+      "S&H nahradza keyboard follower, pretoze oba obvody udrzuju pomer f : fC pri hre po klaviature.",
+      "Portamento vznikne kratkym impulzom Trigger bez potreby pomalej zmeny CV.",
+      "Vystup S&H moze byt skokovy riadiaci signal, nie plynule glissando."
+    ],
+    "spravne": [0, 1, 2, 3, 6],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Klaviatura"
+  },
+  {
+    "id": "hel-s2-030",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Keyboard follower a zmena farby tonu:",
+    "moznosti": [
+      "Ak cutoff filtra ostane pevny a vyska VCO sa meni, meni sa aj relativna poloha filtra voci spektru.",
+      "Keyboard follower posiela riadiace napatie odvodene od vysky klavesy do VCF alebo ineho ciela.",
+      "Miera sledovania sa moze nastavovat tak, aby cutoff sledoval klaviaturu slabensie alebo silnejsie.",
+      "Pri vhodnom sledovani sa moze lepsie udrzat pomer medzi zakladnou frekvenciou a medznym kmitoctom filtra.",
+      "Keyboard follower je obvod, ktory z CV vytvara Gate pomocou komparatora.",
+      "Keyboard follower meni tvar audio priebehu VCO este pred vstupom do filtra.",
+      "Keyboard follower moze ovplyvnit filter bez toho, aby sam generoval zakladnu vysku tonu."
+    ],
+    "spravne": [0, 1, 2, 3, 6],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Klaviatura"
+  },
+  {
+    "id": "hel-s2-031",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Polyfonia a priradovanie hlasov:",
+    "moznosti": [
+      "Neobmedzena polyfonia znamena v principe samostatny hlas alebo VCO pre kazdu klavesu.",
+      "Pri N-hlasovej polyfonii sa dostupne hlasy musia priradovat aktualne stlacenym klavesam.",
+      "Priradovacia logika riesi, ktory VCO alebo hlas dostane ktoru vysku tonu.",
+      "Pri prekroceni poctu hlasov moze system novu klavesu ignorovat alebo odpojit niektory z povodnych hlasov.",
+      "Polyfonia sa vytvori jednym VCO a viacerymi filtrami, ktore z neho vyrobia nezavisle vysky tonov.",
+      "Pocet hlasov N znamena pocet segmentov obalky, nie pocet sucasne znejucich tonov.",
+      "Polyfonny nastroj potrebuje pre viac hlasov aj vhodne spustanie obalok pre jednotlive hlasy."
+    ],
+    "spravne": [0, 1, 2, 3, 6],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Klaviatura"
+  },
+  {
+    "id": "hel-s2-032",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Typicke pouzitia LFO:",
+    "moznosti": [
+      "Modulacia vysky VCO pomocou LFO moze vytvorit vibrato.",
+      "Modulacia zisku VCA pomocou LFO moze vytvorit tremolo.",
+      "Modulacia cutoffu VCF pomocou LFO moze vytvorit pohyb filtra.",
+      "Modulacia sirky impulzu pomocou LFO patri k PWM efektom.",
+      "Resetovanie LFO trigrom moze zabezpecit opakovatelnu fazu modulacie od zaciatku tonu.",
+      "LFO je ADSR obalka, ktora drzi Sustain pocas aktivneho Gate.",
+      "Clock vstup LFO znamena, ze vystupom LFO je hlavny audio signal za VCF."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "LFO a S&H"
+  },
+  {
+    "id": "hel-s2-033",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Generator obalky EG v riadiacej ceste:",
+    "moznosti": [
+      "Gate z klaviatury moze spustit a drzat priebeh obalky.",
+      "Vystup EG je riadiace napatie, nie hlavny nosny audio signal.",
+      "EG moze riadit VCA, VCF alebo v niektorych zapojeniach aj VCO.",
+      "Sustain v ADSR je uroven drzania, nie casovy usek poklesu.",
+      "Release sa spusta po uvolneni klavesy alebo po ukonceni aktivneho Gate.",
+      "Decay je segment, ktory sa zacina az po uvolneni klavesy.",
+      "Attack je pocet hodinovych impulzov na jednu stvrtovu notu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Generatory obalky"
+  },
+  {
+    "id": "hel-s2-034",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Rezimy spustania obalky pri hre viacerych not:",
+    "moznosti": [
+      "Free-run alebo one-shot moze prebehnut definovany priebeh nezavisle od dlzky drzania klavesy.",
+      "Retrigger znamena, ze nova klavesa spusti obalku od zaciatku.",
+      "Multi-trigger alebo mono moze zacat novy priebeh z aktualnej hodnoty predchadzajucej obalky.",
+      "Single-trigger alebo legato obvykle nezacina kazdu viazanu notu novym Attackom od nuly.",
+      "Tieto rezimy urcuju, ci sa vyska tonu prenasa standardom V/Hz alebo V/oct.",
+      "Legato vzdy odpoji predchadzajuci audio signal bez ohladu na obalku.",
+      "Retrigger je iny nazov pre keyboard follower riadiaci cutoff."
+    ],
+    "spravne": [0, 1, 2, 3],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Generatory obalky"
+  },
+  {
+    "id": "hel-s2-035",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pevne priradenie, prepinanie a modulacna matica:",
+    "moznosti": [
+      "Pri pevnom priradeni je zdroj riadenia konstrukcne viazany na konkretny ciel.",
+      "Prepinatelne priradenie 1:1 umoznuje zvolit iny zdroj alebo ciel, ale stale v obmedzenej strukture.",
+      "Modulacna matica umoznuje flexibilnejsie smerovanie zdrojov modulacie do cielov.",
+      "Modulacna matica nahradza VCO, VCF aj VCA, preto uz netreba audio cestu.",
+      "Modulacna matica je vzdy len audio mixer vystupov VCO pred filtrom.",
+      "Syntezator s pevnou strukturou moze mat aj externe CV alebo Trig konektory.",
+      "Pevna struktura moze obsahovat aj RM, AM alebo FM medzi dvojicou VCO."
+    ],
+    "spravne": [0, 1, 2, 5, 6],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Pevna struktura a modularne systemy"
+  },
+  {
+    "id": "hel-s2-036",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Varianty pevnej struktury syntezatora:",
+    "moznosti": [
+      "Zakladny retazec moze byt VCO-VCF-VCA.",
+      "Rozsireny retazec moze obsahovat VCO, mixer, waveshaper, VCF a VCA.",
+      "Dvojica VCO moze byt zapojena do RM, AM alebo FM modulacie.",
+      "Generator sumu moze byt zdrojom signalu miesanym s oscilatormi.",
+      "Filter musi byt vo vsetkych pevnych strukturach az za VCA a nikdy pred nim.",
+      "Vsetky syntezatory s pevnou strukturou su nevyhnutne monofonne.",
+      "Riadiace obvody pevnej struktury mozu zahrnat klaviaturu, LFO a generatory obalky."
+    ],
+    "spravne": [0, 1, 2, 3, 6],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Pevna struktura a modularne systemy"
+  },
+  {
+    "id": "hel-s2-037",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Modularny syntezator ako system:",
+    "moznosti": [
+      "Moduly sa daju prepajat patch kablami a tym menit strukturu nastroja.",
+      "Kompaktne modularne riesenie moze mat klaviaturu a pevne osadene moduly, ale prepojenie ostava na paneli.",
+      "Rack alebo lunchbox poskytuje mechanicke uchytenie a rozvod napajania.",
+      "Formaty urcuju rozmery panelov, konektory, napajanie a casto aj zbernicu.",
+      "Modularny syntezator musi byt z principu polyfonny, inak nejde o modular.",
+      "Kazdy modul modularneho systemu musi byt zdroj audio signalu.",
+      "Modular umoznuje viest audio aj CV cestu inak, nez by to dovolila pevna struktura."
+    ],
+    "spravne": [0, 1, 2, 3, 6],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Pevna struktura a modularne systemy"
+  },
+  {
+    "id": "hel-s2-038",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Eurorack ako fyzicky format:",
+    "moznosti": [
+      "Vyska modulu je 3U.",
+      "Sirka modulu sa udava v nasobkoch HP.",
+      "1 HP znamena Horizontal Pitch 5,08 mm.",
+      "Na prednom paneli sa pouzivaju 3,5 mm mono jack konektory.",
+      "Zadny konektor ma rozostup pinov 2,54 mm.",
+      "Standardnym prednym konektorom je 1/4'' symetricky TRS jack.",
+      "HP znamena Height Parameter a popisuje vysku modulu v milimetroch."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Eurorack"
+  },
+  {
+    "id": "hel-s2-039",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Eurorack: zbernica, napajanie a signalove standardy:",
+    "moznosti": [
+      "Zadny konektor distribuuje napajacie vetvy a podla verzie aj vybrane riadiace signaly.",
+      "Bus board v skrinke rozvadza napajanie k jednotlivym modulom.",
+      "Audio a CV sa pri beznom patchovani vedu najma prednymi patch konektormi.",
+      "Gate sa v prezentacii uvadza ako dvojstavovy signal 0/5 V.",
+      "Pre ladenie vysky sa pouziva standard 1 V/oct.",
+      "Desatpinovy konektor obsahuje viac riadiacich signalov ako sestnastpinovy konektor.",
+      "Zadna zbernica nahradza vsetky predne audio a CV prepojenia medzi modulmi."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Eurorack"
+  },
+  {
+    "id": "hel-s2-040",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "East Coast vs West Coast: skuskove rozlisenie:",
+    "moznosti": [
+      "East Coast sa spaja s Moog pristupom, klaviaturou, jednoduchymi oscilatormi a subtraktivnym filtrom.",
+      "West Coast sa spaja s Buchla pristupom, sekvencerom, komplexnejsimi zdrojmi a tvarovanim priebehu.",
+      "Rozdiel East/West je koncepcny a historicky, nie iba mechanicky format panelu.",
+      "Pevna struktura moze byt prevazne East-Coast, aj ked obsahuje doplnkove modulacne metody.",
+      "West Coast znamena, ze filter sa nikdy nemoze v nastroji pouzit.",
+      "East Coast je definovane tym, ze pouziva V/Hz, kym West Coast povinne pouziva V/oct.",
+      "West Coast sa da zhrnut ako aditivne skladanie sinusov, preto waveshaping a FM nie su jeho typicke nastroje."
+    ],
+    "spravne": [0, 1, 2, 3],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Pevna struktura a modularne systemy"
+  },
+  {
+    "id": "hel-s2-041",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Kostra ustnej odpovede k riadiacim signalom analogoveho syntezatora:",
+    "moznosti": [
+      "Najprv oddelit audio cestu od riadiacej cesty.",
+      "Definovat CV, Gate, Trig a Clock podla toho, aku informaciu nesu.",
+      "Uviest zdroje riadenia: klaviatura, LFO, EG, sekvencer a clock generator.",
+      "Uviest ciele riadenia: VCO, VCF, VCA, PWM alebo modulacnu maticu.",
+      "Pri klaviature doplnit prioritu klaves, portamento a keyboard follower.",
+      "Zjednodusit odpoved tak, ze vsetky riadiace signaly su pocutelne audio priebehy.",
+      "Vynechat riadiace signaly, lebo analogovy syntezator sa sklada iba z audio modulov."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Skuskova odpoved"
+  },
+  {
+    "id": "hel-s2-042",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Najcastejsie zameny pri prepojovani modulov: vyber spravne tvrdenia.",
+    "moznosti": [
+      "Audio z VCO moze ist do VCF, zatial co pitch CV ide do riadiaceho vstupu VCO.",
+      "EG moze ovladat VCA, ale jeho vystup sa tym nestava hlavnym nosnym audio signalom.",
+      "LFO moze modulovat cutoff, no nie je totozne s Clock signalom.",
+      "Gate moze spustit EG a EG nasledne moze riadit VCA alebo VCF.",
+      "Clock cez sekvencer moze nepriamo sposobovat zmeny CV v krokoch.",
+      "Trig po stlaceni klavesy prenasa presnu hodnotu vysky tonu az do uvolnenia klavesy.",
+      "Audio vystup VCF je bezny zdroj Gate signalu pre spustanie obalky."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Zakladne prepojenie modulov"
+  },
+  {
+    "id": "hel-s2-043",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Portamento a keyboard follower v jednej odpovedi:",
+    "moznosti": [
+      "Portamento riesi casovy prechod medzi dvoma hodnotami pitch CV.",
+      "Keyboard follower prevadza informaciu o vyske klavesy na riadenie ineho parametra, typicky VCF.",
+      "Oba obvody mozu byt v jednom nastroji sucasne.",
+      "Portamento samo o sebe neudrzi farbu tonu pri zmene vysky, iba sposobi plynuly prechod vysky.",
+      "Keyboard follower neslizi na vyhladenie prechodu medzi notami, ale na sledovanie vysky klaviatury.",
+      "Portamento automaticky zabezpeci, ze cutoff filtra presne sleduje kazdu zahranu notu.",
+      "Keyboard follower je monostabilny obvod generujuci kratky Trigger impulz."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Klaviatura"
+  },
+  {
+    "id": "hel-s2-044",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Sample and Hold ako modulacny zdroj:",
+    "moznosti": [
+      "Clock alebo trigger moze urcit okamih, v ktorom sa vstupne napatie odoberie ako vzorka.",
+      "Hold faza vytvori schodovity priebeh, ak sa vzorky menia po krokoch.",
+      "Ak je vstupom sum alebo nahodny signal, vystup moze byt nahodna krokova modulacia.",
+      "Vystup S&H moze riadit VCO, VCF alebo VCA podobne ako ine CV zdroje.",
+      "V praktickom S&H moze kvalita drzania suvisiet s unikom naboja z kondenzatora.",
+      "S&H je to iste ako portamento, pretoze oba obvody su iba dolnopriepustny filter na CV.",
+      "S&H je pametovy sampler audio nastroja, ktory uchova cely nahraty zvuk ako DCO."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "LFO a S&H"
+  },
+  {
+    "id": "hel-s2-045",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Tradicna obalka a multi-ramp obalka:",
+    "moznosti": [
+      "Tradicna obalka je casto popisana hlavne casmi segmentov a vybranymi urovnami.",
+      "Multi-ramp obalka moze byt definovana viacerymi bodmi cas-uroven.",
+      "Tvar segmentu alebo slope moze ovplyvnit priebeh narastu a poklesu.",
+      "Break point suvisi s miestom prechodu medzi segmentmi obalky.",
+      "Obalka moze byt pouzita aj invertovane alebo s nastavitelnou hlbkou modulacie.",
+      "Multi-ramp obalka je totozna s LFO, pretoze musi periodicky bezat bez Gate.",
+      "AEG je vzdy obalka vysky tonu a nikdy nemoze riadit amplitudu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Generatory obalky"
+  },
+  {
+    "id": "hel-s2-046",
+    "tema": "HEL Skuska 2: Analogove syntezatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Eurorack signalove urovne a impedancie:",
+    "moznosti": [
+      "Ladenie vysky v Euroracku sa typicky riadi standardom 1 V/oct.",
+      "CV moze byt unipolarne alebo bipolarne podla typu modulacie.",
+      "Gate je v prezentacii uvadzany ako stav 0 V a 5 V.",
+      "Vysoka vstupna impedancia a nizka vystupna impedancia pomahaju spravne prenast napatie.",
+      "Predne patch konektory sluzia na prepojenie audio a CV signalov medzi modulmi.",
+      "Rozsah CV automaticky urcuje presnu hlasitost audio vystupu bez potreby VCA.",
+      "Gate 0/5 V sa interpretuje ako plynula hodnota vysky tonu v mierke 1 V/oct."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 2",
+    "subtema": "Eurorack"
+  }
+];
+
+const helSkuska3HybridneNastrojeOtazky = [
+  {
+    "id": "hel-s3-001",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Hybridna synteza zvuku: ktore tvrdenia vystihuju princip?",
+    "moznosti": [
+      "Hybridny nastroj moze kombinovat cislicove generovanie priebehu s analogovym filtrom a zosilnovacom.",
+      "Jedna metoda vyuziva logicke obvody na generovanie impulsneho, obdlznikoveho alebo piloveho signalu a dalsie tvary ziskava filtraciou.",
+      "Tabulkovy digitalny generator moze tvorit zdroj signalu, zatial co dalsie obvody zostanu analogove.",
+      "Cast priebehu moze byt generovana digitalne a cast analogovo.",
+      "Hybridny nastroj znamena, ze digitalna cast smie riadit len parametre, ale nesmie generovat zakladny audio priebeh.",
+      "Hybridna architektura moze mat DCO alebo tabulkovy generator pred D/A prevodnikom a analogovym VCF/VCA.",
+      "Ak nastroj pouzije mikroprocesor v sekvenceri, jeho analogova cast uz nemoze byt sucastou zvukovej cesty."
+    ],
+    "spravne": [0, 1, 2, 3, 5],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Hybridna synteza"
+  },
+  {
+    "id": "hel-s3-002",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Klopne obvody v hybridnych nastrojoch:",
+    "moznosti": [
+      "Klopny obvod prechadza medzi diskretnymi stavmi skokovo.",
+      "Astabilny KO nema stabilny stav a moze kmitat ako oscilator.",
+      "Monostabilny KO ma jeden stabilny stav a po spusteni prejde na cas do nestabilneho stavu.",
+      "Bistabilny KO ma dva stabilne stavy a moze pracovat ako pamatovy prvok.",
+      "Schmittov KO vyuziva hysterezu a moze tvarovat impulzy.",
+      "Astabilny KO sa od bistabilneho lisi hlavne tym, ze ma jeden stabilny stav a po impulze sa vrati spat.",
+      "Monostabilny KO moze vytvorit impulz danej dlzky, preto sa pri deleni kmitoctu sprava rovnako ako T KO."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Klopne obvody"
+  },
+  {
+    "id": "hel-s3-003",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Astabilny a monostabilny klopny obvod: vyber presne tvrdenia.",
+    "moznosti": [
+      "Astabilny KO moze generovat obdlznikovy priebeh.",
+      "Astabilny KO moze byt realizovany diskretnymi suciastkami, hradlami NAND alebo casovacom 555.",
+      "Perioda astabilneho KO suvisi s dobou vysokej a nizkej urovne impulzu.",
+      "PWM moze vzniknut zmenou pomeru casov vysokej a nizkej urovne impulzu.",
+      "Monostabilny KO moze tvarovat impulzy alebo vytvarat impulz danej dlzky.",
+      "Monostabilny KO po spusteni urci dobu impulzu, preto moze bez dalsich stupnov pracovat ako periodicky oscilator.",
+      "PWM v astabilnom KO je riadena tym, ze sa meni iba amplituda audio vystupu, nie casove pomery impulzu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Klopne obvody"
+  },
+  {
+    "id": "hel-s3-004",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Bistabilne KO, D, JK a T: ktore tvrdenia su spravne?",
+    "moznosti": [
+      "RS KO moze nastavovat alebo nulovat vystup podla vstupov Set a Reset.",
+      "Gated RS reaguje na zmeny vstupov iba pri aktivnom riadiacom vstupe.",
+      "D KO moze fungovat ako jednobitova pamat.",
+      "Hranou riadeny D KO zapamata stav vstupu D v okamihu aktivnej hrany clocku.",
+      "JK KO pri aktivnych J aj K moze pri hodinovom impulze preklopit vnutornu hodnotu.",
+      "T KO v tejto ulohe priamo nasobi kmitocet vstupneho clocku dvoma.",
+      "T KO meni stav pri hodinovej hrane, preto sa jeho vystup povazuje za rychlejsi signal vhodny na vyssie oktavy."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Klopne obvody"
+  },
+  {
+    "id": "hel-s3-005",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Asynchronny binarny citac a delicka kmitoctu:",
+    "moznosti": [
+      "Citac pocita impulzy privedene na jeho vstup.",
+      "Kaskada KO moze vytvorit binarne cislo modulo 2^n.",
+      "Ak ma byt modulo ine ako mocnina dvoch, moze sa pouzit kombinacna logika na reset.",
+      "Vystup dalsieho T KO v kaskade ma typicky dvojnasobnu periodu oproti predchadzajucemu stupnu.",
+      "Delenie kmitoctu je zakladom generovania nizsich oktav z vyssieho impulzneho signalu.",
+      "Asynchronny citac vytvara presne temperovane poltony bez chyb zaokruhlenia pri lubovolnom hlavnom oscilatore.",
+      "Kaskada T KO po kazdom stupni skracuje periodu na polovicu, preto sa hodi na tvorbu vyssich oktav."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Citace a delicky"
+  },
+  {
+    "id": "hel-s3-006",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Nasobenie kmitoctu a PLL:",
+    "moznosti": [
+      "Nasobenie kmitoctu sa da dosiahnut sluckou fazoveho zavesu.",
+      "PLL vyuziva fazovy komparator, filter, VCO a delicku kmitoctu.",
+      "VCO v PLL meni svoj kmitocet tak, aby sa fazovo naviazal na referenciu cez spatnu vazbu.",
+      "Pre nasobenie dvoma sa da v jednoduchsich pripadoch pouzit aj XOR a komparator.",
+      "Filter v PLL sam generuje riadiace napatie pre VCO bez potreby fazoveho komparatora.",
+      "Delicka v spatnej vazbe PLL moze suvisiet s vyslednym nasobiacim pomerom.",
+      "Nasobicka kmitoctu sa pri single-cycle synteze pouziva na adresovanie pamate namiesto citaca."
+    ],
+    "spravne": [0, 1, 2, 3, 5],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Citace a delicky"
+  },
+  {
+    "id": "hel-s3-007",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Dekoder, multiplexer a demultiplexer:",
+    "moznosti": [
+      "Dekoder 1 z N prevadza adresu na aktivaciu jedneho z vystupov.",
+      "Digitalny multiplexer vybera jeden z cislicovych vstupov na vystup podla adresy.",
+      "Digitalny demultiplexer privadza jeden cislicovy vstup na vybrany vystup.",
+      "Analogovy multiplexer podla adresy prepina jeden z analogovych vstupov na analogovy vystup.",
+      "Analogovy demultiplexer smeruje jeden analogovy vstup na vybrany analogovy vystup.",
+      "Multiplexer sa od dekodera lisi len nazvom; oba iba aktivuju jednu vetvu a neprenasaju samotny signal.",
+      "Adresove vstupy multiplexeru urcuju priamo analogovu uroven vystupu, nie vyber vstupu alebo vystupu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Multiplexery"
+  },
+  {
+    "id": "hel-s3-008",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Generator hornej oktavy: princip a dovod pouzitia.",
+    "moznosti": [
+      "Plynule preladovany VCO moze mat problem s presnym ladenim a teplotnou stabilitou.",
+      "Generator hornej oktavy vytvara impulzne signaly pre tony najvyssej oktavy temperovaneho ladenia.",
+      "Nizsie oktavy sa ziskavaju delenim kmitoctu dvoma.",
+      "Dalsie priebehy ako pila, trojuholnik alebo sinus sa mozu ziskat naslednou filtraciou.",
+      "Plynula zmena vysky tonu je pri tomto pristupe problematicka.",
+      "Generator hornej oktavy uklada hotove priebehy tonov v ROM, preto nepotrebuje delicky kmitoctu.",
+      "Delenie dvoma zvysi vysku tonu o oktavu, preto sa nim tvoria vyssie oktavy z nizsich."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Generatory hornej oktavy"
+  },
+  {
+    "id": "hel-s3-009",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Metody generatora hornej oktavy:",
+    "moznosti": [
+      "Jedna metoda vytvori najvyssi ton hornej oktavy a ostatne intervaly aproximuje zlomkami pomocou deliciek a nasobiciek.",
+      "Ina metoda odvodzuje kazdy ton hornej oktavy od jedneho hlavneho vysoko-frekvencneho oscilatora delenim celociselnym pomerom.",
+      "Pri deleni z hlavneho oscilatora moze vzniknut chyba, lebo idealny deliaci pomer treba zaokruhlit na cele cislo.",
+      "Pouzitie krystaloveho hlavneho oscilatora moze zlepsit stabilitu oproti volne preladovanemu VCO.",
+      "Aproximacia temperovaneho poltonu zlomkom je kompromis medzi realizovatelnostou a presnostou.",
+      "Ak sa tony hornej oktavy odvodzuju delenim, netreba riesit chybu temperovaneho intervalu ani zaokruhlenie pomerov.",
+      "Ak sa v hornej oktave pouzije hlavny oscilator, nizsie oktavy sa uz nedaju odvodit delenim."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Generatory hornej oktavy"
+  },
+  {
+    "id": "hel-s3-010",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "DCO a cislicove generatory funkcii:",
+    "moznosti": [
+      "DCO je cislicovo riadeny oscilator, ktory generuje periodicky priebeh cislicovou castou.",
+      "Za cislicovym generatorom moze nasledovat jednoduchy D/A prevodnik.",
+      "Vyssie periodicke zlozky schodoviteho signalu sa potlacuju rekonstrukcnou dolnou priepustou.",
+      "Dalsie priebehy sa mozu ziskavat filtracnymi metodami.",
+      "Metody DCO zahrnaju astabilne KO a citace, Walshove funkcie a wavecycle syntezu.",
+      "DCO je riadeny digitalnym casovanim, ale samotny periodicky priebeh musi vzdy vzniknut analogovou integraciou ako pri VCO.",
+      "DCO po D/A prevode uz nepotrebuje ziadnu filtraciu, lebo vystup je idealne spojity."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "DCO a wavecycle"
+  },
+  {
+    "id": "hel-s3-011",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Generator piloveho priebehu s citacom:",
+    "moznosti": [
+      "Vystupy citaca mozu spinat tranzistory pripojujuce vahove rezistory.",
+      "Vahove rezistory mozu byt zapojene v invertujucom scitacom zapojeni OZ.",
+      "Kombinacia bitov citaca vytvara schodovity priebeh podobny pile.",
+      "Frekvencia vystupu suvisi s hodinovou frekvenciou a poctom stavov citaca.",
+      "Vystup citaca sa musi po D/A casti filtrovat, ak chceme hladsi priebeh.",
+      "Pilovy priebeh vznikne z binarneho citaca tak, ze bez vahovania maju vsetky bity rovnaky podiel na vystupe.",
+      "Vahove rezistory v tomto zapojeni urcuju iba tempo sekvencera, nie amplitudy bitov."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "DCO a wavecycle"
+  },
+  {
+    "id": "hel-s3-012",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Walshove funkcie v cislicovom generovani priebehov:",
+    "moznosti": [
+      "Moze ist o scitanie binarnych signalov s roznym kmitoctom vytvorenych delickami.",
+      "Moze ist o scitanie binarnych signalov posunutych pomocou D klopnych obvodov.",
+      "Vystup moze byt vytvoreny z viacerych pravouhlych alebo binarnych zloziek.",
+      "Tvar priebehu zavisi od vahovania a kombinacie jednotlivych binarnych zloziek.",
+      "Walshove funkcie patria medzi metody cislicoveho generatora funkcii.",
+      "Walshova metoda vytvara zlozky len sinusovymi oscilatormi; delicky sluzia iba na synchronizaciu.",
+      "Walshove funkcie su tabulkove PCM priebehy, ktore sa od single-cycle lisia len dlzkou nahravky."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "DCO a wavecycle"
+  },
+  {
+    "id": "hel-s3-013",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Slider scanning:",
+    "moznosti": [
+      "Citac moze riadit analogovy multiplexer.",
+      "Multiplexer postupne vybera napatia nastavene delicmi alebo potenciometrami.",
+      "Vybrane napatia tvoria vzorky jedneho cyklu priebehu.",
+      "Hodinova frekvencia musi byt naviazana na pocet vzoriek a pozadovanu vystupnu frekvenciu.",
+      "Zmenou nastavenych napati sa meni tvar generovaneho cyklu.",
+      "Slider scanning uklada hodnoty jazdcov do ROM pred prehratim, preto pri behu nepotrebuje multiplexer.",
+      "Citac v slider scanningu urcuje iba poradie ovladacich prvkov v menu, nie casove citanie vzoriek cyklu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "DCO a wavecycle"
+  },
+  {
+    "id": "hel-s3-014",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Single-cycle synteza:",
+    "moznosti": [
+      "Je zalozena na periodickom citani vzoriek jedneho cyklu z pamate ROM.",
+      "Citac moze riadit adresovanie pamate ROM.",
+      "Datove vystupy pamate mozu ovladat D/A cast s vahovymi rezistormi.",
+      "Pamat moze obsahovat zakladne periodicke priebehy, sucty harmonickych alebo uzivatelske cykly.",
+      "Vysku generovaneho zvuku urcuje rychlost opakovaneho citania cyklu.",
+      "Single-cycle prehrava jeden cyklus, preto vyska tonu zavisi od volby VCF cutoffu, nie od rychlosti citania.",
+      "Pri single-cycle sa zmena farby realizuje iba zmenou amplitudy jednej vzorky, nie volbou ineho cyklu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "DCO a wavecycle"
+  },
+  {
+    "id": "hel-s3-015",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Citanie vzoriek v single-cycle synteze:",
+    "moznosti": [
+      "Vzorky sa mozu citat linearne.",
+      "Vzorky sa mozu citat linearne v oboch smeroch.",
+      "Pri citani v oboch smeroch treba upravit hodinovu frekvenciu, aby zostala vyska zachovana.",
+      "Pseudonahodne citanie moze vzniknut zavedenim spatnych vazieb medzi stupnami citaca.",
+      "LSb cast adresy moze urcovat vzorku v cykle a MSb cast volbu prehravaneho cyklu.",
+      "Pri citani v oboch smeroch sa vyska zachova bez zmeny clocku, pretoze sa pocet vzoriek v periode nemeni.",
+      "Volba cyklu je vzdy pevne dana vyrobcom a nemoze byt ovplyvnena dynamikou hry."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "DCO a wavecycle"
+  },
+  {
+    "id": "hel-s3-016",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Multi-cycle synteza:",
+    "moznosti": [
+      "Generuje viac cyklov zoradenych v sekvencii.",
+      "Zmenou poradia cyklov mozno zo tych istych cyklov vytvorit odlisnu farbu.",
+      "Zakladny kmitocet moze zavisiet od poctu cyklov v sekvencii.",
+      "Adresa citania moze obsahovat informaciu o sekvencii, cykle a vzorke cyklu.",
+      "Multi-cycle rozsiruje single-cycle tym, ze nepracuje iba s jednym opakovanym cyklom.",
+      "Multi-cycle pouziva viac cyklov, ale poradie cyklov nema vplyv na spektrum, iba na hlasitost.",
+      "Pri multi-cycle synteze sa farba neda menit poradim cyklov, iba analogovym VCA."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "DCO a wavecycle"
+  },
+  {
+    "id": "hel-s3-017",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Filtracia vystupu cislicoveho generatora:",
+    "moznosti": [
+      "Schodovity vystup ma periodicke spektrum a obsahuje nezadane vyssie zlozky.",
+      "Pouziva sa rekonstrukcna dolna priepust.",
+      "Medzny kmitocet filtra moze suvisiet s poctom zachovanych harmonickych a kmitoctom tonu.",
+      "Pri zmene vysky tonu moze byt potrebny keyboard follower pre cutoff filtra.",
+      "Filtracnymi metodami z analogovej syntezy sa daju ziskat aj dalsie priebehy.",
+      "Rekonstrukcny filter ma mat pevny cutoff nezavisly od vysky, ak chceme zachovat rovnaku relativnu farbu.",
+      "Schodovity vystup ma vyssie zlozky, ale rekonstrukcny filter sa pouziva az pred klaviaturou, nie v audio ceste."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Filtracia"
+  },
+  {
+    "id": "hel-s3-018",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "PPG Wave a wavetable hybridna architektura:",
+    "moznosti": [
+      "PPG Wave pouzival wavetable princip s digitalnym zdrojom priebehu.",
+      "DCO prehraval vzorky alebo tabulkove priebehy z pamate.",
+      "Za digitalnym zdrojom mohol nasledovat analogovy VCF a VCA.",
+      "Rozne verzie sa lisili aj poctom oscilatorov a bitovym rozlisenim.",
+      "Takato architektura je prikladom kombinacie digitalnej generacie a analogoveho spracovania.",
+      "PPG Wave vyuzival digitalnu tabulku len na riadenie cutoffu, pricom audio oscilator ostal analogovy VCO.",
+      "Wavetable v tomto kontexte znamena viac priebehov v pamati, ktore sa po vybere uz nemusia prevadzat cez D/A."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Hybridne syntezatory"
+  },
+  {
+    "id": "hel-s3-019",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Roland D-50 a LA synteza:",
+    "moznosti": [
+      "LA synteza kombinuje PCM vzorky s DCO emulujucim analogovy syntezator.",
+      "PCM vzorky mozu definovat nabeh alebo charakteristicky zaciatok zvuku.",
+      "Po PCM casti moze nasledovat prehravanie signalu digitalne riadeneho oscilatora.",
+      "Generator moze mat vlastne EG, LFO, VCF a VCA.",
+      "Struktury mozu urcovat kombinaciu PCM generatora s analogovo modelovanym alebo analogovym typom generatora.",
+      "LA synteza pouziva PCM nabeh a DCO, ale DCO v nej sluzi len ako casovac sekvencera, nie ako zvukovy zdroj.",
+      "PCM v LA synteze vytvara iba ustaleny sustain, zatial co nabeh musi vzdy vytvorit DCO."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Hybridne syntezatory"
+  },
+  {
+    "id": "hel-s3-020",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Quasar, Juno a historicke priklady hybridnych nastrojov:",
+    "moznosti": [
+      "Quasar bol digitalne/analogovy hybridny syntezator.",
+      "Quasar II bol duofonny a vyuzival mikroprocesory Motorola 6800.",
+      "Quasar M8 sa spaja s polyfoniou, pamatou, disketovou mechanikou a FFT syntezou.",
+      "Roland Juno-6 bol analogovy syntezator s VCO aj DCO alebo generatorom hornej oktavy.",
+      "Juno verzia s pamatou a komunikacnym rozhranim rozsirila prakticke ovladanie nastroja.",
+      "Quasar je vhodnejsie opisat ako analogovy nastroj bez mikroprocesorovej casti, preto sa k digitalno-analogovym hybridom neradi.",
+      "Juno je vhodnejsie opisat ako sampler s PCM nabehmi, pretoze generator hornej oktavy v nom nehra rolu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Hybridne syntezatory"
+  },
+  {
+    "id": "hel-s3-021",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Sekvencer: co zaznamenava a ako?",
+    "moznosti": [
+      "Sekvencer zaznamenava a prehrava riadiace signaly syntezatorov.",
+      "Riadiace signaly nemusia byt ukladane kontinualne, ale ako udalosti.",
+      "Pri plynulejsom zazname sa mozu hodnoty ukladat so stavom casovaca od predchadzajucej udalosti.",
+      "Krokovy sekvencer pracuje s pevne stanovenymi hrubymi casovymi krokmi.",
+      "Analogovy sekvencer moze mikroprocesorovo riadit nastavovanie a prehravanie CV a spustacich signalov.",
+      "Sekvencer moze ovladat VCA, preto sa pri zazname musi ulozit vystupne audio za VCA namiesto riadiacich udalosti.",
+      "Krokovy sekvencer moze mat krokove hodnoty CV, preto v nom Gate a Trig nemaju samostatny vyznam."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Sekvencery"
+  },
+  {
+    "id": "hel-s3-022",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Sekvencer s plynulym zaznamom:",
+    "moznosti": [
+      "Hodnoty riadiacich signalov sa ukladaju do pamate spolu s casovou informaciou.",
+      "Casova informacia moze vyjadrovat vzdialenost od predchadzajucej udalosti.",
+      "Rozlisenie zaznamu moze urcovat PPQN clock generatora.",
+      "System moze obsahovat A/D pri zazname a D/A pri prehravani CV.",
+      "Viac stop umoznuje zaznam viacerych riadiacich priebehov.",
+      "Plynuly sekvencer pracuje s casom udalosti, preto nepotrebuje pamat hodnot CV.",
+      "PPQN v tomto kontexte urcuje amplitudove rozlisenie A/D prevodu, nie casove rozlisenie udalosti."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Sekvencery"
+  },
+  {
+    "id": "hel-s3-023",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Krokovy sekvencer:",
+    "moznosti": [
+      "Prehrava riadiace signaly naprogramovane v pamati.",
+      "Hodnoty sa casto zadavaju rucne s hrubsim casovym rozlisenim.",
+      "Pre kazdy krok moze byt vyhradene jedno pamatove miesto.",
+      "Typicke dlzky mozu byt 8, 12, 16, 24 alebo 32 krokov.",
+      "Hodnoty sa casto prehravaju v slucke.",
+      "Krokovy sekvencer je urceny na plynuly zaznam casu kazdej udalosti, preto nepotrebuje pevne kroky.",
+      "Krokovy sekvencer sa pouziva hlavne na pomale zmeny parametrov, preto sa bezne neviaze na bicie alebo basove patterny."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Sekvencery"
+  },
+  {
+    "id": "hel-s3-024",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Krokovy sekvencer pre CV, Gate a Trig:",
+    "moznosti": [
+      "Citac moze prepinat vstupy multiplexeru s nastavenymi hodnotami napatia.",
+      "Hodnoty CV mozu byt nastavene potenciometrami alebo generovane D/A prevodnikom z pamate.",
+      "Modulo citac urcuje poradie krokov sekvencie.",
+      "Gate a Trig mozu byt generovane podla nastavenia pre jednotlive kroky.",
+      "Takto sa daju programovat rytmicke nastrojove party.",
+      "Gate v krokovom sekvenceri moze oznacit aktivny krok, preto sa niekedy zamiena s hodnotou CV vysky.",
+      "CV krokoveho sekvencera sa pri prehravani obnovuje z pamate az po tom, ako Gate otvori VCA."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Sekvencery"
+  },
+  {
+    "id": "hel-s3-025",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pulse Clock a DIN Sync:",
+    "moznosti": [
+      "Pulse Clock je metoda synchronizacie analogovych sekvencerov a bicich automatov.",
+      "Prenasa riadiaci Clock medzi zariadeniami pomocou elektrickych impulzov.",
+      "Impulzy sa vysielaju v urcitych intervaloch, casto popisanych ako PPQN.",
+      "DIN Sync moze obsahovat Clock a signaly Start/Stop alebo Reset/Start.",
+      "Pulse Clock neprenasa samotny audio signal nastroja, ale synchronizacne impulzy.",
+      "Pulse Clock prenasa impulzy s rozlisenim PPQN, preto v sebe automaticky obsahuje aj cislo aktualneho kroku a hodnotu CV.",
+      "DIN Sync je analogovy filter na vyhladenie schodoviteho D/A vystupu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Synchronizacia"
+  },
+  {
+    "id": "hel-s3-026",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "FSK synchronizacny kod:",
+    "moznosti": [
+      "FSK znamena Frequency Shift Keying.",
+      "FSK koduje impulzy Pulse Clock pomocou zmeny kmitoctu.",
+      "Je odolnejsi voci sumu a presluchom nez jednoduche impulzy.",
+      "Moze sa nahrat na magneticky pas ako zvukovy signal.",
+      "Niektore FSK kody mozu obsahovat aj absolutnu poziciu v skladbe.",
+      "FSK koduje clock kmitoctovym klucovanim, preto ho prijimac cita priamo ako hodnoty CV bez dekodovania.",
+      "Ak FSK obsahuje poziciu v skladbe, prestava byt synchronizacnym signalom a stava sa audio efektom."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Synchronizacia"
+  },
+  {
+    "id": "hel-s3-027",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Bicie a basove automaty: zakladny princip.",
+    "moznosti": [
+      "Ide o syntezatory zvukov bicich alebo basy spustane signalom Trig.",
+      "Trig moze prichadzat z krokoveho sekvencera alebo klaviatury.",
+      "Bicie automaty mozu vyuzivat analogovu syntezu, samply alebo ich kombinaciu.",
+      "Sekvencer urcuje, v ktorych krokoch sa spustia jednotlive zvuky.",
+      "Zvukovy generator moze obsahovat VCO, generator sumu, filtre, obalky a VCA.",
+      "Bici automat s prehravanymi samplami nepotrebuje oddelene spustacie udalosti, ak ma pevnu slucku celeho patternu.",
+      "Trig v bicom automate moze spustit zvuk, ale samotnu farbu zvuku urcuje priamo ako spojitu hodnotu cutoffu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Bicie a basove automaty"
+  },
+  {
+    "id": "hel-s3-028",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Analogova synteza bicich zvukov:",
+    "moznosti": [
+      "Zakladom moze byt amplitudova modulacia sumoveho alebo tonoveho signalu obalkou prechodneho deja.",
+      "Zo signalu Trig sa moze vytvorit pravouhly impulz obvodom hold.",
+      "Impulz sa moze tvarovat integracnym alebo derivacnym clankom a filtrami.",
+      "Farba zvuku sa upravuje filtraciou.",
+      "Akcent moze zvysit uroven alebo zosilnenie v danom kroku sekvencie.",
+      "Analogova synteza bicich pouziva obalky a filtre, ale zdroj signalu musi byt najprv ulozeny ako sample.",
+      "Obalka pri bicich zvukoch je dolezita hlavne preto, ze drzi sustain tak dlho, ako je aktivny klavesovy Gate."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Bicie a basove automaty"
+  },
+  {
+    "id": "hel-s3-029",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Basovy bubon v analogovej synteze:",
+    "moznosti": [
+      "Moze vznikat mixom harmonickeho signalu a sumu modulovanych AR obalkou.",
+      "Dolna priepust pomaha tvarovat nizkofrekvencny charakter basoveho bubna.",
+      "TR808 pouziva tlmeny harmonicky oscilator spustany pravouhlym impulzom.",
+      "Miera tlmenia moze suvisiet so spatnou vazbou.",
+      "Akcent moze ovplyvnit hlasitost alebo intenzitu v danom kroku.",
+      "Basovy bubon TR808 pouziva tlmeny harmonicky oscilator, preto nepotrebuje LP filtraciu ani excitacny impulz.",
+      "Basovy bubon moze byt spustany impulzom, ale po spusteni musi oscilator bezat netlmeny a doznievanie riesi iba VCA."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Bicie a basove automaty"
+  },
+  {
+    "id": "hel-s3-030",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Snare a cinel podla principov TR808:",
+    "moznosti": [
+      "Snare moze miesat dva tlmene harmonicke oscilatory a biely sum.",
+      "Sumova zlozka snare moze byt filtrovana hornou priepustou.",
+      "Cinel moze vznikat mixom viacerych vzajomne inharmonicky rozladenych pravouhlych oscilatorov.",
+      "Pri cineli sa moze pouzit dvojpasmove tvarovanie obalky a filtre BPF/HPF.",
+      "Obalky a VCA tvaruju casovy priebeh jednotlivych zloziek bicieho zvuku.",
+      "Snare sa da redukovat na jeden tlmeny oscilator, ak sa sumova zlozka nahradi vysokou rezonanciou filtra.",
+      "Cinel v tejto architekture vychadza z toho isteho jedneho tlmeneho sinusoveho oscilatora ako kick, iba s dlhsim decay."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Bicie a basove automaty"
+  },
+  {
+    "id": "hel-s3-031",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Roland TB-303: synteza a ovladanie.",
+    "moznosti": [
+      "TB-303 je basovy syntezator so sekvencerom.",
+      "Zvukova cast je analogova subtraktivna synteza.",
+      "VCO ponuka pilu a obdlznik.",
+      "VCF je rebrickovy filter 4. radu s modulaciou obalkou.",
+      "Accent zvysuje hlasitost aj hlbku obalky filtra.",
+      "TB-303 pouziva digitalny wavetable zdroj pre basovy ton, pricom analogovy filter sluzi len ako rekonstrukcna dolna priepust.",
+      "Slide sa v TB-303 nastavuje ako typ sumovej zlozky bicieho zvuku, nie ako prechod vysky medzi notami."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Bicie a basove automaty"
+  },
+  {
+    "id": "hel-s3-032",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Sekvencer TB-303:",
+    "moznosti": [
+      "Patterny maju maximalne 16 krokov.",
+      "Patterny sa daju spajat za sebou do stop.",
+      "Pitch mode sluzi na zadavanie postupnosti vysok not.",
+      "Time mode sluzi na zadavanie not, ligatur a pauz pre kroky.",
+      "Ak je v Time mode zadana nota, sekvencer berie dalsiu vysku z Pitch mode.",
+      "Akcent, slide a oktavovy posun patria v TB-303 do Time mode, kym Pitch mode uklada iba pauzy a ligatury.",
+      "Time mode nahrava spojitu amplitudu za VCA a podla nej spatne dopocita vysku noty."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Bicie a basove automaty"
+  },
+  {
+    "id": "hel-s3-033",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Rozdiel medzi DCO, generatorom hornej oktavy a samplerom:",
+    "moznosti": [
+      "DCO generuje periodicky priebeh cislicovo a potom ho prevadza do analogovej oblasti.",
+      "Generator hornej oktavy odvodzuje temperovane tony a nizsie oktavy delenim kmitoctu.",
+      "Sampler prehrava zaznamenane zvukove vzorky, co je iny princip nez single-cycle tabulka jedneho cyklu.",
+      "DCO aj generator hornej oktavy riesia hlavne periodicke zdroje vysky tonu.",
+      "Sampler moze obsahovat nabeh a casovy vyvoj realneho zvuku, zatial co single-cycle typicky opakuje cyklus.",
+      "Generator hornej oktavy pre kazdu klavesu uklada samostatny priebeh v pamati, ale nizsie oktavy stale ziskava delenim.",
+      "DCO a sekvencer pouzivaju cislicove stavy, preto oba primarne ukladaju casove udalosti namiesto generovania priebehu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Skuskova odpoved"
+  },
+  {
+    "id": "hel-s3-034",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "DCO + VCF + VCA ako hybridna architektura:",
+    "moznosti": [
+      "Digitalna cast moze generovat zakladny priebeh alebo tabulku priebehu.",
+      "D/A prevodnik prevedie cislicovy signal na analogovy priebeh.",
+      "Analogovy VCF moze nasledne tvarovat spektrum.",
+      "Analogovy VCA moze tvarovat amplitudu.",
+      "Riadenie moze byt digitalne, analogove alebo kombinovane.",
+      "Ak je zdroj digitalny, analogovy VCF uz nemoze menit spektrum, iba odstranit kvantizacny sum.",
+      "D/A prevodnik v tejto strukture nahradza VCF, preto nie je potrebna filtracia."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Hybridna synteza"
+  },
+  {
+    "id": "hel-s3-035",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Adresovanie pamate pri wavecycle synteze:",
+    "moznosti": [
+      "Cast adresy moze vyberat vzorku v ramci jedneho cyklu.",
+      "Ina cast adresy moze vyberat, ktory cyklus alebo priebeh sa prehrava.",
+      "Volba cyklu moze byt fixna, riadena dynamikou hry alebo nahodna.",
+      "Pri multi-cycle treba rozlisit poradie cyklov v sekvencii.",
+      "Citac moze generovat postupnost adries pre citanie pamate.",
+      "Ak MSb volia cyklus, LSb uz nemozu adresovat vzorku v ramci cyklu.",
+      "Adresovanie pri wavecycle synteze je zhodne s Gate signalom, ktory iba drzi obalku."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "DCO a wavecycle"
+  },
+  {
+    "id": "hel-s3-036",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Schodovity priebeh a rekonstrukcia: kde je pasca?",
+    "moznosti": [
+      "D/A vystup z digitalneho generatora moze mat schodovity priebeh.",
+      "Schody v case vytvaraju nezadane spektralne zlozky.",
+      "Dolna priepust obmedzi vyssie zlozky a zjemni priebeh.",
+      "Ak sa meni vyska tonu, cutoff rekonstrukcneho filtra moze potrebovat sledovanie vysky.",
+      "Prilis nizky cutoff moze odstranit aj ziadane harmonicke zlozky.",
+      "Schodovitost posuva neziaduce zlozky len pod zakladny kmitocet, preto sa neodstranuju dolnou priepustou.",
+      "Keyboard follower pri rekonstrukcii znamena, ze Gate signal drzi VCA otvoreny."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Filtracia"
+  },
+  {
+    "id": "hel-s3-037",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Porovnanie Pulse Clock, FSK a sekvencera:",
+    "moznosti": [
+      "Pulse Clock prenasa synchronizacne impulzy medzi zariadeniami.",
+      "FSK moze zakodovat impulzy kmitoctovym klucovanim do zvukoveho signalu.",
+      "Sekvencer z tychto synchronizacnych informacii moze byt casovo riadeny.",
+      "FSK je vhodnejsie na zaznam na magneticky pas nez jednoduche logicke impulzy.",
+      "Absolutne synchronizacne kody mozu obsahovat informaciu o pozicii v skladbe.",
+      "Pulse Clock sam obsahuje hodnoty vsetkych not a filtrovych obalok v skladbe.",
+      "FSK pouziva zmenu kmitoctu, preto sa na prijimacej strane interpretuje rovnako ako FM audio synteza."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Synchronizacia"
+  },
+  {
+    "id": "hel-s3-038",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Historicke bicie automaty a pouzite principy:",
+    "moznosti": [
+      "Rhythmate 40 bol zalozeny na prehravani z magnetofonovej pasky.",
+      "Rhythm Ace bol tranzistorovy automat.",
+      "TR-77 pouzival analogovu syntezu.",
+      "CR-78 pouzival analogovu syntezu riadenu mikroprocesorom.",
+      "LM-1 a LinnDrum sa spajaju so samplami.",
+      "TR-808 a TR-606 su v prezentacii uvedene ako samplove automaty bez analogovej syntezy a bez moznosti programovania.",
+      "TR-909 je v prezentacii uvedeny ako cisto analogovy automat bez samplov pre cinelove zvuky."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Bicie a basove automaty"
+  },
+  {
+    "id": "hel-s3-039",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Co musi byt v skuskovej odpovedi o hybridnych nastrojoch?",
+    "moznosti": [
+      "Vysvetlit, ktora cast nastroja je digitalna a ktora analogova.",
+      "Uviest priklady DCO, tabulkoveho generatora, VCF a VCA v jednej architekture.",
+      "Vysvetlit, preco sa po digitalnom generovani riesi D/A prevod a filtracia.",
+      "Rozlisit generator hornej oktavy, DCO a wavetable alebo single-cycle princip.",
+      "Doplnit prakticke priklady ako PPG Wave, D-50 alebo Juno.",
+      "Obmedzit odpoved na digitalny sampler bez analogovej casti, hoci tema stoji na kombinacii digitalneho a analogoveho bloku.",
+      "Riadiace obvody spomenut az po sampleroch, pretoze citace a KO su dolezite iba pre cisto digitalne nastroje."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Skuskova odpoved"
+  },
+  {
+    "id": "hel-s3-040",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Najnebezpecnejsie zameny v 3. okruhu:",
+    "moznosti": [
+      "DCO nie je to iste ako VCO, hoci oba mozu byt zdrojom periodickeho signalu.",
+      "Single-cycle nie je to iste ako prehravanie celeho samplu realneho nastroja.",
+      "Pulse Clock nie je audio signal nastroja, ale synchronizacny riadiaci signal.",
+      "Gate alebo Trig zo sekvencera nie je spojite CV vysky tonu.",
+      "Rekonstrukcny filter po D/A nie je ten isty problem ako hudobny VCF pre subtraktivnu syntezu, hoci oba su filtre.",
+      "Generator hornej oktavy a multi-cycle pouzivaju delenie kmitoctu, rozdiel je iba v pocte ulozenych cyklov.",
+      "FSK je to iste ako FM synteza zvuku, pretoze oba pojmy pracuju s frekvenciou."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Skuskova odpoved"
+  },
+  {
+    "id": "hel-s3-041",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Bity, adresy a stavy: ako sa nemaju miesat pojmy?",
+    "moznosti": [
+      "V citaci kombinacia vystupov KO reprezentuje binarny stav.",
+      "V ROM generatore adresa vybera pamatove miesto so vzorkou alebo hodnotou cyklu.",
+      "V multiplexeri adresa vybera vstup alebo vystup.",
+      "V sekvenceri stav citaca moze urcovat aktualny krok.",
+      "V D/A casti bity mozu ovladat vahovane vetvy prevodnika.",
+      "Adresove bity multiplexeru priamo predstavuju analogovu farbu filtra bez vyberu vstupu.",
+      "Stav citaca pri sekvenceri moze byt totozny s adresou kroku, preto automaticky vyjadruje aj amplitudu audio signalu za VCA."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Citace a delicky"
+  },
+  {
+    "id": "hel-s3-042",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Kedy ide skor o riadiaci signal a kedy o audio signal?",
+    "moznosti": [
+      "Clock sekvencera je riadiaci signal pre casovanie krokov.",
+      "CV zo sekvencera moze byt riadiaci signal pre vysku VCO alebo filter.",
+      "Vystup VCO alebo DCO po D/A je audio zdroj, ak ide do VCF/VCA.",
+      "Gate a Trig zo sekvencera spustaju udalosti alebo obalky.",
+      "FSK sa moze nahrat ako zvuk, ale jeho uloha je prenos synchronizacneho kodu.",
+      "Ak je FSK nahrate ako zvuk, jeho uloha sa pri prehrati meni z riadiacej synchronizacie na pocutelny nosny signal nastroja.",
+      "Clock a Gate sa v hybridnych nastrojoch pouzivaju ako hlavne nosne audio vlny namiesto oscilatorov."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Skuskova odpoved"
+  },
+  {
+    "id": "hel-s3-043",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Skuskovy tahak: wavecycle odpoved ma obsahovat:",
+    "moznosti": [
+      "Slider scanning ako citanie nastavitelnych hodnot cez analogovy multiplexer.",
+      "Single-cycle ako opakovane citanie jedneho cyklu z pamate.",
+      "Multi-cycle ako sekvenciu viacerych cyklov ovplyvnujucu farbu.",
+      "Adresovanie vzorky v cykle a volbu cyklu alebo sekvencie.",
+      "Nutnost D/A prevodu a filtracie schodoviteho vystupu.",
+      "Definiciu PWM, RM, AM a FM ako jedinu cast wavecycle syntezy.",
+      "Single-cycle a sampler s multisamplingom sa lisia len poctom klaves, nie tym, ci sa opakuje jeden cyklus alebo prehrava zaznamenany zvuk."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Skuskova odpoved"
+  },
+  {
+    "id": "hel-s3-044",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Skuskovy tahak: sekvencery a automaty maju obsahovat:",
+    "moznosti": [
+      "Rozdiel medzi plynulejsim zaznamom udalosti a krokovym sekvencerom.",
+      "Pojem PPQN ako rozlisenie clocku alebo synchronizacie.",
+      "CV, Gate a Trig ako odlisne vystupy alebo udalosti sekvencera.",
+      "Pulse Clock, DIN Sync a FSK ako synchronizacne principy.",
+      "Bicie automaty ako spustanie syntetickych alebo samplovanych zvukov krokom sekvencera.",
+      "Ak sekvencer uklada CV s casom udalosti, Gate a Trig sa daju vzdy dopocitat z amplitudy audio signalu.",
+      "Tvrdenie, ze Gate a Trig su len ine nazvy pre rekonstrukcny filter po D/A."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Skuskova odpoved"
+  },
+  {
+    "id": "hel-s3-045",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Skuskovy tahak: bicie zvuky a TB-303:",
+    "moznosti": [
+      "Pri bicich treba spomenut Trig, obalku prechodneho deja, VCA a filtraciu.",
+      "Basovy bubon sa da vysvetlit cez tlmeny harmonicky zdroj, sum, AR obalku a LPF.",
+      "Snare kombinuje tonove zlozky a sumovu zlozku.",
+      "Cinel vyuziva viac inharmonicky rozladenych pravouhlych oscilatorov a filtrovane pasma.",
+      "TB-303 je basovy subtraktivny syntezator so sekvencerom, akcentom a slide.",
+      "TB-303 pouziva sekvencer, ale zvukova cast je samplovana, preto akcent meni vyber velocity vrstvy.",
+      "Analogova synteza bicich vyzaduje dlhu sustain fazu drzanu klaviaturou ako organ."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Skuskova odpoved"
+  },
+  {
+    "id": "hel-s3-046",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak mas ustne vysvetlit 3. okruh, ktore vety su jadro odpovede?",
+    "moznosti": [
+      "Hybridny nastroj kombinuje digitalne generovanie alebo riadenie s analogovym spracovanim.",
+      "Klopne obvody, citace, delicky a multiplexery tvoria zaklad mnohych riadiacich a generatorovych blokov.",
+      "DCO a wavecycle metody vytvaraju periodicke priebehy citanim alebo skladanim cislicovych stavov.",
+      "Po digitalnom generovani je dolezity D/A prevod, rekonstrukcna filtracia a casto sledovanie vysky filtrom.",
+      "Sekvencery ukladaju a prehravaju riadiace udalosti ako CV, Gate, Trig a casovanie.",
+      "Bicie a basove automaty staci opisat ako samostatne zvukove generatory bez suvisu so sekvencerom a Trig signalom.",
+      "Cely okruh sa da zhrnut ako analogova subtraktivna synteza s tym, ze citace sluzia iba na ovladanie panelu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Skuskova odpoved"
+  },
+  {
+    "id": "hel-s3-047",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Urovnove a hranove riadenie klopnych obvodov:",
+    "moznosti": [
+      "Gated RS reaguje na vstupy iba pocas aktivnej urovne riadiaceho vstupu.",
+      "Hranovo riadeny D KO zapamata hodnotu vstupu D v okamihu aktivnej hrany clocku.",
+      "Po zapamatani hodnoty moze vystup D KO ostat zachovany az do dalsej aktivnej hrany.",
+      "Vstup riadeny hranou sa v schemach oznacuje trojuholnikom.",
+      "JK KO pri aktivnych J aj K nemusi kopirovat jeden vstup, ale moze preklapat stav.",
+      "Hranovo riadeny D KO sa sprava ako analogovy multiplexer, preto kopiruje D pocas celej urovne clocku.",
+      "Schmittov KO sa od hranoveho D KO lisi tym, ze namiesto pamate stavu prevadza binarnu adresu na jeden vystup."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Klopne obvody"
+  },
+  {
+    "id": "hel-s3-048",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Citac modulo N a skratenie cyklu:",
+    "moznosti": [
+      "Kaskada n klopnych obvodov prirodzene vytvara 2^n stavov.",
+      "Ak treba iny pocet stavov nez 2^n, moze sa dekodovat urcity stav a nim citac resetovat.",
+      "Resetovanie skrati postupnost stavov na pozadovane modulo.",
+      "Kombinacia vystupov KO predstavuje binarne cislo aktualneho stavu citaca.",
+      "Citac moze riadit adresu pamate alebo vstup multiplexeru v hudobnom obvode.",
+      "Modulo 7 sa dosiahne tak, ze sa pouzije presne sedem KO bez dekodovania resetu.",
+      "Reset skracuje cyklus citaca, preto sa jeho pouzitim automaticky znizi hodinova frekvencia vstupu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Citace a delicky"
+  },
+  {
+    "id": "hel-s3-049",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Generator hornej oktavy a presnost ladenia:",
+    "moznosti": [
+      "Impulzne oscilatory hornej oktavy maju reprezentovat tony temperovaneho ladenia.",
+      "Interval temperovaneho poltonu sa da v jednej metode aproximovat zlomkom.",
+      "Pri hlavnom oscilatore s vysokym kmitoctom sa deliace pomery musia zaokruhlit na cele cisla.",
+      "Zaokruhlenie deliacich pomerov moze sposobit malu chybu ladenia.",
+      "Tony nizsich oktav sa ziskavaju delenim frekvencie o faktor 2.",
+      "Ak je hlavny oscilator krystalovy, deliace pomery nemusia zodpovedat temperovanemu ladeniu.",
+      "Nasledna filtracia piloveho alebo sinusoveho priebehu odstrani chybu deliaceho pomeru medzi poltonmi."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Generatory hornej oktavy"
+  },
+  {
+    "id": "hel-s3-050",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Metody cislicoveho generatora funkcii DCO:",
+    "moznosti": [
+      "Astabilne KO a citace mozu tvorit zaklad cislicovo generovaneho periodickeho priebehu.",
+      "Walshove funkcie skladaju binarne zlozky s roznym kmitoctom alebo posunom.",
+      "Slider scanning cita nastavene hodnoty cyklu cez analogovy multiplexer.",
+      "Single-cycle cita opakovane jeden cyklus z pamate.",
+      "Multi-cycle sklada viac cyklov do sekvencie.",
+      "Vsetky tieto metody su len rozne nazvy pre dlhy PCM sample prehrany od zaciatku po koniec.",
+      "DCO nepotrebuje casovanie ani adresovanie, pretoze vysku urcuje az analogovy VCA."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "DCO a wavecycle"
+  },
+  {
+    "id": "hel-s3-051",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Adresa pri single-cycle a multi-cycle synteze:",
+    "moznosti": [
+      "Nizsie bity adresy mozu urcovat vzorku v ramci cyklu.",
+      "Vyssie bity adresy mozu urcovat, ktory cyklus sa prehrava.",
+      "Pocet vzoriek na cyklus ovplyvnuje vztah medzi hodinovou frekvenciou a vyskou tonu.",
+      "Pri multi-cycle treba okrem vzorky v cykle riesit aj poradie cyklov v sekvencii.",
+      "Volba cyklu moze byt fixna, riadena dynamikou hry alebo nahodna.",
+      "Ak vyssie bity volia cyklus, nizsie bity uz nemaju vztah k casu priebehu.",
+      "Pri citani cyklu v oboch smeroch sa vyska zachova bez zmeny clocku, pretoze adries je rovnako vela."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "DCO a wavecycle"
+  },
+  {
+    "id": "hel-s3-052",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Rekonstrukcna filtracia pri cislicovom generovani:",
+    "moznosti": [
+      "Schodovity priebeh po D/A obsahuje nezadane vyssie zlozky.",
+      "Dolna priepust obmedzuje zlozky nad pozadovanym pasmom vystupneho signalu.",
+      "Ak chceme zachovat rovnaky pocet harmonickych pri roznych vyskoch, cutoff filtra ma suvisiet s kmitoctom tonu.",
+      "Keyboard follower moze byt potrebny, aby cutoff sledoval vysku generovaneho tonu.",
+      "Prilis nizky cutoff odstrani aj ziadane harmonicke, nielen schodovitost.",
+      "Rekonstrukcny filter ma byt vzdy hornopriepustny, lebo schody vznikaju na nizkych frekvenciach.",
+      "Pevny cutoff je najlepsia volba pre celu klaviaturu, ak ma byt farba pri vsetkych notach rovnaka."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Filtracia"
+  },
+  {
+    "id": "hel-s3-053",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Analogovy a digitalny multiplexer v hudobnych obvodoch:",
+    "moznosti": [
+      "Digitalny multiplexer prepina cislicove vstupy pomocou logickych hradiel.",
+      "Analogovy multiplexer prepina analogove signaly pomocou spinacov riadenych polom.",
+      "Adresove vstupy urcuju vybrany vstup alebo vystup.",
+      "Pri n adresovych vstupoch je pocet adresovatelnych vetiev 2^n.",
+      "Analogovy multiplexer sa moze pouzit pri slider scanningu alebo krokovom CV sekvenceri.",
+      "Analogovy multiplexer najprv vzorky kvantizuje na binarne slova, az potom ich moze prepinat.",
+      "Digitalny demultiplexer je rekonstrukcny filter, ktory z binarneho signalu vytvara sinus."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Multiplexery"
+  },
+  {
+    "id": "hel-s3-054",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Plynuly zaznam sekvencera vs krokovy sekvencer:",
+    "moznosti": [
+      "Plynulejsi zaznam moze ukladat hodnotu riadiaceho signalu spolu s casom od predchadzajucej udalosti.",
+      "PPQN clocku urcuje casove rozlisenie zaznamu.",
+      "Krokovy sekvencer pracuje s pevnymi krokmi a hrubsim rozlisenim.",
+      "Krokovy sekvencer moze prehravat hodnoty v slucke.",
+      "Pri CV zazname moze byt potrebny A/D prevod pri zapise a D/A prevod pri prehravani.",
+      "Plynuly zaznam a krokovy sekvencer sa lisia len nazvom; oba maju presne jedno pamatove miesto pre kazdu stvrtovu notu.",
+      "PPQN je amplitudove rozlisenie CV, preto nema vplyv na casovanie udalosti."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Sekvencery"
+  },
+  {
+    "id": "hel-s3-055",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "TB-303: Pitch mode, Time mode, Accent a Slide:",
+    "moznosti": [
+      "Pitch mode sluzi na zadavanie postupnosti vysok not.",
+      "Time mode urcuje, v ktorych krokoch su noty, ligatury alebo pauzy.",
+      "Ak je v Time mode v danom kroku nota, pouzije sa dalsia vyska zadana v Pitch mode.",
+      "V Pitch mode je mozne zadat aj akcent, slide a oktavovy posun.",
+      "Accent zvysuje hlasitost a hlbku obalky filtra.",
+      "Slide patri k vyberu samplu bubna a nema vztah k prechodu vysky medzi krokmi.",
+      "Time mode priamo uklada hodnotu cutoffu pre kazdy krok, zatial co Pitch mode urcuje iba dlzku Gate."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Bicie a basove automaty"
+  },
+  {
+    "id": "hel-s3-056",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Kick, snare a cinel v analogovej synteze bicich:",
+    "moznosti": [
+      "Kick moze vyuzivat tlmeny harmonicky oscilator a nizkopriepustne tvarovanie.",
+      "Kick moze obsahovat aj sumovu zlozku modulovanu obalkou.",
+      "Snare kombinuje tlmene tonove zlozky so sumom filtrovanym hornou priepustou.",
+      "Cinel moze vyuzivat viac inharmonicky rozladenych pravouhlych oscilatorov.",
+      "Obalky a VCA urcuju kratky prechodny charakter bicich zvukov.",
+      "Snare a cinel sa v tejto logike lisia iba hlasitostou; zdroj spektra je rovnaky jeden sinus.",
+      "Kick, snare aj cinel musia mat ADSR so sustain fazou, inak by ich neslo spustit Trig signalom."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Bicie a basove automaty"
+  },
+  {
+    "id": "hel-s3-057",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pulse Clock, DIN Sync a FSK: presne rozlisenie.",
+    "moznosti": [
+      "Pulse Clock prenasa synchronizacne impulzy v urcitom deleni na dobu.",
+      "DIN Sync moze okrem Clocku prenasat aj Start/Stop alebo Reset/Start.",
+      "FSK koduje synchronizacne impulzy pomocou kmitoctoveho klucovania.",
+      "FSK je vhodne na zaznam na magneticky pas ako zvukovy signal.",
+      "Niektore FSK synchronizacne kody mozu niest aj absolutnu poziciu v skladbe.",
+      "DIN Sync je typ D/A prevodnika, ktory z clocku vytvara spojite CV vysky.",
+      "FSK je hudobna FM synteza; rozdiel je len v tom, ze modulatorom je sekvencer."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Synchronizacia"
+  },
+  {
+    "id": "hel-s3-058",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "PPG Wave, Roland D-50 a Juno: co je na nich hybridne alebo digitalne riadene?",
+    "moznosti": [
+      "PPG Wave je priklad wavetable DCO nasledovaneho VCF a VCA.",
+      "PPG Wave ukazuje spojenie digitalneho zdroja priebehov s analogovym spracovanim.",
+      "Roland D-50 LA kombinuje PCM nabeh so signalom digitalne riadeneho oscilatora.",
+      "D-50 organizuje generatory s EG, LFO, VCF a VCA do struktur.",
+      "Juno ukazuje analogovy syntezator doplneny DCO alebo generatorom hornej oktavy.",
+      "PPG Wave pouziva wavetable len ako pamat presetov pre analogovy VCO, nie ako zdroj priebehu.",
+      "D-50 LA je cisto krokovy sekvencer; PCM cast v nom neurcuje zvukovy nabeh."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Hybridne syntezatory"
+  },
+  {
+    "id": "hel-s3-059",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Single-cycle, multi-cycle a sampler: kde je hranica pojmov?",
+    "moznosti": [
+      "Single-cycle typicky opakuje jednu periodu alebo cyklus priebehu.",
+      "Multi-cycle pracuje so sekvenciou viacerych cyklov a tym meni farbu v case.",
+      "Sampler prehrava zaznamenany zvukovy material, nie iba abstraktny jeden cyklus.",
+      "PCM nabeh v LA synteze moze reprezentovat charakteristicky zaciatok zvuku.",
+      "Wavetable a sampler sa mozu podobat pouzitim pamate, ale nie je spravne ich automaticky stotoznit.",
+      "Ak je v obvode pamat, ide vzdy o sampler a nikdy o DCO alebo wavecycle generator.",
+      "Multi-cycle sa od sampleru lisi len tym, ze ma menej klaves, nie typom citaneho materialu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Skuskova odpoved"
+  },
+  {
+    "id": "hel-s3-060",
+    "tema": "HEL Skuska 3: Hybridne hudobne nastroje",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Najtvrdsi sumar 3. okruhu: co treba vediet naraz?",
+    "moznosti": [
+      "Hybridnost sa tyka kombinacie digitalneho generovania alebo riadenia s analogovym spracovanim.",
+      "Klopne obvody, citace a multiplexery nie su historia navyse, ale stavebne bloky generatorov a sekvencerov.",
+      "DCO/wavecycle cast treba spojit s adresovanim, D/A prevodom a rekonstrukcnou filtraciou.",
+      "Sekvencery treba chapat ako pamat riadiacich udalosti, nie ako zaznamnik hotoveho audio signalu.",
+      "Bicie a basove automaty prepajaju krokove riadenie so spustanym zvukovym generatorom.",
+      "V celej prezentacii staci rozlisit analogove a digitalne podla toho, ci ma zariadenie klaviaturu.",
+      "Ak sa spomenie DCO, netreba riesit filtre ani VCA, pretoze digitalny zdroj uz dava hotovy akusticky zvuk."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 3",
+    "subtema": "Skuskova odpoved"
+  }
+];
+
 helOtazky.push(
   ...helHighYieldOtazky,
   ...helSkuskaAnalogoveSyntezyOtazky,
   ...helSkuskaZakladnePojmyOtazky,
+  ...helSkuskaAnalogoveSyntezatoryOtazky,
+  ...helSkuska3HybridneNastrojeOtazky,
   ...helSkuska2ZakladnePojmyOtazky
 );

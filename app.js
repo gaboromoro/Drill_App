@@ -908,7 +908,8 @@ function zlozSpravnyVysledok(otazka) {
 }
 
 function zlozZlyVysledok(otazka, moznosti = aktualneMoznosti, uvod = "Nespravne") {
-  return `${uvod}. Spravna odpoved: ${textSpravnychOdpovedi(otazka, moznosti)} ${otazka.vysvetlenie}`;
+  const vysvetlenie = otazka.vysvetlenie ? ` ${otazka.vysvetlenie}` : "";
+  return `${uvod}. Spravna odpoved: ${textSpravnychOdpovedi(otazka, moznosti)}${vysvetlenie}`;
 }
 
 function ulozPredoslyVysledok(otazka, vybrane, jeSpravne, textVysledku = null) {

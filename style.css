@@ -1047,9 +1047,11 @@ h3 {
 }
 
 .tlacidla-sipok {
+  --velkost-sipkovej-klavesy: 54px;
   display: none;
   flex-wrap: nowrap;
   justify-content: flex-end;
+  gap: var(--velkost-sipkovej-klavesy);
   margin-left: auto;
 }
 
@@ -1087,7 +1089,7 @@ body.rezim-ucenia #tlacidloMedzernik {
 }
 
 .tlacidlo-sipky .klavesa-tlacidla {
-  width: 54px;
+  width: var(--velkost-sipkovej-klavesy);
 }
 
 .tlacidlo-otazky:hover .klavesa-tlacidla {
@@ -1114,11 +1116,12 @@ body.rezim-ucenia #tlacidloMedzernik {
 .tlacidlo-medzernik {
   display: block;
   position: relative;
-  flex: 1 1 100%;
-  width: min(92%, 700px);
-  height: 62px;
+  flex: 0 1 660px;
+  width: 660px;
+  max-width: 88%;
+  height: 56px;
   margin: 0 auto;
-  margin-top: 56px;
+  margin-top: 50px;
   border: 0;
   padding: 0;
   --aktivny-vrch-klavesy: var(--klaves-vrch);
@@ -1364,6 +1367,10 @@ button.sekundarne {
     margin-top: 10px;
   }
 
+  .tlacidla-sipok {
+    --velkost-sipkovej-klavesy: 38px;
+  }
+
   .tlacidlo-otazky,
   button {
     padding: 7px 9px;
@@ -1371,9 +1378,11 @@ button.sekundarne {
   }
 
   .tlacidlo-medzernik {
-    width: min(100%, 420px);
-    height: 42px;
-    margin-top: 28px;
+    flex-basis: 390px;
+    width: 390px;
+    max-width: 96%;
+    height: 38px;
+    margin-top: 24px;
   }
 
   .panel-nastaveni {
@@ -1434,7 +1443,11 @@ button.sekundarne {
   }
 
   .tlacidlo-medzernik {
-    height: 36px;
-    margin-top: 22px;
+    height: 32px;
+    margin-top: 20px;
+  }
+
+  .tlacidla-sipok {
+    --velkost-sipkovej-klavesy: 32px;
   }
 }
