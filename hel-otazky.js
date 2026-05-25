@@ -1186,16 +1186,89 @@ const helHighYieldOtazky = [
     "typ": "viac",
     "format": "klasicka",
     "uroven": "zaklad",
-    "otazka": "Ktore vztahy medzi tvarmi signalov su typicke pre integrator a diferenciator?",
+    "otazka": "Integrator: ktore zmeny tvaru priebehu si treba pamatat?",
+    "obrazky": ["assets/hel-integracny-schemy.png", "assets/hel-integracny-vzorec.png"],
     "moznosti": [
-      "Integraciou obdlznikoveho priebehu moze vzniknut trojuholnikovy priebeh.",
-      "Diferenciaciou trojuholnikoveho priebehu moze vzniknut obdlznikovy priebeh.",
-      "Diferenciacia zvyraznuje rychle zmeny v signale.",
-      "Integrator vzdy robi zo signalu biely sum."
+      "Integraciou obdlznikoveho priebehu ziskame trojuholnikovy priebeh.",
+      "Integraciou trojuholnikoveho priebehu ziskame parabolicky priebeh.",
+      "Po integracii moze vzniknut stejnosmerna zlozka.",
+      "Stejnosmernu zlozku po integracii treba odstranit dolnou priepustou.",
+      "Integrator sa sprava ako dolnopriepustny princip, preto priebeh vyhladzuje.",
+      "Integraciou obdlznika ziskame periodicky sled impulsov na hranach.",
+      "Integraciou trojuholnika vznikne obdlznikovy signal so striedou 1:1."
     ],
-    "spravne": [0, 1, 2],
-    "vysvetlenie": "Skuskovo: integrator z hladiska tvaru akoby scitava priebeh v case, diferenciator sleduje zmenu. Preto su dolezite pri analogovej aj digitalnej tvorbe zakladnych priebehov.",
-    "slideRef": "HEL_01_Analogove_syntezy.pdf; HEL_06_Digitalni_realizace.pdf",
+    "spravne": [0, 1, 2, 3, 4],
+    "vysvetlenie": "Skuskovo: integrator robi z obdlznika trojuholnik a z trojuholnika parabolu. Pri integracii treba riesit aj vznik stejnosmernej zlozky.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf slide 93",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Analogove a digitalne obvody"
+  },
+  {
+    "id": "hel-hy-025b",
+    "tema": "HEL High Yield: Integrator a diferenciator",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Diferenciator: ktore zmeny tvaru priebehu si treba pamatat?",
+    "obrazky": ["assets/hel-derivacny-schemy.png", "assets/hel-derivacny-vzorec.png"],
+    "moznosti": [
+      "Derivaciou obdlznikoveho priebehu ziskame periodicky sled impulsov.",
+      "Derivaciou trojuholnikoveho priebehu ziskame obdlznikovy signal so striedou 1:1.",
+      "Diferenciator reaguje hlavne na rychlost zmeny vstupneho signalu.",
+      "Diferenciator sa sprava ako hornopriepustny princip.",
+      "Hrany obdlznika sa pri derivacii prejavia ako impulzy.",
+      "Derivaciou obdlznika ziskame trojuholnikovy priebeh, pretoze derivator priebeh integruje.",
+      "Derivaciou trojuholnika ziskame parabolicky priebeh, pretoze sklon trojuholnika sa casom scitava."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "vysvetlenie": "Skuskovo: diferenciator nerobi vyhladenie, ale sleduje zmenu. Obdlznik da impulzy na hranach, trojuholnik da obdlznik so striedou 1:1.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf slide 97",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Analogove a digitalne obvody"
+  },
+  {
+    "id": "hel-hy-025c",
+    "tema": "HEL High Yield: Integracny clanok",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Integracny clanok: ktore technicke tvrdenia platia?",
+    "obrazky": ["assets/hel-integracny-schemy.png", "assets/hel-integracny-vzorec.png"],
+    "moznosti": [
+      "Integracny clanok je dolna priepust.",
+      "Moze byt realizovany ako RC alebo LR dvojbran.",
+      "V RC integracnom clanku je typicky R v serii a C k zemi, vystup sa berie na kondenzatore.",
+      "V LR integracnom clanku je typicky L v serii a R k zemi, vystup sa berie na odpore.",
+      "Casova konstanta integratora je tau_i = RC = L/R.",
+      "Vystup integratora je umerny casovemu integralu vstupneho napatia.",
+      "Integracny clanok je horna priepust CR alebo RL, preto zvyraznuje hrany obdlznika."
+    ],
+    "spravne": [0, 1, 2, 3, 4, 5],
+    "vysvetlenie": "Skuskovo: integrator = DP, RC alebo LR dvojbran. Zapamataj si hlavne tau_i = RC = L/R a to, ze vystup suvisi s integralom vstupu.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf slide 93",
+    "prezentacia": "HEL High Yield",
+    "subtema": "Analogove a digitalne obvody"
+  },
+  {
+    "id": "hel-hy-025d",
+    "tema": "HEL High Yield: Derivacny clanok",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "zaklad",
+    "otazka": "Derivacny clanok: ktore technicke tvrdenia platia?",
+    "obrazky": ["assets/hel-derivacny-schemy.png", "assets/hel-derivacny-vzorec.png"],
+    "moznosti": [
+      "Derivacny clanok je horna priepust.",
+      "Moze byt realizovany ako CR alebo RL dvojbran.",
+      "V CR derivacnom clanku je typicky C v serii a R k zemi, vystup sa berie na odpore.",
+      "V RL derivacnom clanku je typicky R v serii a L k zemi, vystup sa berie na indukcnosti.",
+      "Casova konstanta diferenciatora je tau_d = RC = L/R.",
+      "Vystup diferenciatora je umerny derivacii vstupneho napatia.",
+      "Derivacny clanok je dolna priepust RC alebo LR, preto z obdlznika vytvara trojuholnik."
+    ],
+    "spravne": [0, 1, 2, 3, 4, 5],
+    "vysvetlenie": "Skuskovo: derivator = HP, CR alebo RL dvojbran. Zapamataj si tau_d = RC = L/R a to, ze vystup suvisi s derivaciou vstupu.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf slide 97",
     "prezentacia": "HEL High Yield",
     "subtema": "Analogove a digitalne obvody"
   },
@@ -1881,7 +1954,7 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Kazda zlozka moze mat vlastnu amplitudovu obalku, preto vie aditivna synteza napodobnit dynamicke spektrum realneho nastroja.",
       "Resynteza znamena analyzovat realny zvuk a nasledne ho znovu poskladat zo zloziek.",
       "Principom aditivnej syntezy je vyrobit bohate spektrum a potom z neho odoberat harmonicke filtrom.",
-      "Ak su amplitudy parcialov raz nastavene, obalky jednotlivych zloziek uz nemozu menit farbu tonu v case."
+      "Ak ma kazdy parcial vlastnu amplitudovu obalku, meni sa iba celkova hlasitost, ale pomer zloziek ostava spektralne nemenny."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: aditivna = skladam zlozky. Dolezite su frekvencie, amplitudy a ich zmena v case. Posledna moznost je subtraktivna logika: najprv bohate spektrum, potom filter.",
@@ -1891,23 +1964,45 @@ const helSkuskaAnalogoveSyntezyOtazky = [
   },
   {
     "id": "hel-s1-002",
-    "tema": "HEL Skuska 1: Harmonicka a zlozkova synteza",
+    "tema": "HEL Skuska 1: Harmonicka synteza",
     "typ": "viac",
     "format": "klasicka",
     "uroven": "tazka",
-    "otazka": "Harmonicka, zlozkova a parcialna synteza: vyber pravdive tvrdenia.",
+    "otazka": "Pre harmonicku syntezu plati:",
     "moznosti": [
-      "Pri harmonickej synteze su frekvencie zloziek celistve nasobky zakladnej frekvencie.",
-      "Harmonicka synteza je specialny pripad aditivnej syntezy.",
-      "Zlozkova alebo parcialna synteza moze pracovat aj s neharmonickymi parcialmi.",
-      "Neharmonicke parcialy su dolezite napriklad pri kovovych, zvonovych alebo perkusivnych zvukoch.",
-      "Ak zlozky nie su celistve nasobky zakladnej frekvencie, stale moze ist o aditivnu syntezu, ale nie cisto harmonicku.",
-      "Ak sa v zlozkovej synteze objavi neharmonicky parcial, uz nejde o aditivny princip, ale automaticky o FM.",
-      "Ak su vsetky zlozky harmonicke, ich amplitudy musia klesat presne podla rady 1/n."
+      "Je to sucet signalov oscilatorov generujucich harmonicke signaly s nasobkami zakladneho kmitoctu.",
+      "Vystupom harmonickej syntezy je periodicky signal.",
+      "C_k v zapise periodickeho signalu vyjadruje amplitudu k-tej harmonickej zlozky.",
+      "Spektralne koeficienty, amplitudy a fazy harmonickych zloziek mozno popisat Fourierovou radou.",
+      "Ciastocny sucet K clenov Fourierovej rady predstavuje aproximaciu signalu obmedzenym poctom harmonickych zloziek.",
+      "Pri harmonickej synteze je rozhodujuci hudobny interval medzi zlozkami; celociselny nasobok zakladneho kmitoctu je iba specialny pripad.",
+      "Drawbary oznacene stopami priamo urcuju pociatocne fazy Fourierovych koeficientov jednotlivych harmonickych zloziek."
     ],
     "spravne": [0, 1, 2, 3, 4],
-    "vysvetlenie": "Zapamataj si: harmonicka = parcialy su 1f0, 2f0, 3f0... Zlozkova/parcialna je vseobecnejsia a moze byt aj neharmonicka. Chytak je zamienat aditivnu syntezu za iba harmonicku syntezu.",
-    "slideRef": "HEL_01_Analogove_syntezy.pdf",
+    "vysvetlenie": "Harmonicka synteza sklada oscilatory na nasobkoch zakladneho kmitoctu. Fourierova rada popisuje amplitudy, fazy a spektralne koeficienty tychto harmonickych zloziek.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf slide 20-22",
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Aditivna synteza"
+  },
+  {
+    "id": "hel-s1-002b",
+    "tema": "HEL Skuska 1: Zlozkova synteza",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Pre zlozkovu syntezu (partial synthesis) plati:",
+    "moznosti": [
+      "Je to sucet spektralnych zloziek oznacovanych ako partials.",
+      "Kmitocty partials nemusia zodpovedat kmitoctom harmonickych zloziek ako pri harmonickej synteze.",
+      "Frekvencie partials mozu byt vztiahnute k hudobnym intervalom.",
+      "Hammondove varhany su prikladom zlozkovej syntezy.",
+      "Drawbary Hammondovych varhan su popisane podla dlzky varhannych pistal v stopach.",
+      "Partial synthesis pracuje so spektralnymi zlozkami organizovanymi ako celociselne nasobky zakladneho kmitoctu.",
+      "Drawbary v priklade Hammondovych varhan urcuju najma pociatocne fazy Fourierovych koeficientov, nie podiely zloziek."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "vysvetlenie": "Zlozkova synteza je partial synthesis: scitanie spektralnych zloziek, ktore nemusia lezat na harmonickych nasobkoch zakladneho tonu, ale mozu suvisiet s hudobnymi intervalmi.",
+    "slideRef": "HEL_01_Analogove_syntezy.pdf slide 66",
     "prezentacia": "HEL Skuska 1",
     "subtema": "Aditivna synteza"
   },
@@ -1923,9 +2018,9 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Z analyzy sa ziskavaju frekvencie, amplitudy a pripadne fazy zloziek.",
       "Potom sa zvuk znovu vytvori pomocou syntetickych zloziek.",
       "Presnost resyntezy zavisi od toho, ako dobre zachytim casovy vyvoj parcialov.",
-      "Pri resynteze staci zachovat priemerne amplitudy parcialov; casovy vyvoj frekvencii a amplitud je nepodstatny.",
-      "Ak analyza najde dost parcialov, vysledok sa da znovu poskladat bez akejkolvek chyby aj pri silnom sume a nestabilnom spektre.",
-      "Fazove vztahy parcialov sa pri resynteze daju vzdy ignorovat bez vplyvu na casovy priebeh zvuku."
+      "Pri resynteze staci zachovat priemerne amplitudy parcialov, ak su frekvencie parcialov pocas tonu spravne zoradene.",
+      "Velky pocet parcialov automaticky zaruci vernu resyntezu aj vtedy, ked analyza nezachyti prechodove deje.",
+      "Fazove vztahy parcialov sa daju zanedbat vzdy, ked sa amplitudy parcialov menia vlastnymi obalkami."
     ],
     "spravne": [0, 1, 2, 3],
     "vysvetlenie": "Zapamataj si: resynteza = analyza -> parametre zloziek -> opatovne poskladanie. Pasce: nestaci priemerne spektrum bez casu a analyza nikdy automaticky negarantuje dokonalu rekonstrukciu.",
@@ -1945,9 +2040,9 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Poloha vektoroveho ovladaca alebo trajektoria urcuje pomery jednotlivych zdrojov.",
       "Dolezita je zmena pomerov v case, teda pohyb farby medzi zdrojmi.",
       "Zdrojmi mozu byt napriklad priebehy, vzorky alebo synteticke zvuky.",
-      "Ak su zdroje vektorovej syntezy sinusy, vysledok musi mat vzdy iba staticke harmonicke nasobky f0 bez pohybu farby.",
+      "Ak su zdroje vektorovej syntezy sinusy, pohyb vektora meni hlavne vysku tonu, nie pomer amplitud zdrojov.",
       "Pri vektorovej synteze nie je podstatna vyska tonu, ale mapovanie a miesanie farieb.",
-      "Poloha medzi zdrojmi vo vektorovej synteze musi vzdy menit iba vysku tonu, nie pomer amplitud zdrojov."
+      "Poloha medzi zdrojmi vo vektorovej synteze sa da nahradit jednou obalkou VCA bez zmeny spektralnej farby."
     ],
     "spravne": [0, 1, 2, 3, 5],
     "vysvetlenie": "Zapamataj si: vektorova = miesam viac zdrojov podla polohy alebo drahy. Nie je to automaticky FM; jej hlavny princip je crossfade/morphing medzi zdrojmi.",
@@ -2012,8 +2107,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Pre stabilne kmitanie musi byt splnena fazova a amplitudova podmienka v slucke.",
       "Energia kmitania pochadza z napajania, nie z nicoho.",
       "Amplituda sa v praxi stabilizuje nelinearitou alebo regulaciou zisku.",
-      "Ak je sluckovy zisk na zvolenej frekvencii vacsi ako 1, amplituda zostane automaticky stabilna aj bez nelinearity alebo regulacie.",
-      "Fazova podmienka oscilatora je dolezita iba pri LC oscilatoroch; RC oscilatory kmitaju bez urceneho fazoveho posunu."
+      "Ak je sluckovy zisk na zvolenej frekvencii vacsi ako 1, amplituda sa sama ustali bez obmedzenia, lebo frekvencna selektivita nahradza regulaciu.",
+      "RC oscilator nepotrebuje splnit fazovu podmienku, ak jeho RC siet urcuje amplitudu na pozadovanej frekvencii."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: oscilator = aktivny obvod so spatnou vazbou. Musi mat spravnu fazu, dostatocny zisk a stabilizaciu amplitudy. Pasivny stratovy obvod bez napajania by dokmitaval, nie trvalo generoval.",
@@ -2057,7 +2152,7 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Nelinearita alebo regulacia zabrania nekonecnemu rastu amplitudy.",
       "Ak sa zmeni parameter C alebo R, moze sa zmenit frekvencia oscilatora.",
       "Frekvencne selektivna siet v LC/RC oscilatore urcuje iba amplitudu signalu, ale nema vplyv na frekvenciu kmitania.",
-      "RC oscilator ma principialne vzdy stabilnejsie ladenie ako LC oscilator, pretoze odpor a kondenzator nikdy nemenia hodnotu."
+      "RC oscilator je stabilnejsi nez LC hlavne preto, ze R a C prvky netvoria frekvencne selektivnu spatnovazbovu siet."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: selektivna siet urci frekvenciu, aktivna cast doplni energiu, nelinearita obmedzi amplitudu. Chytak je ignorovat straty realnych suciastok.",
@@ -2072,6 +2167,7 @@ const helSkuskaAnalogoveSyntezyOtazky = [
     "format": "klasicka",
     "uroven": "tazka",
     "otazka": "Integracny clanok vo filtracnych metodach syntezy: vyber pravdive tvrdenia.",
+    "obrazky": ["assets/hel-integracny-schemy.png", "assets/hel-integracny-vzorec.png"],
     "moznosti": [
       "Integrator vykonava casovu integraciu vstupneho signalu.",
       "Z obdlznikoveho priebehu moze integraciou vznikat trojuholnikovy priebeh.",
@@ -2094,6 +2190,7 @@ const helSkuskaAnalogoveSyntezyOtazky = [
     "format": "klasicka",
     "uroven": "tazka",
     "otazka": "Derivacny clanok vo filtracnych metodach syntezy: ktore tvrdenia su spravne?",
+    "obrazky": ["assets/hel-derivacny-schemy.png", "assets/hel-derivacny-vzorec.png"],
     "moznosti": [
       "Derivator reaguje na rychlost zmeny vstupneho signalu.",
       "Zvyraznuje rychle prechody a vysoke frekvencne zlozky.",
@@ -2101,7 +2198,7 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Diferenciaciou obdlznikoveho priebehu vznikaju impulzy na hranach.",
       "Derivator je principovo blizky hornopriepustnemu spravaniu.",
       "Diferenciacia trojuholnika na obdlznik znamena, ze derivator je vhodny hlavne na potlacenie hran a vyhladenie signalu.",
-      "Derivator sa pri tvarovani priebehov sprava ako dolnopriepustny clanok, preto z obdlznika odstraňuje hrany."
+      "Derivator sa pri tvarovani priebehov sprava ako dolnopriepustny clanok, preto z obdlznika odstranuje hrany."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: derivator sleduje zmeny. Preto zvyrazni hrany a vysky. Chytak je zamienat ho s integratorom, ktory naopak vyhladzuje.",
@@ -2123,7 +2220,7 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "VCF s cutoffom a rezonanciou je typicky zaklad zmeny farby zvuku.",
       "Subtraktivna synteza je opacna k aditivnej v tom, ze zacina bohatym signalom a cast spektra ubera.",
       "Ak subtraktivna synteza pouzije rezonancny filter, nejde uz o subtraktivnu metodu, ale automaticky o FM.",
-      "Ak je zdrojom sum, subtraktivna synteza uz nemoze vytvorit tonovo vnimany alebo rezonancny zvuk."
+      "Ak je zdrojom sum, filter moze menit farbu, ale nemoze vytvorit rezonancne zdorazneny alebo tonovo vnimany charakter."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: subtraktivna = bohaty zdroj + filter/modifikatory. Nie je to primarne odcitanie dvoch oscilatorov, ale tvarovanie spektra.",
@@ -2137,15 +2234,15 @@ const helSkuskaAnalogoveSyntezyOtazky = [
     "typ": "viac",
     "format": "klasicka",
     "uroven": "tazka",
-    "otazka": "Pouzivane modifikatory v subtraktivnej syntéze: co je spravne?",
+    "otazka": "Pouzivane modifikatory v subtraktivnej synteze: co je spravne?",
     "moznosti": [
       "Filter meni spektralne zlozenie signalu.",
-      "Zosilnovac riadeny napätim meni amplitudu signalu.",
+      "Zosilnovac riadeny napatim meni amplitudu signalu.",
       "Obalka moze riadit VCA alebo VCF a tym menit hlasitost alebo farbu v case.",
       "LFO moze pomaly modulovat cutoff, amplitudu, vysku alebo PWM.",
       "Rezonancia filtra zvyraznuje okolie cutoff frekvencie.",
-      "Obalka vo VCF meni len vysku tonu VCO; cutoff filtra zostava staticky, lebo filter nie je riaditelny napätim.",
-      "VCA riadeny obalkou meni spektrum rovnakym sposobom ako VCF, pretoze kazda zmena amplitudy je vzdy filtracia."
+      "Obalka vo VCF meni farbu len vtedy, ked sa sucasne meni frekvencia VCO; samotny cutoff filtra zostava pri obalke staticky.",
+      "VCA riadeny obalkou meni spektrum rovnako ako VCF, ak sa amplituda meni dost rychlo pocas nabehu tonu."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: modifikatory su bloky, ktore menia signal alebo jeho parametre. VCF = farba, VCA = hlasitost, EG/LFO = zmena v case. Filter moze byt riadeny napätim, preto obalka vie menit cutoff.",
@@ -2167,7 +2264,7 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Pasmova zadrz potlaca oblast okolo urcitej frekvencie.",
       "Rezonancia zvysuje zdoraznenie okolia cutoff alebo stredovej frekvencie.",
       "Zmena cutoff pri dolnej priepusti je ekvivalentna zmene frekvencie VCO, lebo posuva vsetky harmonicke na nove frekvencie.",
-      "Rezonancia dolnej priepusti znamena, ze sa cutoff vzdy posunie o oktavu vyssie, nie ze sa zdorazni oblast okolo cutoff."
+      "Rezonancia dolnej priepusti meni cutoff tak, ze sa cele spektrum transponuje podobne ako pri zmene frekvencie VCO."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si typy filtrov: LP, HP, BP, notch. Cutoff/stredova frekvencia rozhoduje, ktora cast spektra sa meni; nie je to iba celkova hlasitost.",
@@ -2233,7 +2330,7 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "V klasickej AM zostava v spektre aj nosna zlozka.",
       "AM moze mat v spektre zlozky suvisiace so suctom a rozdielom nosnej a modulacnej frekvencie.",
       "Pri AM s audio-rate sinusovym modulatorom sa meni iba pomala obalka hlasitosti, ale spektrum ostava len jedna nosna frekvencia.",
-      "Ak modulator nema jednosmernu zlozku, klasicka AM a RM maju vzdy rovnake spektrum vratane nosnej."
+      "Ak modulator nema jednosmernu zlozku, AM sa spektralne sprava ako RM aj bez pripoctu nosnej zlozky."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: AM = menim amplitudu nosnej. Nizka frekvencia modulatora = tremolo, audio frekvencia = sidebands. Nosna pri AM zvycajne ostava.",
@@ -2255,7 +2352,7 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Ak pomer frekvencii nie je jednoduchy harmonicky, zvuk moze byt kovovy alebo neharmonicky.",
       "RM je blizka AM bez jednosmernej zlozky, preto sa lahko miesa s AM.",
       "Ak do RM vstupia dva sinusy s frekvenciami fc a fm, vysledok je hlavne povodna nosna fc s malou zmenou hlasitosti.",
-      "RM s celociselnym pomerom frekvencii nemoze vytvorit harmonicky posobiace spektrum, pretoze vzdy znie len neharmonicky."
+      "RM s celociselnym pomerom frekvencii stale potlaca nosnu, preto nemoze vytvorit harmonicky posobiace spektrum."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: RM = nasobenie, potlacena nosna, sum/difference produkty. Chytak je tvrdit, ze nosna urcite ostava; to je skor klasicka AM.",
@@ -2276,8 +2373,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "RM casto posobi kovovejsie, hlavne pri neharmonickych pomeroch frekvencii.",
       "AM s pomalym modulatorom sa moze vnimat ako tremolo.",
       "RM je vhodny priklad nelinearneho spracovania signalu.",
-      "Ak v spektre ostava silna nosna zlozka, ide vzdy o RM a nikdy o AM.",
-      "Rozdiel medzi AM a RM sa neda rozpoznat zo spektra, pretoze obe metody vzdy zachovavaju nosnu rovnako."
+      "Ak v spektre ostava silna nosna zlozka, je to dokaz idealnej RM, pretoze AM nosnu potlaca.",
+      "Rozdiel medzi AM a RM sa neda rozpoznat zo spektra, ak maju rovnake frekvencie nosnej a modulatora."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: AM/RM patria k modulacnym nelinearnym metodam, nie k obycajnym filtrom. Hlavny rozdiel v skratke: AM nosna ostava, RM nosnu potlaca.",
@@ -2298,8 +2395,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Pri audio-rate modulacii vznikaju bocne pasma okolo nosnej.",
       "Index modulacie ovplyvnuje sirku spektra a pocet vyraznych bocnych zloziek.",
       "Celociselny pomer nosnej a modulacnej frekvencie vedie skor k harmonickemu spektru.",
-      "FM s audio-rate modulatorom sa da posudit len ako tremolo; bocne pasma vznikaju iba pri AM alebo RM.",
-      "Index modulacie pri FM meni iba hlasitost nosnej zlozky, ale nikdy neovplyvni pocet vyraznych bocnych pasiem."
+      "FM s audio-rate modulatorom sa sprava ako rychle vibrato bez novych bocnych pasiem, ak je nosna sinusova.",
+      "Index modulacie pri FM meni najma amplitudu nosnej zlozky, ale sirka spektra zostava dana iba frekvenciou modulatora."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: FM = menim frekvenciu, nie amplitudu. Pomalá FM = vibrato, rychla FM = nove spektralne zlozky. Index modulacie je klucovy pre farbu.",
@@ -2320,8 +2417,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Neharmonicky pomer fc/fm moze vytvorit zvonove alebo kovove farby.",
       "Pri nulovom alebo velmi malom indexe modulacie zostava spektrum blizsie samotnej nosnej.",
       "FM vie vytvorit komplexne spektrum aj z dvoch jednoduchych sinusovych oscilatorov.",
-      "Pri zvyseni indexu modulacie sa pocet vyraznych bocnych pasiem znizuje, preto sa zvuk vzdy blizi cistemu sinusu.",
-      "Pri necelociselnom pomere fc/fm sa bocne pasma aj tak vzdy zarovnaju na harmonicke nasobky jednej zakladnej frekvencie."
+      "Pri zvyseni indexu modulacie sa bocne pasma presuvaju blizsie k nosnej, preto sa spektrum zjednodusuje.",
+      "Pri necelociselnom pomere fc/fm sa neharmonickost odstrani tym, ze bocne pasma maju rovnake rozostupy fm."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: FM nema len dve bocne zlozky ako jednoduche AM/RM s dvoma sinusmi. Pri vacsom indexe vznikaju rady bocnych pasiem.",
@@ -2342,8 +2439,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "RM nasobi dva signaly a v idealnom pripade potlaca nosnu.",
       "FM meni okamzitu frekvenciu nosnej.",
       "Vsetky tieto metody mozu menit spektrum a farbu zvuku.",
-      "Ak AM, RM a FM pouziju rovnake frekvencie nosnej a modulatora, ich spektralne zlozky aj amplitudy budu rovnake; lisi sa iba nazov metody.",
-      "PWM a AM su pri pomalom LFO modulatori totozne metody, lebo posluchac vnima pri oboch iba pohyb zvuku v case."
+      "Ak AM, RM a FM pouziju rovnake frekvencie nosnej a modulatora, budu mat rovnake polohy vsetkych zloziek aj rovnake amplitudy.",
+      "PWM a AM su pri pomalom LFO modulatori spektralne totozne, ak je zakladna frekvencia oscilatora rovnaka."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si tabulku: PWM = sirka, AM = amplituda s nosnou, RM = nasobenie s potlacenou nosnou, FM = okamzita frekvencia. Aj pri rovnakych frekvenciach nemaju tieto metody rovnake spektrum.",
@@ -2408,8 +2505,8 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Tvrdsia nelinearita zvycajne vytvara bohatsie vysoke harmonicke.",
       "Ak zmenim vstupnu amplitudu do waveshapera, mozem zmenit aj farbu vystupu.",
       "V digitalnej realizacii waveshapingu treba davat pozor na aliasing.",
-      "Symetria nelinearity ovplyvnuje len DC zlozku, ale nikdy pomer parnych a neparnych harmonickych.",
-      "Tvrdsi clipping v digitalnej realizacii vzdy znizuje aliasing, lebo obmedzenie amplitudy automaticky odstrani vysoke harmonicke."
+      "Symetria nelinearity ovplyvnuje najma jednosmernu zlozku; pomer parnych a neparnych harmonickych urcuje iba frekvencia vstupu.",
+      "Tvrdsi clipping v digitalnej realizacii znizuje aliasing, ak ma vystup rovnaku maximalnu amplitudu ako makky clipping."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si: nelinearita nie je len volume. Tvar krivky, symetria a vstupna amplituda rozhodnu o spektre. V digitale nove harmonicke mozu preliezt nad Nyquist a aliasovat.",
@@ -2474,12 +2571,495 @@ const helSkuskaAnalogoveSyntezyOtazky = [
       "Pri oscilatoroch spomenut priebehy a ich spektra: sinus, pila, obdlznik, trojuholnik, impulz.",
       "Pri subtraktivnej spomenut bohaty zdroj, VCF, VCA, obalky, LFO, rezonanciu a keyboard tracking.",
       "Pri modulacnych metodach odlisit PWM, AM, RM a FM podla toho, co sa moduluje.",
-      "V odpovedi staci uviest iba nazvy metod; princip spektra, oscilatorov, filtrov a modulacii nie je potrebny.",
-      "Najbezpecnejsie je venovat sa iba historickym nastrojom, pretoze priebehy oscilatorov a spektra su pre tento okruh nepodstatne."
+      "V odpovedi staci pomenovat metody, ak pri kazdej uvedies aspon jeden priklad nastroja.",
+      "Historicke nastroje su najdolezitejsia cast odpovede, preto mozu nahradit vysvetlenie spektier a modulacii."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "vysvetlenie": "Zapamataj si kostru odpovede: 1) aditivna, 2) oscilatory a spektra, 3) filtracne/integracne/derivacne principy, 4) subtraktivna, 5) modulacie, 6) waveshaping.",
     "slideRef": "HEL_01_Analogove_syntezy.pdf; HEL_02_Analogove_syntezatory.pdf",
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Skuskova kostra"
+  },
+  {
+    "id": "hel-s1-029",
+    "tema": "HEL Skuska 1: Prehlad metod",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Prehlad metod syntezy zvuku: ktore zaradenia su spravne?",
+    "moznosti": [
+      "Aditivna a subtraktivna synteza patria v tomto prehlade medzi analogove linearne metody.",
+      "Modulacne metody a tvarovanie vlny patria medzi analogove nelinearne metody.",
+      "Tabulkove, spektralne a fyzikalne modelovanie patria v prehlade medzi digitalne metody.",
+      "Hybridne metody tvoria samostatnu skupinu medzi analogovymi a digitalnymi metodami.",
+      "Subtraktivna synteza je linearna v zmysle prace s filtrom alebo modifikatorom v linearnej oblasti.",
+      "RM a FM su v prehlade linearne metody, pretoze vysledne spektrum sa sklada zo suctov sinusov.",
+      "Aditivna synteza je nelinearna, ak sa amplitudy parcialov menia v case obalkami."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Prehlad metod"
+  },
+  {
+    "id": "hel-s1-030",
+    "tema": "HEL Skuska 1: Terminologia",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Zakladne bloky VCO, VCA, VCF, NG, LFO, EG: vyber presne tvrdenia.",
+    "moznosti": [
+      "VCO je generator periodickeho signalu, ktoreho okamzita frekvencia je riadena napatim.",
+      "VCA meni okamzitu hodnotu zosilnenia podla riadiaceho napatia.",
+      "VCF meni medzny alebo stredny kmitocet a pripadne dalsie parametre filtra podla riadiaceho napatia.",
+      "LFO je pomaly oscilator pouzivany ako periodicky alebo nahodny modulacny zdroj.",
+      "EG je po castiach definovany riadiaci priebeh spustany udalostou, napriklad klavesom.",
+      "NG je nizkofrekvencny oscilator; jeho hlavnou ulohou je menit cutoff filtra v case.",
+      "VCA a VCF sa lisia iba nazvom: oba menia amplitudu celeho spektra bez zmeny pomerov zloziek."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Terminologia"
+  },
+  {
+    "id": "hel-s1-031",
+    "tema": "HEL Skuska 1: Aditivna synteza",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Aditivna synteza a Fourierove koeficienty:",
+    "moznosti": [
+      "Vystup v aditivnej synteze vznikne scitanim vystupov viacerych generatorov.",
+      "Ak sa scitaju periodicke priebehy, spektralne koeficienty vysledku su suctom koeficientov jednotlivych zloziek.",
+      "Ak maju zlozky rovnaku zakladnu frekvenciu alebo harmonicke nasobky, vysledok moze byt periodicky.",
+      "Vlastne amplitudove obalky zloziek umoznuju casovu zmenu farby tonu.",
+      "Celkovy zvuk moze mat samostatnu celkovu amplitudovu obalku aj obalky jednotlivych zloziek.",
+      "Ak sa spektralne koeficienty scitaju, fazy zloziek nemaju vplyv na casovy priebeh periodickeho signalu.",
+      "Aditivna synteza je ekvivalent jedneho VCF, ak su vsetky parcialy harmonicke."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Aditivna synteza"
+  },
+  {
+    "id": "hel-s1-032",
+    "tema": "HEL Skuska 1: Harmonicka synteza",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Harmonicka synteza a harmonicke zlozky:",
+    "moznosti": [
+      "Harmonicka synteza pouziva zlozky na nasobkoch zakladneho kmitoctu.",
+      "Amplituda k-tej harmonickej zlozky ovplyvnuje spektralnu farbu tonu.",
+      "Pociatocna faza harmonickej zlozky moze ovplyvnit tvar casoveho priebehu.",
+      "Ciastocny sucet Fourierovej rady znamena aproximaciu signalu obmedzenym poctom harmonickych.",
+      "Zmenou amplitud harmonickych zloziek sa da menit farba bez zmeny zakladnej vysky.",
+      "Ak su zlozky harmonicke, ich fazy sa pri scitani rusia a vysledok zavisi len od poctu zloziek.",
+      "Harmonicka synteza znamena, ze vsetky zlozky musia mat rovnaku amplitudu a rovnaku obalku."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Aditivna synteza"
+  },
+  {
+    "id": "hel-s1-033",
+    "tema": "HEL Skuska 1: Priebehy a spektra",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Spektra zakladnych periodickych priebehov:",
+    "moznosti": [
+      "Obdlznik so striedou 1:1 obsahuje v idealnom pripade iba neparne harmonicke.",
+      "Pilovy priebeh obsahuje parne aj neparne harmonicke s amplitudami klesajucimi priblizne ako 1/k.",
+      "Trojuholnikovy priebeh obsahuje neparne harmonicke s rychlejsim poklesom nez obdlznik.",
+      "Poloha nul spektralnej obalky impulzneho priebehu zavisi od striedy.",
+      "Zmena striedy impulzneho priebehu meni amplitudy harmonickych zloziek.",
+      "Obdlznik 1:1 a pila maju rovnake amplitudy harmonickych, lisia sa iba fazami.",
+      "Trojuholnikovy priebeh ma bohatsie vysoke harmonicke nez pila, preto znie ostrejsie."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Priebehy a spektra"
+  },
+  {
+    "id": "hel-s1-034",
+    "tema": "HEL Skuska 1: Oscilatory",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "LC a RC oscilator: co je podstatne?",
+    "moznosti": [
+      "LC oscilator vyuziva rezonancny obvod, ktoreho vlastny kmitocet urcuje L a C.",
+      "Cinitel tlmenia a rezonancny charakter obvodu suvisia so stratami a udrzanim kmitania.",
+      "RC oscilator vyuziva fazovy posun v spatnovazbovej slucke.",
+      "Aktivny prvok v oscilatore kompenzuje straty a dodava energiu z napajania.",
+      "Stabilizacia amplitudy vyzaduje nelinearitu alebo regulaciu zisku.",
+      "LC oscilator nepotrebuje splnit fazovu podmienku, ak ma cievka vacsi odpor.",
+      "RC oscilator urcuje frekvenciu len amplitudou vystupu, nie hodnotami R a C."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Oscilatory"
+  },
+  {
+    "id": "hel-s1-035",
+    "tema": "HEL Skuska 1: Funkcny generator",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Funkcny generator s integratorom a komparatorom:",
+    "moznosti": [
+      "Integrator moze vytvarat linearny nabeh a dobeh napatia pri nabijani konstantnym prudom.",
+      "Komparator alebo Schmittov obvod prepina smer nabijania po dosiahnuti prahov.",
+      "Na vystupe integratora moze byt trojuholnikovy alebo pilovy priebeh.",
+      "Na vystupe komparatora moze byt obdlznikovy priebeh.",
+      "Zmenou nabijacieho alebo vybijacieho prudu sa meni frekvencia aj strieda priebehu.",
+      "Ak sa zmeni prah komparatora, zmeni sa len amplituda, ale doba nabehu ostane nezavisla od prahu.",
+      "Sinusovy priebeh z funkcneho generatora vznikne priamym scitanim vystupu integratora a komparatora bez tvarovania."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Oscilatory"
+  },
+  {
+    "id": "hel-s1-036",
+    "tema": "HEL Skuska 1: Integrator a derivator",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Filtracne metody generovania priebehov:",
+    "obrazky": ["assets/hel-integracny-schemy.png", "assets/hel-integracny-vzorec.png", "assets/hel-derivacny-schemy.png", "assets/hel-derivacny-vzorec.png"],
+    "moznosti": [
+      "Integraciou obdlznika sa ziska trojuholnikovy priebeh.",
+      "Integraciou trojuholnika sa ziska parabolicky priebeh.",
+      "Derivaciou obdlznika vznikaju impulzy na hranach.",
+      "Derivaciou trojuholnika moze vzniknut obdlznikovy priebeh.",
+      "Po integracii moze vznikat jednosmerna zlozka, ktoru treba v praktickom zapojeni riesit.",
+      "Derivator z obdlznika odstrani hrany, preto je vhodny na vyhladenie signalu do sinusovky.",
+      "Integrator a derivator maju rovnaky amplitudovy ucinok; lisia sa iba tym, ci su zapojene pred alebo za VCA."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Integracny a derivacny clanok"
+  },
+  {
+    "id": "hel-s1-036b",
+    "tema": "HEL Skuska 1: Integracny clanok",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Integracny clanok: zapojenie, casova konstanta a dosledok na priebeh.",
+    "obrazky": ["assets/hel-integracny-schemy.png", "assets/hel-integracny-vzorec.png"],
+    "moznosti": [
+      "Integracny clanok sa sprava ako dolna priepust.",
+      "Moze byt realizovany RC dvojbranom alebo LR dvojbranom.",
+      "Pri RC variante je R v serii a C je pripojeny k zemi, vystup sa berie na kondenzatore.",
+      "Pri LR variante je L v serii a R je pripojeny k zemi, vystup sa berie na odpore.",
+      "Casova konstanta integracneho clanku je tau_i = RC = L/R.",
+      "Vystupne napatie integratora je umerne casovemu integralu vstupneho napatia.",
+      "RC integrator ma na vstupe kondenzator v serii a vystup na odpore, preto je to rovnake zapojenie ako CR derivator."
+    ],
+    "spravne": [0, 1, 2, 3, 4, 5],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Integracny a derivacny clanok"
+  },
+  {
+    "id": "hel-s1-036c",
+    "tema": "HEL Skuska 1: Derivacny clanok",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Derivacny clanok: zapojenie, casova konstanta a dosledok na priebeh.",
+    "obrazky": ["assets/hel-derivacny-schemy.png", "assets/hel-derivacny-vzorec.png"],
+    "moznosti": [
+      "Derivacny clanok sa sprava ako horna priepust.",
+      "Moze byt realizovany CR dvojbranom alebo RL dvojbranom.",
+      "Pri CR variante je C v serii a R je pripojeny k zemi, vystup sa berie na odpore.",
+      "Pri RL variante je R v serii a L je pripojena k zemi, vystup sa berie na indukcnosti.",
+      "Casova konstanta derivacneho clanku je tau_d = RC = L/R.",
+      "Vystupne napatie diferenciatora je umerne derivacii vstupneho napatia.",
+      "RL derivator ma rovnaku funkciu ako LR integrator; rozdiel je len v oznaceni vstupu a vystupu."
+    ],
+    "spravne": [0, 1, 2, 3, 4, 5],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Integracny a derivacny clanok"
+  },
+  {
+    "id": "hel-s1-037",
+    "tema": "HEL Skuska 1: Subtraktivna synteza",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Subtraktivna synteza z pohladu systemu:",
+    "moznosti": [
+      "Vstupom modifikatora moze byt periodicky signal, sum, vystup aditivnej syntezy alebo nelinearneho systemu.",
+      "V casovej oblasti je vystup linearneho modifikatora konvoluciou vstupu s impulznou odozvou.",
+      "Vo frekvencnej oblasti sa spektrum vstupu nasobi prenosovou funkciou modifikatora.",
+      "Filter meni amplitudy a fazy existujucich zloziek bez nutnosti vytvarat nove harmonicke.",
+      "VCA a VCF mozu byt riadene obalkami alebo LFO a tym menit zvuk v case.",
+      "Vo frekvencnej oblasti sa pri linearnej filtracii spektrum vstupu scita s prenosovou funkciou filtra.",
+      "Ak vstupom modifikatora je nelinearny system, vystup filtra uz nemoze byt subtraktivne tvarovany."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Subtraktivna synteza"
+  },
+  {
+    "id": "hel-s1-038",
+    "tema": "HEL Skuska 1: Filtre",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Modifikatory a typy filtrov:",
+    "moznosti": [
+      "Medzi typy filtrov patria dolna priepust, horna priepust, pasmova priepust a pasmova zadrz.",
+      "Vrubovy filter potlaca uzku oblast frekvencii.",
+      "Hrebenovy filter ma viac periodicky rozmiestnenych maxim a minim prenosu.",
+      "Dolezite parametre filtra su typ, rad, cutoff alebo stredova frekvencia a jakost.",
+      "Rezonancia suvisi so zdoraznenim oblasti okolo cutoff alebo stredovej frekvencie.",
+      "Rad filtra urcuje pocet oscilatorov vo VCO, nie strmost prenosu.",
+      "Pasmova zadrz a pasmova priepust sa lisia iba nazvom; obe prepustaju stred pasma."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Subtraktivna synteza"
+  },
+  {
+    "id": "hel-s1-039",
+    "tema": "HEL Skuska 1: Rezonancne filtre",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Rezonancna dolna priepust, Moog a diodovy ladder:",
+    "moznosti": [
+      "Rezonancna dolna priepust je casty modifikator v subtraktivnej synteze.",
+      "Pri vysokej jakosti moze dojst az k samooscilacii.",
+      "Moogov ladder filter vyuziva tranzistorovy rebrickovy princip.",
+      "Diodovy ladder nahradza tranzistory diodami a vznikol aj ako obidenie patentoveho riesenia.",
+      "Riadenie cutoffu v ladder filtroch suvisi s prudmi v obvode.",
+      "Diodovy ladder odstranuje nelinearne skreslenie, preto je vzdy cistejsi ako tranzistorovy ladder.",
+      "Samooscilacia ladder filtra znamena, ze filter prestane mat rezonanciu a funguje ako VCA."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Subtraktivna synteza"
+  },
+  {
+    "id": "hel-s1-040",
+    "tema": "HEL Skuska 1: Nelinearne systemy",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Nelinearne systemy a vznik novych zloziek:",
+    "moznosti": [
+      "Nelinearny system obsahuje prvok s nelinearnou charakteristikou.",
+      "V nelinearnom systeme neplati princip superpozicie.",
+      "Pri budeni harmonickym signalom mozu vzniknut vyssie harmonicke.",
+      "Pri budeni zlozenym signalom mozu vzniknut kombinacne zlozky.",
+      "Spektrum vystupu zavisi od charakteru nelinearity, pracovneho bodu a amplitudy vstupu.",
+      "Ak je vstup zlozeny z viacerych frekvencii, nelinearny system moze vytvorit len harmonicke kazdej z nich, nie ich kombinacie.",
+      "Pracovny bod ovplyvni iba DC zlozku, ale nemoze zmenit pomer vyssich harmonickych."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Tvarovanie vlny"
+  },
+  {
+    "id": "hel-s1-041",
+    "tema": "HEL Skuska 1: PWM",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "PWM a analogova realizacia:",
+    "moznosti": [
+      "PWM riadi okamzitu hodnotu striedy generatora pravouhleho priebehu.",
+      "Zmena striedy meni spektralnu obalku a polohu nul sinc obalky.",
+      "PWM sa da realizovat zmenou nabijacieho a opacnou zmenou vybijacieho prudu vo funkcnom generatore.",
+      "Pri pouziti piloveho priebehu moze byt potrebna kompenzacia jednosmernej zlozky.",
+      "Viac mierne rozladenych oscilatorov a LPF moze pomoct vytvorit sirsi pohyblivy zvuk.",
+      "PWM je totozna s FM, ak modulator meni striedu dostatocne rychlo.",
+      "Ak sa strieda zmeni z 50 % na 20 %, amplitudy harmonickych zostanu rovnake a zmeni sa len faza."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Modulacne metody"
+  },
+  {
+    "id": "hel-s1-042",
+    "tema": "HEL Skuska 1: AM a RM",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "AM/RM v synteze: spektrum a vnimanie:",
+    "moznosti": [
+      "RM je nasobenie signalov a idealne vytvara DSB-SC s potlacenou nosnou.",
+      "AM mozno chapat ako RM s pripoctom nosnej alebo jednosmernej zlozky.",
+      "Pri sinusovej nosnej a sinusovom modulatori vznikaju suctove a rozdielove zlozky.",
+      "Pri nizkej modulacnej frekvencii sa AM vnima skor ako tremolo.",
+      "Pri vyssich modulacnych frekvenciach sa bocne pasma vnimaju ako zmena farby, drsnost alebo nove tony.",
+      "AM a RM maju pri rovnakych frekvenciach rovnake spektrum vratane nosnej, rozdiel je iba v zapojeni modulatora.",
+      "RM s neharmonickym pomerom frekvencii sa psychoakusticky vzdy zmeni na harmonicke spektrum, ak sa prida VCA."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Modulacne metody"
+  },
+  {
+    "id": "hel-s1-043",
+    "tema": "HEL Skuska 1: FM",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "FM synteza: vztahy medzi modulatorom, indexom a spektrom.",
+    "moznosti": [
+      "FM meni okamzitu frekvenciu nosneho signalu podla modulatora.",
+      "Spektralne zlozky sa objavuju okolo nosnej vo vzdialenostiach nasobkov modulacnej frekvencie.",
+      "Amplitudy zloziek suvisia s Besselovymi funkciami a indexom modulacie.",
+      "Vacsi index modulacie zvycajne zvacsuje pocet vyraznych bocnych pasiem.",
+      "Celociselny pomer fc/fm podporuje harmonicky posobiace spektrum, necelociselny skor neharmonicke farby.",
+      "FM je spektralne rovnaka ako AM, ak pouzijem rovnaku nosnu a modulator.",
+      "Pri FM index modulacie urcuje iba hlasitost celeho signalu za VCA, nie sirku spektra."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Modulacne metody"
+  },
+  {
+    "id": "hel-s1-044",
+    "tema": "HEL Skuska 1: Analogova realizacia FM",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Analogove postupy realizacie FM:",
+    "moznosti": [
+      "Okamzita hodnota striedy generatora pravouhleho priebehu moze byt riadena modulatorom.",
+      "Zmena rozsahu komparacnych napati v multivibratore moze menit frekvenciu.",
+      "Znizenie alebo zvysenie nabijacieho a vybijacieho prudu vo funkcnom generatore moze menit okamzitu frekvenciu.",
+      "Ak sa meni rychlost nabijania integratora, meni sa perioda oscilatora.",
+      "FM pri pomalom modulatori sa vnima ako vibrato.",
+      "Pripocitanie nosnej k vystupu kruhoveho modulatora je analogova realizacia FM.",
+      "FM vznikne vtedy, ked obalka EG otvara VCA pri nemennej frekvencii VCO."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Modulacne metody"
+  },
+  {
+    "id": "hel-s1-045",
+    "tema": "HEL Skuska 1: Waveshaping",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Tvarovanie vlny a funkcne menice:",
+    "moznosti": [
+      "Waveshaper pouziva nelinearnu prevodnu charakteristiku y = f(x).",
+      "Spektrum vystupu zavisi od tvaru prevodnej charakteristiky.",
+      "Spektrum vystupu zavisi od amplitudy vstupneho signalu.",
+      "Pridanie DC zlozky moze zmenit pracovny bod a tym spektrum vystupu.",
+      "Po nelinearnom tvarovani sa moze pouzit filter na obmedzenie spektra.",
+      "Waveshaping je linearna filtracia, ak je funkcia y = f(x) casovo nemenna.",
+      "Ak je vstup sinus, waveshaper nemoze vytvorit vyssie harmonicke, iba zmenit amplitudu nosnej."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Tvarovanie vlny"
+  },
+  {
+    "id": "hel-s1-046",
+    "tema": "HEL Skuska 1: Funkcne menice",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Priklady funkcnych menicov a ich spektralne dosledky:",
+    "moznosti": [
+      "Symetricky diodovy obmedzovac podporuje najma neparne harmonicke pri symetrickom vstupe.",
+      "Nesymetricky obmedzovac moze vytvorit parne aj neparne harmonicke.",
+      "Makky clipping ma zvycajne mensi podiel vyssich harmonickych nez tvrde obmedzenie.",
+      "Logaritmicky menic sa da realizovat diodou v spatnovazobnej vetve OZ.",
+      "Diodove funkcne menice mozu aproximovat nelinearnu charakteristiku lomenou ciarou.",
+      "Symetricky a nesymetricky obmedzovac maju rovnake spektrum, ak je vstupna amplituda rovnaka.",
+      "Makky clipping vytvara viac najvyssich harmonickych nez tvrde obmedzenie, preto znie vzdy agresivnejsie."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Tvarovanie vlny"
+  },
+  {
+    "id": "hel-s1-047",
+    "tema": "HEL Skuska 1: Spektralne porovnanie",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Kedy vznikaju nove spektralne zlozky?",
+    "moznosti": [
+      "Nelinearny waveshaper moze vytvorit harmonicke, ktore vo vstupe neboli.",
+      "RM a AM s audio-rate modulatorom mozu vytvorit suctove a rozdielove zlozky.",
+      "FM moze vytvorit bocne pasma zavisle od indexu modulacie.",
+      "Linearne filtrovanie typicky meni amplitudy a fazy existujucich zloziek.",
+      "Aditivna synteza vytvori nove zlozky tak, ze ich explicitne prida generatorom alebo parcialom.",
+      "Linearne VCF vytvara nove harmonicke, ak zvysi rezonanciu okolo cutoff.",
+      "Ak sa zmeni amplituda VCA, vzniknu nove harmonicke rovnako ako pri clippingu."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Porovnanie metod"
+  },
+  {
+    "id": "hel-s1-048",
+    "tema": "HEL Skuska 1: Keyboard tracking",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Sledovac klaviatury v subtraktivnej synteze:",
+    "moznosti": [
+      "Keyboard tracking meni riadeny parameter podla vysky hranej noty.",
+      "Pri VCF pomaha, aby cutoff stupal s vyssimi tonmi.",
+      "Cielom moze byt zachovat podobny pomer medzi spektrom oscilatora a polohou filtra.",
+      "Miera trackingu moze byt nulova, ciastocna alebo plna.",
+      "Keyboard tracking je iny princip nez velocity tracking.",
+      "Keyboard tracking znamena, ze cutoff zavisi od sily uderu, nie od vysky klavesu.",
+      "Plny tracking znamena, ze cutoff sa posunie o rovnaky pocet Hz pri kazdom poltone."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Subtraktivna synteza"
+  },
+  {
+    "id": "hel-s1-049",
+    "tema": "HEL Skuska 1: Skuskova odpoved",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Ak mas odpovedat na prvy skuskovy okruh, ktore vety su jadro odpovede?",
+    "moznosti": [
+      "Najprv rozlisit linearne a nelinearne analogove metody.",
+      "Aditivnu cast vysvetlit cez zlozky, harmonicke nasobky, parcialy, obalky a resyntezu.",
+      "Oscilatory vysvetlit cez podmienky kmitania a typicke priebehy so spektrom.",
+      "Subtraktivnu cast vysvetlit cez bohaty zdroj, modifikator, VCF, VCA, EG, LFO a tracking.",
+      "Modulacie a waveshaping vysvetlit cez to, co sa meni na signale a ake zlozky vznikaju v spektre.",
+      "Najbezpecnejsie je preskocit spektrum a hovorit iba historicke priklady nastrojov.",
+      "Aditivna, subtraktivna, AM, RM, FM a waveshaping sa daju obhajit jednou vetou, ze menia hlasitost."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
+    "prezentacia": "HEL Skuska 1",
+    "subtema": "Skuskova kostra"
+  },
+  {
+    "id": "hel-s1-050",
+    "tema": "HEL Skuska 1: Najtazsie zameny",
+    "typ": "viac",
+    "format": "klasicka",
+    "uroven": "tazka",
+    "otazka": "Najnebezpecnejsie zameny v HEL Skuska 1:",
+    "moznosti": [
+      "Aditivna synteza pridava zlozky; subtraktivna tvaruje spektrum existujuceho bohateho signalu filtrom.",
+      "AM meni amplitudu, RM nasobi a potlaca nosnu, FM meni okamzitu frekvenciu.",
+      "PWM meni striedu impulzu, nie okamzitu frekvenciu nosnej ako FM.",
+      "Waveshaping je nelinearny prevod amplitudy, nie linearny VCF.",
+      "Integrator a derivator su opacne filtracne principy pri tvarovani priebehov.",
+      "Filter a waveshaper sa lisia iba nazvom; oba vzdy vytvaraju nove harmonicke rovnako.",
+      "VCA a VCF su zamenitelne, ak su oba riadene obalkou EG."
+    ],
+    "spravne": [0, 1, 2, 3, 4],
     "prezentacia": "HEL Skuska 1",
     "subtema": "Skuskova kostra"
   }
@@ -3342,7 +3922,7 @@ const helSkuska2ZakladnePojmyOtazky = [
     ],
     "spravne": [0],
     "pocetZobrazenychMoznosti": 4,
-    "vysvetlenie": "V prezentacii je CV z odporoveho delica, Gate z komparatora a Trig z monostabilneho klopneho obvodu. Toto je casta skuskova postupnost.",
+    "vysvetlenie": "CV vznika z odporoveho delica, Gate z komparatora a Trig z monostabilneho klopneho obvodu. Toto je casta skuskova postupnost.",
     "slideRef": "HEL_02_Analogove_syntezatory.pdf slide 14",
     "prezentacia": "HEL Skuska 2",
     "subtema": "Zakladne pojmy"
@@ -3733,7 +4313,7 @@ const helSkuskaAnalogoveSyntezatoryOtazky = [
       "Typicke priebehy su sinus, pila, trojuholnik, obdlznik a nahodny S&H priebeh.",
       "Moze mat fazovy posun pre vzajomne rozladenie viacerych LFO.",
       "Moze byt synchronizovane spustany klaviaturou resetom cez Trig.",
-      "LFO ma podobne tvary priebehov ako VCO, preto sa v tejto prezentacii pouziva hlavne ako zdroj zakladnej vysky tonu.",
+      "LFO ma podobne tvary priebehov ako VCO, preto jeho hlavnou ulohou je vytvarat zakladnu vysku tonu namiesto pomalej riadiacej modulacie.",
       "Vystup LFO je Gate signal aktivny pocas drzania klavesy."
     ],
     "spravne": [0, 1, 2, 3, 4],
@@ -3886,7 +4466,7 @@ const helSkuskaAnalogoveSyntezatoryOtazky = [
     "typ": "viac",
     "format": "klasicka",
     "uroven": "tazka",
-    "otazka": "Eurorack: ktore technicke tvrdenia zodpovedaju prezentacii?",
+    "otazka": "Eurorack: ktore technicke tvrdenia platia?",
     "moznosti": [
       "Eurorack je spajany s Dieterom Doepferom.",
       "Moduly maju vysku 3U a sirku v nasobkoch HP.",
@@ -3908,10 +4488,10 @@ const helSkuskaAnalogoveSyntezatoryOtazky = [
     "uroven": "tazka",
     "otazka": "Eurorack: napajanie, CV, Gate a impedancie:",
     "moznosti": [
-      "Zadny konektor podla prezentacie prenasa napajanie +/-15 V a 5 V.",
+      "Zadny konektor prenasa napajacie vetvy +/-15 V a 5 V.",
       "CV moze byt bipolarne -2,5 az +2,5 V alebo unipolarne 0 az 8 V.",
       "Norma pre vysku tonu je 1 V/oct.",
-      "Gate je uvadzany ako 0 a 5 V.",
+      "Gate je dvojstavovy signal 0 V / 5 V.",
       "Vstupna impedancia ma byt vacsia ako 100 kOhm a vystupna mensia ako 1 kOhm.",
       "Zadna zbernica prenasa napajanie a vybrane riadiace signaly, preto nie je potrebne patchovat audio a CV na prednom paneli.",
       "Desatpinovy konektor je plna verzia so vsetkymi signalmi CV, Gate aj 5 V."
@@ -3932,7 +4512,7 @@ const helSkuskaAnalogoveSyntezatoryOtazky = [
       "West Coast koncepcia sa viaze na Buchla pristup, aditivne prvky, waveshaping, FM a sekvencer alebo komplexnu obalku.",
       "East Coast typicky dobre zapada do retazca VCO-VCF-VCA.",
       "West Coast moze pouzivat sekvencer alebo komplexny generator obalky, ale jeho jadrom zostava rovnaky subtraktivny retazec VCO-VCF-VCA ako pri Moogu.",
-      "East Coast a West Coast su historicko-koncepcne pristupy, ale v prezentacii sa rozlisuju najma podla formatu 3U alebo 5U.",
+      "East Coast a West Coast sa rozlisuju najma mechanickym formatom modulov, napriklad 3U alebo 5U.",
       "Syntezatory s pevnou strukturou byvaju prevazne East-Coast, ale mozu byt doplnene dalsimi metodami.",
       "West Coast koncepcia vylucuje waveshaping a frekvencnu modulaciu."
     ],
@@ -4231,7 +4811,7 @@ const helSkuskaAnalogoveSyntezatoryOtazky = [
       "Zadny konektor distribuuje napajacie vetvy a podla verzie aj vybrane riadiace signaly.",
       "Bus board v skrinke rozvadza napajanie k jednotlivym modulom.",
       "Audio a CV sa pri beznom patchovani vedu najma prednymi patch konektormi.",
-      "Gate sa v prezentacii uvadza ako dvojstavovy signal 0/5 V.",
+      "Gate je dvojstavovy signal 0/5 V.",
       "Pre ladenie vysky sa pouziva standard 1 V/oct.",
       "Desatpinovy konektor obsahuje viac riadiacich signalov ako sestnastpinovy konektor.",
       "Zadna zbernica nahradza vsetky predne audio a CV prepojenia medzi modulmi."
@@ -4370,7 +4950,7 @@ const helSkuskaAnalogoveSyntezatoryOtazky = [
     "moznosti": [
       "Ladenie vysky v Euroracku sa typicky riadi standardom 1 V/oct.",
       "CV moze byt unipolarne alebo bipolarne podla typu modulacie.",
-      "Gate je v prezentacii uvadzany ako stav 0 V a 5 V.",
+      "Gate ma stav 0 V a 5 V.",
       "Vysoka vstupna impedancia a nizka vystupna impedancia pomahaju spravne prenast napatie.",
       "Predne patch konektory sluzia na prepojenie audio a CV signalov medzi modulmi.",
       "Rozsah CV automaticky urcuje presnu hlasitost audio vystupu bez potreby VCA.",
@@ -5136,8 +5716,8 @@ const helSkuska3HybridneNastrojeOtazky = [
       "TR-77 pouzival analogovu syntezu.",
       "CR-78 pouzival analogovu syntezu riadenu mikroprocesorom.",
       "LM-1 a LinnDrum sa spajaju so samplami.",
-      "TR-808 a TR-606 su v prezentacii uvedene ako samplove automaty bez analogovej syntezy a bez moznosti programovania.",
-      "TR-909 je v prezentacii uvedeny ako cisto analogovy automat bez samplov pre cinelove zvuky."
+      "TR-808 a TR-606 patria medzi samplove automaty, pri ktorych zvuk nevznika analogovou syntezou jednotlivych bicich hlasov.",
+      "TR-909 je cisto analogovy automat; aj cinelove a hi-hat zvuky vznikaju bez samplov."
     ],
     "spravne": [0, 1, 2, 3, 4],
     "prezentacia": "HEL Skuska 3",
@@ -5576,7 +6156,7 @@ const helSkuska3HybridneNastrojeOtazky = [
       "DCO/wavecycle cast treba spojit s adresovanim, D/A prevodom a rekonstrukcnou filtraciou.",
       "Sekvencery treba chapat ako pamat riadiacich udalosti, nie ako zaznamnik hotoveho audio signalu.",
       "Bicie a basove automaty prepajaju krokove riadenie so spustanym zvukovym generatorom.",
-      "V celej prezentacii staci rozlisit analogove a digitalne podla toho, ci ma zariadenie klaviaturu.",
+      "Pri hybridnych nastrojoch staci rozlisit analogove a digitalne podla sposobu ovladania klaviaturou.",
       "Ak sa spomenie DCO, netreba riesit filtre ani VCA, pretoze digitalny zdroj uz dava hotovy akusticky zvuk."
     ],
     "spravne": [0, 1, 2, 3, 4],
@@ -5585,11 +6165,740 @@ const helSkuska3HybridneNastrojeOtazky = [
   }
 ];
 
+const helSkuska4TabulkoveMetodyCrackData = [
+  {
+    id: "HEL 4. Tabulkove metody 001",
+    oblast: "Tabulkove metody",
+    pravda: "Pri tabulkovych metodach digitalnej syntezy je priebeh signalu ulozeny v pamati ako look-up table.",
+    nepravda: "Pri tabulkovych metodach digitalnej syntezy je priebeh signalu vytvarany iba analogovou spatnou vazbou bez pamate."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 002",
+    oblast: "Tabulkove metody",
+    pravda: "Tabulkova metoda generuje digitalny signal citanim ulozenych vzoriek z pamate podla adresy.",
+    nepravda: "Tabulkova metoda generuje digitalny signal zapisovanim novych vzoriek do pamate podla amplitudy vystupu."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 003",
+    oblast: "Tabulkove metody",
+    pravda: "Pri periodickom citani z ROM moze adresu vzorky vytvarat citac modulo.",
+    nepravda: "Pri periodickom citani z ROM moze adresu vzorky vytvarat iba analogovy dolnopriepustny filter."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 004",
+    oblast: "Tabulkove metody",
+    pravda: "Citac modulo pri tabulkovom generatore po kazdom hodinovom impulze zvysi adresu vzorky o jednu hodnotu.",
+    nepravda: "Citac modulo pri tabulkovom generatore po kazdom hodinovom impulze znizi amplitudu vzorky o jednu hodnotu."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 005",
+    oblast: "Tabulkove metody",
+    pravda: "Pretecenie citaca modulo zabezpeci cyklicke opakovanie citania ulozeneho priebehu.",
+    nepravda: "Pretecenie citaca modulo zabezpeci trvale zastavenie citania ulozeneho priebehu."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 006",
+    oblast: "Tabulkove metody",
+    pravda: "V single-cycle synteze sa cyklicky cita jeden zvoleny cyklus vzoriek z pamate.",
+    nepravda: "V single-cycle synteze sa cyklicky cita cela nahravka realneho nastroja s attackom a release castou."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 007",
+    oblast: "Tabulkove metody",
+    pravda: "Pri single-cycle principe moze pouzivatel vybrat, ktory ulozeny cyklus sa bude opakovane citat.",
+    nepravda: "Pri single-cycle principe moze pouzivatel vybrat iba rychlost doznievania, nie citany cyklus."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 008",
+    oblast: "Tabulkove metody",
+    pravda: "Multi-cycle synteza pracuje s viacerymi cyklami ulozenymi v sekvencii.",
+    nepravda: "Multi-cycle synteza pracuje s jedinym cyklom, ktory sa nesmie v case nahradit inym cyklom."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 009",
+    oblast: "Tabulkove metody",
+    pravda: "Pri multi-cycle principe sa cyklicky citaju vzorky z pamate a jednotlive cykly su zostavene do sekvencie.",
+    nepravda: "Pri multi-cycle principe sa cyklicky citaju vzorky z pamate a jednotlive cykly su nahradene analogovym filtrom."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 010",
+    oblast: "Tabulkove metody",
+    pravda: "Tvarovanie vlny v tabulkovom generatore moze vznikat zmenou rychlosti alebo poradia citania vzoriek.",
+    nepravda: "Tvarovanie vlny v tabulkovom generatore moze vznikat iba zmenou hlasitosti bez zmeny citania vzoriek."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 011",
+    oblast: "Tabulkove metody",
+    pravda: "Digital waveshaping moze znamenat zmenu poradia citania vzoriek z look-up table.",
+    nepravda: "Digital waveshaping moze znamenat zmenu poradia analogovych filtrov bez citania vzoriek z look-up table."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 012",
+    oblast: "Tabulkove metody",
+    pravda: "Pri periodickych priebehoch so symetriou moze stacit ulozit cast periody a celu periodu vytvorit zmenou smeru citania a znamienka.",
+    nepravda: "Pri periodickych priebehoch so symetriou sa musi vzdy ulozit cela perioda, pretoze smer citania ani znamienko sa nesmu menit."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 013",
+    oblast: "Tabulkove metody",
+    pravda: "DDS cita vzorky z look-up table pomocou fazoveho akumulatora.",
+    nepravda: "DDS cita vzorky z look-up table pomocou amplitudoveho kompresora."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 014",
+    oblast: "Tabulkove metody",
+    pravda: "Fazovy akumulator v DDS je citac, ku ktoremu sa s kazdym hodinovym impulzom pripocita fazovy prirastok.",
+    nepravda: "Fazovy akumulator v DDS je filter, ktory s kazdym hodinovym impulzom odpocita amplitudovu obalku."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 015",
+    oblast: "Tabulkove metody",
+    pravda: "Klasicky citac modulo sa da chapat ako specialny pripad fazoveho akumulatora s prirastkom jedna.",
+    nepravda: "Klasicky citac modulo sa da chapat ako specialny pripad fazoveho akumulatora s nulovym prirastkom."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 016",
+    oblast: "Tabulkove metody",
+    pravda: "Posun na dalsiu vzorku za konstantny casovy interval zodpoveda linearnemu narastu fazy generovaneho priebehu.",
+    nepravda: "Posun na dalsiu vzorku za konstantny casovy interval zodpoveda nahodnemu narastu fazy generovaneho priebehu."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 017",
+    oblast: "Tabulkove metody",
+    pravda: "Jedna cela perioda tabulkovo generovaneho priebehu zodpoveda fazovemu rozsahu 2 pi.",
+    nepravda: "Jedna cela perioda tabulkovo generovaneho priebehu zodpoveda iba amplitudovemu rozsahu 2 pi."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 018",
+    oblast: "Tabulkove metody",
+    pravda: "Zmena fazoveho prirastku v DDS meni kmitocet generovaneho priebehu.",
+    nepravda: "Zmena fazoveho prirastku v DDS meni iba hlasitost generovaneho priebehu."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 019",
+    oblast: "Tabulkove metody",
+    pravda: "Zvysenie rychlosti hodinoveho signalu v tabulkovom generatore moze zvysit kmitocet generovaneho priebehu.",
+    nepravda: "Zvysenie rychlosti hodinoveho signalu v tabulkovom generatore moze znizit kmitocet generovaneho priebehu."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 020",
+    oblast: "Tabulkove metody",
+    pravda: "Ak fazovy prirastok v DDS nie je konstantny, vznikne fazove skreslenie signalu.",
+    nepravda: "Ak fazovy prirastok v DDS nie je konstantny, vznikne iba zmena absolutnej hlasitosti bez fazoveho skreslenia."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 021",
+    oblast: "Tabulkove metody",
+    pravda: "Wavetable synteza generuje viac cyklov zoradenych v sekvencii podobne ako multi-cycle synteza.",
+    nepravda: "Wavetable synteza generuje jeden nemenny cyklus a preto sa principialne nelisi od pevneho single-cycle citania."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 022",
+    oblast: "Tabulkove metody",
+    pravda: "Vo wavetable synteze nie je sekvencia cyklov pevne dana; prehravany cyklus sa moze volit dynamicky.",
+    nepravda: "Vo wavetable synteze je sekvencia cyklov pevne dana; prehravany cyklus sa nesmie volit dynamicky."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 023",
+    oblast: "Tabulkove metody",
+    pravda: "Wavetable synteza moze pracovat so single-cycle priebehmi, multi-cycle sekvenciami, samplami alebo sekvenciami.",
+    nepravda: "Wavetable synteza moze pracovat iba so single-cycle priebehmi a nemoze pouzit samply ani sekvencie."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 024",
+    oblast: "Tabulkove metody",
+    pravda: "Pri wavetable synteze moze byt poradie v sekvencii menene linearnym citacom, nahodne, LFO, obalkou alebo dynamikou hrania.",
+    nepravda: "Pri wavetable synteze moze byt poradie v sekvencii menene iba pevnym citacom bez LFO, obalky alebo dynamiky hrania."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 025",
+    oblast: "Tabulkove metody",
+    pravda: "Generator amplitudovej obalky moze vo wavetable synteze riadit volbu adresy alebo cyklu pocas segmentov obalky.",
+    nepravda: "Generator amplitudovej obalky moze vo wavetable synteze riadit iba hlasitost a nikdy volbu adresy alebo cyklu."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 026",
+    oblast: "Tabulkove metody",
+    pravda: "Waldorf Microwave je priklad nastroja vyuzivajuceho wavetable syntezu.",
+    nepravda: "Waldorf Microwave je priklad nastroja vyuzivajuceho iba analogovu subtraktivnu syntezu bez tabuliek priebehov."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 027",
+    oblast: "Tabulkove metody",
+    pravda: "Vo Waldorf Microwave sa skenovanie wavetable mohlo riadit modulatormi ako LFO, obalky alebo externe riadenie.",
+    nepravda: "Vo Waldorf Microwave sa skenovanie wavetable mohlo riadit iba pevnou rychlostou bez LFO, obalok alebo externeho riadenia."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 028",
+    oblast: "Tabulkove metody",
+    pravda: "Interpolacia medzi vzorkami alebo cyklami moze pri wavetable principe zjemnit prechody pri citani tabulky.",
+    nepravda: "Interpolacia medzi vzorkami alebo cyklami moze pri wavetable principe vytvorit iba tvrde skoky pri citani tabulky."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 029",
+    oblast: "Tabulkove metody",
+    pravda: "Sample & Synthesis je zjednodusena wavetable synteza zalozena na ulozenych samploch v pamati.",
+    nepravda: "Sample & Synthesis je zjednodusena analogova FM synteza zalozena na absencii samplov v pamati."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 030",
+    oblast: "Tabulkove metody",
+    pravda: "Nastroje typu ROMpler prehravaju zvuky ulozene v pamati ROM, podobne ako sampler bez bezneho vlastneho zaznamu vzoriek.",
+    nepravda: "Nastroje typu ROMpler vytvaraju zvuky bez pamate ROM, podobne ako analogovy VCO bez ulozenych vzoriek."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 031",
+    oblast: "Tabulkove metody",
+    pravda: "V Sample & Synthesis mozu byt v pamati ulozene navzorkovane zvuky realnych nastrojov alebo zvuky vytvorene inymi syntetickymi metodami.",
+    nepravda: "V Sample & Synthesis mozu byt v pamati ulozene iba matematicke sinusovky a nie zvuky realnych nastrojov."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 032",
+    oblast: "Tabulkove metody",
+    pravda: "Pri Sample & Synthesis ma kazdy sample vlastnu dlzku a jeho zaciatok aj koniec urcuju pamatove ukazovatele.",
+    nepravda: "Pri Sample & Synthesis ma kazdy sample rovnaku dlzku a jeho zaciatok aj koniec urcuje iba analogovy filter."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 033",
+    oblast: "Tabulkove metody",
+    pravda: "Rovnako ako pri wavetable synteze mozno v Sample & Synthesis prehravat jednotlive casti samplu v segmentoch amplitudovej obalky.",
+    nepravda: "Na rozdiel od wavetable syntezy sa v Sample & Synthesis nesmu prehravat jednotlive casti samplu v segmentoch amplitudovej obalky."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 034",
+    oblast: "Tabulkove metody",
+    pravda: "Tabulkove metody a PCM sampling sa podobaju pouzitim pamate, ale nie je spravne ich automaticky povazovat za ten isty princip.",
+    nepravda: "Tabulkove metody a PCM sampling sa podobaju pouzitim pamate, preto je spravne ich automaticky povazovat za ten isty princip."
+  },
+  {
+    id: "HEL 4. Tabulkove metody 035",
+    oblast: "Tabulkove metody",
+    pravda: "Tabulkovy digitalny generator moze tvorit zdroj signalu, ktory sa po D/A prevode dalej spracuje analogovymi blokmi.",
+    nepravda: "Tabulkovy digitalny generator moze tvorit zdroj signalu iba vtedy, ak sa po D/A prevode uz nesmie spracovat analogovymi blokmi."
+  }
+];
+
+function ziskajHelSkuska4TabulkoveMetodyPodoblast(id) {
+  const cislo = Number(String(id).match(/(\d+)$/)?.[1] || 0);
+  if (cislo <= 5) return "ROM a citac modulo";
+  if (cislo <= 9) return "Single-cycle a multi-cycle";
+  if (cislo <= 12) return "Digital waveshaping";
+  if (cislo <= 20) return "DDS a fazovy akumulator";
+  if (cislo <= 28) return "Wavetable synteza";
+  if (cislo <= 33) return "Sample & Synthesis";
+  return "Porovnanie principov";
+}
+
+const helSkuska4TabulkoveMetodyCrackOtazky = helSkuska4TabulkoveMetodyCrackData.map((polozka) => {
+  const podoblast = ziskajHelSkuska4TabulkoveMetodyPodoblast(polozka.id);
+  return {
+    id: polozka.id,
+    tema: `HEL 4. ${polozka.oblast} - ${podoblast}`,
+    typ: "jedna",
+    format: "crack",
+    uroven: "tazka",
+    otazka: polozka.pravda,
+    moznosti: ["z", "x"],
+    spravne: [0],
+    vysvetlenie: `Spravny statement: ${polozka.pravda}`,
+    prezentacia: "HEL Skuska 4",
+    subtema: `${polozka.oblast} / ${podoblast}`,
+    crackPair: {
+      pravda: polozka.pravda,
+      nepravda: polozka.nepravda
+    }
+  };
+});
+
+const helSkuska4DigitalneTvarovanieVlnyCrackData = [
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny princip 001",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Princip",
+    pravda: "Digitalne tvarovanie vlny meni tvar vystupneho signalu zmenou poradia alebo smeru citania vzoriek z look-up table.",
+    nepravda: "Digitalne tvarovanie vlny meni tvar vystupneho signalu iba zmenou celkovej hlasitosti vzoriek z look-up table."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny princip 002",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Princip",
+    pravda: "Pri digitalnom tvarovani vlny moze obsah tabulky ostat rovnaky, ale meni sa sposob citania ulozenych vzoriek.",
+    nepravda: "Pri digitalnom tvarovani vlny musi sposob citania ostat rovnaky, ale pri kazdej periode sa meni obsah tabulky."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny princip 003",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Princip",
+    pravda: "V klasifikacii digitalnych metod patri digital waveshaping medzi nelinearne metody syntetizovania zvuku.",
+    nepravda: "V klasifikacii digitalnych metod patri digital waveshaping medzi linearne aditivne metody syntetizovania zvuku."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny princip 004",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Princip",
+    pravda: "Tvarovanie vlny v digitalnom oscilatore moze vychadzat z tabulky priebehu ulozenej v pamati.",
+    nepravda: "Tvarovanie vlny v digitalnom oscilatore musi vychadzat z analogovej rezonancnej spatnej vazby."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny princip 005",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Princip",
+    pravda: "Zmena poradia citania vzoriek z pamate meni casovy priebeh signalu a tym aj jeho spektralny charakter.",
+    nepravda: "Zmena poradia citania vzoriek z pamate meni iba cisla adries a nema vplyv na casovy priebeh signalu."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny adresovanie 001",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Riadenie citania",
+    pravda: "Pri single-cycle principe je citanie vzoriek z pamate typicky riadene citacom, ktory cyklicky prechadza jeden zvoleny cyklus.",
+    nepravda: "Pri single-cycle principe je citanie vzoriek z pamate typicky riadene tvarovacim generatorom, ktory meni poradie vzoriek pocas cyklu."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny adresovanie 002",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Riadenie citania",
+    pravda: "Pri multi-cycle principe su jednotlive cykly ulozene v sekvencii a citanie postupuje cez viac cyklov.",
+    nepravda: "Pri multi-cycle principe je ulozeny iba jeden cyklus a zmena farby vznikne len zmenou vystupnej hlasitosti."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny adresovanie 003",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Riadenie citania",
+    pravda: "Pri digitalnom tvarovani vlny moze generator priebehov riadit adresy, z ktorych sa vzorky citaju.",
+    nepravda: "Pri digitalnom tvarovani vlny moze generator priebehov riadit iba analogovy vystupny zosilnovac za prevodnikom."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny adresovanie 004",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Riadenie citania",
+    pravda: "Ak generator priebehov zmeni mapovanie adres, z tabulky sa moze citat iny tvar, hoci ulozene vzorky ostali rovnake.",
+    nepravda: "Ak generator priebehov zmeni mapovanie adres, ulozene vzorky sa musia fyzicky prepisat na iny tvar."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny adresovanie 005",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Riadenie citania",
+    pravda: "Tvarovaci generator pri citani tabulky urcuje, ktory index vzorky sa pouzije v danom okamihu periody.",
+    nepravda: "Tvarovaci generator pri citani tabulky urcuje iba, aka bude globalna hlasitost celej periody."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny symetria 001",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Symetria periody",
+    pravda: "Ak ma periodicky priebeh vhodnu symetriu, celu periodu mozno vytvorit z casti periody zmenou smeru citania a znamienka.",
+    nepravda: "Ak ma periodicky priebeh vhodnu symetriu, celu periodu mozno vytvorit z casti periody iba zmenou hlasitosti bez zmeny znamienka."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny symetria 002",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Symetria periody",
+    pravda: "Pri mnohych periodickych priebehoch moze stacit ulozit stvrtinu periody a zvysok poskladat zrkadlenim a zmenou znamienka.",
+    nepravda: "Pri mnohych periodickych priebehoch moze stacit ulozit stvrtinu periody a zvysok poskladat iba opakovanim tej istej stvrtiny bez zrkadlenia."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny symetria 003",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Symetria periody",
+    pravda: "Zmena smeru citania vzoriek umoznuje vyuzit zrkadlovu symetriu priebehu bez ulozenia celej periody.",
+    nepravda: "Zmena smeru citania vzoriek umoznuje vyuzit zrkadlovu symetriu iba vtedy, ked je cela perioda ulozena dvakrat."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny symetria 004",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Symetria periody",
+    pravda: "Zmena znamienka citanej hodnoty moze vytvorit zapornu polvlnu z kladnej casti ulozeneho priebehu.",
+    nepravda: "Zmena znamienka citanej hodnoty moze vytvorit dalsiu kladnu polvlnu bez zmeny polarity ulozeneho priebehu."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny symetria 005",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Symetria periody",
+    pravda: "Ukladanie iba casti periody setri pamat, ale vyzaduje spravne pravidla citania pre zvysne casti periody.",
+    nepravda: "Ukladanie iba casti periody setri pamat, preto uz nie su potrebne pravidla citania pre zvysne casti periody."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny smer 001",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Zmena smeru a poradia",
+    pravda: "Zmenou standardneho smeru citania vzoriek z pamate mozno vytvorit nove priebehy z rovnakej tabulky.",
+    nepravda: "Zmenou standardneho smeru citania vzoriek z pamate mozno zmenit iba fazovy zaciatok, nie tvar priebehu."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny smer 002",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Zmena smeru a poradia",
+    pravda: "Ak sa citanie pocas periody prepne z rastucich adries na klesajuce adresy, vystupny priebeh sa moze zrkadlit v case.",
+    nepravda: "Ak sa citanie pocas periody prepne z rastucich adries na klesajuce adresy, vystupny priebeh sa musi iba zoslabit v amplitudovej osi."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny smer 003",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Zmena smeru a poradia",
+    pravda: "Poradie citania vzoriek je pre tvar signalu rovnako dolezite ako samotne hodnoty ulozene v tabulke.",
+    nepravda: "Poradie citania vzoriek je pre tvar signalu nepodstatne, ak su hodnoty ulozene v tabulke spravne."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny smer 004",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Zmena smeru a poradia",
+    pravda: "Nelinearne alebo neskokove mapovanie adres moze zmenit rozlozenie casu straveneho v roznych castiach periody.",
+    nepravda: "Nelinearne alebo neskokove mapovanie adres moze zmenit iba absolutnu amplitudu bez zmeny casoveho rozlozenia periody."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny smer 005",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Zmena smeru a poradia",
+    pravda: "Ak sa cast tabulky cita rychlejsie a ina cast pomalsie, meni sa lokalny priebeh fazy v ramci jednej periody.",
+    nepravda: "Ak sa cast tabulky cita rychlejsie a ina cast pomalsie, meni sa iba globalny kmitocet bez zmeny tvaru periody."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny spektrum 001",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Spektralny dosledok",
+    pravda: "Zmena tvaru jednej periody meni pomery harmonickych zloziek a tym farbu generovaneho tonu.",
+    nepravda: "Zmena tvaru jednej periody meni iba zakladnu frekvenciu a pomery harmonickych zloziek ostanu rovnake."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny spektrum 002",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Spektralny dosledok",
+    pravda: "Ak digitalne tvarovanie vytvori ostre zlomy v priebehu, vo vysledku sa mozu objavit vyssie harmonicke zlozky.",
+    nepravda: "Ak digitalne tvarovanie vytvori ostre zlomy v priebehu, spektrum sa sprava ako pri vyhladeni priebehu filtrom."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny spektrum 003",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Spektralny dosledok",
+    pravda: "Digitalne tvarovanie vlny je sposob zmeny farby tonu, nie iba sposob transpozicie celeho tonu.",
+    nepravda: "Digitalne tvarovanie vlny je sposob transpozicie celeho tonu, nie sposob zmeny farby tonu."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny spektrum 004",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Spektralny dosledok",
+    pravda: "Ak sa periodicky opakuje novy vytvarovany priebeh, jeho spektrum zodpoveda tvaru tejto opakovanej periody.",
+    nepravda: "Ak sa periodicky opakuje novy vytvarovany priebeh, jeho spektrum zodpoveda povodnej tabulke bez ohladu na citanie."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny spektrum 005",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Spektralny dosledok",
+    pravda: "Pri digitalnom tvarovani moze zmena citania tabulky vytvorit iny zvukovy charakter aj bez zmeny filtra.",
+    nepravda: "Pri digitalnom tvarovani moze zmena citania tabulky vytvorit iny zvukovy charakter iba vtedy, ked sa sucasne zmeni filter."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny hranice 001",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Rozlisenie od podobnych metod",
+    pravda: "Digitalne tvarovanie vlny sa da odlisit od obycajneho single-cycle citania tym, ze aktivne meni poradie alebo sposob citania vzoriek.",
+    nepravda: "Digitalne tvarovanie vlny sa da odlisit od obycajneho single-cycle citania tym, ze ponecha linearny citac a meni az vystupnu hlasitost."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny hranice 002",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Rozlisenie od podobnych metod",
+    pravda: "Digitalne tvarovanie vlny a wavetable synteza sa mozu podobat pracou s pamatou, ale prve zdoraznuje sposob citania a druhe vyber alebo skenovanie tabuliek.",
+    nepravda: "Digitalne tvarovanie vlny a wavetable synteza sa mozu podobat pracou s pamatou, preto su to vzdy nazvy pre presne rovnaku metodu."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny hranice 003",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Rozlisenie od podobnych metod",
+    pravda: "Digitalne tvarovanie vlny moze pracovat s adresovanim tabulky, zatial co subtraktivna synteza tvaruje spektrum hlavne filtrom.",
+    nepravda: "Digitalne tvarovanie vlny moze pracovat s adresovanim tabulky, zatial co subtraktivna synteza tvaruje spektrum hlavne citacom adries."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny hranice 004",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Rozlisenie od podobnych metod",
+    pravda: "Pri digitalnom tvarovani vlny je dolezity vztah medzi adresou citania a vystupnou vzorkou.",
+    nepravda: "Pri digitalnom tvarovani vlny je dolezity iba vztah medzi velocity a vystupnou vzorkou."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny hranice 005",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Rozlisenie od podobnych metod",
+    pravda: "Fazove skreslenie je specialne suvisiaca technika, pri ktorej sa meni priebeh fazy alebo citania pocas periody.",
+    nepravda: "Fazove skreslenie je specialne suvisiaca technika, pri ktorej sa meni iba vystupna hlasitost po celej periode rovnako."
+  },
+  {
+    id: "HEL 4. Digitalne tvarovanie vlny hranice 006",
+    oblast: "Digitalne tvarovanie vlny",
+    podoblast: "Rozlisenie od podobnych metod",
+    pravda: "Pri fazovom skresleni neuniformny priebeh fazy sposobuje deformaciu citaneho priebehu.",
+    nepravda: "Pri fazovom skresleni rovnomerny priebeh fazy sposobuje deformaciu citaneho priebehu."
+  }
+];
+
+const helSkuska4DigitalneTvarovanieVlnyCrackOtazky = helSkuska4DigitalneTvarovanieVlnyCrackData.map((polozka) => ({
+  id: polozka.id,
+  tema: `HEL 4. ${polozka.oblast} - ${polozka.podoblast}`,
+  typ: "jedna",
+  format: "crack",
+  uroven: "tazka",
+  otazka: polozka.pravda,
+  moznosti: ["z", "x"],
+  spravne: [0],
+  vysvetlenie: `Spravny statement: ${polozka.pravda}`,
+  prezentacia: "HEL Skuska 4",
+  subtema: `${polozka.oblast} / ${polozka.podoblast}`,
+  crackPair: {
+    pravda: polozka.pravda,
+    nepravda: polozka.nepravda
+  }
+}));
+
+const helSkuska5SamplerCrackData = [
+  {
+    id: "HEL 5. Sampler princip 001",
+    oblast: "princip",
+    pravda: "Sampler je digitalny hudobny nastroj, ktory zaznamenava, uklada, edituje a prehrava zvukove vzorky.",
+    nepravda: "Sampler je analogovy hudobny nastroj, ktory zaznamenava, uklada, edituje a prehrava zvukove vzorky."
+  },
+  {
+    id: "HEL 5. Sampler princip 002",
+    oblast: "princip",
+    pravda: "V sampleri moze ulozena zvukova vzorka sluzit ako zdroj signalu podobne ako oscilator v syntetizatore.",
+    nepravda: "V sampleri moze ulozena zvukova vzorka sluzit ako riadiaci signal podobne ako oscilator v syntetizatore."
+  },
+  {
+    id: "HEL 5. Sampler princip 003",
+    oblast: "princip",
+    pravda: "Vystup sampleru moze byt dalej spracovany filtrami a zosilnovacmi podobne ako v syntetizatore, napriklad obvodmi DCF a DCA.",
+    nepravda: "Vystup sampleru moze byt dalej spracovany filtrami a zosilnovacmi namiesto toho, aby vznikal zo zvukovej vzorky."
+  },
+  {
+    id: "HEL 5. Sampler princip 004",
+    oblast: "princip",
+    pravda: "Sampler negeneruje ton primarne matematickym priebehom oscilatora, ale prehravanim predtym zaznamenaneho zvuku.",
+    nepravda: "Sampler generuje ton primarne matematickym priebehom oscilatora, nie prehravanim predtym zaznamenaneho zvuku."
+  },
+  {
+    id: "HEL 5. Sampler zmena vysky tonu 001",
+    oblast: "Zmena vysky tonu",
+    pravda: "Prehravanie vzorky v inej vyske, nez bola povodne zaznamenana, vyzaduje zmenu vysky tonu alebo pouzitie viacerych vzoriek.",
+    nepravda: "Prehravanie vzorky v inej vyske, nez bola povodne zaznamenana, nevyzaduje zmenu vysky tonu ani pouzitie viacerych vzoriek."
+  },
+  {
+    id: "HEL 5. Sampler zmena vysky tonu 002",
+    oblast: "Zmena vysky tonu",
+    pravda: "Navzorkovany zvuk musi obsahovat informaciu o povodnej vyske tonu, aby bolo mozne urcit spravne transponovanie.",
+    nepravda: "Navzorkovany zvuk nemusi obsahovat informaciu o povodnej vyske tonu, aby bolo mozne urcit spravne transponovanie."
+  },
+  {
+    id: "HEL 5. Sampler zmena vysky tonu 003",
+    oblast: "Zmena vysky tonu",
+    pravda: "Transpozicia vzorky sa urcuje podla rozdielu medzi povodnou vyskou zaznamenania a pozadovanou vyskou prehravanej noty.",
+    nepravda: "Transpozicia vzorky sa urcuje podla rozdielu medzi povodnou dlzkou zaznamenania a pozadovanou vyskou prehravanej noty."
+  },
+  {
+    id: "HEL 5. Sampler zmena vysky tonu 004",
+    oblast: "Zmena vysky tonu",
+    pravda: "Pri prehravani s premennym vzorkovacim kmitoctom sa vyska tonu meni zmenou rychlosti prehravania vzorky.",
+    nepravda: "Pri prehravani s premennym vzorkovacim kmitoctom sa hlasitost tonu meni zmenou rychlosti prehravania vzorky."
+  },
+  {
+    id: "HEL 5. Sampler zmena vysky tonu 005",
+    oblast: "Zmena vysky tonu",
+    pravda: "Pri zvyseni rychlosti prehravania vzorky sa zvysi vyska tonu a zaroven sa moze skratit dlzka zvuku.",
+    nepravda: "Pri zvyseni rychlosti prehravania vzorky sa znizi vyska tonu a zaroven sa moze skratit dlzka zvuku."
+  },
+  {
+    id: "HEL 5. Sampler zmena vysky tonu 006",
+    oblast: "Zmena vysky tonu",
+    pravda: "Pri znizeni rychlosti prehravania vzorky sa znizi vyska tonu a zaroven sa moze predlzit dlzka zvuku.",
+    nepravda: "Pri znizeni rychlosti prehravania vzorky sa zvysi vyska tonu a zaroven sa moze predlzit dlzka zvuku."
+  },
+  {
+    id: "HEL 5. Sampler zmena vysky tonu 007",
+    oblast: "Zmena vysky tonu",
+    pravda: "Nevyhodou zmeny vysky pomocou zmeny rychlosti prehravania je mozna zmena dlzky zvuku a farby tonu.",
+    nepravda: "Vyhodou zmeny vysky pomocou zmeny rychlosti prehravania je, ze sa nemoze zmenit dlzka zvuku ani farba tonu."
+  },
+  {
+    id: "HEL 5. Sampler zmena vysky tonu 008",
+    oblast: "Zmena vysky tonu",
+    pravda: "Pri pevnom vzorkovacom kmitocte sa vyska tonu meni zmenou sposobu citania vzoriek z pamate.",
+    nepravda: "Pri pevnom vzorkovacom kmitocte sa vyska tonu meni zmenou vystupneho vzorkovacieho kmitoctu."
+  },
+  {
+    id: "HEL 5. Sampler zmena vysky tonu 009",
+    oblast: "Zmena vysky tonu",
+    pravda: "Pri prehravani s konstantnym vzorkovacim kmitoctom sa chybajuce medzilahle hodnoty vzorky dopocitavaju interpolaciou.",
+    nepravda: "Pri prehravani s konstantnym vzorkovacim kmitoctom sa chybajuce medzilahle hodnoty vzorky dopocitavaju konvoluciou."
+  },
+  {
+    id: "HEL 5. Sampler zmena vysky tonu 010",
+    oblast: "Zmena vysky tonu",
+    pravda: "Interpolacia v sampleri sluzi na vypocet hodnot medzi ulozenymi vzorkami pri zmene vysky tonu.",
+    nepravda: "Interpolacia v sampleri sluzi na vypocet hlasitosti medzi ulozenymi vzorkami pri zmene farby tonu."
+  },
+  {
+    id: "HEL 5. Sampler zmena vysky tonu 011",
+    oblast: "Zmena vysky tonu",
+    pravda: "Casova kompresia alebo expanzia umoznuje menit dlzku zvuku nezavislejsie od zmeny vysky tonu.",
+    nepravda: "Casova kompresia alebo expanzia umoznuje menit dlzku zvuku iba priamou zmenou vysky tonu."
+  },
+  {
+    id: "HEL 5. Sampler zmena vysky tonu 012",
+    oblast: "Zmena vysky tonu",
+    pravda: "Prevzorkovanie moze byt sucastou metod, ktorymi sampler upravuje vysku alebo casove trvanie zvuku.",
+    nepravda: "Prevzorkovanie nemoze byt sucastou metod, ktorymi sampler upravuje vysku alebo casove trvanie zvuku."
+  },
+  {
+    id: "HEL 5. Sampler zmena vysky tonu 013",
+    oblast: "Zmena vysky tonu",
+    pravda: "Modulacia zpozdovacej linky moze byt pouzita ako jedna z metod zmeny vysky tonu.",
+    nepravda: "Modulacia zpozdovacej linky moze byt pouzita iba ako metoda zmeny amplitudy tonu."
+  },
+  {
+    id: "HEL 5. Sampler zmena vysky tonu 014",
+    oblast: "Zmena vysky tonu",
+    pravda: "Multisampling znizuje potrebu extremneho transponovania jednej vzorky cez velky rozsah klaviatury.",
+    nepravda: "Multisampling zvysuje potrebu extremneho transponovania jednej vzorky cez velky rozsah klaviatury."
+  },
+  {
+    id: "HEL 5. Sampler zmena dlzky tonu 001",
+    oblast: "Zmena dlzky tonu",
+    pravda: "Po stlaceni klavesy sampler zacne prehravat priradenu zvukovu vzorku.",
+    nepravda: "Po uvolneni klavesy sampler zacne prehravat priradenu zvukovu vzorku."
+  },
+  {
+    id: "HEL 5. Sampler zmena dlzky tonu 002",
+    oblast: "Zmena dlzky tonu",
+    pravda: "Ak je klavesa drzana dlhsie, nez trva ulozena vzorka, prehravanie moze dojst na koniec zvuku.",
+    nepravda: "Ak je klavesa drzana dlhsie, nez trva ulozena vzorka, prehravanie nemoze dojst na koniec zvuku."
+  },
+  {
+    id: "HEL 5. Sampler zmena dlzky tonu 003",
+    oblast: "Zmena dlzky tonu",
+    pravda: "Pri kratkych zvukoch typu one-shot zvycajne nevadi, ze prehravanie vzorky dojde na koniec.",
+    nepravda: "Pri kratkych zvukoch typu one-shot zvycajne vadi, ze prehravanie vzorky dojde na koniec."
+  },
+  {
+    id: "HEL 5. Sampler zmena dlzky tonu 004",
+    oblast: "Zmena dlzky tonu",
+    pravda: "Pri zvukoch bez ustaleneho stavu sa zvycajne nepouziva dlhe sluckovanie sustain casti.",
+    nepravda: "Pri zvukoch bez ustaleneho stavu sa zvycajne vyzaduje dlhe sluckovanie sustain casti."
+  },
+  {
+    id: "HEL 5. Sampler zmena dlzky tonu 005",
+    oblast: "Zmena dlzky tonu",
+    pravda: "Pri zvukoch s dlhym ustalenym stavom je neziaduce, aby zvuk pocas drzania klavesy jednoducho skoncil.",
+    nepravda: "Pri zvukoch s dlhym ustalenym stavom je ziaduce, aby zvuk pocas drzania klavesy jednoducho skoncil."
+  },
+  {
+    id: "HEL 5. Sampler zmena dlzky tonu 006",
+    oblast: "Zmena dlzky tonu",
+    pravda: "Sustaining Loop v sampleri opakuje vybranu ustalenu cast vzorky pocas drzania klavesy.",
+    nepravda: "Sustaining Loop v sampleri opakuje vybranu ustalenu cast vzorky az po uvolneni klavesy."
+  },
+  {
+    id: "HEL 5. Sampler zmena dlzky tonu 007",
+    oblast: "Zmena dlzky tonu",
+    pravda: "Release Loop v sampleri pomaha riesit doznievanie alebo ukoncenie zvuku po uvolneni klavesy.",
+    nepravda: "Release Loop v sampleri pomaha riesit doznievanie alebo ukoncenie zvuku iba pocas drzania klavesy."
+  },
+  {
+    id: "HEL 5. Sampler zmena dlzky tonu 008",
+    oblast: "Zmena dlzky tonu",
+    pravda: "Sluckovanie v sampleri umoznuje predlzit trvanie tonu bez nutnosti ulozit velmi dlhu vzorku.",
+    nepravda: "Sluckovanie v sampleri umoznuje predlzit trvanie tonu iba ulozenim este dlhsej vzorky."
+  },
+  {
+    id: "HEL 5. Sampler zmena dlzky tonu 009",
+    oblast: "Zmena dlzky tonu",
+    pravda: "Praca so sluckami v sampleri je principialne podobna praci so sluckami pri S&S synteze.",
+    nepravda: "Praca so sluckami v sampleri je principialne opacna oproti praci so sluckami pri S&S synteze."
+  },
+  {
+    id: "HEL 5. Sampler multisampling 001",
+    oblast: "Multisampling",
+    pravda: "Pri transponovani jednej vzorky na vzdialene tony sa v sampleri meni spektralna obalka zvuku.",
+    nepravda: "Pri transponovani jednej vzorky na vzdialene tony sa v sampleri nemeni spektralna obalka zvuku."
+  },
+  {
+    id: "HEL 5. Sampler multisampling 002",
+    oblast: "Multisampling",
+    pravda: "Zmena spektralnej obalky pri transponovani vzorky sposobuje zmenu farby tonu.",
+    nepravda: "Zmena spektralnej obalky pri transponovani vzorky sposobuje iba zmenu hlasitosti tonu."
+  },
+  {
+    id: "HEL 5. Sampler multisampling 003",
+    oblast: "Multisampling",
+    pravda: "Multisampling pouziva viac roznych vzoriek pre rozne oblasti klaviatury.",
+    nepravda: "Multisampling pouziva jednu spolocnu vzorku pre vsetky oblasti klaviatury."
+  },
+  {
+    id: "HEL 5. Sampler multisampling 004",
+    oblast: "Multisampling",
+    pravda: "Pri multisamplingu je klaviatura rozdelena na zony, v ktorych sa prehravaju rozne vzorky.",
+    nepravda: "Pri multisamplingu je klaviatura rozdelena na zony, v ktorych sa prehrava ta ista vzorka."
+  },
+  {
+    id: "HEL 5. Sampler multisampling 005",
+    oblast: "Multisampling",
+    pravda: "Horizontalne zony v multisamplingu su rozdelene podla vysky tonu na klaviature.",
+    nepravda: "Horizontalne zony v multisamplingu su rozdelene podla dynamiky uhozu na klaviature."
+  },
+  {
+    id: "HEL 5. Sampler multisampling 006",
+    oblast: "Multisampling",
+    pravda: "Vertikalne zony v multisamplingu su rozdelene podla dynamiky uhozu, teda podla velocity.",
+    nepravda: "Vertikalne zony v multisamplingu su rozdelene podla vysky tonu, teda podla velocity."
+  },
+  {
+    id: "HEL 5. Sampler multisampling 007",
+    oblast: "Multisampling",
+    pravda: "Horizontalne a vertikalne zony multisamplingu mozno navzajom kombinovat.",
+    nepravda: "Horizontalne a vertikalne zony multisamplingu sa nesmu navzajom kombinovat."
+  },
+  {
+    id: "HEL 5. Sampler multisampling 008",
+    oblast: "Multisampling",
+    pravda: "Horizontalne zony podla vysky tonu maju v multisamplingu obycajne prednost pred vertikalnymi zonami.",
+    nepravda: "Vertikalne zony podla velocity maju v multisamplingu obycajne prednost pred horizontalnymi zonami."
+  },
+  {
+    id: "HEL 5. Sampler multisampling 009",
+    oblast: "Multisampling",
+    pravda: "Na hraniciach vertikalnych zon sa v multisamplingu pouziva prelinanie susednych vzoriek, aby nevznikol nahly skok vo zvuku.",
+    nepravda: "Na hraniciach vertikalnych zon sa v multisamplingu pouziva tvrde prepnutie susednych vzoriek, aby vznikol jasny skok vo zvuku."
+  },
+  {
+    id: "HEL 5. Sampler multisampling 010",
+    oblast: "Multisampling",
+    pravda: "Multisampling zachovava prirodzenejsiu farbu tonu tym, ze nepouziva jednu vzorku pre cely rozsah klaviatury.",
+    nepravda: "Multisampling zachovava prirodzenejsiu farbu tonu tym, ze pouziva jednu vzorku pre cely rozsah klaviatury."
+  }
+];
+
+const helSkuska5SamplerCrackOtazky = helSkuska5SamplerCrackData.map((polozka) => ({
+  id: polozka.id,
+  tema: `HEL 5. Sampler ${polozka.oblast}`,
+  typ: "jedna",
+  format: "crack",
+  uroven: "tazka",
+  otazka: polozka.pravda,
+  moznosti: ["z", "x"],
+  spravne: [0],
+  vysvetlenie: `Spravny statement: ${polozka.pravda}`,
+  prezentacia: "HEL Skuska 5",
+  subtema: `Sampler / ${polozka.oblast}`,
+  crackPair: {
+    pravda: polozka.pravda,
+    nepravda: polozka.nepravda
+  }
+}));
+
 helOtazky.push(
   ...helHighYieldOtazky,
   ...helSkuskaAnalogoveSyntezyOtazky,
   ...helSkuskaZakladnePojmyOtazky,
   ...helSkuskaAnalogoveSyntezatoryOtazky,
   ...helSkuska3HybridneNastrojeOtazky,
-  ...helSkuska2ZakladnePojmyOtazky
+  ...helSkuska2ZakladnePojmyOtazky,
+  ...helSkuska4TabulkoveMetodyCrackOtazky,
+  ...helSkuska4DigitalneTvarovanieVlnyCrackOtazky,
+  ...helSkuska5SamplerCrackOtazky
 );

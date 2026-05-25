@@ -25,6 +25,11 @@ let aktualnaTema = "oranzova";
 let aktualnyIndexCitatu = -1;
 let urovenRychlehoRezimu = 0;
 let citatZobrazeny = false;
+let pocetZlychCrackOdpovedi = 0;
+let rytmickyEfekt = "default";
+let zostavajuceRytmickeBeaty = 0;
+let casovacRytmickychBeatov = null;
+let casovacRytmickehoUkoncenia = null;
 const odstraneneOtazky = new Map();
 const tazkeOtazky = new Map();
 const hodnotaVsetko = "__vsetko";
@@ -101,12 +106,18 @@ const tlacidloTemaTyrkysova = document.getElementById("tlacidloTemaTyrkysova");
 const posuvnikHlasitosti = document.getElementById("posuvnikHlasitosti");
 const prepinacCitatov = document.getElementById("prepinacCitatov");
 const prepinacNahodnehoPoradia = document.getElementById("prepinacNahodnehoPoradia");
+const prepinacDisplaySorting = document.getElementById("prepinacDisplaySorting");
 const prepinacUcenia = document.getElementById("prepinacUcenia");
 const prepinacRychlehoRezimu = document.getElementById("prepinacRychlehoRezimu");
 const prvokTextRychlehoRezimu = document.getElementById("textRychlehoRezimu");
 const prvokHintRychlehoRezimu = document.getElementById("hintRychlehoRezimu");
 const prepinacPrejdeniaPoolu = document.getElementById("prepinacPrejdeniaPoolu");
+const prepinacCrackMode = document.getElementById("prepinacCrackMode");
+const prepinacMobilnehoCrackModu = document.getElementById("prepinacMobilnehoCrackModu");
 const klavesyMoznosti = ["1", "2", "3", "4", "5", "6"];
+const rytmickeBpm = 160;
+const pocetBeatovRytmickehoEfektu = 16;
+const intervalRytmickehoBeatu = Math.round(60000 / rytmickeBpm);
 const pocetStlpcovPixelov = 24;
 const pocetRiadkovPixelov = 4;
 const selektorVolitelnychPrvkov = "button, .moznost, select, input[type='checkbox'], input[type='radio'], input[type='range']";
@@ -299,6 +310,98 @@ function prepniZltuTemu() {
   nastavTemu(aktualnaTema === "zlta" ? "zltaTmava" : "zlta");
 }
 
+function obmedz(hodnota, minimum, maximum) {
+  return Math.max(minimum, Math.min(maximum, hodnota));
+}
+
+function spustiRytmickuTriedu(trieda, trvanie) {
+  document.body.classList.remove(trieda);
+  void document.body.offsetWidth;
+  document.body.classList.add(trieda);
+  window.setTimeout(() => document.body.classList.remove(trieda), trvanie);
+}
+
+function zrusRytmickyCasovac() {
+  if (casovacRytmickychBeatov) {
+    window.clearInterval(casovacRytmickychBeatov);
+    casovacRytmickychBeatov = null;
+  }
+
+  if (casovacRytmickehoUkoncenia) {
+    window.clearTimeout(casovacRytmickehoUkoncenia);
+    casovacRytmickehoUkoncenia = null;
+  }
+}
+
+function dokonciRytmickyEfekt() {
+  zrusRytmickyCasovac();
+  rytmickyEfekt = "default";
+  zostavajuceRytmickeBeaty = 0;
+  casovacRytmickehoUkoncenia = window.setTimeout(() => {
+    document.body.classList.remove("rezim-rytmu", "rytmus-beat", "rytmus-flash", "rytmus-pulse", "rytmus-vlna");
+    document.body.style.setProperty("--rytmus-uroven", "0");
+    document.body.style.setProperty("--rytmus-pulz", "0");
+    casovacRytmickehoUkoncenia = null;
+  }, 900);
+}
+
+function spustiRytmickyPulz(efekt) {
+  const silaPulzu = efekt === "flash" ? 1 : efekt === "pulse" ? 0.76 : efekt === "wave" ? 0.9 : 0.24;
+  document.body.classList.add("rezim-rytmu");
+  document.body.style.setProperty("--rytmus-uroven", "0.55");
+  document.body.style.setProperty("--rytmus-pulz", String(obmedz(silaPulzu, 0.12, 1)));
+  document.body.style.setProperty("--rytmus-trvanie", efekt === "default" ? "360ms" : "230ms");
+  spustiRytmickuTriedu("rytmus-beat", efekt === "default" ? 360 : 260);
+
+  if (efekt === "flash") {
+    spustiRytmickuTriedu("rytmus-flash", 300);
+  } else if (efekt === "pulse") {
+    spustiRytmickuTriedu("rytmus-pulse", 420);
+  } else if (efekt === "wave") {
+    spustiRytmickuTriedu("rytmus-vlna", 780);
+  }
+
+  window.setTimeout(() => {
+    document.body.style.setProperty("--rytmus-pulz", "0");
+  }, efekt === "default" ? 220 : 150);
+}
+
+function prehratRytmickyBeat() {
+  if (zostavajuceRytmickeBeaty <= 0) {
+    dokonciRytmickyEfekt();
+    return;
+  }
+
+  spustiRytmickyPulz(rytmickyEfekt);
+  zostavajuceRytmickeBeaty--;
+}
+
+function aktivujRytmickyEfekt(efekt) {
+  zrusRytmickyCasovac();
+  rytmickyEfekt = efekt;
+  zostavajuceRytmickeBeaty = pocetBeatovRytmickehoEfektu;
+  document.body.classList.add("rezim-rytmu");
+  prehratRytmickyBeat();
+  casovacRytmickychBeatov = window.setInterval(prehratRytmickyBeat, intervalRytmickehoBeatu);
+  return true;
+}
+
+function obsluzRytmickuKlavesu(klaves) {
+  if (klaves === ",") {
+    return aktivujRytmickyEfekt("flash");
+  }
+
+  if (klaves === ".") {
+    return aktivujRytmickyEfekt("pulse");
+  }
+
+  if (klaves === "/") {
+    return aktivujRytmickyEfekt("wave");
+  }
+
+  return false;
+}
+
 function vytvorSvgPrvok(nazov, atributy) {
   const prvok = document.createElementNS(priestorSvg, nazov);
 
@@ -465,6 +568,26 @@ function posunCitatPoOtazkach() {
   }
 }
 
+function posunCitatPoOdpovedi(jeSpravne) {
+  if (!jeCrackMode()) {
+    posunCitatPoOtazkach();
+    return;
+  }
+
+  skryCitaty();
+  if (jeSpravne) {
+    if (seriaSpravnych === 14) {
+      nastavNahodnyCitat();
+    }
+    return;
+  }
+
+  pocetZlychCrackOdpovedi++;
+  if (pocetZlychCrackOdpovedi % 15 === 0) {
+    nastavNahodnyCitat();
+  }
+}
+
 function nastavZobrazenieCitatov() {
   skryCitaty();
 }
@@ -489,16 +612,30 @@ function jeRezimUcenia() {
   return Boolean(prepinacUcenia && prepinacUcenia.checked);
 }
 
+function jeDisplaySortingZapnuty() {
+  return Boolean(prepinacDisplaySorting && prepinacDisplaySorting.checked);
+}
+
+function nastavDisplaySorting() {
+  document.body.classList.toggle("display-sorting-vypnuty", !jeDisplaySortingZapnuty());
+}
+
 function aktualizujRozlozenieUcenia() {
   const ucenie = jeRezimUcenia();
   const sipkyDostupne = ucenie && poradieOtazok.length > 0 && !poolDokonceny && !zobrazujePredoslyVysledok;
 
   document.body.classList.toggle("rezim-ucenia", ucenie);
+  document.body.classList.toggle("rezim-crack", jeCrackMode());
+  nastavMobilnyCrackMode();
   tlacidloSipkaVlavo.disabled = !sipkyDostupne;
   tlacidloSipkaVpravo.disabled = !sipkyDostupne;
 }
 
 function textTypuOtazky(otazka, ucenie = jeRezimUcenia()) {
+  if (otazka?.crack || jeCrackMode()) {
+    return "CrackMode: z = pravda, x = nepravda";
+  }
+
   if (ucenie) {
     return otazka.typ === "viac" ? "LearnMode: správne odpovede" : "LearnMode: správna odpoveď";
   }
@@ -541,13 +678,51 @@ function jeRezimPrejdeniaPoolu() {
   return Boolean(prepinacPrejdeniaPoolu && prepinacPrejdeniaPoolu.checked);
 }
 
+function jeCrackMode() {
+  return Boolean(prepinacCrackMode && prepinacCrackMode.checked);
+}
+
+function jeMobilnyCrackMode() {
+  return Boolean(prepinacMobilnehoCrackModu && prepinacMobilnehoCrackModu.checked && jeCrackMode());
+}
+
+function nastavMobilnyCrackMode() {
+  document.body.classList.toggle("rezim-crack-mobile", jeMobilnyCrackMode());
+}
+
 function nastavRezimPrejdeniaPoolu() {
   cakaNaVyradenieOtazky = false;
   nastavPoradie();
 }
 
+function nastavCrackMode() {
+  zrusCasovacDalsejOtazky();
+  pocetZlychCrackOdpovedi = 0;
+  pouzivaTazkyPool = false;
+
+  if (jeCrackMode()) {
+    prepinacUcenia.checked = false;
+    prepinacDisplaySorting.checked = false;
+    nastavDisplaySorting();
+    if (aktualnyPredmet !== "hel") {
+      nastavPredmet("hel");
+      return;
+    }
+  }
+
+  aktualizujRozlozenieUcenia();
+  nastavPoradie();
+}
+
 function nastavRezimUcenia() {
   zrusCasovacDalsejOtazky();
+  if (jeRezimUcenia() && jeCrackMode()) {
+    prepinacCrackMode.checked = false;
+    pocetZlychCrackOdpovedi = 0;
+    nastavPoradie();
+    return;
+  }
+
   aktualizujRozlozenieUcenia();
 
   if (zobrazujePredoslyVysledok) {
@@ -641,6 +816,80 @@ function ziskajIdOtazky(otazka) {
   return String(otazka.id || otazka.otazka);
 }
 
+function vytvorCrackStatement(otazka, moznost, index) {
+  const normalizovanaMoznost = vytvorMoznostOtazky(moznost, index);
+  const jePravda = otazka.spravne.includes(index);
+  const povodneId = ziskajIdOtazky(otazka);
+  const prezentacia = ziskajPrezentaciu(otazka);
+  const podokruh = ziskajPodokruh(otazka);
+  const vysvetlenie = [
+    jePravda ? "Tvrdenie je pravdive." : "Tvrdenie je nepravdive.",
+    `Povodna otazka: ${otazka.otazka}`,
+    otazka.vysvetlenie || ""
+  ].filter(Boolean).join(" ");
+
+  return {
+    id: `crack-${povodneId}-${index + 1}`,
+    tema: `${prezentacia}: CrackMode`,
+    typ: "jedna",
+    format: "klasicka",
+    uroven: otazka.uroven || "tazka",
+    otazka: normalizovanaMoznost.text,
+    moznosti: ["z", "x"],
+    spravne: [jePravda ? 0 : 1],
+    vysvetlenie,
+    prezentacia,
+    subtema: podokruh,
+    povodnaOtazkaId: povodneId,
+    pevnePoradieMoznosti: true,
+    crack: true
+  };
+}
+
+function vytvorCrackParStatement(otazka) {
+  const pouziPravdu = Math.random() < 0.5;
+  const povodneId = ziskajIdOtazky(otazka);
+  const textOtazky = pouziPravdu ? otazka.crackPair.pravda : otazka.crackPair.nepravda;
+  const spravnyVyrok = otazka.crackPair.pravda;
+  const vysvetlenie = [
+    pouziPravdu ? "Tvrdenie je pravdive." : "Tvrdenie je nepravdive.",
+    `Spravny statement: ${spravnyVyrok}`
+  ].join(" ");
+
+  return {
+    id: `crack-${povodneId}`,
+    tema: otazka.tema,
+    typ: "jedna",
+    format: "klasicka",
+    uroven: otazka.uroven || "tazka",
+    otazka: textOtazky,
+    moznosti: ["z", "x"],
+    spravne: [pouziPravdu ? 0 : 1],
+    vysvetlenie,
+    prezentacia: ziskajPrezentaciu(otazka),
+    subtema: ziskajPodokruh(otazka),
+    povodnaOtazkaId: povodneId,
+    pevnePoradieMoznosti: true,
+    crack: true
+  };
+}
+
+function ziskajCrackOtazky() {
+  return ziskajOtazkyZBeznychFiltrov(true)
+    .flatMap((otazka) => {
+      if (otazka.crackPair?.pravda && otazka.crackPair?.nepravda) {
+        return [vytvorCrackParStatement(otazka)];
+      }
+
+      if (Array.isArray(otazka.moznosti)) {
+        return otazka.moznosti.map((moznost, index) => vytvorCrackStatement(otazka, moznost, index));
+      }
+
+      return [];
+    })
+    .filter((otazka) => otazka.otazka.trim().length > 0);
+}
+
 function unikatneHodnoty(hodnoty) {
   return [...new Set(hodnoty)].sort((a, b) => a.localeCompare(b, "sk"));
 }
@@ -659,13 +908,18 @@ function ziskajDostupnePodokruhy() {
   return unikatneHodnoty(ziskajOtazkyPrePrezentaciu().map(ziskajPodokruh));
 }
 
-function ziskajOtazkyZBeznychFiltrov() {
+function ziskajOtazkyZBeznychFiltrov(vratCrackData = false) {
   return ziskajOtazkyPrePrezentaciu().filter((otazka) => (
+    (vratCrackData || !otazka.crackPair) &&
     vybranePodokruhy.has(ziskajPodokruh(otazka)) && !odstraneneOtazky.has(ziskajIdOtazky(otazka))
   ));
 }
 
 function ziskajOtazkyPodlaFiltra() {
+  if (jeCrackMode()) {
+    return ziskajCrackOtazky().filter((otazka) => !odstraneneOtazky.has(ziskajIdOtazky(otazka)));
+  }
+
   if (pouzivaTazkyPool) {
     return [...tazkeOtazky.values()].filter((otazka) => !odstraneneOtazky.has(ziskajIdOtazky(otazka)));
   }
@@ -680,6 +934,11 @@ function nastavVsetkyPodokruhy() {
 function aktualizujPocetFiltra() {
   const pocet = ziskajOtazkyPodlaFiltra().length;
   const textPoctu = pocet === 1 ? "1 otazka" : `${pocet} otazok`;
+  if (jeCrackMode()) {
+    prvokPocetFiltra.textContent = `${textPoctu} v CrackMode`;
+    return;
+  }
+
   prvokPocetFiltra.textContent = pouzivaTazkyPool ? `${textPoctu} v tazkom poole` : textPoctu;
 }
 
@@ -808,6 +1067,11 @@ function spustiTazkyPool() {
     return;
   }
 
+  if (jeCrackMode()) {
+    prepinacCrackMode.checked = false;
+    pocetZlychCrackOdpovedi = 0;
+  }
+
   pouzivaTazkyPool = true;
   nastavPoradie();
 }
@@ -894,7 +1158,7 @@ function vycistiPredoslyVysledok() {
   zobrazujePredoslyVysledok = false;
   nahladAktualnejOtazky = null;
   tlacidloPredoslyVysledok.disabled = true;
-  tlacidloPredoslyVysledok.textContent = "Predošlé";
+  tlacidloPredoslyVysledok.textContent = "Previous";
 }
 
 function textyOdpovedi(indexy, moznosti = aktualneMoznosti) {
@@ -927,7 +1191,7 @@ function ulozPredoslyVysledok(otazka, vybrane, jeSpravne, textVysledku = null) {
     predoslyVysledok.textVysledku = textVysledku;
   }
   tlacidloPredoslyVysledok.disabled = false;
-  tlacidloPredoslyVysledok.textContent = "Predošlé";
+  tlacidloPredoslyVysledok.textContent = "Previous";
 }
 
 function ulozNahladAktualnejOtazky() {
@@ -976,7 +1240,7 @@ function obnovNahladAktualnejOtazky() {
   aktualizujTlacidloTazkejOtazky();
   aktualizujTlacidloNeviem();
   aktualizujRozlozenieUcenia();
-  tlacidloPredoslyVysledok.textContent = "Predošlé";
+  tlacidloPredoslyVysledok.textContent = "Previous";
 }
 
 function vykresliPredoslyVysledok() {
@@ -993,9 +1257,9 @@ function vykresliPredoslyVysledok() {
   aktualneMoznosti = predoslyVysledok.moznosti.map((moznost) => ({ ...moznost }));
 
   prvokTema.textContent = otazka.tema;
-  prvokTypOtazky.textContent = predoslyVysledok.jeSpravne ? "Predošlá: správne" : "Predošlá: nesprávne";
+  prvokTypOtazky.textContent = predoslyVysledok.jeSpravne ? "Previous: správne" : "Previous: nesprávne";
   prvokOtazka.textContent = otazka.otazka;
-  prvokPocitadlo.textContent = "Predošlá";
+  prvokPocitadlo.textContent = "Previous";
   prvokSkore.textContent = `Skóre: ${skore}`;
   prvokVysledok.className = predoslyVysledok.jeSpravne ? "vysledok ok" : "vysledok zle";
   prvokVysledok.textContent = predoslyVysledok.textVysledku;
@@ -1007,7 +1271,7 @@ function vykresliPredoslyVysledok() {
   aktualizujTlacidloTazkejOtazky();
   aktualizujTlacidloNeviem();
   aktualizujRozlozenieUcenia();
-  tlacidloPredoslyVysledok.textContent = "Aktuálna";
+  tlacidloPredoslyVysledok.textContent = "Current";
 }
 
 function prepniPredoslyVysledok() {
@@ -1024,21 +1288,39 @@ function prepniPredoslyVysledok() {
 
 function spustiEfekt(jeSpravne, dlzkaSerie = 0) {
   const trieda = jeSpravne ? "flash-spravne" : "flash-zle";
+  let casOdstranenia = 360;
   document.body.classList.remove("flash-spravne", "flash-zle");
 
   if (jeSpravne) {
-    const sila = Math.min(0.45 + dlzkaSerie * 0.13, 0.96);
-    const trvanie = Math.min(150 + dlzkaSerie * 35, 320);
+    const urovenSerie = Math.max(dlzkaSerie, 1);
+    const sila = Math.min(0.28 + urovenSerie * 0.045, 0.94);
+    const jadro = Math.min(0.50 + urovenSerie * 0.045, 0.98);
+    const podklad = Math.min(0.04 + urovenSerie * 0.018, 0.30);
+    const rozsah = Math.min(32 + urovenSerie * 1.8, 68);
+    const presah = Math.min(urovenSerie * 3, 64);
+    const scale = Math.min(1.01 + urovenSerie * 0.004, 1.08);
+    const trvanie = Math.min(135 + urovenSerie * 12, 420);
     document.body.style.setProperty("--flash-sila", sila);
+    document.body.style.setProperty("--flash-jadro", jadro);
+    document.body.style.setProperty("--flash-podklad", podklad);
+    document.body.style.setProperty("--flash-rozsah", `${rozsah}%`);
+    document.body.style.setProperty("--flash-presah", `${presah}px`);
+    document.body.style.setProperty("--flash-scale", scale);
     document.body.style.setProperty("--flash-trvanie", `${trvanie}ms`);
+    casOdstranenia = trvanie + 60;
   } else {
     document.body.style.removeProperty("--flash-sila");
+    document.body.style.removeProperty("--flash-jadro");
+    document.body.style.removeProperty("--flash-podklad");
+    document.body.style.removeProperty("--flash-rozsah");
+    document.body.style.removeProperty("--flash-presah");
+    document.body.style.removeProperty("--flash-scale");
     document.body.style.removeProperty("--flash-trvanie");
   }
 
   void document.body.offsetWidth;
   document.body.classList.add(trieda);
-  window.setTimeout(() => document.body.classList.remove(trieda), 360);
+  window.setTimeout(() => document.body.classList.remove(trieda), casOdstranenia);
 }
 
 function spustiSpatnuVazbu(jeSpravne, dlzkaSerie = 0) {
@@ -1120,6 +1402,7 @@ function nastavPoradie() {
   aktualnyIndex = 0;
   skore = 0;
   pocetVyhodnotenychOtazok = 0;
+  pocetZlychCrackOdpovedi = 0;
   skryCitaty();
   stavStlpca = 0;
   seriaSpravnych = 0;
@@ -1172,7 +1455,7 @@ function zobrazPrazdnyVyber() {
   aktualizujTlacidloTazkejOtazky();
   aktualizujTlacidloNeviem();
   aktualizujRozlozenieUcenia();
-  tlacidloPredoslyVysledok.textContent = "Predošlé";
+  tlacidloPredoslyVysledok.textContent = "Previous";
 }
 
 function vytvorObrazokMedia(src, alt) {
@@ -1252,7 +1535,7 @@ function vykresliMoznosti(otazka, moznosti, vybrane = [], ukazVyhodnotenie = fal
 
     const cisloKlavesy = document.createElement("span");
     cisloKlavesy.className = "cisloKlavesy";
-    cisloKlavesy.textContent = String(index + 1);
+    cisloKlavesy.textContent = otazka.crack ? (index === 0 ? "z" : "x") : String(index + 1);
     klavesa.append(obrazokKlavesy, cisloKlavesy);
 
     const obsah = document.createElement("span");
@@ -1311,6 +1594,10 @@ function vyberSpravneMoznostiOtazky(otazka) {
 
 function vyberMoznostiOtazky(otazka) {
   const moznosti = otazka.moznosti.map(vytvorMoznostOtazky);
+  if (otazka.pevnePoradieMoznosti) {
+    return moznosti;
+  }
+
   const pocet = pocetZobrazenychMoznosti(otazka);
 
   if (pocet >= moznosti.length) {
@@ -1370,7 +1657,7 @@ function zobrazOtazku() {
   aktualizujTlacidloTazkejOtazky();
   aktualizujTlacidloNeviem();
   aktualizujRozlozenieUcenia();
-  tlacidloPredoslyVysledok.textContent = "Predošlé";
+  tlacidloPredoslyVysledok.textContent = "Previous";
 
   nastavMediaOtazky(otazka);
 
@@ -1409,6 +1696,11 @@ function prepniVstupOdpovede(vstup) {
   aktualizujVybraneMoznosti();
 
   const otazka = aktualnaOtazka();
+  if (jeCrackMode() && otazka?.crack && vstup.type === "radio" && vstup.checked) {
+    window.setTimeout(() => skontrolujOdpoved(), 0);
+    return;
+  }
+
   if (jeRychlyRezim2x() && otazka?.typ === "jedna" && vstup.type === "radio" && vstup.checked) {
     window.setTimeout(() => skontrolujOdpoved(), 0);
   }
@@ -1484,6 +1776,15 @@ function obsluzKlavesnicu(udalost) {
     return;
   }
 
+  if (jeTextovePole(document.activeElement)) {
+    return;
+  }
+
+  if (obsluzRytmickuKlavesu(udalost.key)) {
+    udalost.preventDefault();
+    return;
+  }
+
   if (prvokRezimTest.classList.contains("skryte")) {
     return;
   }
@@ -1492,12 +1793,14 @@ function obsluzKlavesnicu(udalost) {
     return;
   }
 
-  if (jeTextovePole(document.activeElement)) {
-    return;
-  }
-
   const klaves = udalost.key.toLowerCase();
   const indexMoznosti = klavesyMoznosti.indexOf(klaves);
+
+  if (jeCrackMode() && (klaves === "z" || klaves === "x")) {
+    udalost.preventDefault();
+    vyberMoznostKlavesou(klaves === "z" ? 0 : 1);
+    return;
+  }
 
   if (indexMoznosti !== -1) {
     udalost.preventDefault();
@@ -1561,6 +1864,10 @@ function pouziMedzernik() {
     return;
   }
 
+  if (jeCrackMode()) {
+    return;
+  }
+
   if (poolDokonceny) {
     nastavPoradie();
     return;
@@ -1593,6 +1900,10 @@ function rovnakePolia(prvePole, druhePole) {
 }
 
 function textSpravnychOdpovedi(otazka, moznosti = aktualneMoznosti) {
+  if (otazka.crack) {
+    return otazka.spravne.includes(0) ? "z (pravda)" : "x (nepravda)";
+  }
+
   return moznosti
     .map((moznost, index) => ({ ...moznost, index }))
     .filter((moznost) => otazka.spravne.includes(moznost.povodnyIndex))
@@ -1635,10 +1946,16 @@ function skontrolujOdpoved(vybrane = ziskajVybraneIndexy(), povolPrazdnu = false
   upravStlpec(jeSpravne);
   aktualizujStreak(jeSpravne);
   spustiSpatnuVazbu(jeSpravne, seriaSpravnych);
-  posunCitatPoOtazkach();
+  posunCitatPoOdpovedi(jeSpravne);
 
   if (jeSpravne) {
     skore++;
+  }
+
+  if (jeCrackMode()) {
+    prvokVysledok.className = "vysledok skryte";
+    prvokVysledok.textContent = "";
+  } else if (jeSpravne) {
     prvokVysledok.className = "vysledok ok";
     prvokVysledok.textContent = textVysledku;
   } else {
@@ -1646,7 +1963,7 @@ function skontrolujOdpoved(vybrane = ziskajVybraneIndexy(), povolPrazdnu = false
     prvokVysledok.textContent = `Nesprávne. Správna odpoveď: ${textSpravnychOdpovedi(otazka)}. ${otazka.vysvetlenie}`;
   }
 
-  if (!jeSpravne) {
+  if (!jeSpravne && !jeCrackMode()) {
     prvokVysledok.textContent = textVysledku;
   }
 
@@ -1671,7 +1988,7 @@ function skontrolujOdpoved(vybrane = ziskajVybraneIndexy(), povolPrazdnu = false
 
   aktualizujTlacidloNeviem();
 
-  if ((jeSpravne && jeRychlyRezim()) || jeRychlyRezim2x()) {
+  if (jeCrackMode() || (jeSpravne && jeRychlyRezim()) || jeRychlyRezim2x()) {
     naplanujDalsiuOtazku();
   }
 }
@@ -1730,7 +2047,7 @@ function zobrazDokoncenyPool() {
   aktualizujTlacidloTazkejOtazky();
   aktualizujTlacidloNeviem();
   aktualizujRozlozenieUcenia();
-  tlacidloPredoslyVysledok.textContent = "Predosle";
+  tlacidloPredoslyVysledok.textContent = "Previous";
 }
 
 function dalsiaOtazka() {
@@ -1841,6 +2158,10 @@ function ziskajOtazkyPredmetu(predmet) {
 }
 
 function nastavPredmet(predmet) {
+  if (predmet !== "hel" && prepinacCrackMode) {
+    prepinacCrackMode.checked = false;
+  }
+
   aktualnyPredmet = predmet;
   zakladneOtazkyPredmetu = ziskajOtazkyPredmetu(predmet);
 
@@ -1990,9 +2311,12 @@ tlacidloTemaFialova.addEventListener("click", () => nastavTemu("fialova"));
 tlacidloTemaTyrkysova.addEventListener("click", () => nastavTemu("tyrkysova"));
 prepinacCitatov.addEventListener("change", nastavZobrazenieCitatov);
 prepinacNahodnehoPoradia.addEventListener("change", nastavPoradie);
+prepinacDisplaySorting.addEventListener("change", nastavDisplaySorting);
 prepinacUcenia.addEventListener("change", nastavRezimUcenia);
 prepinacRychlehoRezimu.addEventListener("change", prepniRychlyRezim);
 prepinacPrejdeniaPoolu.addEventListener("change", nastavRezimPrejdeniaPoolu);
+prepinacCrackMode.addEventListener("change", nastavCrackMode);
+prepinacMobilnehoCrackModu.addEventListener("change", nastavMobilnyCrackMode);
 prvokVyberPrezentacie.addEventListener("change", () => {
   pouzivaTazkyPool = false;
   vybranaPrezentacia = prvokVyberPrezentacie.value;
@@ -2023,9 +2347,14 @@ document.addEventListener("keydown", obsluzKlavesnicu);
 nastavTlacidlaOtazok();
 vytvorPixelyStlpca();
 nastavHlasitost(posuvnikHlasitosti.value);
+prepinacNahodnehoPoradia.checked = true;
+prepinacCrackMode.checked = true;
+prepinacDisplaySorting.checked = false;
 nastavRychlyRezim();
+nastavDisplaySorting();
+nastavMobilnyCrackMode();
 aktualizujRozlozenieUcenia();
-nastavTemu("oranzova");
+nastavTemu("fialova");
 skryCitaty();
-nastavPredmet("test");
+nastavPredmet("hel");
 nastavKodovePoradie();

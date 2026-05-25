@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="rytmickyVizualizer" class="rytmicky-vizualizer" aria-hidden="true"></div>
   <main class="stranka">
     <header class="hlavicka">
       <div>
@@ -15,7 +16,7 @@
       <div class="vrch-vpravo">
         <div class="statistiky">
           <span id="streakNajlepsi" class="hs-count">HS: 0</span>
-          <button id="tlacidloPredoslyVysledok" class="tlacidlo-predosly" type="button" disabled>Predošlé</button>
+          <button id="tlacidloPredoslyVysledok" class="tlacidlo-predosly" type="button" disabled>Previous</button>
           <span id="pocitadloOtazok">0 / 0</span>
           <span id="skore">Skóre: 0</span>
         </div>
@@ -26,7 +27,7 @@
 
       <section id="panelNastaveni" class="panel-nastaveni skryte" aria-label="Nastavenia">
         <label class="nastavenie">
-          <span>Hlasitosť</span>
+          <span>Volume</span>
           <input id="posuvnikHlasitosti" type="range" min="0" max="100" value="33">
         </label>
 
@@ -45,7 +46,7 @@
         <div class="nastavenie">
           <span>Theme</span>
           <div class="vyber-temy" aria-label="Theme">
-            <button id="tlacidloTemaOranzova" class="tlacidlo-temy aktivny" type="button" aria-label="Oranzova tema">
+            <button id="tlacidloTemaOranzova" class="tlacidlo-temy" type="button" aria-label="Oranzova tema">
               <span class="vzorka-temy vzorka-oranzova" aria-hidden="true"></span>
             </button>
             <button id="tlacidloTemaZlta" class="tlacidlo-temy" type="button" aria-label="Zlta tema">
@@ -54,7 +55,7 @@
             <button id="tlacidloTemaSiva" class="tlacidlo-temy" type="button" aria-label="Siva tema">
               <span class="vzorka-temy vzorka-siva" aria-hidden="true"></span>
             </button>
-            <button id="tlacidloTemaFialova" class="tlacidlo-temy" type="button" aria-label="Violet tema">
+            <button id="tlacidloTemaFialova" class="tlacidlo-temy aktivny" type="button" aria-label="Violet tema">
               <span class="vzorka-temy vzorka-fialova" aria-hidden="true"></span>
             </button>
             <button id="tlacidloTemaTyrkysova" class="tlacidlo-temy" type="button" aria-label="Cyan tema">
@@ -70,7 +71,12 @@
 
         <label class="nastavenie nastavenie-prepinac">
           <span>Random</span>
-          <input id="prepinacNahodnehoPoradia" class="prepinac-volby" type="checkbox">
+          <input id="prepinacNahodnehoPoradia" class="prepinac-volby" type="checkbox" checked>
+        </label>
+
+        <label class="nastavenie nastavenie-prepinac">
+          <span>Display Sorting</span>
+          <input id="prepinacDisplaySorting" class="prepinac-volby" type="checkbox">
         </label>
 
         <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
@@ -89,6 +95,18 @@
           <span>Mastery mode</span>
           <input id="prepinacPrejdeniaPoolu" class="prepinac-volby" type="checkbox">
           <span class="hint-nastavenia" role="tooltip">Spravne zodpovedana otazka vypadne z aktualneho poolu. Nespravne odpovede ostanu v poole a bar sa iba plni, kym nedas spravne vsetko.</span>
+        </label>
+
+        <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+          <span>CrackMode</span>
+          <input id="prepinacCrackMode" class="prepinac-volby" type="checkbox" checked>
+          <span class="hint-nastavenia" role="tooltip">Z vybraneho HEL poolu spravi tvrdenia Pravda/Nepravda. Po vybere hned pokracuje dalej; citat pride po 15 zlych odpovediach.</span>
+        </label>
+
+        <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+          <span>Mobile Mode</span>
+          <input id="prepinacMobilnehoCrackModu" class="prepinac-volby" type="checkbox">
+          <span class="hint-nastavenia" role="tooltip">CrackMode layout pre mobil na sirku: statement cez sirku, velke z/x keycapy a velke klikatelne zony.</span>
         </label>
 
         <div id="nastavenieOkruhu" class="nastavenie nastavenie-okruhu">
@@ -162,9 +180,9 @@
         <div class="ovladanie">
           <div class="riadok-ovladania">
             <div class="tlacidla-otazky">
-              <button id="tlacidloOdstranitOtazku" class="tlacidlo-otazky" type="button">Trash</button>
-              <button id="tlacidloPridatTazkuOtazku" class="tlacidlo-otazky" type="button">Hard</button>
-              <button id="tlacidloNeviem" class="tlacidlo-otazky" type="button">Idk</button>
+              <button id="tlacidloOdstranitOtazku" class="tlacidlo-otazky" type="button"></button>
+              <button id="tlacidloPridatTazkuOtazku" class="tlacidlo-otazky" type="button"></button>
+              <button id="tlacidloNeviem" class="tlacidlo-otazky" type="button"></button>
             </div>
             <div id="tlacidlaUcenia" class="tlacidla-otazky tlacidla-sipok" aria-label="Ovládanie LearnMode">
               <button id="tlacidloSipkaVlavo" class="tlacidlo-otazky tlacidlo-sipky" type="button">Vlavo</button>

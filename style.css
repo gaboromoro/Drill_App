@@ -29,6 +29,9 @@ body {
   font-size: 18px;
   background: var(--pozadie);
   color: var(--text);
+  --rytmus-uroven: 0;
+  --rytmus-pulz: 0;
+  --rytmus-trvanie: 260ms;
 }
 
 body.tema-zlta {
@@ -255,6 +258,15 @@ body.flash-citat::after {
 }
 
 body.flash-spravne::after {
+  inset: calc(var(--flash-presah, 0px) * -1);
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, var(--flash-jadro, 0.78)) 0%,
+      rgba(255, 255, 255, var(--flash-sila, 0.52)) var(--flash-rozsah, 44%),
+      rgba(255, 255, 255, 0) 76%
+    ),
+    rgba(255, 255, 255, var(--flash-podklad, 0.12));
   animation: svetlyFlash var(--flash-trvanie, 180ms) ease-out;
 }
 
@@ -280,11 +292,13 @@ body.flash-citat .stranka {
 
 @keyframes svetlyFlash {
   0% {
-    background: rgba(255, 255, 255, var(--flash-sila, 0.9));
+    opacity: 1;
+    transform: scale(var(--flash-scale, 1.02));
   }
 
   100% {
-    background: rgba(255, 255, 255, 0);
+    opacity: 0;
+    transform: scale(1);
   }
 }
 
@@ -362,13 +376,128 @@ body.flash-citat .stranka {
   }
 }
 
+@keyframes rytmickyBeat {
+  0% {
+    opacity: calc(0.22 + var(--rytmus-pulz) * 0.30);
+    filter: brightness(calc(0.88 + var(--rytmus-pulz) * 0.22)) saturate(1.18);
+    transform: scale(1.012);
+  }
+
+  100% {
+    opacity: calc(0.12 + var(--rytmus-uroven) * 0.24);
+    filter: brightness(1) saturate(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes rytmickyFlash {
+  0% {
+    opacity: calc(0.74 + var(--rytmus-pulz) * 0.52);
+    filter: brightness(2.35) saturate(1.85);
+    transform: scale(1.035);
+  }
+
+  100% {
+    opacity: 0;
+    filter: brightness(1) saturate(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes rytmickyPulse {
+  0% {
+    opacity: calc(0.42 + var(--rytmus-pulz) * 0.52);
+    filter: brightness(0.66) saturate(1.36) contrast(1.18);
+    transform: scale(1.028);
+  }
+
+  100% {
+    opacity: calc(0.14 + var(--rytmus-uroven) * 0.28);
+    filter: brightness(1) saturate(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes rytmickaVlna {
+  0% {
+    opacity: 0;
+    transform: translateY(42vh) scaleY(0.75);
+  }
+
+  14% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-124vh) scaleY(1.32);
+  }
+}
+
 button,
 input,
 textarea {
   font: inherit;
 }
 
+.rytmicky-vizualizer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(0, 0, 0, calc(0.10 + var(--rytmus-pulz) * 0.34)) 0%, rgba(55, 35, 115, calc(var(--rytmus-pulz) * 0.24)) 38%, transparent 72%),
+    linear-gradient(180deg, rgba(0, 0, 0, calc(var(--rytmus-uroven) * 0.20)), rgba(41, 27, 91, calc(var(--rytmus-uroven) * 0.16)));
+  mix-blend-mode: multiply;
+  transition:
+    opacity 90ms linear,
+    background 70ms linear,
+    filter 90ms linear;
+}
+
+body.rezim-rytmu .rytmicky-vizualizer {
+  opacity: calc(0.12 + var(--rytmus-uroven) * 0.30);
+}
+
+body.rezim-rytmu.rytmus-beat .rytmicky-vizualizer {
+  animation: rytmickyBeat var(--rytmus-trvanie) ease-out;
+}
+
+body.rezim-rytmu.rytmus-flash .rytmicky-vizualizer {
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, calc(0.62 + var(--rytmus-pulz) * 0.36)) 0%, rgba(170, 178, 255, calc(0.32 + var(--rytmus-pulz) * 0.42)) 46%, rgba(60, 32, 130, 0.12) 72%, transparent 88%);
+  animation: rytmickyFlash 300ms ease-out;
+}
+
+body.rezim-rytmu.rytmus-pulse .rytmicky-vizualizer {
+  mix-blend-mode: multiply;
+  animation: rytmickyPulse 420ms ease-out;
+}
+
+.rytmicky-vizualizer::before {
+  content: "";
+  position: absolute;
+  left: 4vw;
+  right: 4vw;
+  bottom: -30vh;
+  height: 30vh;
+  opacity: 0;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0.90), rgba(79, 43, 180, 0.42));
+  clip-path: polygon(50% 0%, 62% 32%, 100% 32%, 100% 72%, 62% 72%, 62% 100%, 38% 100%, 38% 72%, 0% 72%, 0% 32%, 38% 32%);
+  filter: blur(0.5px) brightness(1.5);
+}
+
+body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
+  animation: rytmickaVlna 780ms ease-out forwards;
+}
+
 .stranka {
+  position: relative;
+  z-index: 1;
   width: min(1280px, calc(100% - 32px));
   margin: 0 auto;
   padding: 28px 0 36px;
@@ -837,7 +966,7 @@ h3 {
 
 .obrazok-otazky {
   display: block;
-  max-width: min(100%, 360px);
+  max-width: min(100%, 240px);
   height: auto;
   margin: 0 0 16px;
   border: 2px solid var(--ciara);
@@ -1061,6 +1190,218 @@ body.rezim-ucenia .tlacidla-sipok {
 
 body.rezim-ucenia #tlacidloNeviem,
 body.rezim-ucenia #tlacidloMedzernik {
+  display: none;
+}
+
+body.rezim-crack #rezimTest .panel > .riadok,
+body.rezim-crack #tlacidloMedzernik {
+  display: none;
+}
+
+body.rezim-crack .moznosti {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+body.rezim-crack #rezimTest .panel {
+  padding-top: 76px;
+}
+
+body.rezim-crack .moznost {
+  grid-template-columns: 62px;
+  width: 62px;
+}
+
+body.rezim-crack .moznost .obsahMoznosti {
+  display: none;
+}
+
+body.rezim-crack.rezim-crack-mobile {
+  overflow-x: hidden;
+}
+
+body.rezim-crack.rezim-crack-mobile .stranka {
+  width: 100%;
+  max-width: none;
+  min-height: 100svh;
+  padding: 12px clamp(10px, 2vw, 22px);
+}
+
+body.rezim-crack.rezim-crack-mobile .hlavicka {
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 10px;
+}
+
+body.rezim-crack.rezim-crack-mobile #rezimTest {
+  grid-template-columns: clamp(32px, 6vw, 70px) minmax(0, 1fr);
+  column-gap: clamp(8px, 1.8vw, 18px);
+  min-height: calc(100svh - 86px);
+}
+
+body.rezim-crack.rezim-crack-mobile .stlpec-panel {
+  grid-column: 1;
+  margin-top: clamp(44px, 14vh, 86px);
+  transform: none;
+}
+
+body.rezim-crack.rezim-crack-mobile .stlpec-uspesnosti {
+  width: clamp(28px, 5vw, 54px);
+  height: min(52vh, 280px);
+  --velkost-pixelu-stlpca: calc(100% / 24);
+}
+
+body.rezim-crack.rezim-crack-mobile #rezimTest .panel {
+  display: flex;
+  flex-direction: column;
+  grid-column: 2;
+  min-height: calc(100svh - 86px);
+  padding-top: clamp(30px, 12vh, 76px);
+  padding-bottom: 0;
+}
+
+body.rezim-crack.rezim-crack-mobile #otazka {
+  width: 100%;
+  max-width: none;
+  max-height: 38vh;
+  margin: 0 0 clamp(8px, 2vh, 18px);
+  overflow: auto;
+  font-size: clamp(24px, 4.7vw, 46px);
+  line-height: 1.22;
+  text-align: center;
+  scrollbar-width: thin;
+}
+
+body.rezim-crack.rezim-crack-mobile .moznosti {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0;
+  width: 100%;
+  min-height: clamp(110px, 30vh, 230px);
+  margin-top: 0;
+}
+
+body.rezim-crack.rezim-crack-mobile .moznost {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 100%;
+  padding: clamp(6px, 1.4vh, 14px) 0;
+}
+
+body.rezim-crack.rezim-crack-mobile .moznost:first-child {
+  justify-content: flex-start;
+  padding-left: clamp(0px, 3vw, 36px);
+}
+
+body.rezim-crack.rezim-crack-mobile .moznost:last-child {
+  justify-content: flex-end;
+  padding-right: clamp(0px, 3vw, 36px);
+}
+
+body.rezim-crack.rezim-crack-mobile .moznost .klavesa {
+  width: clamp(96px, 18vw, 170px);
+  height: clamp(90px, 17vw, 160px);
+  margin-top: 0;
+  font-size: clamp(42px, 8vw, 78px);
+}
+
+body.rezim-crack.rezim-crack-mobile .moznost:hover .klavesa {
+  transform: none;
+}
+
+body.rezim-crack.rezim-crack-mobile .cisloKlavesy {
+  height: 58%;
+  transform: translateY(-8%);
+}
+
+body.rezim-crack.rezim-crack-mobile .ovladanie {
+  display: none;
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  body.rezim-crack.rezim-crack-mobile {
+    overflow: hidden;
+  }
+
+  body.rezim-crack.rezim-crack-mobile .stranka {
+    height: 100svh;
+    padding: 8px 12px;
+    overflow: hidden;
+  }
+
+  body.rezim-crack.rezim-crack-mobile .hlavicka {
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 6px;
+    padding-bottom: 8px;
+  }
+
+  body.rezim-crack.rezim-crack-mobile h1 {
+    font-size: clamp(20px, 3.2vw, 31px);
+  }
+
+  body.rezim-crack.rezim-crack-mobile .statistiky {
+    gap: 6px;
+  }
+
+  body.rezim-crack.rezim-crack-mobile .statistiky span,
+  body.rezim-crack.rezim-crack-mobile .tlacidlo-predosly {
+    padding: 5px 8px;
+    font-size: clamp(11px, 1.7vw, 15px);
+  }
+
+  body.rezim-crack.rezim-crack-mobile .tlacidlo-nastavenia {
+    width: 34px;
+    height: 34px;
+  }
+
+  body.rezim-crack.rezim-crack-mobile .panel-nastaveni {
+    max-height: calc(100svh - 20px);
+    overflow-y: auto;
+  }
+
+  body.rezim-crack.rezim-crack-mobile #rezimTest,
+  body.rezim-crack.rezim-crack-mobile #rezimTest .panel {
+    min-height: calc(100svh - 66px);
+  }
+
+  body.rezim-crack.rezim-crack-mobile .stlpec-panel {
+    margin-top: clamp(36px, 13vh, 62px);
+  }
+
+  body.rezim-crack.rezim-crack-mobile .stlpec-uspesnosti {
+    height: calc(100svh - 148px);
+    min-height: 150px;
+  }
+
+  body.rezim-crack.rezim-crack-mobile #rezimTest .panel {
+    padding-top: clamp(22px, 10vh, 48px);
+  }
+
+  body.rezim-crack.rezim-crack-mobile #otazka {
+    max-height: 34vh;
+    margin-bottom: clamp(6px, 1.4vh, 12px);
+    font-size: clamp(22px, 4.1vw, 36px);
+  }
+
+  body.rezim-crack.rezim-crack-mobile .moznosti {
+    min-height: clamp(96px, 30vh, 150px);
+  }
+
+  body.rezim-crack.rezim-crack-mobile .moznost .klavesa {
+    width: clamp(92px, 15vw, 132px);
+    height: clamp(86px, 14vw, 125px);
+    font-size: clamp(40px, 6.8vw, 62px);
+  }
+}
+
+body.display-sorting-vypnuty #tlacidloOdstranitOtazku,
+body.display-sorting-vypnuty #tlacidloPridatTazkuOtazku,
+body.display-sorting-vypnuty #tlacidloNeviem {
   display: none;
 }
 
@@ -1309,6 +1650,10 @@ button.sekundarne {
     padding: 6px 0 0;
   }
 
+  body.rezim-crack #rezimTest .panel {
+    padding-top: 18px;
+  }
+
   .moznosti {
     gap: 5px;
   }
@@ -1319,6 +1664,11 @@ button.sekundarne {
     padding: 4px 0;
     font-size: 16px;
     line-height: 1.22;
+  }
+
+  body.rezim-crack .moznost {
+    grid-template-columns: 42px;
+    width: 42px;
   }
 
   .klavesa {
@@ -1425,6 +1775,11 @@ button.sekundarne {
     grid-template-columns: 36px minmax(0, 1fr);
     gap: 6px;
     font-size: 15px;
+  }
+
+  body.rezim-crack .moznost {
+    grid-template-columns: 36px;
+    width: 36px;
   }
 
   .klavesa {
