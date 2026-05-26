@@ -11,6 +11,10 @@ let stavStlpca = 0;
 let seriaSpravnych = 0;
 let najvyssiaSeriaSpravnych = 0;
 let casovacDalsejOtazky = null;
+let casovacCrackTimeru = null;
+let animaciaSpravnehoFlashu = null;
+let casovacSpravnehoFlashu = null;
+let casovacMegaStreaku = null;
 let hlasitost = 0.5;
 let pociatocnyPocetPoolu = 0;
 let cakaNaVyradenieOtazky = false;
@@ -25,16 +29,18 @@ let aktualnaTema = "oranzova";
 let aktualnyIndexCitatu = -1;
 let urovenRychlehoRezimu = 0;
 let citatZobrazeny = false;
-let pocetZlychCrackOdpovedi = 0;
 let rytmickyEfekt = "default";
 let zostavajuceRytmickeBeaty = 0;
 let casovacRytmickychBeatov = null;
 let casovacRytmickehoUkoncenia = null;
+let pocetZlychOdpovediPreCitat = 0;
 const odstraneneOtazky = new Map();
 const tazkeOtazky = new Map();
 const hodnotaVsetko = "__vsetko";
 const priestorSvg = "http://www.w3.org/2000/svg";
 const zvukSpravne = new Audio("Audio-samples/correct/ESM_Simple_Google_Soundalike_Alert_20_Beep_Chirp_Notification_Synth_Electronic.wav");
+const zvukSpravneStreak7 = new Audio("Audio-samples/correct/streak7x.wav");
+const zvukSpravneStreak14 = new Audio("Audio-samples/correct/streak14x.wav");
 const zvukZle = new Audio("Audio-samples/wrong/FF_CF_foley_fart_green.wav");
 const zvukVyberuVolby = new Audio("Audio-samples/select/ESM_Perfect_Clean_App_Button_Click_2_Organic_Simple_Classic_Game_Click.wav");
 const zvukCitatu = new Audio("Audio-samples/Holy/ESM_FX_achievements_rewards_swipe_choir_angelic_positive_03.wav");
@@ -50,6 +56,7 @@ const prvokVysledok = document.getElementById("vysledok");
 const prvokPocitadlo = document.getElementById("pocitadloOtazok");
 const prvokSkore = document.getElementById("skore");
 const prvokVyplnStlpca = document.getElementById("vyplnStlpca");
+const prvokVyplnCrackTimeru = document.getElementById("vyplnCrackTimeru");
 const prvokPixelyStlpca = document.getElementById("pixelyStlpca");
 const prvokStreakAktualny = document.getElementById("streakAktualny");
 const prvokStreakNajlepsi = document.getElementById("streakNajlepsi");
@@ -71,6 +78,8 @@ const prvokKodZadanie = document.getElementById("kodZadanie");
 const prvokKodOdpoved = document.getElementById("kodOdpoved");
 const prvokKodVysledok = document.getElementById("kodVysledok");
 const prvokKodRiesenie = document.getElementById("kodRiesenie");
+const prvokFlashEfekt = document.getElementById("flashEfekt");
+const prvokStreakFlashCislo = document.getElementById("streakFlashCislo");
 const blokyCitatu = [...document.querySelectorAll(".blok-citatu")];
 const prvkyTextuCitatu = [...document.querySelectorAll(".text-citatu")];
 
@@ -113,8 +122,11 @@ const prvokTextRychlehoRezimu = document.getElementById("textRychlehoRezimu");
 const prvokHintRychlehoRezimu = document.getElementById("hintRychlehoRezimu");
 const prepinacPrejdeniaPoolu = document.getElementById("prepinacPrejdeniaPoolu");
 const prepinacCrackMode = document.getElementById("prepinacCrackMode");
+const prepinacExamMode = document.getElementById("prepinacExamMode");
+const prepinacCrackTimeru = document.getElementById("prepinacCrackTimeru");
 const prepinacMobilnehoCrackModu = document.getElementById("prepinacMobilnehoCrackModu");
 const klavesyMoznosti = ["1", "2", "3", "4", "5", "6"];
+const trvanieCrackTimeru = 10000;
 const rytmickeBpm = 160;
 const pocetBeatovRytmickehoEfektu = 16;
 const intervalRytmickehoBeatu = Math.round(60000 / rytmickeBpm);
@@ -265,17 +277,44 @@ function prehrajZvuk(zvuk, rychlost = 1) {
   prehravac.play().catch(() => {});
 }
 
+function ziskajZvukSpravnejOdpovede(dlzkaSerie) {
+  const streak = Math.max(1, dlzkaSerie);
+
+  if (streak >= 15) {
+    return {
+      zvuk: zvukSpravneStreak14,
+      rychlost: Math.min(1 + (streak - 15) * 0.06, 1.5)
+    };
+  }
+
+  if (streak >= 8) {
+    return {
+      zvuk: zvukSpravneStreak7,
+      rychlost: Math.min(1 + (streak - 8) * 0.12, 1.72)
+    };
+  }
+
+  return {
+    zvuk: zvukSpravne,
+    rychlost: Math.min(1 + (streak - 1) * 0.12, 1.72)
+  };
+}
+
 function pocetPrehratiZvuku(jeSpravne, dlzkaSerie) {
   if (!jeSpravne) {
     return 1;
   }
 
-  return Math.max(1, dlzkaSerie - 6);
+  if (dlzkaSerie < 22) {
+    return 1;
+  }
+
+  return Math.max(2, dlzkaSerie - 20);
 }
 
 function nastavHlasitost(hodnota) {
   hlasitost = Math.max(0, Math.min(1, Number(hodnota) / 100));
-  [zvukSpravne, zvukZle, zvukVyberuVolby, zvukCitatu].forEach((zvuk) => {
+  [zvukSpravne, zvukSpravneStreak7, zvukSpravneStreak14, zvukZle, zvukVyberuVolby, zvukCitatu].forEach((zvuk) => {
     zvuk.volume = hlasitost;
   });
 }
@@ -562,29 +601,22 @@ function skryCitaty() {
 function posunCitatPoOtazkach() {
   skryCitaty();
   pocetVyhodnotenychOtazok++;
-
-  if (pocetVyhodnotenychOtazok % 15 === 0) {
-    nastavNahodnyCitat();
-  }
 }
 
 function posunCitatPoOdpovedi(jeSpravne) {
-  if (!jeCrackMode()) {
-    posunCitatPoOtazkach();
-    return;
-  }
-
   skryCitaty();
+  pocetVyhodnotenychOtazok++;
+
   if (jeSpravne) {
-    if (seriaSpravnych === 14) {
-      nastavNahodnyCitat();
+    if (seriaSpravnych > 0 && seriaSpravnych % 7 === 0) {
+      nastavNahodnyCitat(true);
     }
     return;
   }
 
-  pocetZlychCrackOdpovedi++;
-  if (pocetZlychCrackOdpovedi % 15 === 0) {
-    nastavNahodnyCitat();
+  pocetZlychOdpovediPreCitat++;
+  if (pocetZlychOdpovediPreCitat % 10 === 0) {
+    nastavNahodnyCitat(true);
   }
 }
 
@@ -622,16 +654,23 @@ function nastavDisplaySorting() {
 
 function aktualizujRozlozenieUcenia() {
   const ucenie = jeRezimUcenia();
-  const sipkyDostupne = ucenie && poradieOtazok.length > 0 && !poolDokonceny && !zobrazujePredoslyVysledok;
+  const exam = jeExamMode();
+  const sipkyDostupne = (ucenie || exam) && poradieOtazok.length > 0 && !poolDokonceny && !zobrazujePredoslyVysledok;
 
   document.body.classList.toggle("rezim-ucenia", ucenie);
   document.body.classList.toggle("rezim-crack", jeCrackMode());
+  document.body.classList.toggle("rezim-exam", exam);
+  aktualizujRozlozenieCrackTimeru();
   nastavMobilnyCrackMode();
   tlacidloSipkaVlavo.disabled = !sipkyDostupne;
   tlacidloSipkaVpravo.disabled = !sipkyDostupne;
 }
 
 function textTypuOtazky(otazka, ucenie = jeRezimUcenia()) {
+  if (otazka?.exam || jeExamMode()) {
+    return "Exam Mode: klikni pre odpoved";
+  }
+
   if (otazka?.crack || jeCrackMode()) {
     return "CrackMode: z = pravda, x = nepravda";
   }
@@ -682,12 +721,74 @@ function jeCrackMode() {
   return Boolean(prepinacCrackMode && prepinacCrackMode.checked);
 }
 
+function jeExamMode() {
+  return Boolean(prepinacExamMode && prepinacExamMode.checked);
+}
+
+function jeCrackTimerZapnuty() {
+  return Boolean(prepinacCrackTimeru && prepinacCrackTimeru.checked && jeCrackMode() && !jeExamMode());
+}
+
 function jeMobilnyCrackMode() {
-  return Boolean(prepinacMobilnehoCrackModu && prepinacMobilnehoCrackModu.checked && jeCrackMode());
+  return Boolean(prepinacMobilnehoCrackModu && prepinacMobilnehoCrackModu.checked && jeCrackMode() && !jeExamMode());
 }
 
 function nastavMobilnyCrackMode() {
   document.body.classList.toggle("rezim-crack-mobile", jeMobilnyCrackMode());
+}
+
+function aktualizujRozlozenieCrackTimeru() {
+  const aktivny = jeCrackTimerZapnuty();
+  document.body.classList.toggle("rezim-crack-timer", aktivny);
+  if (prepinacCrackTimeru) {
+    prepinacCrackTimeru.disabled = !jeCrackMode() || jeExamMode();
+  }
+
+  if (!aktivny) {
+    zrusCrackTimer(true);
+  }
+}
+
+function zrusCrackTimer(resetuj = false) {
+  if (casovacCrackTimeru) {
+    window.clearTimeout(casovacCrackTimeru);
+    casovacCrackTimeru = null;
+  }
+
+  if (resetuj && prvokVyplnCrackTimeru) {
+    prvokVyplnCrackTimeru.style.transition = "none";
+    prvokVyplnCrackTimeru.style.height = "0%";
+  }
+}
+
+function vyprsalCrackTimer() {
+  casovacCrackTimeru = null;
+  if (!jeCrackTimerZapnuty() || vyhodnotene || jeRezimUcenia() || zobrazujePredoslyVysledok || poolDokonceny) {
+    return;
+  }
+
+  skontrolujOdpoved([], true, "Cas vyprsal");
+}
+
+function spustiCrackTimer() {
+  zrusCrackTimer(true);
+  if (!jeCrackTimerZapnuty() || vyhodnotene || jeRezimUcenia() || zobrazujePredoslyVysledok || poolDokonceny) {
+    return;
+  }
+
+  prvokVyplnCrackTimeru.style.transition = "none";
+  prvokVyplnCrackTimeru.style.height = "0%";
+  void prvokVyplnCrackTimeru.offsetHeight;
+  prvokVyplnCrackTimeru.style.transition = `height ${trvanieCrackTimeru}ms linear`;
+  prvokVyplnCrackTimeru.style.height = "100%";
+  casovacCrackTimeru = window.setTimeout(vyprsalCrackTimer, trvanieCrackTimeru);
+}
+
+function nastavCrackTimer() {
+  aktualizujRozlozenieCrackTimeru();
+  if (jeCrackTimerZapnuty() && aktualnaOtazka() && !vyhodnotene) {
+    spustiCrackTimer();
+  }
 }
 
 function nastavRezimPrejdeniaPoolu() {
@@ -697,13 +798,33 @@ function nastavRezimPrejdeniaPoolu() {
 
 function nastavCrackMode() {
   zrusCasovacDalsejOtazky();
-  pocetZlychCrackOdpovedi = 0;
+  pocetZlychOdpovediPreCitat = 0;
   pouzivaTazkyPool = false;
 
   if (jeCrackMode()) {
     prepinacUcenia.checked = false;
     prepinacDisplaySorting.checked = false;
     nastavDisplaySorting();
+    if (aktualnyPredmet !== "hel") {
+      nastavPredmet("hel");
+      return;
+    }
+  } else {
+    zrusCrackTimer(true);
+  }
+
+  aktualizujRozlozenieUcenia();
+  nastavPoradie();
+}
+
+function nastavExamMode() {
+  zrusCasovacDalsejOtazky();
+  zrusCrackTimer(true);
+  pouzivaTazkyPool = false;
+
+  if (jeExamMode()) {
+    prepinacUcenia.checked = false;
+    prepinacCrackTimeru.checked = false;
     if (aktualnyPredmet !== "hel") {
       nastavPredmet("hel");
       return;
@@ -718,7 +839,14 @@ function nastavRezimUcenia() {
   zrusCasovacDalsejOtazky();
   if (jeRezimUcenia() && jeCrackMode()) {
     prepinacCrackMode.checked = false;
-    pocetZlychCrackOdpovedi = 0;
+    pocetZlychOdpovediPreCitat = 0;
+    zrusCrackTimer(true);
+    nastavPoradie();
+    return;
+  }
+
+  if (jeRezimUcenia() && jeExamMode()) {
+    prepinacExamMode.checked = false;
     nastavPoradie();
     return;
   }
@@ -890,6 +1018,79 @@ function ziskajCrackOtazky() {
     .filter((otazka) => otazka.otazka.trim().length > 0);
 }
 
+function normalizujKluc(text) {
+  return String(text)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function rozdelExamPodokruh(otazka) {
+  const casti = ziskajPodokruh(otazka).split("/").map((cast) => cast.trim()).filter(Boolean);
+  return {
+    oblast: casti[0] || ziskajPodokruh(otazka),
+    podoblast: casti[1] || "Zakladne body"
+  };
+}
+
+function zlozExamZadanie(prezentacia, oblast, sekcie) {
+  const zoznamSekcii = sekcie.map((sekcia) => sekcia.nazov).join(", ");
+  const uvod = prezentacia === "HEL Skuska 4"
+    ? `Digitalne syntezy zvuku: ${oblast}.`
+    : `${prezentacia}: ${oblast}.`;
+
+  return `${uvod}\nPopiste: ${zoznamSekcii}.`;
+}
+
+function ziskajExamOtazky() {
+  const skupiny = new Map();
+
+  ziskajOtazkyZBeznychFiltrov(true).forEach((otazka) => {
+    if (!otazka.crackPair?.pravda) {
+      return;
+    }
+
+    const prezentacia = ziskajPrezentaciu(otazka);
+    const { oblast, podoblast } = rozdelExamPodokruh(otazka);
+    const kluc = `${prezentacia}::${oblast}`;
+
+    if (!skupiny.has(kluc)) {
+      skupiny.set(kluc, {
+        prezentacia,
+        oblast,
+        sekcie: new Map()
+      });
+    }
+
+    const skupina = skupiny.get(kluc);
+    if (!skupina.sekcie.has(podoblast)) {
+      skupina.sekcie.set(podoblast, []);
+    }
+    skupina.sekcie.get(podoblast).push(otazka.crackPair.pravda);
+  });
+
+  return [...skupiny.values()].map((skupina) => {
+    const sekcie = [...skupina.sekcie.entries()].map(([nazov, body]) => ({ nazov, body }));
+    return {
+      id: `exam-${normalizujKluc(skupina.prezentacia)}-${normalizujKluc(skupina.oblast)}`,
+      tema: `${skupina.prezentacia}: Exam Mode`,
+      typ: "exam",
+      format: "exam",
+      uroven: "skuskova",
+      otazka: zlozExamZadanie(skupina.prezentacia, skupina.oblast, sekcie),
+      moznosti: [],
+      spravne: [],
+      vysvetlenie: "",
+      prezentacia: skupina.prezentacia,
+      subtema: skupina.oblast,
+      examSekcie: sekcie,
+      exam: true
+    };
+  });
+}
+
 function unikatneHodnoty(hodnoty) {
   return [...new Set(hodnoty)].sort((a, b) => a.localeCompare(b, "sk"));
 }
@@ -916,6 +1117,10 @@ function ziskajOtazkyZBeznychFiltrov(vratCrackData = false) {
 }
 
 function ziskajOtazkyPodlaFiltra() {
+  if (jeExamMode()) {
+    return ziskajExamOtazky().filter((otazka) => !odstraneneOtazky.has(ziskajIdOtazky(otazka)));
+  }
+
   if (jeCrackMode()) {
     return ziskajCrackOtazky().filter((otazka) => !odstraneneOtazky.has(ziskajIdOtazky(otazka)));
   }
@@ -934,6 +1139,11 @@ function nastavVsetkyPodokruhy() {
 function aktualizujPocetFiltra() {
   const pocet = ziskajOtazkyPodlaFiltra().length;
   const textPoctu = pocet === 1 ? "1 otazka" : `${pocet} otazok`;
+  if (jeExamMode()) {
+    prvokPocetFiltra.textContent = `${textPoctu} v Exam Mode`;
+    return;
+  }
+
   if (jeCrackMode()) {
     prvokPocetFiltra.textContent = `${textPoctu} v CrackMode`;
     return;
@@ -1069,7 +1279,7 @@ function spustiTazkyPool() {
 
   if (jeCrackMode()) {
     prepinacCrackMode.checked = false;
-    pocetZlychCrackOdpovedi = 0;
+    pocetZlychOdpovediPreCitat = 0;
   }
 
   pouzivaTazkyPool = true;
@@ -1241,6 +1451,9 @@ function obnovNahladAktualnejOtazky() {
   aktualizujTlacidloNeviem();
   aktualizujRozlozenieUcenia();
   tlacidloPredoslyVysledok.textContent = "Previous";
+  if (!vyhodnotene) {
+    spustiCrackTimer();
+  }
 }
 
 function vykresliPredoslyVysledok() {
@@ -1250,6 +1463,7 @@ function vykresliPredoslyVysledok() {
 
   nahladAktualnejOtazky = ulozNahladAktualnejOtazky();
   zrusCasovacDalsejOtazky();
+  zrusCrackTimer(true);
   zobrazujePredoslyVysledok = true;
   vyhodnotene = true;
 
@@ -1286,12 +1500,137 @@ function prepniPredoslyVysledok() {
   }
 }
 
+function ziskajNastaveniaFlashu(dlzkaSerie) {
+  const streak = Math.max(dlzkaSerie, 1);
+  const zltyPodiel = Math.min(Math.max((streak - 1) / 12, 0), 1);
+
+  return {
+    bieleJadro: Math.min(0.72 + streak * 0.03, 1),
+    bielyPodklad: Math.min(0.22 + streak * 0.018, 0.48),
+    zltaZiara: Math.min(0.22 + zltyPodiel * 0.68, 0.9),
+    zltyOkraj: Math.min(0.10 + zltyPodiel * 0.50, 0.62),
+    rozsah: Math.min(34 + streak * 2.5, 78),
+    scaleStart: Math.min(1.012 + streak * 0.004, 1.09),
+    scalePeak: Math.min(1.035 + streak * 0.006, 1.14),
+    trvanie: Math.min(230 + streak * 16, 620)
+  };
+}
+
+function nastavPozadieFlashu(nastavenia) {
+  return [
+    `radial-gradient(circle at 50% 48%, rgba(255, 255, 255, ${nastavenia.bieleJadro}) 0%, rgba(255, 255, 255, ${Math.min(nastavenia.bieleJadro * 0.84, 0.92)}) 18%, rgba(255, 230, 58, ${nastavenia.zltaZiara}) ${nastavenia.rozsah}%, rgba(255, 126, 0, ${nastavenia.zltyOkraj}) 78%, rgba(255, 126, 0, 0) 92%)`,
+    `rgba(255, 255, 255, ${nastavenia.bielyPodklad})`
+  ].join(", ");
+}
+
+function spustiMegaStreakCislo(dlzkaSerie) {
+  if (!prvokStreakFlashCislo || dlzkaSerie <= 0 || dlzkaSerie % 7 !== 0) {
+    return;
+  }
+
+  if (casovacMegaStreaku) {
+    window.clearTimeout(casovacMegaStreaku);
+    casovacMegaStreaku = null;
+  }
+
+  const trvanie = 220;
+  prvokStreakFlashCislo.classList.remove("aktivny", "specialny");
+  prvokStreakFlashCislo.textContent = String(dlzkaSerie);
+  prvokStreakFlashCislo.style.setProperty("--mega-trvanie", `${trvanie}ms`);
+  prvokStreakFlashCislo.style.setProperty("--mega-scale", Math.min(1 + dlzkaSerie * 0.035, 1.9));
+  void prvokStreakFlashCislo.offsetWidth;
+  prvokStreakFlashCislo.classList.add("aktivny");
+
+  casovacMegaStreaku = window.setTimeout(() => {
+    prvokStreakFlashCislo.classList.remove("aktivny", "specialny");
+    casovacMegaStreaku = null;
+  }, trvanie + 60);
+}
+
+function spustiSpravnyFlash(dlzkaSerie) {
+  if (!prvokFlashEfekt) {
+    return false;
+  }
+
+  const nastavenia = ziskajNastaveniaFlashu(dlzkaSerie);
+  const pozadie = nastavPozadieFlashu(nastavenia);
+  const specialny = dlzkaSerie > 0 && dlzkaSerie % 7 === 0;
+  spustiMegaStreakCislo(dlzkaSerie);
+  if (animaciaSpravnehoFlashu) {
+    animaciaSpravnehoFlashu.cancel();
+  } else if (typeof prvokFlashEfekt.getAnimations === "function") {
+    prvokFlashEfekt.getAnimations().forEach((animacia) => animacia.cancel());
+  }
+
+  if (casovacSpravnehoFlashu) {
+    window.clearTimeout(casovacSpravnehoFlashu);
+    casovacSpravnehoFlashu = null;
+  }
+
+  prvokFlashEfekt.classList.remove("aktivny", "specialny");
+  prvokFlashEfekt.style.background = pozadie;
+  prvokFlashEfekt.style.opacity = "1";
+  prvokFlashEfekt.style.setProperty("--flash-trvanie", `${nastavenia.trvanie}ms`);
+  prvokFlashEfekt.style.setProperty("--flash-scale-start", nastavenia.scaleStart);
+  prvokFlashEfekt.style.setProperty("--flash-scale-peak", nastavenia.scalePeak);
+  void prvokFlashEfekt.offsetHeight;
+  prvokFlashEfekt.classList.toggle("specialny", specialny);
+
+  if (typeof prvokFlashEfekt.animate !== "function") {
+    prvokFlashEfekt.classList.add("aktivny");
+    casovacSpravnehoFlashu = window.setTimeout(() => {
+      prvokFlashEfekt.classList.remove("aktivny", "specialny");
+      prvokFlashEfekt.style.opacity = "0";
+      casovacSpravnehoFlashu = null;
+    }, nastavenia.trvanie + 40);
+
+    return true;
+  }
+
+  animaciaSpravnehoFlashu = prvokFlashEfekt.animate([
+    {
+      opacity: 1,
+      transform: `scale(${nastavenia.scaleStart})`,
+      filter: "brightness(1.9) saturate(1.15)",
+      offset: 0
+    },
+    {
+      opacity: 0.78,
+      transform: `scale(${nastavenia.scalePeak})`,
+      filter: "brightness(1.34) saturate(1.45)",
+      offset: 0.16
+    },
+    {
+      opacity: 0,
+      transform: "scale(1)",
+      filter: "brightness(1) saturate(1)",
+      offset: 1
+    }
+  ], {
+    duration: nastavenia.trvanie,
+    easing: "cubic-bezier(0.05, 0.82, 0.22, 1)",
+    fill: "forwards"
+  });
+
+  animaciaSpravnehoFlashu.onfinish = () => {
+    prvokFlashEfekt.style.opacity = "0";
+    prvokFlashEfekt.classList.remove("specialny");
+    animaciaSpravnehoFlashu = null;
+  };
+
+  return true;
+}
+
 function spustiEfekt(jeSpravne, dlzkaSerie = 0) {
   const trieda = jeSpravne ? "flash-spravne" : "flash-zle";
   let casOdstranenia = 360;
   document.body.classList.remove("flash-spravne", "flash-zle");
 
   if (jeSpravne) {
+    if (spustiSpravnyFlash(dlzkaSerie)) {
+      return;
+    }
+
     const urovenSerie = Math.max(dlzkaSerie, 1);
     const sila = Math.min(0.28 + urovenSerie * 0.045, 0.94);
     const jadro = Math.min(0.50 + urovenSerie * 0.045, 0.98);
@@ -1324,12 +1663,14 @@ function spustiEfekt(jeSpravne, dlzkaSerie = 0) {
 }
 
 function spustiSpatnuVazbu(jeSpravne, dlzkaSerie = 0) {
-  const rychlostZvuku = jeSpravne ? Math.min(1 + (dlzkaSerie - 1) * 0.12, 1.72) : 1;
-  const zvuk = jeSpravne ? zvukSpravne : zvukZle;
+  const spatnaVazba = jeSpravne
+    ? ziskajZvukSpravnejOdpovede(dlzkaSerie)
+    : { zvuk: zvukZle, rychlost: 1 };
+  const { zvuk, rychlost } = spatnaVazba;
   const pocetPrehrati = pocetPrehratiZvuku(jeSpravne, dlzkaSerie);
 
   for (let i = 0; i < pocetPrehrati; i++) {
-    window.setTimeout(() => prehrajZvuk(zvuk, rychlostZvuku), i * 85);
+    window.setTimeout(() => prehrajZvuk(zvuk, rychlost), i * 85);
   }
 
   spustiEfekt(jeSpravne, dlzkaSerie);
@@ -1341,9 +1682,10 @@ function maximumStlpca() {
 
 function aktualizujStlpec() {
   const maximum = maximumStlpca();
-  const vyska = Math.round((stavStlpca / maximum) * 100);
-  prvokVyplnStlpca.style.height = `${vyska}%`;
-  prvokVyplnStlpca.parentElement.style.setProperty("--vyska-liquidu", `${vyska}%`);
+  const presnaVyska = Math.max(0, Math.min(100, (stavStlpca / maximum) * 100));
+  const zobrazenaVyska = stavStlpca > 0 ? Math.max(presnaVyska, 1.5) : 0;
+  prvokVyplnStlpca.style.height = `${zobrazenaVyska}%`;
+  prvokVyplnStlpca.parentElement.style.setProperty("--vyska-liquidu", `${zobrazenaVyska}%`);
   prvokVyplnStlpca.parentElement.style.setProperty("--viditelnost-pixelov", stavStlpca > 0 ? "1" : "0");
   prepocitajPixelyStlpca();
 }
@@ -1396,13 +1738,14 @@ function naplanujDalsiuOtazku() {
 
 function nastavPoradie() {
   zrusCasovacDalsejOtazky();
+  zrusCrackTimer(true);
   aktualneOtazky = ziskajOtazkyPodlaFiltra();
   poradieOtazok = prepinacNahodnehoPoradia.checked ? zamiesaj(aktualneOtazky) : [...aktualneOtazky];
   pociatocnyPocetPoolu = poradieOtazok.length;
   aktualnyIndex = 0;
   skore = 0;
   pocetVyhodnotenychOtazok = 0;
-  pocetZlychCrackOdpovedi = 0;
+  pocetZlychOdpovediPreCitat = 0;
   skryCitaty();
   stavStlpca = 0;
   seriaSpravnych = 0;
@@ -1428,6 +1771,7 @@ function aktualnaOtazka() {
 }
 
 function zobrazPrazdnyVyber() {
+  zrusCrackTimer(true);
   vyhodnotene = true;
   zobrazujePredoslyVysledok = false;
   nahladAktualnejOtazky = null;
@@ -1445,6 +1789,7 @@ function zobrazPrazdnyVyber() {
   prvokMoznosti.innerHTML = "";
   prvokVysledok.className = "vysledok skryte";
   prvokVysledok.textContent = "";
+  prvokOtazka.classList.remove("exam-otazka");
   prvokObrazokOtazky.classList.add("skryte");
   prvokMediaOtazky.classList.add("skryte");
   prvokMediaOtazky.innerHTML = "";
@@ -1630,8 +1975,64 @@ function vyberMoznostiOtazky(otazka) {
   return zamiesaj(vybrane);
 }
 
+function vytvorExamOdpoved(otazka) {
+  const obal = document.createElement("div");
+  obal.className = "exam-odpoved";
+
+  otazka.examSekcie.forEach((sekcia) => {
+    const nadpis = document.createElement("h3");
+    nadpis.textContent = sekcia.nazov;
+    obal.appendChild(nadpis);
+
+    const zoznam = document.createElement("ul");
+    sekcia.body.forEach((bod) => {
+      const polozka = document.createElement("li");
+      polozka.textContent = bod;
+      zoznam.appendChild(polozka);
+    });
+    obal.appendChild(zoznam);
+  });
+
+  return obal;
+}
+
+function nastavExamOdpoved(otazka, zobrazit) {
+  prvokVysledok.innerHTML = "";
+
+  if (!zobrazit) {
+    prvokVysledok.className = "vysledok exam-hint";
+    prvokVysledok.textContent = "Klikni na otazku alebo sem pre vypracovanu odpoved.";
+    return;
+  }
+
+  prvokVysledok.className = "vysledok exam-vysledok";
+  prvokVysledok.appendChild(vytvorExamOdpoved(otazka));
+}
+
+function prepniExamOdpoved() {
+  const otazka = aktualnaOtazka();
+  if (!otazka?.exam) {
+    return;
+  }
+
+  otazka.examOdpovedZobrazena = !otazka.examOdpovedZobrazena;
+  nastavExamOdpoved(otazka, otazka.examOdpovedZobrazena);
+}
+
+function zobrazExamOtazku(otazka) {
+  otazka.examOdpovedZobrazena = false;
+  vyhodnotene = true;
+  aktualneMoznosti = [];
+  prvokMoznosti.innerHTML = "";
+  nastavExamOdpoved(otazka, false);
+  prvokOtazka.classList.add("exam-otazka");
+  tlacidloMedzernik.disabled = false;
+  aktualizujTlacidloNeviem();
+}
+
 function zobrazOtazku() {
   zrusCasovacDalsejOtazky();
+  zrusCrackTimer(true);
   const otazka = aktualnaOtazka();
   if (!otazka) {
     zobrazPrazdnyVyber();
@@ -1648,6 +2049,7 @@ function zobrazOtazku() {
   prvokTema.textContent = otazka.tema;
   prvokTypOtazky.textContent = textTypuOtazky(otazka, ucenie);
   prvokOtazka.textContent = otazka.otazka;
+  prvokOtazka.classList.toggle("exam-otazka", Boolean(otazka.exam));
   prvokPocitadlo.textContent = `${aktualnyIndex + 1} / ${poradieOtazok.length}`;
   prvokSkore.textContent = `Skóre: ${skore}`;
   prvokVysledok.className = "vysledok skryte";
@@ -1661,10 +2063,16 @@ function zobrazOtazku() {
 
   nastavMediaOtazky(otazka);
 
+  if (otazka.exam) {
+    zobrazExamOtazku(otazka);
+    return;
+  }
+
   aktualneMoznosti = ucenie ? vyberSpravneMoznostiOtazky(otazka) : vyberMoznostiOtazky(otazka);
 
   const spravneMoznosti = ucenie ? spravneZobrazeneIndexy(otazka, aktualneMoznosti) : [];
   vykresliMoznosti(otazka, aktualneMoznosti, spravneMoznosti, ucenie, ucenie);
+  spustiCrackTimer();
 }
 
 function ziskajVybraneIndexy() {
@@ -1796,7 +2204,7 @@ function obsluzKlavesnicu(udalost) {
   const klaves = udalost.key.toLowerCase();
   const indexMoznosti = klavesyMoznosti.indexOf(klaves);
 
-  if (jeCrackMode() && (klaves === "z" || klaves === "x")) {
+  if (!jeExamMode() && jeCrackMode() && (klaves === "z" || klaves === "x")) {
     udalost.preventDefault();
     vyberMoznostKlavesou(klaves === "z" ? 0 : 1);
     return;
@@ -1814,20 +2222,20 @@ function obsluzKlavesnicu(udalost) {
     return;
   }
 
-  if (klaves === "q") {
+  if (!jeExamMode() && klaves === "q") {
     udalost.preventDefault();
     spustiEfektTlacidla(tlacidloOdstranitOtazku);
     odoberAktualnuOtazku();
     return;
   }
 
-  if (klaves === "w") {
+  if (!jeExamMode() && klaves === "w") {
     udalost.preventDefault();
     pridajAktualnuOtazkuDoTazkych();
     return;
   }
 
-  if (klaves === "e") {
+  if (!jeExamMode() && klaves === "e") {
     udalost.preventDefault();
     spustiEfektTlacidla(tlacidloNeviem);
     odpovedzNeviem();
@@ -1861,6 +2269,16 @@ function obsluzKlavesnicu(udalost) {
 
 function pouziMedzernik() {
   if (casovacDalsejOtazky) {
+    return;
+  }
+
+  if (jeExamMode()) {
+    const otazka = aktualnaOtazka();
+    if (otazka?.exam && !otazka.examOdpovedZobrazena) {
+      prepniExamOdpoved();
+    } else {
+      dalsiaOtazka();
+    }
     return;
   }
 
@@ -1922,6 +2340,7 @@ function skontrolujOdpoved(vybrane = ziskajVybraneIndexy(), povolPrazdnu = false
     return;
   }
 
+  zrusCrackTimer();
   const otazka = aktualnaOtazka();
   if (vybrane.length === 0 && !povolPrazdnu) {
     prvokVysledok.className = "vysledok zle";
@@ -2025,6 +2444,7 @@ function vyradSpravneZodpovedanuOtazku() {
 }
 
 function zobrazDokoncenyPool() {
+  zrusCrackTimer(true);
   poolDokonceny = true;
   vyhodnotene = true;
   zobrazujePredoslyVysledok = false;
@@ -2073,6 +2493,12 @@ function dalsiaOtazka() {
     poradieOtazok = zamiesaj(poradieOtazok);
     aktualnyIndex = 0;
     zobrazOtazku();
+    return;
+  }
+
+  if (jeExamMode()) {
+    prvokVysledok.className = "vysledok ok";
+    prvokVysledok.textContent = "Koniec Exam Mode. Sipkami prejdes vypracovane okruhy.";
     return;
   }
 
@@ -2160,6 +2586,11 @@ function ziskajOtazkyPredmetu(predmet) {
 function nastavPredmet(predmet) {
   if (predmet !== "hel" && prepinacCrackMode) {
     prepinacCrackMode.checked = false;
+    zrusCrackTimer(true);
+  }
+
+  if (predmet !== "hel" && prepinacExamMode) {
+    prepinacExamMode.checked = false;
   }
 
   aktualnyPredmet = predmet;
@@ -2316,6 +2747,8 @@ prepinacUcenia.addEventListener("change", nastavRezimUcenia);
 prepinacRychlehoRezimu.addEventListener("change", prepniRychlyRezim);
 prepinacPrejdeniaPoolu.addEventListener("change", nastavRezimPrejdeniaPoolu);
 prepinacCrackMode.addEventListener("change", nastavCrackMode);
+prepinacExamMode.addEventListener("change", nastavExamMode);
+prepinacCrackTimeru.addEventListener("change", nastavCrackTimer);
 prepinacMobilnehoCrackModu.addEventListener("change", nastavMobilnyCrackMode);
 prvokVyberPrezentacie.addEventListener("change", () => {
   pouzivaTazkyPool = false;
@@ -2343,15 +2776,19 @@ tlacidloKodDalsia.addEventListener("click", dalsiaKodovaUloha);
 document.addEventListener("click", obsluzKlikVolitelnehoPrvku);
 document.addEventListener("change", obsluzZmenuVolitelnehoPrvku);
 document.addEventListener("keydown", obsluzKlavesnicu);
+prvokOtazka.addEventListener("click", prepniExamOdpoved);
+prvokVysledok.addEventListener("click", prepniExamOdpoved);
 
 nastavTlacidlaOtazok();
 vytvorPixelyStlpca();
 nastavHlasitost(posuvnikHlasitosti.value);
 prepinacNahodnehoPoradia.checked = true;
 prepinacCrackMode.checked = true;
+prepinacCrackTimeru.checked = false;
 prepinacDisplaySorting.checked = false;
 nastavRychlyRezim();
 nastavDisplaySorting();
+nastavCrackTimer();
 nastavMobilnyCrackMode();
 aktualizujRozlozenieUcenia();
 nastavTemu("fialova");

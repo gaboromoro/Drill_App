@@ -8,6 +8,8 @@
 </head>
 <body>
   <div id="rytmickyVizualizer" class="rytmicky-vizualizer" aria-hidden="true"></div>
+  <div id="flashEfekt" class="flash-efekt" aria-hidden="true"></div>
+  <div id="streakFlashCislo" class="streak-flash-cislo" aria-hidden="true"></div>
   <main class="stranka">
     <header class="hlavicka">
       <div>
@@ -100,7 +102,19 @@
         <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
           <span>CrackMode</span>
           <input id="prepinacCrackMode" class="prepinac-volby" type="checkbox" checked>
-          <span class="hint-nastavenia" role="tooltip">Z vybraneho HEL poolu spravi tvrdenia Pravda/Nepravda. Po vybere hned pokracuje dalej; citat pride po 15 zlych odpovediach.</span>
+          <span class="hint-nastavenia" role="tooltip">Z vybraneho HEL poolu spravi tvrdenia Pravda/Nepravda. Po vybere hned pokracuje dalej; citat pride pri 7x streaku alebo po kazdych 10 zlych odpovediach.</span>
+        </label>
+
+        <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+          <span>Exam Mode</span>
+          <input id="prepinacExamMode" class="prepinac-volby" type="checkbox">
+          <span class="hint-nastavenia" role="tooltip">Z vybranych HEL statementov spravi otvorenu skuskovu otazku na cely okruh. Kliknutim zobrazis vypracovanu odpoved v bodoch.</span>
+        </label>
+
+        <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+          <span>Timer</span>
+          <input id="prepinacCrackTimeru" class="prepinac-volby" type="checkbox">
+          <span class="hint-nastavenia" role="tooltip">V CrackMode sa lava tyc zmeni na 10-sekundovy casovac. Ked sa naplni, odpoved sa vyhodnoti ako nespravna a ide sa dalej.</span>
         </label>
 
         <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
@@ -156,7 +170,13 @@
     </nav>
 
     <section id="rezimTest">
-      <aside class="stlpec-panel" aria-label="Stav testu">
+      <aside id="panelCrackTimeru" class="stlpec-panel stlpec-panel-casovac" aria-label="Casovac otazky">
+        <div class="stlpec-uspesnosti stlpec-casovaca">
+          <div id="vyplnCrackTimeru" class="vypln-casovaca"></div>
+        </div>
+      </aside>
+
+      <aside class="stlpec-panel stlpec-panel-progress" aria-label="Stav testu">
         <div class="stlpec-uspesnosti">
           <div id="vyplnStlpca" class="vypln-stlpca"></div>
           <div id="pixelyStlpca" class="pixely-stlpca" aria-hidden="true"></div>
@@ -235,6 +255,7 @@
   <script src="otazky.js"></script>
   <script src="czs-otazky.js"></script>
   <script src="hel-otazky.js"></script>
+  <script src="hel4-zvysne.js"></script>
   <script src="vs2-otazky.js"></script>
   <script src="aud-otazky.js"></script>
   <script src="kodove-ulohy.js"></script>

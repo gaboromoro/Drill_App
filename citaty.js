@@ -15,4 +15,25 @@ const citaty = [
     zdroj: "Mt 9, 37-38",
     text: "„Žatva je veľká, ale robotníkov málo. Preto proste Pána žatvy, aby poslal robotníkov na svoju žatvu.“"
   },
+  {
+    zdroj: "Ž 127, 1",
+    text: "„Ak Pán nestavia dom,\nmárne sa namáhajú tí, čo ho stavajú.“"
+  },
+  {
+    zdroj: "1 Kr 19, 11–15",
+    text: "Práve prechádzal Pán. Pred Pánom išiel vietor, veľký a prudký, ktorý trhá vrchy a láme skaly. Ale Pán nebol vo vetre. Po vetre zemetrasenie, ale Pán nebol v zemetrasení. Po zemetrasení oheň, ale Pán nebol v ohni. A po ohni tichý, lahodný šum. Keď to Eliáš počul, zahalil si tvár plášťom, vyšiel a zastal pri vchode do jaskyne. Vtom prehovoril k nemu akýsi hlas a pýtal sa: „Čo tu robíš, Eliáš?“ Odpovedal: „Plný som horlivosti za Pána, Boha zástupov. Veď synovia Izraela opustili tvoju zmluvu, tvoje oltáre zborili a tvojich prorokov pobili mečom! Ja sám som ostal a za mojím životom sliedia, chcú mi ho vziať.“"
+  },
+  {
+    zdroj: "Ž 34",
+    text: "„Velebiť chcem Pána v každom čase, moje ústa budú ho vždy chváliť. Pán je sláva mojej duše, nechže ma počujú pokorní a nech sa tešia.\nVelebte so mnou Pána, oslavujme spoločne jeho meno. Hľadal som Pána a On ma vyslyšal a vytrhol ma zo všetkej hrôzy.\nAnjel Pánov sa utáborí okolo tých, čo sa ho boja a vyslobodí ich. Tento úbožiak volá a Pán ho E7počúva a vyslobodí ho zo všetkých jeho tiesní.\nSkúste a viďte, aký dobrý je Pán šťastný človek, čo sa utieka k nemu.\nMnohé sú skúšky, ktoré čakajú spravodlivého, ale zo všetkých ho vyslobodí Pán. Volali a Pán ich vyslyšal, vyslobodil ich zo všetkých tiesní.“"
+  },
+  {
+    zdroj: "",
+    text: "„“"
+  },
+  //{
+  //  zdroj: "",
+  //  text: "„“"
+  //},
+
 ];
