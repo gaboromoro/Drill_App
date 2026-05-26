@@ -1444,29 +1444,61 @@ body.rezim-crack.rezim-crack-mobile .hlavicka {
 }
 
 body.rezim-crack.rezim-crack-mobile #rezimTest {
-  grid-template-columns: clamp(32px, 6vw, 70px) minmax(0, 1fr);
-  column-gap: clamp(8px, 1.8vw, 18px);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  row-gap: clamp(10px, 2vh, 18px);
   min-height: calc(100svh - 86px);
 }
 
 body.rezim-crack.rezim-crack-mobile .stlpec-panel {
   grid-column: 1;
-  margin-top: clamp(44px, 14vh, 86px);
+  grid-row: 1;
+  position: relative;
+  top: auto;
+  width: 100%;
+  margin-top: 0;
   transform: none;
 }
 
 body.rezim-crack.rezim-crack-mobile .stlpec-uspesnosti {
-  width: clamp(28px, 5vw, 54px);
-  height: min(52vh, 280px);
-  --velkost-pixelu-stlpca: calc(100% / 24);
+  width: 100%;
+  height: clamp(24px, 5vh, 42px);
+  --velkost-pixelu-stlpca: 2px;
+}
+
+body.rezim-crack.rezim-crack-mobile .streak-aktualny {
+  font-size: min(var(--streak-velkost, 20px), 34px);
+}
+
+body.rezim-crack.rezim-crack-mobile .vypln-stlpca {
+  top: 0;
+  right: auto;
+  bottom: 0;
+  width: var(--sirka-liquidu, 0%);
+  height: 100% !important;
+  transition: width 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+body.rezim-crack.rezim-crack-mobile .vypln-stlpca::before {
+  top: 0;
+  right: -4px;
+  bottom: 0;
+  left: auto;
+  width: 4px;
+  height: auto;
+}
+
+body.rezim-crack.rezim-crack-mobile .pixely-stlpca {
+  display: none;
 }
 
 body.rezim-crack.rezim-crack-mobile #rezimTest .panel {
   display: flex;
   flex-direction: column;
-  grid-column: 2;
-  min-height: calc(100svh - 86px);
-  padding-top: clamp(30px, 12vh, 76px);
+  grid-column: 1;
+  grid-row: 2;
+  min-height: calc(100svh - 140px);
+  padding-top: clamp(18px, 8vh, 56px);
   padding-bottom: 0;
 }
 
@@ -1501,13 +1533,17 @@ body.rezim-crack.rezim-crack-mobile .moznost {
 }
 
 body.rezim-crack.rezim-crack-mobile .moznost:first-child {
-  justify-content: flex-start;
-  padding-left: clamp(0px, 3vw, 36px);
+  grid-column: 2;
+  grid-row: 1;
+  justify-content: flex-end;
+  padding-right: clamp(0px, 3vw, 36px);
 }
 
 body.rezim-crack.rezim-crack-mobile .moznost:last-child {
-  justify-content: flex-end;
-  padding-right: clamp(0px, 3vw, 36px);
+  grid-column: 1;
+  grid-row: 1;
+  justify-content: flex-start;
+  padding-left: clamp(0px, 3vw, 36px);
 }
 
 body.rezim-crack.rezim-crack-mobile .moznost .klavesa {
@@ -1574,24 +1610,26 @@ body.rezim-crack.rezim-crack-mobile .ovladanie {
 
   body.rezim-crack.rezim-crack-mobile #rezimTest,
   body.rezim-crack.rezim-crack-mobile #rezimTest .panel {
-    min-height: calc(100svh - 66px);
+    min-height: auto;
   }
 
   body.rezim-crack.rezim-crack-mobile .stlpec-panel {
-    margin-top: clamp(36px, 13vh, 62px);
+    margin-top: 0;
   }
 
   body.rezim-crack.rezim-crack-mobile .stlpec-uspesnosti {
-    height: calc(100svh - 148px);
-    min-height: 150px;
+    height: clamp(22px, 5vh, 36px);
+    min-height: 22px;
   }
 
   body.rezim-crack.rezim-crack-mobile #rezimTest .panel {
-    padding-top: clamp(22px, 10vh, 48px);
+    min-height: calc(100svh - 112px);
+    padding-top: clamp(12px, 5vh, 30px);
   }
 
   body.rezim-crack.rezim-crack-mobile #otazka {
-    max-height: 34vh;
+    width: 100%;
+    max-height: 38vh;
     margin-bottom: clamp(6px, 1.4vh, 12px);
     font-size: clamp(22px, 4.1vw, 36px);
   }

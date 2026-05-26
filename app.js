@@ -886,12 +886,29 @@ function najdiVolitelnyPrvok(ciel) {
 }
 
 function obsluzKlikVolitelnehoPrvku(udalost) {
+  if (citatZobrazeny) {
+    udalost.preventDefault();
+    udalost.stopPropagation();
+    skryCitaty();
+    return;
+  }
+
   const prvok = najdiVolitelnyPrvok(udalost.target);
   if (!prvok || !prvok.matches("button") || prvok === tlacidloMedzernik) {
     return;
   }
 
   prehrajZvuk(zvukVyberuVolby);
+}
+
+function obsluzKlikCitatu(udalost) {
+  if (!citatZobrazeny) {
+    return;
+  }
+
+  udalost.preventDefault();
+  udalost.stopPropagation();
+  skryCitaty();
 }
 
 function obsluzZmenuVolitelnehoPrvku(udalost) {
@@ -1686,12 +1703,13 @@ function aktualizujStlpec() {
   const zobrazenaVyska = stavStlpca > 0 ? Math.max(presnaVyska, 1.5) : 0;
   prvokVyplnStlpca.style.height = `${zobrazenaVyska}%`;
   prvokVyplnStlpca.parentElement.style.setProperty("--vyska-liquidu", `${zobrazenaVyska}%`);
+  prvokVyplnStlpca.parentElement.style.setProperty("--sirka-liquidu", `${zobrazenaVyska}%`);
   prvokVyplnStlpca.parentElement.style.setProperty("--viditelnost-pixelov", stavStlpca > 0 ? "1" : "0");
   prepocitajPixelyStlpca();
 }
 
 function aktualizujStreak(animuj = false) {
-  const zobrazenaHodnota = jeRezimPrejdeniaPoolu() ? stavStlpca : seriaSpravnych;
+  const zobrazenaHodnota = seriaSpravnych;
   const velkost = Math.min(34 + zobrazenaHodnota * 4.4, 112);
   prvokStreakAktualny.textContent = String(zobrazenaHodnota);
   prvokStreakAktualny.style.setProperty("--streak-velkost", `${velkost}px`);
@@ -2773,6 +2791,7 @@ tlacidloRezimTest.addEventListener("click", () => nastavRezim("test"));
 tlacidloRezimKod.addEventListener("click", () => nastavRezim("kod"));
 tlacidloKodKontrola.addEventListener("click", vyhodnotKodovuOdpoved);
 tlacidloKodDalsia.addEventListener("click", dalsiaKodovaUloha);
+document.addEventListener("click", obsluzKlikCitatu, true);
 document.addEventListener("click", obsluzKlikVolitelnehoPrvku);
 document.addEventListener("change", obsluzZmenuVolitelnehoPrvku);
 document.addEventListener("keydown", obsluzKlavesnicu);
