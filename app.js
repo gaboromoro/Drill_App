@@ -991,32 +991,45 @@ function vytvorCrackStatement(otazka, moznost, index) {
   };
 }
 
-function vytvorCrackParStatement(otazka) {
+function nastavNahodnyCrackParStatement(otazka) {
+  const crackDvojica = otazka.crackPair;
+  if (!crackDvojica?.pravda || !crackDvojica?.nepravda) {
+    return otazka;
+  }
+
   const pouziPravdu = Math.random() < 0.5;
-  const povodneId = ziskajIdOtazky(otazka);
-  const textOtazky = pouziPravdu ? otazka.crackPair.pravda : otazka.crackPair.nepravda;
-  const spravnyVyrok = otazka.crackPair.pravda;
-  const vysvetlenie = [
+  const spravnyVyrok = crackDvojica.pravda;
+  otazka.otazka = pouziPravdu ? crackDvojica.pravda : crackDvojica.nepravda;
+  otazka.spravne = [pouziPravdu ? 0 : 1];
+  otazka.vysvetlenie = [
     pouziPravdu ? "Tvrdenie je pravdive." : "Tvrdenie je nepravdive.",
     `Spravny statement: ${spravnyVyrok}`
   ].join(" ");
 
-  return {
+  return otazka;
+}
+
+function vytvorCrackParStatement(otazka) {
+  const povodneId = ziskajIdOtazky(otazka);
+  const crackOtazka = {
     id: `crack-${povodneId}`,
     tema: otazka.tema,
     typ: "jedna",
     format: "klasicka",
     uroven: otazka.uroven || "tazka",
-    otazka: textOtazky,
+    otazka: "",
     moznosti: ["z", "x"],
-    spravne: [pouziPravdu ? 0 : 1],
-    vysvetlenie,
+    spravne: [0],
+    vysvetlenie: "",
     prezentacia: ziskajPrezentaciu(otazka),
     subtema: ziskajPodokruh(otazka),
     povodnaOtazkaId: povodneId,
+    crackPair: { ...otazka.crackPair },
     pevnePoradieMoznosti: true,
     crack: true
   };
+
+  return nastavNahodnyCrackParStatement(crackOtazka);
 }
 
 function ziskajCrackOtazky() {
@@ -1403,11 +1416,22 @@ function zlozZlyVysledok(otazka, moznosti = aktualneMoznosti, uvod = "Nespravne"
   return `${uvod}. Spravna odpoved: ${textSpravnychOdpovedi(otazka, moznosti)}${vysvetlenie}`;
 }
 
+function kopirujOtazkuPreVysledok(otazka) {
+  return {
+    ...otazka,
+    moznosti: Array.isArray(otazka.moznosti)
+      ? otazka.moznosti.map((moznost) => moznost && typeof moznost === "object" ? { ...moznost } : moznost)
+      : otazka.moznosti,
+    spravne: Array.isArray(otazka.spravne) ? [...otazka.spravne] : otazka.spravne,
+    crackPair: otazka.crackPair ? { ...otazka.crackPair } : otazka.crackPair
+  };
+}
+
 function ulozPredoslyVysledok(otazka, vybrane, jeSpravne, textVysledku = null) {
   const moznosti = aktualneMoznosti.map((moznost) => ({ ...moznost }));
   predoslyVysledok = {
     jeSpravne,
-    otazka,
+    otazka: kopirujOtazkuPreVysledok(otazka),
     moznosti,
     vybrane: [...vybrane],
     textVysledku: jeSpravne
@@ -2056,6 +2080,8 @@ function zobrazOtazku() {
     zobrazPrazdnyVyber();
     return;
   }
+
+  nastavNahodnyCrackParStatement(otazka);
 
   const ucenie = jeRezimUcenia();
   vyhodnotene = ucenie;
