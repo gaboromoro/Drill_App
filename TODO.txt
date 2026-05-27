@@ -1,11 +1,33 @@
-1.
+//////////////////
+/////URGENT//////
+/////////////////
 
+
+//////idk///////
 K CZS otazkam spravit okruh zakladnych pojmov IIR, FIR ... a ich strucne definicie
 
-2.
+///////////
+CrackMode
+///////////
 
-namiesto 4 moznosti nech je v kode 6 moznosti a rnadom sa vyberu 4 moznosti pre test aby sa sa nedali mozsnoti biflovat
 
-3.
+-vzorce v cervenom a ich zle variacie
 
-pridat skusobny test kde sa bude testovat Ui - teda spravan odpoved bude vzdy 100% jasna - da sa vyskusat feel STREAK
+
+////////
+STREAK
+////////
+
+-pri streaku pridat particals pri ktorych sa budem citit jak keby som siel rychlo, cim vacsi streak tym rychlejsi kazych 7
+
+//////////
+Music Mode
+//////////
+
+-BPM 160, bude jemne falshovat/pulzovat - pri breaku (mensia amplituda, mensia dynamika) bude jemne pulzovat s jemnym odtienom pozadia s rychlostou deleno 2, na Drop pojde rychlostou 1x a budu vyraznejsie pulzy (na kazdu 1. dobu zo styroch bude bude este vyraznejsi pulz a na kazdy 4. / 8. takt bude slabsie pulzovanie)
+
+////////////////////////
+ADHD inspect like Fidget
+////////////////////////
+
+-mozno prepojit s music mode?? ze ked stlacam nejake klavesy tak sa budu robit nejake blbosti?? napr. stalcim "," zapne sa flashovanie na na kazdu dobu na dalsie 4 takty, "." - pulzovanie "/" -prebehne napr. zdola hore nejaka vlna alebo sipka

@@ -4,3 +4,10 @@ czs-1-review-prvych-20.md
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# PDF text dumps (analysis material, regenerate from PDFs)
+czs*-extracted.txt
+
+# Ableton autosaves and source-of-truth project files (binary, regenerate)
+*.asd
+SoundDesign Project/

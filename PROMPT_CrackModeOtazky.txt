@@ -1,0 +1,63 @@
+Chcem vypracovať otázky pre Drill App v CrackMode.
+
+Téma:
+[SEM VLOŽ SKÚŠKOVÝ OKRUH ALEBO PODOTÁZKU]
+
+Cieľ:
+- Chcem sa učiť formou krátkych samostatných statementov.
+- Každý statement musí byť celistvá myšlienka, ktorá dáva zmysel aj bez kontextu pôvodnej otázky.
+- Každý pravdivý statement musí byť formulovaný tak, aby sa z neho dala skladať ústna skúšková odpoveď.
+- Ku každému pravdivému statementu vytvor veľmi podobný nepravdivý statement.
+
+Štruktúra:
+- Rozdeľ látku na hlavný podokruh a podpodokruhy.
+- Použi strom:
+  "Hlavný podokruh / Podpodokruh"
+- Napríklad:
+  "Tabulkove metody / DDS a fazovy akumulator"
+  "Sampler / Zmena vysky tonu"
+
+Pravidlá pre pravdivý statement:
+- Musí byť presný, stručný a skúškovo použiteľný.
+- Nesmie byť príliš všeobecný.
+- Má testovať konkrétny vzťah, princíp, dôsledok, podmienku alebo rozdiel medzi pojmami.
+- Musí obsahovať dosť kontextu, aby bol samostatne vyhodnotiteľný ako pravda.
+
+Pravidlá pre nepravdivý statement:
+- Musí byť paralelný k pravdivému statementu.
+- Má mať veľmi podobnú stavbu vety.
+- Zmeň iba jeden dôležitý detail, napríklad:
+  jedno slovo,
+  smer vzťahu,
+  príčinu a dôsledok,
+  pevný vs premenný parameter,
+  pamäť vs výpočet,
+  fázu vs frekvenciu,
+  amplitúdu vs spektrum.
+- Nesmie to byť očividná blbosť.
+- Človek má vedieť chybu odhaliť iba vtedy, keď látke rozumie.
+
+Zakázané:
+- Nepíš „podľa prezentácie“ alebo „v prezentácii je uvedené“.
+- Nepoužívaj smiešne možnosti.
+- Nepoužívaj chytáky, ktoré sa dajú vylúčiť bez znalosti učiva.
+- Nepíš statementy, ktoré sú pravdivé iba v nejasnom alebo špeciálnom kontexte.
+
+Formát výstupu:
+Vráť dáta ako JavaScript pole pre CrackMode:
+
+const noveCrackData = [
+  {
+    id: "HEL 4. Tabulkove metody DDS a fazovy akumulator 001",
+    oblast: "Tabulkove metody",
+    podoblast: "DDS a fazovy akumulator",
+    pravda: "...",
+    nepravda: "..."
+  }
+];
+
+Dôležité:
+- Všetky pravdivé statementy musia byť správne.
+- Všetky nepravdivé statementy musia byť tvrdé, ale férové.
+- Z oboch verzií sa má dať naučiť správny princíp.
+- Výsledok má byť vhodný hlavne pre CrackMode: používateľ odpovedá iba pravda/nepravda.

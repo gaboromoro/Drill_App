@@ -65,6 +65,7 @@ const prvokPanelNastaveni = document.getElementById("panelNastaveni");
 const prvokVyberPrezentacie = document.getElementById("vyberPrezentacie");
 const prvokZoznamPodokruhov = document.getElementById("zoznamPodokruhov");
 const prvokPocetFiltra = document.getElementById("pocetFiltra");
+const prvokSkupinaPoolov = document.getElementById("skupinaPoolov");
 const prvokBlokOdstranenych = document.getElementById("blokOdstranenych");
 const prvokZoznamOdstranenychOtazok = document.getElementById("zoznamOdstranenychOtazok");
 const prvokBlokTazkychOtazok = document.getElementById("blokTazkychOtazok");
@@ -668,15 +669,15 @@ function aktualizujRozlozenieUcenia() {
 
 function textTypuOtazky(otazka, ucenie = jeRezimUcenia()) {
   if (otazka?.exam || jeExamMode()) {
-    return "Exam Mode: klikni pre odpoved";
+    return "Exam Mode: napis vypracovanie";
   }
 
   if (otazka?.crack || jeCrackMode()) {
-    return "CrackMode: z = pravda, x = nepravda";
+    return "Crack Mode: z = pravda, x = nepravda";
   }
 
   if (ucenie) {
-    return otazka.typ === "viac" ? "LearnMode: správne odpovede" : "LearnMode: správna odpoveď";
+    return otazka.typ === "viac" ? "Learn Mode: správne odpovede" : "Learn Mode: správna odpoveď";
   }
 
   return otazka.typ === "viac" ? "Vyber jednu alebo viac možností" : "Vyber jednu možnosť";
@@ -686,12 +687,12 @@ function nastavRychlyRezim() {
   prepinacRychlehoRezimu.checked = jeRychlyRezim();
   prepinacRychlehoRezimu.dataset.uroven = String(urovenRychlehoRezimu);
   if (prvokTextRychlehoRezimu) {
-    prvokTextRychlehoRezimu.textContent = jeRychlyRezim2x() ? "SpeedMode2x" : "SpeedMode";
+    prvokTextRychlehoRezimu.textContent = jeRychlyRezim2x() ? "Speed Mode 2x" : "Speed Mode";
   }
   if (prvokHintRychlehoRezimu) {
     prvokHintRychlehoRezimu.textContent = jeRychlyRezim2x()
       ? "Po spravnej odpovedi automaticky prejde dalej. Pri otazkach s jednou odpovedou sa odpoved odosle hned po vybere."
-      : "Po spravnej odpovedi automaticky prejde na dalsiu otazku. Druhy klik zapne SpeedMode2x.";
+      : "Po spravnej odpovedi automaticky prejde na dalsiu otazku. Druhy klik zapne Speed Mode 2x.";
   }
 
   if (!jeRychlyRezim()) {
@@ -975,7 +976,7 @@ function vytvorCrackStatement(otazka, moznost, index) {
 
   return {
     id: `crack-${povodneId}-${index + 1}`,
-    tema: `${prezentacia}: CrackMode`,
+    tema: `${prezentacia}: Crack Mode`,
     typ: "jedna",
     format: "klasicka",
     uroven: otazka.uroven || "tazka",
@@ -1065,13 +1066,12 @@ function rozdelExamPodokruh(otazka) {
   };
 }
 
-function zlozExamZadanie(prezentacia, oblast, sekcie) {
-  const zoznamSekcii = sekcie.map((sekcia) => sekcia.nazov).join(", ");
-  const uvod = prezentacia === "HEL Skuska 4"
-    ? `Digitalne syntezy zvuku: ${oblast}.`
-    : `${prezentacia}: ${oblast}.`;
+function zjednodusExamPrezentaciu(prezentacia) {
+  return String(prezentacia).replace(/\s+Skuska\s+/i, " ").replace(/\s+/g, " ").trim();
+}
 
-  return `${uvod}\nPopiste: ${zoznamSekcii}.`;
+function zlozExamNadpis(prezentacia, oblast) {
+  return `${zjednodusExamPrezentaciu(prezentacia)} ${oblast}`;
 }
 
 function ziskajExamOtazky() {
@@ -1109,7 +1109,7 @@ function ziskajExamOtazky() {
       typ: "exam",
       format: "exam",
       uroven: "skuskova",
-      otazka: zlozExamZadanie(skupina.prezentacia, skupina.oblast, sekcie),
+      otazka: zlozExamNadpis(skupina.prezentacia, skupina.oblast),
       moznosti: [],
       spravne: [],
       vysvetlenie: "",
@@ -1175,11 +1175,17 @@ function aktualizujPocetFiltra() {
   }
 
   if (jeCrackMode()) {
-    prvokPocetFiltra.textContent = `${textPoctu} v CrackMode`;
+    prvokPocetFiltra.textContent = `${textPoctu} v Crack Mode`;
     return;
   }
 
   prvokPocetFiltra.textContent = pouzivaTazkyPool ? `${textPoctu} v tazkom poole` : textPoctu;
+}
+
+function aktualizujViditelnostPoolov() {
+  const maOdstranene = !prvokBlokOdstranenych.classList.contains("skryte");
+  const maTazke = !prvokBlokTazkychOtazok.classList.contains("skryte");
+  prvokSkupinaPoolov.classList.toggle("skryte", !maOdstranene && !maTazke);
 }
 
 function vykresliOdstraneneOtazky() {
@@ -1204,6 +1210,8 @@ function vykresliOdstraneneOtazky() {
     riadok.append(text, tlacidlo);
     prvokZoznamOdstranenychOtazok.appendChild(riadok);
   });
+
+  aktualizujViditelnostPoolov();
 }
 
 function vratOtazku(idOtazky) {
@@ -1271,6 +1279,7 @@ function vykresliTazkeOtazky() {
 
   aktualizujTlacidloTazkejOtazky();
   aktualizujTlacidloNeviem();
+  aktualizujViditelnostPoolov();
 }
 
 function pridajAktualnuOtazkuDoTazkych() {
@@ -1341,7 +1350,7 @@ function vykresliVyberPrezentacie() {
 
   const vsetky = document.createElement("option");
   vsetky.value = hodnotaVsetko;
-  vsetky.textContent = "Všetky prezentácie";
+  vsetky.textContent = "Vsetko";
   prvokVyberPrezentacie.appendChild(vsetky);
 
   ziskajPrezentacie().forEach((prezentacia) => {
@@ -1354,32 +1363,125 @@ function vykresliVyberPrezentacie() {
   prvokVyberPrezentacie.value = vybranaPrezentacia;
 }
 
+function rozdelPodokruhNaSkupinu(podokruh) {
+  const casti = String(podokruh).split("/").map((cast) => cast.trim()).filter(Boolean);
+  return {
+    skupina: casti.length > 1 ? casti[0] : "",
+    nazov: casti.length > 1 ? casti.slice(1).join(" / ") : podokruh
+  };
+}
+
+function nastavVyberPodokruhov(podokruhy, vybrane) {
+  podokruhy.forEach((podokruh) => {
+    if (vybrane) {
+      vybranePodokruhy.add(podokruh);
+    } else {
+      vybranePodokruhy.delete(podokruh);
+    }
+  });
+
+  pouzivaTazkyPool = false;
+  aktualizujPocetFiltra();
+  nastavPoradie();
+}
+
+function vytvorVolbuPodokruhu(podokruh, nazov, poZmene) {
+  const popisok = document.createElement("label");
+  popisok.className = "volba-podokruhu";
+
+  const vstup = document.createElement("input");
+  vstup.type = "checkbox";
+  vstup.checked = vybranePodokruhy.has(podokruh);
+  vstup.addEventListener("change", () => {
+    nastavVyberPodokruhov([podokruh], vstup.checked);
+    if (poZmene) {
+      poZmene();
+    }
+  });
+
+  const text = document.createElement("span");
+  text.className = "text-podokruhu";
+  text.textContent = nazov;
+
+  popisok.append(vstup, text);
+  return {
+    popisok,
+    vstup
+  };
+}
+
+function vytvorSkupinuPodokruhov(skupina, polozky) {
+  const obal = document.createElement("div");
+  obal.className = "skupina-podokruhu";
+
+  const hlavicka = document.createElement("label");
+  hlavicka.className = "volba-podokruhu volba-skupiny";
+
+  const hlavnyVstup = document.createElement("input");
+  hlavnyVstup.type = "checkbox";
+
+  const hlavnyText = document.createElement("span");
+  hlavnyText.className = "text-podokruhu";
+  hlavnyText.textContent = skupina;
+
+  hlavicka.append(hlavnyVstup, hlavnyText);
+  obal.appendChild(hlavicka);
+
+  const vetvy = document.createElement("div");
+  vetvy.className = "vetvy-podokruhu";
+  const vstupyVetiev = [];
+  const podokruhy = polozky.map((polozka) => polozka.podokruh);
+
+  const nastavStavHlavicky = () => {
+    const pocetVybranych = podokruhy.filter((podokruh) => vybranePodokruhy.has(podokruh)).length;
+    hlavnyVstup.checked = pocetVybranych === podokruhy.length;
+    hlavnyVstup.indeterminate = pocetVybranych > 0 && pocetVybranych < podokruhy.length;
+  };
+
+  polozky.forEach((polozka) => {
+    const { popisok, vstup } = vytvorVolbuPodokruhu(polozka.podokruh, polozka.nazov, nastavStavHlavicky);
+    vstupyVetiev.push(vstup);
+    vetvy.appendChild(popisok);
+  });
+
+  hlavnyVstup.addEventListener("change", () => {
+    nastavVyberPodokruhov(podokruhy, hlavnyVstup.checked);
+    vstupyVetiev.forEach((vstup) => {
+      vstup.checked = hlavnyVstup.checked;
+    });
+    hlavnyVstup.indeterminate = false;
+  });
+
+  nastavStavHlavicky();
+  obal.appendChild(vetvy);
+  return obal;
+}
+
 function vykresliPodokruhy() {
   prvokZoznamPodokruhov.innerHTML = "";
+  const samostatne = [];
+  const skupiny = new Map();
 
   ziskajDostupnePodokruhy().forEach((podokruh) => {
-    const popisok = document.createElement("label");
-    popisok.className = "volba-podokruhu";
+    const { skupina, nazov } = rozdelPodokruhNaSkupinu(podokruh);
 
-    const vstup = document.createElement("input");
-    vstup.type = "checkbox";
-    vstup.checked = vybranePodokruhy.has(podokruh);
-    vstup.addEventListener("change", () => {
-      if (vstup.checked) {
-        vybranePodokruhy.add(podokruh);
-      } else {
-        vybranePodokruhy.delete(podokruh);
-      }
-      pouzivaTazkyPool = false;
-      aktualizujPocetFiltra();
-      nastavPoradie();
-    });
+    if (!skupina) {
+      samostatne.push({ podokruh, nazov });
+      return;
+    }
 
-    const text = document.createElement("span");
-    text.textContent = podokruh;
+    if (!skupiny.has(skupina)) {
+      skupiny.set(skupina, []);
+    }
+    skupiny.get(skupina).push({ podokruh, nazov });
+  });
 
-    popisok.append(vstup, text);
-    prvokZoznamPodokruhov.appendChild(popisok);
+  samostatne.forEach((polozka) => {
+    prvokZoznamPodokruhov.appendChild(vytvorVolbuPodokruhu(polozka.podokruh, polozka.nazov).popisok);
+  });
+
+  skupiny.forEach((polozky, skupina) => {
+    prvokZoznamPodokruhov.appendChild(vytvorSkupinuPodokruhov(skupina, polozky));
   });
 
   aktualizujPocetFiltra();
@@ -1856,6 +1958,7 @@ function vytvorObrazokMedia(src, alt) {
 function nastavMediaOtazky(otazka) {
   const obrazky = Array.isArray(otazka.obrazky) ? otazka.obrazky : [];
   prvokMediaOtazky.innerHTML = "";
+  prvokMediaOtazky.classList.remove("exam-pisanie");
 
   if (obrazky.length > 0) {
     prvokObrazokOtazky.removeAttribute("src");
@@ -2042,8 +2145,7 @@ function nastavExamOdpoved(otazka, zobrazit) {
   prvokVysledok.innerHTML = "";
 
   if (!zobrazit) {
-    prvokVysledok.className = "vysledok exam-hint";
-    prvokVysledok.textContent = "Klikni na otazku alebo sem pre vypracovanu odpoved.";
+    prvokVysledok.className = "vysledok skryte";
     return;
   }
 
@@ -2051,14 +2153,53 @@ function nastavExamOdpoved(otazka, zobrazit) {
   prvokVysledok.appendChild(vytvorExamOdpoved(otazka));
 }
 
-function prepniExamOdpoved() {
+function zobrazExamOdpoved() {
   const otazka = aktualnaOtazka();
-  if (!otazka?.exam) {
+  if (!otazka?.exam || otazka.examOdpovedZobrazena) {
     return;
   }
 
-  otazka.examOdpovedZobrazena = !otazka.examOdpovedZobrazena;
-  nastavExamOdpoved(otazka, otazka.examOdpovedZobrazena);
+  otazka.examOdpovedZobrazena = true;
+  nastavExamOdpoved(otazka, true);
+}
+
+function vytvorExamPisanie(otazka) {
+  const obal = document.createElement("div");
+  obal.className = "exam-pisanie-vnutro";
+
+  if (!otazka.examOdpovedeUzivatela) {
+    otazka.examOdpovedeUzivatela = {};
+  }
+
+  otazka.examSekcie.forEach((sekcia) => {
+    const blok = document.createElement("section");
+    blok.className = "exam-sekcia-pisania";
+
+    const nadpis = document.createElement("h3");
+    nadpis.textContent = `Popiste ${sekcia.nazov}`;
+
+    const pole = document.createElement("textarea");
+    pole.className = "exam-vstup";
+    pole.rows = 5;
+    pole.spellcheck = false;
+    pole.value = otazka.examOdpovedeUzivatela[sekcia.nazov] || "";
+    pole.placeholder = "Tvoje vypracovanie...";
+    pole.addEventListener("input", () => {
+      otazka.examOdpovedeUzivatela[sekcia.nazov] = pole.value;
+    });
+
+    blok.append(nadpis, pole);
+    obal.appendChild(blok);
+  });
+
+  return obal;
+}
+
+function nastavExamPisanie(otazka) {
+  prvokMediaOtazky.innerHTML = "";
+  prvokMediaOtazky.classList.add("exam-pisanie");
+  prvokMediaOtazky.classList.remove("skryte");
+  prvokMediaOtazky.appendChild(vytvorExamPisanie(otazka));
 }
 
 function zobrazExamOtazku(otazka) {
@@ -2066,6 +2207,7 @@ function zobrazExamOtazku(otazka) {
   vyhodnotene = true;
   aktualneMoznosti = [];
   prvokMoznosti.innerHTML = "";
+  nastavExamPisanie(otazka);
   nastavExamOdpoved(otazka, false);
   prvokOtazka.classList.add("exam-otazka");
   tlacidloMedzernik.disabled = false;
@@ -2319,7 +2461,7 @@ function pouziMedzernik() {
   if (jeExamMode()) {
     const otazka = aktualnaOtazka();
     if (otazka?.exam && !otazka.examOdpovedZobrazena) {
-      prepniExamOdpoved();
+      zobrazExamOdpoved();
     } else {
       dalsiaOtazka();
     }
@@ -2628,7 +2770,9 @@ function ziskajOtazkyPredmetu(predmet) {
 }
 
 function nastavPredmet(predmet) {
-  if (predmet !== "hel" && prepinacCrackMode) {
+  const podporujeCrackMode = predmet === "hel" || predmet === "czs";
+
+  if (!podporujeCrackMode && prepinacCrackMode) {
     prepinacCrackMode.checked = false;
     zrusCrackTimer(true);
   }
@@ -2821,8 +2965,6 @@ document.addEventListener("click", obsluzKlikCitatu, true);
 document.addEventListener("click", obsluzKlikVolitelnehoPrvku);
 document.addEventListener("change", obsluzZmenuVolitelnehoPrvku);
 document.addEventListener("keydown", obsluzKlavesnicu);
-prvokOtazka.addEventListener("click", prepniExamOdpoved);
-prvokVysledok.addEventListener("click", prepniExamOdpoved);
 
 nastavTlacidlaOtazok();
 vytvorPixelyStlpca();

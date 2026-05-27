@@ -1,0 +1,13 @@
+KLUCOVE SLOVA
+
+perfketne, vies nejako zvyrazni klucove slova?? napriklad pri
+
+Horizontalne zony podla vysky tonu maju v multisamplingu obycajne prednost pred vertikalnymi zonami.
+
+by bolo zvyraznene "Horizontalne" "prednost pred" "vertikalnymi"
+
+alebo
+
+Pri transponovani jednej vzorky na vzdialene tony sa v sampleri meni spektralna obalka zvuku.
+
+"" ""

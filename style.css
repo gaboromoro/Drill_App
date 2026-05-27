@@ -708,7 +708,7 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
 
 .panel-nastaveni {
   display: grid;
-  gap: 18px;
+  gap: 14px;
   position: absolute;
   right: 0;
   top: calc(100% + 10px);
@@ -717,6 +717,26 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
   border: 2px solid var(--ciara);
   background: var(--pozadie);
   padding: 16px;
+}
+
+.skupina-nastaveni {
+  display: grid;
+  gap: 12px;
+  border-top: 2px solid var(--ciara);
+  padding-top: 14px;
+}
+
+.skupina-nastaveni:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.nadpis-nastaveni {
+  margin: 0;
+  color: var(--ciara);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .nastavenie {
@@ -880,11 +900,6 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
   outline-offset: 3px;
 }
 
-.nastavenie-okruhu {
-  border-top: 2px solid var(--ciara);
-  padding-top: 14px;
-}
-
 .riadok-nastavenia {
   display: flex;
   align-items: center;
@@ -905,10 +920,22 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
 
 .zoznam-podokruhov {
   display: grid;
-  gap: 8px;
+  gap: 7px;
   max-height: min(34vh, 260px);
   overflow-y: auto;
   padding-right: 4px;
+}
+
+.skupina-podokruhu {
+  display: grid;
+  gap: 7px;
+  border-top: 1px solid var(--ciara);
+  padding-top: 8px;
+}
+
+.skupina-podokruhu:first-child {
+  border-top: 0;
+  padding-top: 0;
 }
 
 .volba-podokruhu {
@@ -936,6 +963,28 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
     var(--pozadie);
 }
 
+.volba-podokruhu input:indeterminate {
+  background:
+    linear-gradient(var(--ciara), var(--ciara)) center / 10px 3px no-repeat,
+    var(--pozadie);
+}
+
+.volba-skupiny {
+  color: var(--ciara);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.vetvy-podokruhu {
+  display: grid;
+  gap: 7px;
+}
+
+.text-podokruhu {
+  overflow-wrap: anywhere;
+}
+
 .pocet-filtra {
   font-size: 14px;
 }
@@ -943,8 +992,11 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
 .blok-odstranenych {
   display: grid;
   gap: 10px;
-  border-top: 2px solid var(--ciara);
-  padding-top: 14px;
+}
+
+.blok-odstranenych + .blok-odstranenych {
+  border-top: 1px solid var(--ciara);
+  padding-top: 10px;
 }
 
 .hlavicka-odstranenych {
@@ -1325,7 +1377,17 @@ body.rezim-exam #rezimTest .panel > .riadok {
 }
 
 body.rezim-exam #rezimTest .panel {
+  display: grid;
+  gap: 16px;
   padding-top: 46px;
+}
+
+body.rezim-exam #rezimTest .ovladanie {
+  order: 10;
+}
+
+body.rezim-exam #vysledok {
+  order: 20;
 }
 
 body.rezim-exam #tlacidloOdstranitOtazku,
@@ -1348,17 +1410,6 @@ body.rezim-exam .moznosti {
 
 .exam-otazka {
   white-space: pre-line;
-  cursor: pointer;
-}
-
-.exam-hint,
-.exam-vysledok {
-  cursor: pointer;
-}
-
-.exam-hint {
-  border: 2px dashed var(--ciara);
-  text-align: center;
 }
 
 .exam-vysledok {
@@ -1383,6 +1434,44 @@ body.rezim-exam .moznosti {
 
 .exam-odpoved li {
   margin: 8px 0;
+}
+
+.exam-pisanie {
+  margin: 18px 0 18px;
+}
+
+.exam-pisanie-vnutro {
+  display: grid;
+  gap: 22px;
+}
+
+.exam-sekcia-pisania {
+  display: grid;
+  gap: 8px;
+}
+
+.exam-sekcia-pisania h3 {
+  margin: 0;
+  font-size: 23px;
+  line-height: 1.25;
+}
+
+.exam-vstup {
+  width: 100%;
+  min-height: 130px;
+  resize: vertical;
+  border: 2px solid var(--ciara);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  padding: 12px;
+  font: inherit;
+  line-height: 1.4;
+}
+
+.exam-vstup:focus {
+  outline: 3px solid var(--ciara);
+  outline-offset: 3px;
 }
 
 body.rezim-crack #rezimTest .panel > .riadok,
@@ -1415,6 +1504,8 @@ body.rezim-crack.rezim-exam #rezimTest .panel > .riadok {
 }
 
 body.rezim-crack.rezim-exam #rezimTest .panel {
+  display: grid;
+  gap: 16px;
   padding-top: 46px;
 }
 
@@ -1462,7 +1553,7 @@ body.rezim-crack.rezim-crack-mobile .stlpec-panel {
 
 body.rezim-crack.rezim-crack-mobile .stlpec-uspesnosti {
   width: 100%;
-  height: clamp(24px, 5vh, 42px);
+  height: clamp(48px, 10vh, 84px);
   --velkost-pixelu-stlpca: 2px;
 }
 
@@ -1510,7 +1601,10 @@ body.rezim-crack.rezim-crack-mobile #otazka {
   overflow: auto;
   font-size: clamp(24px, 4.7vw, 46px);
   line-height: 1.22;
-  text-align: center;
+  text-align: justify;
+  text-align-last: center;
+  text-justify: inter-word;
+  hyphens: auto;
   scrollbar-width: thin;
 }
 
@@ -1618,8 +1712,8 @@ body.rezim-crack.rezim-crack-mobile .ovladanie {
   }
 
   body.rezim-crack.rezim-crack-mobile .stlpec-uspesnosti {
-    height: clamp(22px, 5vh, 36px);
-    min-height: 22px;
+    height: clamp(44px, 10vh, 72px);
+    min-height: 44px;
   }
 
   body.rezim-crack.rezim-crack-mobile #rezimTest .panel {
@@ -2171,7 +2265,7 @@ body.rezim-crack-timer .moznosti {
 
 @media (orientation: landscape) and (max-height: 560px) {
   body.rezim-crack-mobile.rezim-crack-timer #rezimTest {
-    grid-template-columns: clamp(28px, 5vw, 54px) minmax(0, 1fr) clamp(28px, 5vw, 54px);
+    grid-template-columns: clamp(56px, 10vw, 108px) minmax(0, 1fr) clamp(56px, 10vw, 108px);
     column-gap: clamp(7px, 1.4vw, 14px);
   }
 
@@ -2183,7 +2277,7 @@ body.rezim-crack-timer .moznosti {
 
   body.rezim-crack-mobile.rezim-crack-timer .stlpec-panel-casovac .stlpec-uspesnosti,
   body.rezim-crack-mobile.rezim-crack-timer .stlpec-panel-progress .stlpec-uspesnosti {
-    width: clamp(28px, 5vw, 54px);
+    width: clamp(56px, 10vw, 108px);
     height: calc(100svh - 148px);
     min-height: 150px;
   }
