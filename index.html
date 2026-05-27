@@ -4,12 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Drill on Crack</title>
+  <link rel="stylesheet" href="assets/katex/katex.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="rytmickyVizualizer" class="rytmicky-vizualizer" aria-hidden="true"></div>
   <div id="flashEfekt" class="flash-efekt" aria-hidden="true"></div>
   <div id="streakFlashCislo" class="streak-flash-cislo" aria-hidden="true"></div>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="lumaKey" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="
+          1 0 0 0 0
+          0 1 0 0 0
+          0 0 1 0 0
+          2.2 2.2 2.2 0 -0.35"/>
+      </filter>
+    </defs>
+  </svg>
+  <div id="videoOverlay" class="video-overlay" aria-hidden="true">
+    <video id="videoPrehravac" class="video-overlay-video" muted playsinline></video>
+  </div>
   <main class="stranka">
     <header class="hlavicka">
       <div>
@@ -268,6 +283,7 @@
   <script src="czs-otazky.js"></script>
   <script src="czs1-crack.js"></script>
   <script src="czs2-crack.js"></script>
+  <script src="czs4-crack.js"></script>
   <script src="czs5-crack.js"></script>
   <script src="czs6-crack.js"></script>
   <script src="hel-otazky.js"></script>
@@ -277,6 +293,8 @@
   <script src="aud-otazky.js"></script>
   <script src="kodove-ulohy.js"></script>
   <script src="citaty.js"></script>
+  <script src="assets/katex/katex.min.js"></script>
+  <script src="assets/katex/contrib/auto-render.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

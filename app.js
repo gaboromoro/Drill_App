@@ -42,6 +42,9 @@ const zvukSpravne = new Audio("Audio-samples/correct/ESM_Simple_Google_Soundalik
 const zvukSpravneStreak7 = new Audio("Audio-samples/correct/streak7x.wav");
 const zvukSpravneStreak14 = new Audio("Audio-samples/correct/streak14x.wav");
 const zvukZle = new Audio("Audio-samples/wrong/FF_CF_foley_fart_green.wav");
+const zvukZle8x = new Audio("Audio-samples/wrong/ESM_Wrong_Answer_or_Negative_Game_Hit_2_Sound_FX_Arcade_Casino_Kids_Mobile_App.wav");
+const zvukZle15x = new Audio("Audio-samples/wrong/ESM_Retro_Game_Classic_Player_Death_1_8_Bit_Arcade_80s_Negative.wav");
+const zvukDokonceniaPoolu = new Audio("Audio-samples/Complete/ESM_Ambient_Game_Objective_Complete_Simple_Run_1_Score_LevelUp_Bonus_Unlock.wav");
 const zvukVyberuVolby = new Audio("Audio-samples/select/ESM_Perfect_Clean_App_Button_Click_2_Organic_Simple_Classic_Game_Click.wav");
 const zvukCitatu = new Audio("Audio-samples/Holy/ESM_FX_achievements_rewards_swipe_choir_angelic_positive_03.wav");
 
@@ -81,6 +84,8 @@ const prvokKodVysledok = document.getElementById("kodVysledok");
 const prvokKodRiesenie = document.getElementById("kodRiesenie");
 const prvokFlashEfekt = document.getElementById("flashEfekt");
 const prvokStreakFlashCislo = document.getElementById("streakFlashCislo");
+const prvokVideoOverlay = document.getElementById("videoOverlay");
+const prvokVideoPrehravac = document.getElementById("videoPrehravac");
 const blokyCitatu = [...document.querySelectorAll(".blok-citatu")];
 const prvkyTextuCitatu = [...document.querySelectorAll(".text-citatu")];
 
@@ -134,11 +139,55 @@ const intervalRytmickehoBeatu = Math.round(60000 / rytmickeBpm);
 const pocetStlpcovPixelov = 24;
 const pocetRiadkovPixelov = 4;
 const selektorVolitelnychPrvkov = "button, .moznost, select, input[type='checkbox'], input[type='radio'], input[type='range']";
-const skusobneOtazky = Array.from({ length: 20 }, (_, index) => vytvorSkusobnuOtazku(index + 1));
+const skusobneOtazky = Array.from({ length: 30 }, (_, index) => vytvorSkusobnuOtazku(index + 1));
 let casovacPixelovStlpca = null;
 let poradieKodovychUloh = [];
 let aktualnyKodIndex = 0;
 const casovaceEfektuTlacidiel = new WeakMap();
+
+const katexDelimitery = [
+  { left: "$$", right: "$$", display: true },
+  { left: "$", right: "$", display: false },
+  { left: "\\[", right: "\\]", display: true },
+  { left: "\\(", right: "\\)", display: false }
+];
+
+function nastavStatementText(prvok, text) {
+  prvok.textContent = text;
+  if (typeof window.renderMathInElement === "function") {
+    try {
+      window.renderMathInElement(prvok, {
+        delimiters: katexDelimitery,
+        throwOnError: false,
+        errorColor: "#cc0000"
+      });
+    } catch (chyba) {
+      // KaTeX nie je dostupny alebo zlyhal - text ostane ako plain text
+    }
+  }
+}
+
+function vykresliVysledokPredoslej(otazka, jeSpravne, fallbackText) {
+  prvokVysledok.innerHTML = "";
+  prvokVysledok.className = jeSpravne ? "vysledok ok" : "vysledok zle";
+
+  if (otazka && otazka.crackPair) {
+    const popisok = document.createElement("div");
+    popisok.className = "vysledok-popisok";
+    popisok.textContent = jeSpravne
+      ? "Spravne. Spravna verzia statementu:"
+      : "Nespravne. Spravna verzia statementu:";
+    prvokVysledok.appendChild(popisok);
+
+    const statement = document.createElement("div");
+    statement.className = "vysledok-statement";
+    prvokVysledok.appendChild(statement);
+    nastavStatementText(statement, otazka.crackPair.pravda);
+    return;
+  }
+
+  nastavStatementText(prvokVysledok, fallbackText || "");
+}
 
 function zamiesaj(pole) {
   const kopia = [...pole];
@@ -154,22 +203,20 @@ function nahodneCeleCislo(minimum, maximum) {
 }
 
 function vytvorSkusobnuOtazku(cislo) {
-  const spravnyIndex = (cislo * 3 + 1) % 4;
-  const moznosti = ["0", "0", "0", "0"];
-  moznosti[spravnyIndex] = "1";
-
   return {
     id: `test-${String(cislo).padStart(2, "0")}`,
     tema: "TESTT",
     typ: "jedna",
     format: "klasicka",
     uroven: "test",
-    otazka: "1 ?",
-    moznosti,
-    spravne: [spravnyIndex],
+    otazka: "1?",
+    moznosti: ["1", "0"],
+    spravne: [0],
     vysvetlenie: "",
     prezentacia: "TESTT",
-    subtema: "Kontrola fungovania appky"
+    subtema: "Kontrola fungovania appky",
+    pevnePoradieMoznosti: true,
+    crack: true
   };
 }
 
@@ -301,6 +348,12 @@ function ziskajZvukSpravnejOdpovede(dlzkaSerie) {
   };
 }
 
+function ziskajZvukZlejOdpovede(dlzkaSerie) {
+  if (dlzkaSerie >= 15) return { zvuk: zvukZle15x, rychlost: 1 };
+  if (dlzkaSerie >= 8) return { zvuk: zvukZle8x, rychlost: 1 };
+  return { zvuk: zvukZle, rychlost: 1 };
+}
+
 function pocetPrehratiZvuku(jeSpravne, dlzkaSerie) {
   if (!jeSpravne) {
     return 1;
@@ -315,7 +368,7 @@ function pocetPrehratiZvuku(jeSpravne, dlzkaSerie) {
 
 function nastavHlasitost(hodnota) {
   hlasitost = Math.max(0, Math.min(1, Number(hodnota) / 100));
-  [zvukSpravne, zvukSpravneStreak7, zvukSpravneStreak14, zvukZle, zvukVyberuVolby, zvukCitatu].forEach((zvuk) => {
+  [zvukSpravne, zvukSpravneStreak7, zvukSpravneStreak14, zvukZle, zvukZle8x, zvukZle15x, zvukDokonceniaPoolu, zvukVyberuVolby, zvukCitatu].forEach((zvuk) => {
     zvuk.volume = hlasitost;
   });
 }
@@ -426,17 +479,84 @@ function aktivujRytmickyEfekt(efekt) {
   return true;
 }
 
+function spustiJednorazovyFlash() {
+  if (!prvokFlashEfekt) return;
+  if (animaciaSpravnehoFlashu) {
+    animaciaSpravnehoFlashu.cancel();
+    animaciaSpravnehoFlashu = null;
+  }
+  if (casovacSpravnehoFlashu) {
+    window.clearTimeout(casovacSpravnehoFlashu);
+    casovacSpravnehoFlashu = null;
+  }
+  prvokFlashEfekt.classList.remove("aktivny", "specialny");
+  prvokFlashEfekt.style.mixBlendMode = "normal";
+  prvokFlashEfekt.style.background = "rgba(255, 255, 255, 0.97)";
+  prvokFlashEfekt.style.setProperty("--flash-trvanie", "380ms");
+  prvokFlashEfekt.style.setProperty("--flash-scale-start", "1");
+  prvokFlashEfekt.style.setProperty("--flash-scale-peak", "1");
+  void prvokFlashEfekt.offsetHeight;
+  prvokFlashEfekt.classList.add("aktivny");
+  casovacSpravnehoFlashu = window.setTimeout(() => {
+    prvokFlashEfekt.classList.remove("aktivny");
+    prvokFlashEfekt.style.opacity = "0";
+    casovacSpravnehoFlashu = null;
+  }, 420);
+}
+
+function prehrajVideoOverlay(src, rychlost = 1) {
+  if (!prvokVideoOverlay || !prvokVideoPrehravac) return;
+  prvokVideoPrehravac.src = src;
+  prvokVideoPrehravac.playbackRate = rychlost;
+  prvokVideoPrehravac.currentTime = 0;
+  prvokVideoOverlay.classList.add("aktivny");
+  prvokVideoPrehravac.play().catch(() => {});
+  prvokVideoPrehravac.onended = () => {
+    prvokVideoOverlay.classList.remove("aktivny");
+    prvokVideoPrehravac.src = "";
+  };
+}
+
+function spustiInvertFlash() {
+  if (!prvokFlashEfekt) return;
+  if (animaciaSpravnehoFlashu) {
+    animaciaSpravnehoFlashu.cancel();
+    animaciaSpravnehoFlashu = null;
+  }
+  if (casovacSpravnehoFlashu) {
+    window.clearTimeout(casovacSpravnehoFlashu);
+    casovacSpravnehoFlashu = null;
+  }
+  prvokFlashEfekt.classList.remove("aktivny", "specialny");
+  prvokFlashEfekt.style.background = "#ffffff";
+  prvokFlashEfekt.style.mixBlendMode = "difference";
+  prvokFlashEfekt.style.setProperty("--flash-trvanie", "380ms");
+  prvokFlashEfekt.style.setProperty("--flash-scale-start", "1");
+  prvokFlashEfekt.style.setProperty("--flash-scale-peak", "1");
+  void prvokFlashEfekt.offsetHeight;
+  prvokFlashEfekt.classList.add("aktivny");
+  casovacSpravnehoFlashu = window.setTimeout(() => {
+    prvokFlashEfekt.classList.remove("aktivny");
+    prvokFlashEfekt.style.opacity = "0";
+    prvokFlashEfekt.style.mixBlendMode = "normal";
+    casovacSpravnehoFlashu = null;
+  }, 420);
+}
+
 function obsluzRytmickuKlavesu(klaves) {
   if (klaves === ",") {
-    return aktivujRytmickyEfekt("flash");
+    spustiJednorazovyFlash();
+    return true;
   }
 
   if (klaves === ".") {
-    return aktivujRytmickyEfekt("pulse");
+    spustiInvertFlash();
+    return true;
   }
 
   if (klaves === "/") {
-    return aktivujRytmickyEfekt("wave");
+    prehrajVideoOverlay("Animations/explosion1.mp4", 6);
+    return true;
   }
 
   return false;
@@ -803,7 +923,6 @@ function nastavCrackMode() {
   pouzivaTazkyPool = false;
 
   if (jeCrackMode()) {
-    prepinacUcenia.checked = false;
     prepinacDisplaySorting.checked = false;
     nastavDisplaySorting();
     if (aktualnyPredmet !== "hel") {
@@ -838,13 +957,7 @@ function nastavExamMode() {
 
 function nastavRezimUcenia() {
   zrusCasovacDalsejOtazky();
-  if (jeRezimUcenia() && jeCrackMode()) {
-    prepinacCrackMode.checked = false;
-    pocetZlychOdpovediPreCitat = 0;
-    zrusCrackTimer(true);
-    nastavPoradie();
-    return;
-  }
+  zrusCrackTimer(true);
 
   if (jeRezimUcenia() && jeExamMode()) {
     prepinacExamMode.checked = false;
@@ -998,7 +1111,7 @@ function nastavNahodnyCrackParStatement(otazka) {
     return otazka;
   }
 
-  const pouziPravdu = Math.random() < 0.5;
+  const pouziPravdu = jeRezimUcenia() ? true : Math.random() < 0.5;
   const spravnyVyrok = crackDvojica.pravda;
   otazka.otazka = pouziPravdu ? crackDvojica.pravda : crackDvojica.nepravda;
   otazka.spravne = [pouziPravdu ? 0 : 1];
@@ -1580,7 +1693,7 @@ function obnovNahladAktualnejOtazky() {
 
   prvokTema.textContent = otazka.tema;
   prvokTypOtazky.textContent = textTypuOtazky(otazka, nahlad.ucenie);
-  prvokOtazka.textContent = otazka.otazka;
+  nastavStatementText(prvokOtazka, otazka.otazka);
   prvokPocitadlo.textContent = `${aktualnyIndex + 1} / ${poradieOtazok.length}`;
   prvokSkore.textContent = `Skóre: ${skore}`;
   prvokVysledok.className = nahlad.vysledokTrieda;
@@ -1615,11 +1728,10 @@ function vykresliPredoslyVysledok() {
 
   prvokTema.textContent = otazka.tema;
   prvokTypOtazky.textContent = predoslyVysledok.jeSpravne ? "Previous: správne" : "Previous: nesprávne";
-  prvokOtazka.textContent = otazka.otazka;
+  nastavStatementText(prvokOtazka, otazka.otazka);
   prvokPocitadlo.textContent = "Previous";
   prvokSkore.textContent = `Skóre: ${skore}`;
-  prvokVysledok.className = predoslyVysledok.jeSpravne ? "vysledok ok" : "vysledok zle";
-  prvokVysledok.textContent = predoslyVysledok.textVysledku;
+  vykresliVysledokPredoslej(otazka, predoslyVysledok.jeSpravne, predoslyVysledok.textVysledku);
 
   nastavMediaOtazky(otazka);
   vykresliMoznosti(otazka, aktualneMoznosti, predoslyVysledok.vybrane, true);
@@ -1711,6 +1823,7 @@ function spustiSpravnyFlash(dlzkaSerie) {
   }
 
   prvokFlashEfekt.classList.remove("aktivny", "specialny");
+  prvokFlashEfekt.style.mixBlendMode = "normal";
   prvokFlashEfekt.style.background = pozadie;
   prvokFlashEfekt.style.opacity = "1";
   prvokFlashEfekt.style.setProperty("--flash-trvanie", `${nastavenia.trvanie}ms`);
@@ -1808,7 +1921,7 @@ function spustiEfekt(jeSpravne, dlzkaSerie = 0) {
 function spustiSpatnuVazbu(jeSpravne, dlzkaSerie = 0) {
   const spatnaVazba = jeSpravne
     ? ziskajZvukSpravnejOdpovede(dlzkaSerie)
-    : { zvuk: zvukZle, rychlost: 1 };
+    : ziskajZvukZlejOdpovede(dlzkaSerie);
   const { zvuk, rychlost } = spatnaVazba;
   const pocetPrehrati = pocetPrehratiZvuku(jeSpravne, dlzkaSerie);
 
@@ -1923,11 +2036,12 @@ function zobrazPrazdnyVyber() {
     .filter((otazka) => vybranePodokruhy.has(ziskajPodokruh(otazka))).length;
   prvokTema.textContent = "Výber otázok";
   prvokTypOtazky.textContent = "0 otázok";
-  prvokOtazka.textContent = pouzivaTazkyPool
+  const textPrazdnehoPoolu = pouzivaTazkyPool
     ? "Tazky pool je prazdny. Pridaj do neho otazky alebo sa vrat na bezny filter."
     : pocetPredOdstranenim > 0
     ? "V aktuálnom poole už nie sú otázky. Vráť niektorú odstránenú otázku v nastaveniach."
     : "Vyber aspoň jeden podokruh v nastaveniach.";
+  nastavStatementText(prvokOtazka, textPrazdnehoPoolu);
   prvokPocitadlo.textContent = "0 / 0";
   prvokSkore.textContent = "Skóre: 0";
   prvokMoznosti.innerHTML = "";
@@ -2234,7 +2348,7 @@ function zobrazOtazku() {
 
   prvokTema.textContent = otazka.tema;
   prvokTypOtazky.textContent = textTypuOtazky(otazka, ucenie);
-  prvokOtazka.textContent = otazka.otazka;
+  nastavStatementText(prvokOtazka, otazka.otazka);
   prvokOtazka.classList.toggle("exam-otazka", Boolean(otazka.exam));
   prvokPocitadlo.textContent = `${aktualnyIndex + 1} / ${poradieOtazok.length}`;
   prvokSkore.textContent = `Skóre: ${skore}`;
@@ -2390,7 +2504,7 @@ function obsluzKlavesnicu(udalost) {
   const klaves = udalost.key.toLowerCase();
   const indexMoznosti = klavesyMoznosti.indexOf(klaves);
 
-  if (!jeExamMode() && jeCrackMode() && (klaves === "z" || klaves === "x")) {
+  if (!jeExamMode() && (jeCrackMode() || aktualnaOtazka()?.crack) && (klaves === "z" || klaves === "x")) {
     udalost.preventDefault();
     vyberMoznostKlavesou(klaves === "z" ? 0 : 1);
     return;
@@ -2541,6 +2655,7 @@ function skontrolujOdpoved(vybrane = ziskajVybraneIndexy(), povolPrazdnu = false
   ulozPredoslyVysledok(otazka, vybrane, jeSpravne, textVysledku);
   cakaNaVyradenieOtazky = jeSpravne && jeRezimPrejdeniaPoolu();
 
+  const predoslaSeriaSpravnych = seriaSpravnych;
   if (jeSpravne) {
     seriaSpravnych++;
     najvyssiaSeriaSpravnych = Math.max(najvyssiaSeriaSpravnych, seriaSpravnych);
@@ -2550,7 +2665,7 @@ function skontrolujOdpoved(vybrane = ziskajVybraneIndexy(), povolPrazdnu = false
 
   upravStlpec(jeSpravne);
   aktualizujStreak(jeSpravne);
-  spustiSpatnuVazbu(jeSpravne, seriaSpravnych);
+  spustiSpatnuVazbu(jeSpravne, jeSpravne ? seriaSpravnych : predoslaSeriaSpravnych);
   posunCitatPoOdpovedi(jeSpravne);
 
   if (jeSpravne) {
@@ -2632,12 +2747,14 @@ function vyradSpravneZodpovedanuOtazku() {
 function zobrazDokoncenyPool() {
   zrusCrackTimer(true);
   poolDokonceny = true;
+  prehrajZvuk(zvukDokonceniaPoolu);
+  prehrajVideoOverlay("Animations/explosion_ultiamte.mp4", 1);
   vyhodnotene = true;
   zobrazujePredoslyVysledok = false;
   nahladAktualnejOtazky = null;
   prvokTema.textContent = "Pool hotovy";
   prvokTypOtazky.textContent = "Vsetko spravne";
-  prvokOtazka.textContent = "Vsetky otazky v aktualnom poole boli zodpovedane spravne.";
+  nastavStatementText(prvokOtazka, "Vsetky otazky v aktualnom poole boli zodpovedane spravne.");
   prvokPocitadlo.textContent = `${stavStlpca} / ${pociatocnyPocetPoolu}`;
   prvokSkore.textContent = `Skore: ${skore}`;
   prvokMoznosti.innerHTML = "";

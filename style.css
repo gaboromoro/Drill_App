@@ -496,6 +496,25 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
   animation: rytmickaVlna 780ms ease-out forwards;
 }
 
+.video-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: none;
+  pointer-events: none;
+}
+
+.video-overlay.aktivny {
+  display: block;
+}
+
+.video-overlay-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: url(#lumaKey) brightness(1.15) saturate(1.25);
+}
+
 .flash-efekt {
   position: fixed;
   inset: -72px;
@@ -1329,6 +1348,32 @@ h3 {
   color: var(--text);
 }
 
+.vysledok-popisok {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  opacity: 0.75;
+}
+
+.vysledok-statement {
+  font-size: 31px;
+  line-height: 1.35;
+  font-weight: bold;
+  margin: 0;
+}
+
+body.rezim-crack:not(.rezim-crack-mobile):not(.rezim-exam) .vysledok-statement {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: none;
+}
+
+body.rezim-crack.rezim-crack-mobile .vysledok-statement {
+  font-size: clamp(20px, 3.8vw, 32px);
+  line-height: 1.22;
+  text-align: justify;
+}
+
 .ovladanie {
   margin-top: 18px;
 }
@@ -1488,6 +1533,16 @@ body.rezim-crack .moznosti {
 
 body.rezim-crack #rezimTest .panel {
   padding-top: 76px;
+}
+
+body.rezim-crack:not(.rezim-crack-mobile) .stranka {
+  width: min(1720px, calc(100% - 32px));
+}
+
+body.rezim-crack:not(.rezim-crack-mobile):not(.rezim-exam) #otazka {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: none;
 }
 
 body.rezim-crack .moznost {
