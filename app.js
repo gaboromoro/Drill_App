@@ -107,6 +107,7 @@ const tlacidloPredmetCzs = document.getElementById("tlacidloPredmetCzs");
 const tlacidloPredmetHel = document.getElementById("tlacidloPredmetHel");
 const tlacidloPredmetVs2 = document.getElementById("tlacidloPredmetVs2");
 const tlacidloPredmetAud = document.getElementById("tlacidloPredmetAud");
+const tlacidloPredmetVet = document.getElementById("tlacidloPredmetVet");
 const tlacidloPredmetTest = document.getElementById("tlacidloPredmetTest");
 const tlacidloVsetkyPodokruhy = document.getElementById("tlacidloVsetkyPodokruhy");
 const tlacidloZiadnePodokruhy = document.getElementById("tlacidloZiadnePodokruhy");
@@ -3045,6 +3046,10 @@ function ziskajOtazkyPredmetu(predmet) {
     return typeof audOtazky === "undefined" ? [] : audOtazky;
   }
 
+  if (predmet === "vet") {
+    return typeof veterinaOtazky === "undefined" ? [] : veterinaOtazky;
+  }
+
   return czsOtazky;
 }
 
@@ -3074,6 +3079,8 @@ function nastavPredmet(predmet) {
   tlacidloPredmetVs2.classList.toggle("sekundarne", predmet !== "vs2");
   tlacidloPredmetAud.classList.toggle("aktivny", predmet === "aud");
   tlacidloPredmetAud.classList.toggle("sekundarne", predmet !== "aud");
+  tlacidloPredmetVet.classList.toggle("aktivny", predmet === "vet");
+  tlacidloPredmetVet.classList.toggle("sekundarne", predmet !== "vet");
   tlacidloPredmetTest.classList.toggle("aktivny", predmet === "test");
   tlacidloPredmetTest.classList.toggle("sekundarne", predmet !== "test");
   prvokPrepinacRezimu.classList.toggle("skryte", predmet !== "pc2");
@@ -3199,6 +3206,9 @@ tlacidloPredmetVs2.addEventListener("click", () => {
 });
 tlacidloPredmetAud.addEventListener("click", () => {
   nastavPredmet("aud");
+});
+tlacidloPredmetVet.addEventListener("click", () => {
+  nastavPredmet("vet");
 });
 tlacidloPredmetTest.addEventListener("click", () => {
   nastavPredmet("test");
