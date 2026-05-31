@@ -585,3 +585,62 @@ const czsSkuska6CrackOtazky = czsSkuska6CrackStatementy.map(([oblast, podoblast,
 }));
 
 czsOtazky.push(...czsSkuska6CrackOtazky);
+
+const czsSkuska6CrackVypocty = [
+  {
+    id: "CZS 6. Filtre vypocet dolna priepust 001",
+    oblast: "Filtre",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pre jednopolovu dolnu priepust s polom v $z_{x} = a$ ($0 < a < 1$, napr. $a = 0{,}9$) a nulou v $z_{0} = 0$ je $H(z) = a_{0} \cdot \dfrac{z}{z - a} = a_{0} \cdot \dfrac{1}{1 - a\, z^{-1}}$. Z normalizacnej podmienky $\bigl|H(e^{j 0})\bigr| = 1$ dostaneme $a_{0} \cdot \dfrac{1}{1 - a} = 1 \Rightarrow a_{0} = 1 - a = 0{,}1$, takze $H(z) = \dfrac{0{,}1}{1 - 0{,}9\, z^{-1}}$.`,
+    nepravda: String.raw`Pre jednopolovu dolnu priepust s polom v $z_{x} = a$ ($0 < a < 1$, napr. $a = 0{,}9$) a nulou v $z_{0} = 0$ je $H(z) = a_{0} \cdot \dfrac{z}{z - a} = a_{0} \cdot \dfrac{1}{1 - a\, z^{-1}}$. Z normalizacnej podmienky $\bigl|H(e^{j 0})\bigr| = 1$ dostaneme $a_{0} \cdot \dfrac{1}{1 - a} = 1 \Rightarrow a_{0} = 1 + a = 1{,}9$, takze $H(z) = \dfrac{1{,}9}{1 - 0{,}9\, z^{-1}}$.`
+  },
+  {
+    id: "CZS 6. Filtre vypocet horna priepust 001",
+    oblast: "Filtre",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pre jednopolovu hornu priepust s polom v $z_{x} = a = -0{,}9$ a nulou v $z_{0} = 0$ je $H(z) = a_{0} \cdot \dfrac{z}{z - a} = a_{0} \cdot \dfrac{1}{1 + 0{,}9\, z^{-1}}$. Normujeme pri $\omega_{0} = \pm\pi$, kde $e^{-j\pi} = -1$: $\bigl|H(e^{j\pi})\bigr| = a_{0} \cdot \dfrac{1}{1 - a \cdot (-1)} = \dfrac{a_{0}}{1 + a} = 1 \Rightarrow a_{0} = 1 + a = 0{,}1$.`,
+    nepravda: String.raw`Pre jednopolovu hornu priepust s polom v $z_{x} = a = -0{,}9$ a nulou v $z_{0} = 0$ je $H(z) = a_{0} \cdot \dfrac{z}{z - a} = a_{0} \cdot \dfrac{1}{1 + 0{,}9\, z^{-1}}$. Normujeme pri $\omega_{0} = \pm\pi$, kde $e^{-j\pi} = -1$: $\bigl|H(e^{j\pi})\bigr| = \dfrac{a_{0}}{1 - a} = 1 \Rightarrow a_{0} = 1 - a = 1{,}9$.`
+  },
+  {
+    id: "CZS 6. Filtre vypocet vrubovy filter 001",
+    oblast: "Filtre",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pasmova zadrz (vrubovy filter) ma nuly priamo na jednotkovej kruznici $z_{0\,1,2} = e^{\pm j\omega_{0}}$, takze $H(z) = a_{0} \cdot \dfrac{z^{2} - 2\cos(\omega_{0})\, z + 1}{z^{2}} = a_{0}\bigl(1 - 2\cos(\omega_{0})\, z^{-1} + z^{-2}\bigr)$. Pre $\omega_{0} = \pi/3$ je $2\cos(\pi/3) = 1$ a $a_{0} = \dfrac{1}{2(1 + \cos\omega_{0})} = \dfrac{1}{3}$, cize $H(z) = \tfrac{1}{3}\bigl(1 - z^{-1} + z^{-2}\bigr)$ a prenos je presne nulovy pri $\omega = \pm\pi/3$.`,
+    nepravda: String.raw`Pasmova zadrz (vrubovy filter) ma nuly priamo na jednotkovej kruznici $z_{0\,1,2} = e^{\pm j\omega_{0}}$, takze $H(z) = a_{0} \cdot \dfrac{z^{2} - 2\cos(\omega_{0})\, z + 1}{z^{2}} = a_{0}\bigl(1 - 2\cos(\omega_{0})\, z^{-1} + z^{-2}\bigr)$. Pre $\omega_{0} = \pi/3$ je $2\cos(\pi/3) = 1$ a $a_{0} = \tfrac{1}{3}$, cize $H(z) = \tfrac{1}{3}\bigl(1 + z^{-1} + z^{-2}\bigr)$ a prenos je presne nulovy pri $\omega = \pm\pi/3$.`
+  },
+  {
+    id: "CZS 6. Filtre vypocet hrebenovy filter 001",
+    oblast: "Filtre",
+    podoblast: "Vypocty",
+    pravda: String.raw`Hrebenovy filter $y[n] = s[n] + s[n - M]$ ma $H(z) = 1 + z^{-M}$, takze $H(e^{j\omega}) = 1 + e^{-j\omega M}$ a $\bigl|H(e^{j\omega})\bigr| = 2\left|\cos\!\dfrac{\omega M}{2}\right|$. Pre $M = 4$ su nuly prenosu v bodoch $\omega = \dfrac{(2k + 1)\pi}{M}$, t.j. $\omega \in \{\tfrac{\pi}{4}, \tfrac{3\pi}{4}, \tfrac{5\pi}{4}, \tfrac{7\pi}{4}\}$, a maximalny prenos $|H| = 2$ je pri $\omega = 0$ (aj $\tfrac{\pi}{2}, \pi, \tfrac{3\pi}{2}$).`,
+    nepravda: String.raw`Hrebenovy filter $y[n] = s[n] + s[n - M]$ ma $H(z) = 1 + z^{-M}$, takze $\bigl|H(e^{j\omega})\bigr| = 2\left|\cos\!\dfrac{\omega M}{2}\right|$. Pre $M = 4$ su nuly prenosu v bodoch $\omega = \dfrac{2k\pi}{M}$, t.j. $\omega \in \{0, \tfrac{\pi}{2}, \pi, \tfrac{3\pi}{2}\}$, a maximalny prenos $|H| = 2$ je naopak pri $\omega = \pi$.`
+  },
+  {
+    id: "CZS 6. Filtre vypocet fazovaci clanok 001",
+    oblast: "Filtre",
+    podoblast: "Vypocty",
+    pravda: String.raw`Fazovaci clanok (all-pass) s polom v $z_{x} = a$ a nulou v $z_{0} = 1/a$ ($0 < a < 1$ realne) ma $H(z) = \dfrac{z^{-1} - a}{1 - a\, z^{-1}}$. Pre $z = e^{j\omega}$ plati $\bigl|e^{-j\omega} - a\bigr|^{2} = 1 - 2a\cos\omega + a^{2} = \bigl|1 - a\, e^{-j\omega}\bigr|^{2}$, takze $\bigl|H(e^{j\omega})\bigr| = 1$ pre vsetky $\omega$ — filter meni iba fazu, nie amplitudu.`,
+    nepravda: String.raw`Fazovaci clanok (all-pass) s polom v $z_{x} = a$ a nulou v $z_{0} = 1/a$ ($0 < a < 1$ realne) ma $H(z) = \dfrac{z^{-1} - a}{1 - a\, z^{-1}}$. Pre $z = e^{j\omega}$ vychadza $\bigl|H(e^{j\omega})\bigr| = a$ pre vsetky $\omega$, takze filter rovnomerne tlmi amplitudu na hodnotu pola $a$.`
+  }
+];
+
+const czsSkuska6CrackVypoctyOtazky = czsSkuska6CrackVypocty.map((polozka) => ({
+  id: polozka.id,
+  tema: `CZS 6. ${polozka.oblast} - ${polozka.podoblast}`,
+  typ: "jedna",
+  format: "crack",
+  uroven: "tazka",
+  otazka: polozka.pravda,
+  moznosti: ["z", "x"],
+  spravne: [0],
+  vysvetlenie: `Spravny statement: ${polozka.pravda}`,
+  prezentacia: "CZS 6",
+  subtema: `${polozka.oblast} / ${polozka.podoblast}`,
+  slideRef: "CZS_6_03.pdf",
+  crackPair: {
+    pravda: polozka.pravda,
+    nepravda: polozka.nepravda
+  }
+}));
+
+czsOtazky.push(...czsSkuska6CrackVypoctyOtazky);

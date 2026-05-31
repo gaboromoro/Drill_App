@@ -6,6 +6,8 @@
   <title>Drill on Crack</title>
   <link rel="stylesheet" href="assets/katex/katex.min.css">
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div id="rytmickyVizualizer" class="rytmicky-vizualizer" aria-hidden="true"></div>
@@ -80,6 +82,9 @@
               <button id="tlacidloTemaTyrkysova" class="tlacidlo-temy" type="button" aria-label="Cyan tema">
                 <span class="vzorka-temy vzorka-tyrkysova" aria-hidden="true"></span>
               </button>
+              <button id="tlacidloTemaTabula" class="tlacidlo-temy" type="button" aria-label="Chalkboard tema">
+                <span class="vzorka-temy vzorka-tabula" aria-hidden="true"></span>
+              </button>
             </div>
           </div>
         </section>
@@ -129,9 +134,9 @@
           </label>
 
           <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
-            <span>Exam Mode</span>
+            <span id="textExamMode">Exam Mode</span>
             <input id="prepinacExamMode" class="prepinac-volby" type="checkbox">
-            <span class="hint-nastavenia" role="tooltip">Z vybranych HEL statementov spravi otvorenu skuskovu otazku. Ku kazdej casti dostanes pole na pisanie a medzernikom zobrazis vypracovanu odpoved.</span>
+            <span class="hint-nastavenia" role="tooltip">Z vybranych HEL statementov spravi otvorenu skuskovu otazku. Ku kazdej casti dostanes pole na pisanie a medzernikom zobrazis vypracovanu odpoved. Druhym kliknutim prepnes na Exam Mode Mini, kde sa kazda podotazka rozbije na samostatny slide.</span>
           </label>
 
           <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
@@ -287,6 +292,10 @@
   <script src="czs5-crack.js"></script>
   <script src="czs6-crack.js"></script>
   <script src="hel-otazky.js"></script>
+  <script src="hel1-crack.js"></script>
+  <script src="hel2-crack.js"></script>
+  <script src="hel3-crack.js"></script>
+  <script src="exam-edit.js"></script>
   <script src="hel4-zvysne.js"></script>
   <script src="hel5-zvysne.js"></script>
   <script src="vs2-otazky.js"></script>
@@ -295,6 +304,7 @@
   <script src="citaty.js"></script>
   <script src="assets/katex/katex.min.js"></script>
   <script src="assets/katex/contrib/auto-render.min.js"></script>
+  <canvas id="krieda-platno" class="krieda-platno" aria-hidden="true"></canvas>
   <script src="app.js"></script>
 </body>
 </html>

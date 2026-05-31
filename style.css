@@ -113,6 +113,47 @@ body.tema-tyrkysova {
   --klaves-vybrany-pismo: #000000;
 }
 
+body.tema-tabula {
+  color-scheme: dark;
+  --pozadie: #1e3828;
+  --text: #e8e4d0;
+  --ciara: #b0ac94;
+  --farba-stlpca: #e8e4d0;
+  --farba-cisla-stlpca: #e8e4d0;
+  --tien-cisla-stlpca: #0e1f15;
+  --farba-posuvnika: #b0ac94;
+  --filter-klaves: none;
+  --klaves-vrch: #162a1e;
+  --klaves-okraj: #0e1f15;
+  --klaves-obrys: #b0ac94;
+  --klaves-pismo: #e8e4d0;
+  --klaves-vybrany-vrch: #d0cbb0;
+  --klaves-vybrany-okraj: #a8a490;
+  --klaves-vybrany-obrys: #e8e4d0;
+  --klaves-vybrany-pismo: #1e3828;
+  font-family: 'Caveat', 'Comic Sans MS', cursive;
+  font-size: 20px;
+}
+
+body.tema-tabula,
+body.tema-tabula * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cg transform='translate(6,6) rotate(-45)'%3E%3Crect x='-6' y='0' width='12' height='158' rx='4.5' fill='%23b8b8b8'/%3E%3Crect x='-6' y='0' width='9.5' height='158' rx='4.5' fill='%23f0f0f0'/%3E%3Crect x='-4.5' y='1' width='3' height='155' rx='2' fill='white'/%3E%3Crect x='-5' y='0' width='10' height='5' rx='1' fill='%23d0d0d0'/%3E%3C/g%3E%3C/svg%3E") 6 6, crosshair !important;
+}
+
+.krieda-platno {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9998;
+  pointer-events: none;
+  display: none;
+}
+
+body.tema-tabula .krieda-platno {
+  display: block;
+}
+
 .stlpec-panel {
   position: sticky;
   top: 28px;
@@ -288,7 +329,8 @@ body.flash-citat::after {
 }
 
 body.flash-citat .stranka {
-  animation: nebeskyNadych 620ms ease-out;
+  /* Filter/transform on .stranka would re-anchor the fixed-position .blok-citatu
+     to the page instead of the viewport, causing a brief jump. Skip the pulse. */
 }
 
 @keyframes svetlyFlash {
@@ -342,7 +384,6 @@ body.flash-citat .stranka {
 @keyframes nebeskyNadych {
   0% {
     filter: brightness(1.45) saturate(1.35);
-    transform: translateY(-2px) scale(1.006);
   }
 
   45% {
@@ -351,7 +392,6 @@ body.flash-citat .stranka {
 
   100% {
     filter: brightness(1) saturate(1);
-    transform: translateY(0) scale(1);
   }
 }
 
@@ -858,6 +898,10 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
 
 .vzorka-tyrkysova {
   background: #84ffc9;
+}
+
+.vzorka-tabula {
+  background: #1e3828;
 }
 
 #posuvnikHlasitosti {
@@ -1427,12 +1471,13 @@ body.rezim-exam #rezimTest .panel {
   padding-top: 46px;
 }
 
-body.rezim-exam #rezimTest .ovladanie {
-  order: 10;
+/* Poradie v Exam Mode: otazka -> pisanie -> odpoved -> klavesy (medzernik + sipky) */
+body.rezim-exam #vysledok {
+  order: 5;
 }
 
-body.rezim-exam #vysledok {
-  order: 20;
+body.rezim-exam #rezimTest .ovladanie {
+  order: 10;
 }
 
 body.rezim-exam #tlacidloOdstranitOtazku,
@@ -2336,4 +2381,75 @@ body.rezim-crack-timer .moznosti {
     height: calc(100svh - 148px);
     min-height: 150px;
   }
+}
+
+/* ===== Exam Mode: editovanie spravnej odpovede ===== */
+.exam-odpoved {
+  position: relative;
+}
+
+.exam-edit-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font: inherit;
+  font-size: 13px;
+  padding: 4px 12px;
+  border: 2px solid var(--ciara);
+  background: var(--pozadie);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.exam-edit-btn:hover {
+  background: var(--ciara);
+  color: var(--pozadie);
+}
+
+.exam-edit-pole {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  padding: 6px 8px;
+  border: 2px solid var(--ciara);
+  background: var(--pozadie);
+  color: var(--text);
+  resize: vertical;
+}
+
+.exam-edit-akcie {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.exam-edit-akcie button {
+  font: inherit;
+  font-size: 13px;
+  padding: 4px 14px;
+  border: 2px solid var(--ciara);
+  background: var(--pozadie);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.exam-edit-ulozit {
+  font-weight: bold;
+}
+
+.exam-edit-akcie button:hover {
+  background: var(--ciara);
+  color: var(--pozadie);
+}
+
+.exam-edit-stav,
+.exam-edit-poznamka {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.exam-edit-poznamka {
+  margin-top: 10px;
 }

@@ -45,6 +45,7 @@ const zvukZle = new Audio("Audio-samples/wrong/FF_CF_foley_fart_green.wav");
 const zvukZle8x = new Audio("Audio-samples/wrong/ESM_Wrong_Answer_or_Negative_Game_Hit_2_Sound_FX_Arcade_Casino_Kids_Mobile_App.wav");
 const zvukZle15x = new Audio("Audio-samples/wrong/ESM_Retro_Game_Classic_Player_Death_1_8_Bit_Arcade_80s_Negative.wav");
 const zvukDokonceniaPoolu = new Audio("Audio-samples/Complete/ESM_Ambient_Game_Objective_Complete_Simple_Run_1_Score_LevelUp_Bonus_Unlock.wav");
+const zvukDokonceniaPooluChoir = new Audio("Audio-samples/Complete/ChoirBars_A.wav");
 const zvukVyberuVolby = new Audio("Audio-samples/select/ESM_Perfect_Clean_App_Button_Click_2_Organic_Simple_Classic_Game_Click.wav");
 const zvukCitatu = new Audio("Audio-samples/Holy/ESM_FX_achievements_rewards_swipe_choir_angelic_positive_03.wav");
 
@@ -118,6 +119,8 @@ const tlacidloTemaZlta = document.getElementById("tlacidloTemaZlta");
 const tlacidloTemaSiva = document.getElementById("tlacidloTemaSiva");
 const tlacidloTemaFialova = document.getElementById("tlacidloTemaFialova");
 const tlacidloTemaTyrkysova = document.getElementById("tlacidloTemaTyrkysova");
+const tlacidloTemaTabula = document.getElementById("tlacidloTemaTabula");
+const kriedaPlatno = document.getElementById("krieda-platno");
 const posuvnikHlasitosti = document.getElementById("posuvnikHlasitosti");
 const prepinacCitatov = document.getElementById("prepinacCitatov");
 const prepinacNahodnehoPoradia = document.getElementById("prepinacNahodnehoPoradia");
@@ -129,6 +132,8 @@ const prvokHintRychlehoRezimu = document.getElementById("hintRychlehoRezimu");
 const prepinacPrejdeniaPoolu = document.getElementById("prepinacPrejdeniaPoolu");
 const prepinacCrackMode = document.getElementById("prepinacCrackMode");
 const prepinacExamMode = document.getElementById("prepinacExamMode");
+const prvokTextExamMode = document.getElementById("textExamMode");
+let examModeMini = false;
 const prepinacCrackTimeru = document.getElementById("prepinacCrackTimeru");
 const prepinacMobilnehoCrackModu = document.getElementById("prepinacMobilnehoCrackModu");
 const klavesyMoznosti = ["1", "2", "3", "4", "5", "6"];
@@ -368,14 +373,14 @@ function pocetPrehratiZvuku(jeSpravne, dlzkaSerie) {
 
 function nastavHlasitost(hodnota) {
   hlasitost = Math.max(0, Math.min(1, Number(hodnota) / 100));
-  [zvukSpravne, zvukSpravneStreak7, zvukSpravneStreak14, zvukZle, zvukZle8x, zvukZle15x, zvukDokonceniaPoolu, zvukVyberuVolby, zvukCitatu].forEach((zvuk) => {
+  [zvukSpravne, zvukSpravneStreak7, zvukSpravneStreak14, zvukZle, zvukZle8x, zvukZle15x, zvukDokonceniaPoolu, zvukDokonceniaPooluChoir, zvukVyberuVolby, zvukCitatu].forEach((zvuk) => {
     zvuk.volume = hlasitost;
   });
 }
 
 function nastavTemu(tema) {
   aktualnaTema = tema;
-  document.body.classList.remove("tema-zlta", "tema-zlta-tmava", "tema-siva", "tema-fialova", "tema-tyrkysova");
+  document.body.classList.remove("tema-zlta", "tema-zlta-tmava", "tema-siva", "tema-fialova", "tema-tyrkysova", "tema-tabula");
 
   if (tema !== "oranzova") {
     const triedyTemy = {
@@ -383,7 +388,8 @@ function nastavTemu(tema) {
       zltaTmava: "tema-zlta-tmava",
       siva: "tema-siva",
       fialova: "tema-fialova",
-      tyrkysova: "tema-tyrkysova"
+      tyrkysova: "tema-tyrkysova",
+      tabula: "tema-tabula"
     };
 
     const triedaTemy = triedyTemy[tema];
@@ -397,11 +403,115 @@ function nastavTemu(tema) {
   tlacidloTemaSiva.classList.toggle("aktivny", tema === "siva");
   tlacidloTemaFialova.classList.toggle("aktivny", tema === "fialova");
   tlacidloTemaTyrkysova.classList.toggle("aktivny", tema === "tyrkysova");
+  tlacidloTemaTabula.classList.toggle("aktivny", tema === "tabula");
+
+  if (tema !== "tabula") krieda.vymazat();
 }
 
 function prepniZltuTemu() {
   nastavTemu(aktualnaTema === "zlta" ? "zltaTmava" : "zlta");
 }
+
+const krieda = (() => {
+  const platno = kriedaPlatno;
+  const ctx = platno.getContext("2d");
+  let kreslim = false;
+  let tahy = [];
+  let aktualnyTah = null;
+
+  function zmenVelkost() {
+    platno.width = window.innerWidth;
+    platno.height = window.innerHeight;
+    prekresliBodky();
+  }
+
+  function prekresliBodky() {
+    ctx.clearRect(0, 0, platno.width, platno.height);
+    for (const tah of tahy) nakreslTah(tah);
+    if (aktualnyTah) nakreslTah(aktualnyTah);
+  }
+
+  function nakreslTah(body) {
+    if (!body || body.length === 0) return;
+    ctx.save();
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    if (body.length === 1) {
+      ctx.beginPath();
+      ctx.arc(body[0].x, body[0].y, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(232,228,208,0.88)";
+      ctx.fill();
+      ctx.restore();
+      return;
+    }
+
+    ctx.strokeStyle = "rgba(255,252,235,0.2)";
+    ctx.lineWidth = 10;
+    ctx.beginPath();
+    ctx.moveTo(body[0].x, body[0].y);
+    for (let i = 1; i < body.length; i++) ctx.lineTo(body[i].x, body[i].y);
+    ctx.stroke();
+
+    ctx.strokeStyle = "rgba(232,228,208,0.86)";
+    ctx.lineWidth = 4.5;
+    ctx.beginPath();
+    ctx.moveTo(body[0].x, body[0].y);
+    for (let i = 1; i < body.length; i++) ctx.lineTo(body[i].x, body[i].y);
+    ctx.stroke();
+
+    ctx.strokeStyle = "rgba(255,255,255,0.48)";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(body[0].x, body[0].y);
+    for (let i = 1; i < body.length; i++) ctx.lineTo(body[i].x, body[i].y);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function zacat(e) {
+    if (aktualnaTema !== "tabula" || e.button !== 0) return;
+    const tag = e.target.tagName.toLowerCase();
+    if (["button", "input", "select", "textarea", "a", "label"].includes(tag)) return;
+    kreslim = true;
+    aktualnyTah = [{ x: e.clientX, y: e.clientY }];
+  }
+
+  function pokracovat(e) {
+    if (!kreslim || !aktualnyTah) return;
+    aktualnyTah.push({ x: e.clientX, y: e.clientY });
+    prekresliBodky();
+  }
+
+  function skoncit() {
+    if (!kreslim || !aktualnyTah) return;
+    kreslim = false;
+    if (aktualnyTah.length >= 1) tahy.push(aktualnyTah);
+    aktualnyTah = null;
+  }
+
+  function odvolat(e) {
+    if (aktualnaTema !== "tabula") return;
+    e.preventDefault();
+    if (tahy.length > 0) {
+      tahy.pop();
+      prekresliBodky();
+    }
+  }
+
+  function vymazat() {
+    kreslim = false;
+    aktualnyTah = null;
+    tahy = [];
+    ctx.clearRect(0, 0, platno.width, platno.height);
+  }
+
+  zmenVelkost();
+  window.addEventListener("resize", zmenVelkost);
+
+  return { zacat, pokracovat, skoncit, odvolat, vymazat };
+})();
 
 function obmedz(hodnota, minimum, maximum) {
   return Math.max(minimum, Math.min(maximum, hodnota));
@@ -846,6 +956,26 @@ function jeExamMode() {
   return Boolean(prepinacExamMode && prepinacExamMode.checked);
 }
 
+function jeExamModeMini() {
+  return jeExamMode() && examModeMini;
+}
+
+// Cyklus na prepinaci Exam Mode: vypnute -> Exam Mode -> Exam Mode Mini -> vypnute
+function prepniExamMode() {
+  if (prepinacExamMode.checked) {
+    // prechod vypnute -> Exam Mode (plny)
+    examModeMini = false;
+  } else if (!examModeMini) {
+    // bol plny Exam Mode, druhe kliknutie -> Exam Mode Mini (ostava aktivny)
+    prepinacExamMode.checked = true;
+    examModeMini = true;
+  } else {
+    // bol Exam Mode Mini, dalsie kliknutie -> vypnute
+    examModeMini = false;
+  }
+  nastavExamMode();
+}
+
 function jeCrackTimerZapnuty() {
   return Boolean(prepinacCrackTimeru && prepinacCrackTimeru.checked && jeCrackMode() && !jeExamMode());
 }
@@ -951,6 +1081,11 @@ function nastavExamMode() {
     }
   }
 
+  document.body.classList.toggle("rezim-exam-mini", jeExamModeMini());
+  if (prvokTextExamMode) {
+    prvokTextExamMode.textContent = jeExamModeMini() ? "Exam Mode Mini" : "Exam Mode";
+  }
+
   aktualizujRozlozenieUcenia();
   nastavPoradie();
 }
@@ -961,6 +1096,7 @@ function nastavRezimUcenia() {
 
   if (jeRezimUcenia() && jeExamMode()) {
     prepinacExamMode.checked = false;
+    examModeMini = false;
     nastavPoradie();
     return;
   }
@@ -1188,6 +1324,7 @@ function zlozExamNadpis(prezentacia, oblast) {
 }
 
 function ziskajExamOtazky() {
+  const mini = jeExamModeMini();
   const skupiny = new Map();
 
   ziskajOtazkyZBeznychFiltrov(true).forEach((otazka) => {
@@ -1197,12 +1334,14 @@ function ziskajExamOtazky() {
 
     const prezentacia = ziskajPrezentaciu(otazka);
     const { oblast, podoblast } = rozdelExamPodokruh(otazka);
-    const kluc = `${prezentacia}::${oblast}`;
+    // V Mini rezime je kazda podotazka samostatny slide (skupina podla oblast aj podoblast)
+    const kluc = mini ? `${prezentacia}::${oblast}::${podoblast}` : `${prezentacia}::${oblast}`;
 
     if (!skupiny.has(kluc)) {
       skupiny.set(kluc, {
         prezentacia,
         oblast,
+        podoblast,
         sekcie: new Map()
       });
     }
@@ -1211,23 +1350,28 @@ function ziskajExamOtazky() {
     if (!skupina.sekcie.has(podoblast)) {
       skupina.sekcie.set(podoblast, []);
     }
-    skupina.sekcie.get(podoblast).push(otazka.crackPair.pravda);
+    skupina.sekcie.get(podoblast).push({ id: otazka.id, text: otazka.crackPair.pravda });
   });
 
   return [...skupiny.values()].map((skupina) => {
     const sekcie = [...skupina.sekcie.entries()].map(([nazov, body]) => ({ nazov, body }));
+    const zakladnyNadpis = zlozExamNadpis(skupina.prezentacia, skupina.oblast);
+    const nadpis = mini ? `${zakladnyNadpis} - ${skupina.podoblast}` : zakladnyNadpis;
+    const idSuffix = mini
+      ? `${normalizujKluc(skupina.oblast)}-${normalizujKluc(skupina.podoblast)}`
+      : normalizujKluc(skupina.oblast);
     return {
-      id: `exam-${normalizujKluc(skupina.prezentacia)}-${normalizujKluc(skupina.oblast)}`,
-      tema: `${skupina.prezentacia}: Exam Mode`,
+      id: `exam-${normalizujKluc(skupina.prezentacia)}-${idSuffix}`,
+      tema: `${skupina.prezentacia}: ${mini ? "Exam Mode Mini" : "Exam Mode"}`,
       typ: "exam",
       format: "exam",
       uroven: "skuskova",
-      otazka: zlozExamNadpis(skupina.prezentacia, skupina.oblast),
+      otazka: nadpis,
       moznosti: [],
       spravne: [],
       vysvetlenie: "",
       prezentacia: skupina.prezentacia,
-      subtema: skupina.oblast,
+      subtema: mini ? `${skupina.oblast} / ${skupina.podoblast}` : skupina.oblast,
       examSekcie: sekcie,
       exam: true
     };
@@ -2245,12 +2389,24 @@ function vytvorExamOdpoved(otazka) {
 
     const zoznam = document.createElement("ul");
     sekcia.body.forEach((bod) => {
+      const idBodu = typeof bod === "string" ? null : bod.id;
+      const povodny = typeof bod === "string" ? bod : bod.text;
+      const text = (idBodu && typeof window.aplikujExamEditText === "function")
+        ? window.aplikujExamEditText(idBodu, povodny)
+        : povodny;
       const polozka = document.createElement("li");
-      polozka.textContent = bod;
+      polozka.textContent = text;
+      if (idBodu) {
+        polozka.dataset.editId = idBodu;
+      }
       zoznam.appendChild(polozka);
     });
     obal.appendChild(zoznam);
   });
+
+  if (typeof window.pridajExamEditUI === "function") {
+    window.pridajExamEditUI(obal, otazka);
+  }
 
   return obal;
 }
@@ -2582,12 +2738,12 @@ function pouziMedzernik() {
     return;
   }
 
-  if (jeCrackMode()) {
+  if (poolDokonceny) {
+    nastavPoradie();
     return;
   }
 
-  if (poolDokonceny) {
-    nastavPoradie();
+  if (jeCrackMode()) {
     return;
   }
 
@@ -2748,13 +2904,20 @@ function zobrazDokoncenyPool() {
   zrusCrackTimer(true);
   poolDokonceny = true;
   prehrajZvuk(zvukDokonceniaPoolu);
+  prehrajZvuk(zvukDokonceniaPooluChoir);
   prehrajVideoOverlay("Animations/explosion_ultiamte.mp4", 1);
   vyhodnotene = true;
   zobrazujePredoslyVysledok = false;
   nahladAktualnejOtazky = null;
+  const vsetkoSpravne = skore >= pociatocnyPocetPoolu && pociatocnyPocetPoolu > 0;
   prvokTema.textContent = "Pool hotovy";
-  prvokTypOtazky.textContent = "Vsetko spravne";
-  nastavStatementText(prvokOtazka, "Vsetky otazky v aktualnom poole boli zodpovedane spravne.");
+  prvokTypOtazky.textContent = vsetkoSpravne ? "Vsetko spravne" : `Vysledok ${skore} / ${pociatocnyPocetPoolu}`;
+  nastavStatementText(
+    prvokOtazka,
+    vsetkoSpravne
+      ? "Vsetky otazky v aktualnom poole boli zodpovedane spravne."
+      : `Presiel si cely pool. Vysledok: ${skore} / ${pociatocnyPocetPoolu}.`
+  );
   prvokPocitadlo.textContent = `${stavStlpca} / ${pociatocnyPocetPoolu}`;
   prvokSkore.textContent = `Skore: ${skore}`;
   prvokMoznosti.innerHTML = "";
@@ -2805,8 +2968,7 @@ function dalsiaOtazka() {
     return;
   }
 
-  prvokVysledok.className = "vysledok ok";
-  prvokVysledok.textContent = `Koniec testu. Výsledok: ${skore} / ${poradieOtazok.length}.`;
+  zobrazDokoncenyPool();
 }
 
 function odoberAktualnuOtazku() {
@@ -2896,6 +3058,7 @@ function nastavPredmet(predmet) {
 
   if (predmet !== "hel" && prepinacExamMode) {
     prepinacExamMode.checked = false;
+    examModeMini = false;
   }
 
   aktualnyPredmet = predmet;
@@ -3045,6 +3208,12 @@ tlacidloTemaZlta.addEventListener("click", prepniZltuTemu);
 tlacidloTemaSiva.addEventListener("click", () => nastavTemu("siva"));
 tlacidloTemaFialova.addEventListener("click", () => nastavTemu("fialova"));
 tlacidloTemaTyrkysova.addEventListener("click", () => nastavTemu("tyrkysova"));
+tlacidloTemaTabula.addEventListener("click", () => nastavTemu("tabula"));
+document.addEventListener("mousedown", (e) => krieda.zacat(e));
+document.addEventListener("mousemove", (e) => krieda.pokracovat(e));
+document.addEventListener("mouseup", () => krieda.skoncit());
+document.addEventListener("contextmenu", (e) => krieda.odvolat(e));
+window.addEventListener("blur", () => krieda.skoncit());
 prepinacCitatov.addEventListener("change", nastavZobrazenieCitatov);
 prepinacNahodnehoPoradia.addEventListener("change", nastavPoradie);
 prepinacDisplaySorting.addEventListener("change", nastavDisplaySorting);
@@ -3052,7 +3221,7 @@ prepinacUcenia.addEventListener("change", nastavRezimUcenia);
 prepinacRychlehoRezimu.addEventListener("change", prepniRychlyRezim);
 prepinacPrejdeniaPoolu.addEventListener("change", nastavRezimPrejdeniaPoolu);
 prepinacCrackMode.addEventListener("change", nastavCrackMode);
-prepinacExamMode.addEventListener("change", nastavExamMode);
+prepinacExamMode.addEventListener("change", prepniExamMode);
 prepinacCrackTimeru.addEventListener("change", nastavCrackTimer);
 prepinacMobilnehoCrackModu.addEventListener("change", nastavMobilnyCrackMode);
 prvokVyberPrezentacie.addEventListener("change", () => {

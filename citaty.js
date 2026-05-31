@@ -25,11 +25,11 @@ const citaty = [
   },
   {
     zdroj: "Ž 34",
-    text: "„Velebiť chcem Pána v každom čase, moje ústa budú ho vždy chváliť. Pán je sláva mojej duše, nechže ma počujú pokorní a nech sa tešia.\nVelebte so mnou Pána, oslavujme spoločne jeho meno. Hľadal som Pána a On ma vyslyšal a vytrhol ma zo všetkej hrôzy.\nAnjel Pánov sa utáborí okolo tých, čo sa ho boja a vyslobodí ich. Tento úbožiak volá a Pán ho počúva a vyslobodí ho zo všetkých jeho tiesní.\nSkúste a viďte, aký dobrý je Pán šťastný človek, čo sa utieka k nemu.\nMnohé sú skúšky, ktoré čakajú spravodlivého, ale zo všetkých ho vyslobodí Pán. Volali a Pán ich vyslyšal, vyslobodil ich zo všetkých tiesní.“"
+    text: "„Velebiť chcem Pána v každom čase, moje ústa budú ho vždy chváliť. Pán je sláva mojej duše, nechže ma počujú pokorní a nech sa tešia.\nVelebte so mnou Pána, oslavujme spoločne jeho meno. Hľadal som Pána a On ma vyslyšal a vytrhol ma zo všetkej hrôzy.\nAnjel Pánov sa utáborí okolo tých, čo sa ho boja a vyslobodí ich. Tento úbožiak volá a Pán ho počúva a vyslobodí ho zo všetkých jeho tiesní.\nSkúste a viďte, aký dobrý je Pán. Šťastný človek, čo sa utieka k nemu.\nMnohé sú skúšky, ktoré čakajú spravodlivého, ale zo všetkých ho vyslobodí Pán. Volali a Pán ich vyslyšal, vyslobodil ich zo všetkých tiesní.“"
   },
   {
     zdroj: "Prís 5, 15 - 23",
-    text: "„Pi vodu z vlastnej studnice, tečúcu (vodu) z vlastnej studienky! Aby sa nevylievali von tvoje pramene a na námestia stružky vôd. Nech patria iba tebe samému a okrem teba nikomu! Nech je požehnaný tvoj prameň a teš sa žene svojej mladosti! Je sťaby utešená laň a srnka pôvabná; jej ňadrá nech ťa opájajú v každý čas, kochaj sa jednostaj v jej ľúbosti! Veď prečože by si sa kochal v inej, syn môj, a (prečo) by si cudzinku objímal?! Lebo pred Pánom sú cesty človeka, on zvažuje všetky jeho kroky. Cudzoložník sa polapí vo vlastných neprávostiach a zapletie sa v putách svojich pokleskov. Taký zomrie z nedostatku náuky a zblúdi v množstve svojej hlúposti.“"
+    text: "„Pi vodu z vlastnej studnice, tečúcu (vodu) z vlastnej studienky!\nAby sa nevylievali von tvoje pramene a na námestia stružky vôd.\nNech patria iba tebe samému a okrem teba nikomu!\nNech je požehnaný tvoj prameň a teš sa žene svojej mladosti!\nJe sťaby utešená laň a srnka pôvabná; jej ňadrá nech ťa opájajú v každý čas, kochaj sa jednostaj v jej ľúbosti!\nVeď prečože by si sa kochal v inej, syn môj, a (prečo) by si cudzinku objímal?!\nLebo pred Pánom sú cesty človeka, on zvažuje všetky jeho kroky.\nCudzoložník sa polapí vo vlastných neprávostiach a zapletie sa v putách svojich pokleskov.\nTaký zomrie z nedostatku náuky a zblúdi v množstve svojej hlúposti.“"
   },
   //{
   //  zdroj: "",

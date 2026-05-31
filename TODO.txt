@@ -2,6 +2,13 @@
 /////URGENT//////
 /////////////////
 
+-pri Mobile, kazdy zvuk prerusi spotify, da sa to opravit?
+
+-nech je defalutne zapnuty Mastery Mode
+
+-znizit zvuk prdu
+-znizit zvuk citatu
+
 
 //////idk///////
 K CZS otazkam spravit okruh zakladnych pojmov IIR, FIR ... a ich strucne definicie

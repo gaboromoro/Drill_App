@@ -635,6 +635,76 @@ const czsSkuska5CrackData = [
     podoblast: "Aproximacie FIR a IIR",
     pravda: "Butterworthov filter ma zo spominanych IIR aproximacii fazovu charakteristiku najblizsiu linearnej, ale najmenej strmy prechod.",
     nepravda: "Butterworthov filter ma zo spominanych IIR aproximacii fazovu charakteristiku najdalej od linearnej, ale najstrmsi prechod."
+  },
+  {
+    id: "CZS 5. DFT vypocet konkretny 001",
+    oblast: "DFT",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pre $N = 4$ a vstup $x[n] = \delta[n] = [1, 0, 0, 0]$ je $S[k] = \displaystyle\sum_{n=0}^{3} x[n]\, e^{-j 2\pi k n / 4} = 1 \cdot e^{0} = 1$ pre kazde $k$, takze $S = [1, 1, 1, 1]$ (impulz v case = konstantne spektrum).`,
+    nepravda: String.raw`Pre $N = 4$ a vstup $x[n] = \delta[n] = [1, 0, 0, 0]$ je $S[k] = \displaystyle\sum_{n=0}^{3} x[n]\, e^{-j 2\pi k n / 4} = 1$ iba pre $k = 0$ a $S[k] = 0$ pre $k > 0$, takze $S = [1, 0, 0, 0]$ (impulz v case = impulz v spektre).`
+  },
+  {
+    id: "CZS 5. DFT vypocet konkretny 002",
+    oblast: "DFT",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pre $N = 4$ a vstup $x[n] = [1, 1, 1, 1]$ (jednosmerna zlozka) je $S[0] = 1 + 1 + 1 + 1 = 4$ a $S[k] = \displaystyle\sum_{n=0}^{3} e^{-j 2\pi k n / 4} = 0$ pre $k = 1, 2, 3$ (suma styroch rovnomerne rozlozenych bodov na jednotkovej kruznici je nula), takze $S = [4, 0, 0, 0]$.`,
+    nepravda: String.raw`Pre $N = 4$ a vstup $x[n] = [1, 1, 1, 1]$ (jednosmerna zlozka) je $S[0] = 1 + 1 + 1 + 1 = 4$ a rovnako $S[k] = 4$ pre $k = 1, 2, 3$ (kazdy bin obsahuje tu istu DC zlozku), takze $S = [4, 4, 4, 4]$.`
+  },
+  {
+    id: "CZS 5. DFT vypocet konkretny 003",
+    oblast: "DFT",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pre $N = 4$ a vstup $x[n] = (-1)^{n} = [1, -1, 1, -1]$ (alternujuca postupnost = Nyquistova frekvencia) lezi vsetka energia v bine $k = N/2 = 2$: $S[2] = \displaystyle\sum_{n=0}^{3} (-1)^{n} \cdot e^{-j\pi n} = \displaystyle\sum_{n=0}^{3} (-1)^{n} \cdot (-1)^{n} = 4$ a $S[k] = 0$ pre $k \in \{0, 1, 3\}$, takze $S = [0, 0, 4, 0]$.`,
+    nepravda: String.raw`Pre $N = 4$ a vstup $x[n] = (-1)^{n} = [1, -1, 1, -1]$ (alternujuca postupnost = prva harmonicka) lezi vsetka energia v bine $k = 1$: $S[1] = 4$ a $S[k] = 0$ pre $k \in \{0, 2, 3\}$, takze $S = [0, 4, 0, 0]$.`
+  },
+  {
+    id: "CZS 5. DTFT vypocet konkretny 001",
+    oblast: "DTFT",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pre $x[n] = \delta[n]$ je $\mathrm{DTFT}\{\delta[n]\} = \displaystyle\sum_{n=-\infty}^{\infty} \delta[n]\, e^{-j\omega n} = 1 \cdot e^{0} = 1$; spektrum je teda konstantne $1$ pre vsetky $\omega$.`,
+    nepravda: String.raw`Pre $x[n] = \delta[n]$ je $\mathrm{DTFT}\{\delta[n]\} = \displaystyle\sum_{n=-\infty}^{\infty} \delta[n]\, e^{-j\omega n} = e^{-j\omega}$; spektrum sa teda meni s frekvenciou $\omega$.`
+  },
+  {
+    id: "CZS 5. DTFT vypocet konkretny 002",
+    oblast: "DTFT",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pre $x[n] = \delta[n - 3]$ je $\mathrm{DTFT}\{\delta[n - 3]\} = e^{-j 3 \omega}$ (cista fazova rampa), takze pri konkretnom $\omega = \pi/2$ je $S(e^{j\pi/2}) = e^{-j 3 \pi / 2} = j$.`,
+    nepravda: String.raw`Pre $x[n] = \delta[n - 3]$ je $\mathrm{DTFT}\{\delta[n - 3]\} = e^{j 3 \omega}$ (cista fazova rampa), takze pri konkretnom $\omega = \pi/2$ je $S(e^{j\pi/2}) = e^{j 3 \pi / 2} = -j$.`
+  },
+  {
+    id: "CZS 5. DTFT vypocet konkretny 003",
+    oblast: "DTFT",
+    podoblast: "Vypocty",
+    pravda: String.raw`IDTFT idealnej dolnej priepuste $H(e^{j\omega}) = 1$ pre $|\omega| \le \omega_{c}$ (inak $0$) je $h[n] = \dfrac{1}{2\pi} \displaystyle\int_{-\omega_{c}}^{\omega_{c}} e^{j\omega n}\, d\omega = \dfrac{1}{2\pi j n}\left(e^{j\omega_{c} n} - e^{-j\omega_{c} n}\right) = \dfrac{\sin(\omega_{c} n)}{\pi n}$, co je nekauzalna sinc-podobna postupnost.`,
+    nepravda: String.raw`IDTFT idealnej dolnej priepuste $H(e^{j\omega}) = 1$ pre $|\omega| \le \omega_{c}$ (inak $0$) je $h[n] = \dfrac{1}{2\pi} \displaystyle\int_{-\omega_{c}}^{\omega_{c}} e^{j\omega n}\, d\omega = \dfrac{1}{2\pi n}\left(e^{j\omega_{c} n} + e^{-j\omega_{c} n}\right) = \dfrac{\cos(\omega_{c} n)}{\pi n}$, co je nekauzalna kosinusova postupnost.`
+  },
+  {
+    id: "CZS 5. Kmitoctove charakteristiky vypocet 001",
+    oblast: "Kmitoctove charakteristiky",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pre LTI system $y[n] = \tfrac{1}{2}\bigl(x[n] + x[n - 1]\bigr)$ je $h[n] = \tfrac{1}{2}\bigl(\delta[n] + \delta[n - 1]\bigr)$ a kmitoctova charakteristika $H(e^{j\omega}) = \tfrac{1}{2}\bigl(1 + e^{-j\omega}\bigr) = e^{-j\omega/2} \cos\!\tfrac{\omega}{2}$. Modul $\bigl|H(e^{j\omega})\bigr| = \bigl|\cos\tfrac{\omega}{2}\bigr|$: pri $\omega = 0$ je $|H| = 1$ (DC prechadza), pri $\omega = \pi$ je $|H| = 0$ (Nyquist je potlaceny) — ide o dolnu priepust.`,
+    nepravda: String.raw`Pre LTI system $y[n] = \tfrac{1}{2}\bigl(x[n] + x[n - 1]\bigr)$ je $h[n] = \tfrac{1}{2}\bigl(\delta[n] + \delta[n - 1]\bigr)$ a kmitoctova charakteristika $H(e^{j\omega}) = \tfrac{1}{2}\bigl(1 + e^{-j\omega}\bigr) = e^{-j\omega/2} \cos\!\tfrac{\omega}{2}$. Modul $\bigl|H(e^{j\omega})\bigr| = \bigl|\cos\tfrac{\omega}{2}\bigr|$: pri $\omega = 0$ je $|H| = 0$ (DC je potlacene), pri $\omega = \pi$ je $|H| = 1$ (Nyquist prechadza) — ide o hornu priepust.`
+  },
+  {
+    id: "CZS 5. Kmitoctove charakteristiky vypocet 002",
+    oblast: "Kmitoctove charakteristiky",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pre LTI system $y[n] = x[n] - x[n - 1]$ (prva diferencia) je $h[n] = \delta[n] - \delta[n - 1]$, takze $H(e^{j\omega}) = 1 - e^{-j\omega} = e^{-j\omega/2}\bigl(e^{j\omega/2} - e^{-j\omega/2}\bigr) = 2 j \sin\!\tfrac{\omega}{2}\cdot e^{-j\omega/2}$. Modul $\bigl|H(e^{j\omega})\bigr| = 2\bigl|\sin\tfrac{\omega}{2}\bigr|$: pri $\omega = 0$ je $|H| = 0$ (DC je potlacene) a pri $\omega = \pi$ je $|H| = 2$ (Nyquist je zosilneny) — ide o hornu priepust.`,
+    nepravda: String.raw`Pre LTI system $y[n] = x[n] - x[n - 1]$ (prva diferencia) je $h[n] = \delta[n] - \delta[n - 1]$, takze $H(e^{j\omega}) = 1 - e^{-j\omega} = e^{-j\omega/2}\bigl(e^{j\omega/2} - e^{-j\omega/2}\bigr) = 2 j \sin\!\tfrac{\omega}{2}\cdot e^{-j\omega/2}$. Modul $\bigl|H(e^{j\omega})\bigr| = 2\bigl|\sin\tfrac{\omega}{2}\bigr|$: pri $\omega = 0$ je $|H| = 2$ (DC je zosilnene) a pri $\omega = \pi$ je $|H| = 0$ (Nyquist je potlaceny) — ide o dolnu priepust.`
+  },
+  {
+    id: "CZS 5. Kruhova korelacia vypocet 001",
+    oblast: "Kruhova korelacia",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pre $N = 4$ a $x[n] = [1, 0, 0, 1]$ je kruhova autokorelacia $z[n] = \displaystyle\sum_{m=0}^{3} x[m]\, x[(n + m) \bmod 4]$. Postupne: $z[0] = 1^{2} + 0 + 0 + 1^{2} = 2$ (energia), $z[1] = x[3]\,x[0] = 1$, $z[2] = 0$, $z[3] = x[0]\,x[3] = 1$. Vysledok $z = [2, 1, 0, 1]$ je symetricky okolo $n = 0$, t.j. $z[n] = z[(N - n) \bmod N]$, ako sa pre realnu autokorelaciu ocakava.`,
+    nepravda: String.raw`Pre $N = 4$ a $x[n] = [1, 0, 0, 1]$ je kruhova autokorelacia $z[n] = \displaystyle\sum_{m=0}^{3} x[m]\, x[(n + m) \bmod 4]$. Postupne: $z[0] = 1^{2} + 0 + 0 + 1^{2} = 2$ (energia), $z[1] = x[0]\,x[1] = 0$, $z[2] = 0$, $z[3] = x[0]\,x[3] = 1$. Vysledok $z = [2, 0, 0, 1]$ ukazuje, ze autokorelacia nemusi byt symetricka.`
+  },
+  {
+    id: "CZS 5. Kruhova korelacia vypocet 002",
+    oblast: "Kruhova korelacia",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pre $N = 4$, $s[n] = [1, 2, 3, 4]$ a $t[n] = [1, 1, 0, 0]$ je $z[n] = \displaystyle\sum_{m=0}^{3} s[m]\, t[(n + m) \bmod 4]$. Postupne: $z[0] = s[0]\,t[0] + s[1]\,t[1] = 1 + 2 = 3$, $z[1] = s[0]\,t[1] + s[3]\,t[0] = 1 + 4 = 5$, $z[2] = s[2]\,t[0] + s[3]\,t[1] = 3 + 4 = 7$, $z[3] = s[1]\,t[0] + s[2]\,t[1] = 2 + 3 = 5$. Vysledok $z = [3, 5, 7, 5]$ (overenie cez DFT: $S \cdot T^{*} = [20, -4, 0, -4] \Rightarrow z[0] = 3$).`,
+    nepravda: String.raw`Pre $N = 4$, $s[n] = [1, 2, 3, 4]$ a $t[n] = [1, 1, 0, 0]$ je $z[n] = \displaystyle\sum_{m=0}^{3} s[m]\, t[(n + m) \bmod 4]$. Pouzitim formuly s indexom $t[(n - m) \bmod 4]$ (zamenou korelacie za konvoluciu) dostaneme $z[0] = 1$, $z[1] = 3$, $z[2] = 5$, $z[3] = 7$, takze $z = [1, 3, 5, 7]$.`
   }
 ];
 
