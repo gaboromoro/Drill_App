@@ -2,8 +2,14 @@
 <html lang="sk">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#E6F910">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Drill on Crack">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Drill on Crack</title>
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="assets/katex/katex.min.css">
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,6 +58,11 @@
             <input id="posuvnikHlasitosti" type="range" min="0" max="100" value="33">
           </label>
 
+          <label class="nastavenie nastavenie-prepinac">
+            <span>Vypnut zvuk</span>
+            <input id="prepinacVypnutiaZvuku" class="prepinac-volby" type="checkbox">
+          </label>
+
           <div class="nastavenie">
             <span>Predmet</span>
             <div class="prepinace prepinace-nastaveni" aria-label="Predmet">
@@ -77,10 +88,10 @@
               <button id="tlacidloTemaSiva" class="tlacidlo-temy" type="button" aria-label="Siva tema">
                 <span class="vzorka-temy vzorka-siva" aria-hidden="true"></span>
               </button>
-              <button id="tlacidloTemaFialova" class="tlacidlo-temy aktivny" type="button" aria-label="Violet tema">
+              <button id="tlacidloTemaFialova" class="tlacidlo-temy" type="button" aria-label="Violet tema">
                 <span class="vzorka-temy vzorka-fialova" aria-hidden="true"></span>
               </button>
-              <button id="tlacidloTemaTyrkysova" class="tlacidlo-temy" type="button" aria-label="Cyan tema">
+              <button id="tlacidloTemaTyrkysova" class="tlacidlo-temy aktivny" type="button" aria-label="Tyrkysova tema">
                 <span class="vzorka-temy vzorka-tyrkysova" aria-hidden="true"></span>
               </button>
               <button id="tlacidloTemaTabula" class="tlacidlo-temy" type="button" aria-label="Chalkboard tema">
@@ -289,9 +300,11 @@
   <script src="czs-otazky.js"></script>
   <script src="czs1-crack.js"></script>
   <script src="czs2-crack.js"></script>
+  <script src="czs3-crack.js"></script>
   <script src="czs4-crack.js"></script>
   <script src="czs5-crack.js"></script>
   <script src="czs6-crack.js"></script>
+  <script src="czs6-priklad.js"></script>
   <script src="hel-otazky.js"></script>
   <script src="hel1-crack.js"></script>
   <script src="hel2-crack.js"></script>
@@ -299,6 +312,9 @@
   <script src="exam-edit.js"></script>
   <script src="hel4-zvysne.js"></script>
   <script src="hel5-zvysne.js"></script>
+  <script src="hel7-crack.js"></script>
+  <script src="hel8-crack.js"></script>
+  <script src="hel-tier1.js"></script>
   <script src="vs2-otazky.js"></script>
   <script src="aud-otazky.js"></script>
   <script src="Veterina.js"></script>

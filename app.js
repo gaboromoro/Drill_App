@@ -48,6 +48,10 @@ const zvukDokonceniaPoolu = new Audio("Audio-samples/Complete/ESM_Ambient_Game_O
 const zvukDokonceniaPooluChoir = new Audio("Audio-samples/Complete/ChoirBars_A.wav");
 const zvukVyberuVolby = new Audio("Audio-samples/select/ESM_Perfect_Clean_App_Button_Click_2_Organic_Simple_Classic_Game_Click.wav");
 const zvukCitatu = new Audio("Audio-samples/Holy/ESM_FX_achievements_rewards_swipe_choir_angelic_positive_03.wav");
+const zvukyAplikacie = [zvukSpravne, zvukSpravneStreak7, zvukSpravneStreak14, zvukZle, zvukZle8x, zvukZle15x, zvukDokonceniaPoolu, zvukDokonceniaPooluChoir, zvukVyberuVolby, zvukCitatu];
+let zvukovyKontext = null;
+let audioRelaciaNastavena = false;
+const buffreZvukov = new Map();
 
 const prvokTema = document.getElementById("tema");
 const prvokTypOtazky = document.getElementById("typOtazky");
@@ -123,6 +127,7 @@ const tlacidloTemaTyrkysova = document.getElementById("tlacidloTemaTyrkysova");
 const tlacidloTemaTabula = document.getElementById("tlacidloTemaTabula");
 const kriedaPlatno = document.getElementById("krieda-platno");
 const posuvnikHlasitosti = document.getElementById("posuvnikHlasitosti");
+const prepinacVypnutiaZvuku = document.getElementById("prepinacVypnutiaZvuku");
 const prepinacCitatov = document.getElementById("prepinacCitatov");
 const prepinacNahodnehoPoradia = document.getElementById("prepinacNahodnehoPoradia");
 const prepinacDisplaySorting = document.getElementById("prepinacDisplaySorting");
@@ -320,7 +325,106 @@ function vytvorPixelyStlpca() {
   spustiPixelyStlpca();
 }
 
-function prehrajZvuk(zvuk, rychlost = 1) {
+function jeZvukVypnuty() {
+  return Boolean(prepinacVypnutiaZvuku && prepinacVypnutiaZvuku.checked);
+}
+
+function jeIosZariadenie() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent)
+    || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
+
+function nastavAmbientnuAudioRelaciu() {
+  if (audioRelaciaNastavena || !navigator.audioSession) {
+    return;
+  }
+
+  try {
+    navigator.audioSession.type = "ambient";
+    audioRelaciaNastavena = true;
+  } catch (chyba) {
+    audioRelaciaNastavena = true;
+  }
+}
+
+function ziskajZvukovyKontext() {
+  if (!window.AudioContext && !window.webkitAudioContext) {
+    return null;
+  }
+
+  if (!zvukovyKontext) {
+    const KonstruktorKontextu = window.AudioContext || window.webkitAudioContext;
+    zvukovyKontext = new KonstruktorKontextu();
+  }
+
+  return zvukovyKontext;
+}
+
+function ziskajZdrojZvuku(zvuk) {
+  return zvuk.currentSrc || zvuk.src;
+}
+
+function dekodujZvuk(kontext, data) {
+  return new Promise((resolve, reject) => {
+    const vysledok = kontext.decodeAudioData(data, resolve, reject);
+    if (vysledok && typeof vysledok.then === "function") {
+      vysledok.then(resolve).catch(reject);
+    }
+  });
+}
+
+async function nacitajBufferZvuku(zvuk, kontext) {
+  const zdroj = ziskajZdrojZvuku(zvuk);
+  if (!zdroj) {
+    return null;
+  }
+
+  if (!buffreZvukov.has(zdroj)) {
+    const nacitanie = fetch(zdroj)
+      .then((odpoved) => (odpoved.ok ? odpoved.arrayBuffer() : null))
+      .then((data) => (data ? dekodujZvuk(kontext, data) : null))
+      .catch(() => null);
+    buffreZvukov.set(zdroj, nacitanie);
+  }
+
+  return buffreZvukov.get(zdroj);
+}
+
+async function prehrajZvukCezWebAudio(zvuk, rychlost) {
+  const kontext = ziskajZvukovyKontext();
+  if (!kontext) {
+    return false;
+  }
+
+  if (kontext.state === "suspended") {
+    try {
+      await kontext.resume();
+    } catch (chyba) {
+      return false;
+    }
+  }
+
+  const buffer = await nacitajBufferZvuku(zvuk, kontext);
+  if (!buffer) {
+    return false;
+  }
+
+  if (jeZvukVypnuty() || hlasitost <= 0) {
+    return true;
+  }
+
+  const zdroj = kontext.createBufferSource();
+  const zosilnenie = kontext.createGain();
+  zdroj.buffer = buffer;
+  zdroj.playbackRate.value = rychlost;
+  zosilnenie.gain.value = hlasitost;
+  zdroj.connect(zosilnenie);
+  zosilnenie.connect(kontext.destination);
+  zdroj.start(0);
+  return true;
+}
+
+function prehrajZvukCezHtmlAudio(zvuk, rychlost) {
   const prehravac = typeof zvuk.cloneNode === "function" ? zvuk.cloneNode(true) : zvuk;
   prehravac.currentTime = 0;
   prehravac.volume = hlasitost;
@@ -329,6 +433,35 @@ function prehrajZvuk(zvuk, rychlost = 1) {
   prehravac.webkitPreservesPitch = false;
   prehravac.playbackRate = rychlost;
   prehravac.play().catch(() => {});
+}
+
+function prehrajZvuk(zvuk, rychlost = 1) {
+  if (jeZvukVypnuty() || hlasitost <= 0) {
+    return;
+  }
+
+  nastavAmbientnuAudioRelaciu();
+  prehrajZvukCezWebAudio(zvuk, rychlost).then((prehrane) => {
+    if (!prehrane && !jeIosZariadenie() && !jeZvukVypnuty()) {
+      prehrajZvukCezHtmlAudio(zvuk, rychlost);
+    }
+  });
+}
+
+function pripravZvuky() {
+  if (jeZvukVypnuty()) {
+    return;
+  }
+
+  nastavAmbientnuAudioRelaciu();
+  const kontext = ziskajZvukovyKontext();
+  if (!kontext) {
+    return;
+  }
+
+  if (kontext.state === "suspended") {
+    kontext.resume().catch(() => {});
+  }
 }
 
 function ziskajZvukSpravnejOdpovede(dlzkaSerie) {
@@ -374,9 +507,31 @@ function pocetPrehratiZvuku(jeSpravne, dlzkaSerie) {
 
 function nastavHlasitost(hodnota) {
   hlasitost = Math.max(0, Math.min(1, Number(hodnota) / 100));
-  [zvukSpravne, zvukSpravneStreak7, zvukSpravneStreak14, zvukZle, zvukZle8x, zvukZle15x, zvukDokonceniaPoolu, zvukDokonceniaPooluChoir, zvukVyberuVolby, zvukCitatu].forEach((zvuk) => {
+  zvukyAplikacie.forEach((zvuk) => {
     zvuk.volume = hlasitost;
   });
+}
+
+function nastavVypnutieZvuku(pripravitZvuk = false) {
+  if (posuvnikHlasitosti) {
+    posuvnikHlasitosti.disabled = jeZvukVypnuty();
+  }
+
+  if (!jeZvukVypnuty()) {
+    if (pripravitZvuk) {
+      pripravZvuky();
+    }
+    return;
+  }
+
+  zvukyAplikacie.forEach((zvuk) => {
+    zvuk.pause();
+    zvuk.currentTime = 0;
+  });
+
+  if (zvukovyKontext && zvukovyKontext.state === "running") {
+    zvukovyKontext.suspend().catch(() => {});
+  }
 }
 
 function nastavTemu(tema) {
@@ -989,6 +1144,12 @@ function nastavMobilnyCrackMode() {
   document.body.classList.toggle("rezim-crack-mobile", jeMobilnyCrackMode());
 }
 
+function nastavMobilnuVysku() {
+  const vyskaViewportu = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  const vyska = Math.max(240, Math.round(vyskaViewportu || window.innerHeight || 0));
+  document.documentElement.style.setProperty("--mobilna-vyska-js", `${vyska}px`);
+}
+
 function aktualizujRozlozenieCrackTimeru() {
   const aktivny = jeCrackTimerZapnuty();
   document.body.classList.toggle("rezim-crack-timer", aktivny);
@@ -1280,6 +1441,14 @@ function vytvorCrackParStatement(otazka) {
     crack: true
   };
 
+  if (Array.isArray(otazka.obrazky)) {
+    crackOtazka.obrazky = otazka.obrazky;
+  }
+  if (otazka.obrazok) {
+    crackOtazka.obrazok = otazka.obrazok;
+    crackOtazka.popisObrazka = otazka.popisObrazka;
+  }
+
   return nastavNahodnyCrackParStatement(crackOtazka);
 }
 
@@ -1383,13 +1552,27 @@ function unikatneHodnoty(hodnoty) {
   return [...new Set(hodnoty)].sort((a, b) => a.localeCompare(b, "sk"));
 }
 
+function ziskajOkruhyOtazky(otazka) {
+  // Primarny okruh otazky (jej prezentacia) + pripadne dalsie clenstva v poli `okruhy`
+  // (napr. agregovany okruh "HEL TIER 1"). Povodny okruh zostava zachovany.
+  const okruhy = [ziskajPrezentaciu(otazka)];
+  if (Array.isArray(otazka.okruhy)) {
+    otazka.okruhy.forEach((okruh) => {
+      if (okruh) {
+        okruhy.push(okruh);
+      }
+    });
+  }
+  return okruhy;
+}
+
 function ziskajPrezentacie() {
-  return unikatneHodnoty(zakladneOtazkyPredmetu.map(ziskajPrezentaciu));
+  return unikatneHodnoty(zakladneOtazkyPredmetu.flatMap(ziskajOkruhyOtazky));
 }
 
 function ziskajOtazkyPrePrezentaciu() {
   return zakladneOtazkyPredmetu.filter((otazka) => (
-    vybranaPrezentacia === hodnotaVsetko || ziskajPrezentaciu(otazka) === vybranaPrezentacia
+    vybranaPrezentacia === hodnotaVsetko || ziskajOkruhyOtazky(otazka).includes(vybranaPrezentacia)
   ));
 }
 
@@ -3192,6 +3375,7 @@ tlacidloSpustitTazkyPool.addEventListener("click", spustiTazkyPool);
 tlacidloVypnutTazkyPool.addEventListener("click", vypniTazkyPool);
 tlacidloVycistitTazkyPool.addEventListener("click", vycistiTazkyPool);
 posuvnikHlasitosti.addEventListener("input", () => nastavHlasitost(posuvnikHlasitosti.value));
+prepinacVypnutiaZvuku.addEventListener("change", () => nastavVypnutieZvuku(true));
 tlacidloPredmetPc2.addEventListener("click", () => {
   nastavPredmet("pc2");
 });
@@ -3261,10 +3445,19 @@ document.addEventListener("click", obsluzKlikCitatu, true);
 document.addEventListener("click", obsluzKlikVolitelnehoPrvku);
 document.addEventListener("change", obsluzZmenuVolitelnehoPrvku);
 document.addEventListener("keydown", obsluzKlavesnicu);
+document.addEventListener("pointerdown", pripravZvuky, { once: true });
+document.addEventListener("keydown", pripravZvuky, { once: true });
+window.addEventListener("resize", nastavMobilnuVysku);
+window.addEventListener("orientationchange", () => window.setTimeout(nastavMobilnuVysku, 250));
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", nastavMobilnuVysku);
+}
 
 nastavTlacidlaOtazok();
 vytvorPixelyStlpca();
+nastavMobilnuVysku();
 nastavHlasitost(posuvnikHlasitosti.value);
+nastavVypnutieZvuku();
 prepinacNahodnehoPoradia.checked = true;
 prepinacCrackMode.checked = true;
 prepinacCrackTimeru.checked = false;
@@ -3274,7 +3467,7 @@ nastavDisplaySorting();
 nastavCrackTimer();
 nastavMobilnyCrackMode();
 aktualizujRozlozenieUcenia();
-nastavTemu("fialova");
+nastavTemu("tyrkysova");
 skryCitaty();
 nastavPredmet("hel");
 nastavKodovePoradie();

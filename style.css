@@ -1365,6 +1365,10 @@ body.tema-tyrkysova .moznost.spravna input:checked + .klavesa {
   --aktivny-obrys-klavesy: #000000;
 }
 
+body.tema-tyrkysova .moznost.chybna input:checked + .klavesa {
+  --aktivny-obrys-klavesy: #E6F910;
+}
+
 .moznost input:disabled {
   cursor: default;
 }
