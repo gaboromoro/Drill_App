@@ -1,5 +1,6 @@
 :root {
   color-scheme: light;
+  --mobil-vyska: var(--mobilna-vyska-js, 100vh);
   --pozadie: #ff6000;
   --text: #000000;
   --ciara: #000000;
@@ -18,8 +19,19 @@
   --klaves-vybrany-pismo: var(--pozadie);
 }
 
+@supports (height: 100dvh) {
+  :root {
+    --mobil-vyska: var(--mobilna-vyska-js, 100dvh);
+  }
+}
+
 * {
   box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--pozadie);
 }
 
 body {
@@ -98,19 +110,19 @@ body.tema-fialova {
 }
 
 body.tema-tyrkysova {
-  --pozadie: #84ffc9;
+  --pozadie: #E6F910;
   --text: #000000;
   --ciara: #000000;
-  --farba-cisla-stlpca: #84ffc9;
+  --farba-cisla-stlpca: #E6F910;
   --filter-klaves: none;
-  --klaves-vrch: #c2ffe4;
-  --klaves-okraj: #aab2ff;
-  --klaves-obrys: #036666;
-  --klaves-pismo: #000000;
-  --klaves-vybrany-vrch: #64cfa4;
-  --klaves-vybrany-okraj: #747dd8;
-  --klaves-vybrany-obrys: #024a4a;
-  --klaves-vybrany-pismo: #000000;
+  --klaves-vrch: #8838C4;
+  --klaves-okraj: #8838C4;
+  --klaves-obrys: #E8F924;
+  --klaves-pismo: #E6F910;
+  --klaves-vybrany-vrch: #000000;
+  --klaves-vybrany-okraj: #000000;
+  --klaves-vybrany-obrys: #E6F910;
+  --klaves-vybrany-pismo: #E6F910;
 }
 
 body.tema-tabula {
@@ -897,7 +909,7 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
 }
 
 .vzorka-tyrkysova {
-  background: #84ffc9;
+  background: #E6F910;
 }
 
 .vzorka-tabula {
@@ -946,6 +958,10 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
   border-radius: 0;
   background: var(--farba-posuvnika);
   box-shadow: 0 0 0 2px var(--pozadie);
+}
+
+#posuvnikHlasitosti:disabled {
+  opacity: 0.45;
 }
 
 #vyberPrezentacie {
@@ -1332,6 +1348,13 @@ h3 {
   color: #000000;
 }
 
+body.tema-tyrkysova .moznost.spravna .klavesa,
+body.tema-tyrkysova .moznost.spravna input:checked + .klavesa {
+  --aktivny-vrch-klavesy: #00FF77;
+  --aktivny-okraj-klavesy: #00FF77;
+  --aktivny-obrys-klavesy: #E6F910;
+}
+
 .moznost.chybna .klavesa {
   color: #000000;
 }
@@ -1619,13 +1642,19 @@ body.rezim-crack.rezim-exam .moznosti {
 
 body.rezim-crack.rezim-crack-mobile {
   overflow-x: hidden;
+  min-height: var(--mobil-vyska);
+  overscroll-behavior: none;
 }
 
 body.rezim-crack.rezim-crack-mobile .stranka {
   width: 100%;
   max-width: none;
-  min-height: 100svh;
-  padding: 12px clamp(10px, 2vw, 22px);
+  min-height: var(--mobil-vyska);
+  padding:
+    max(12px, env(safe-area-inset-top))
+    max(clamp(10px, 2vw, 22px), env(safe-area-inset-right))
+    max(12px, env(safe-area-inset-bottom))
+    max(clamp(10px, 2vw, 22px), env(safe-area-inset-left));
 }
 
 body.rezim-crack.rezim-crack-mobile .hlavicka {
@@ -1638,7 +1667,7 @@ body.rezim-crack.rezim-crack-mobile #rezimTest {
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
   row-gap: clamp(10px, 2vh, 18px);
-  min-height: calc(100svh - 86px);
+  min-height: calc(var(--mobil-vyska) - 86px);
 }
 
 body.rezim-crack.rezim-crack-mobile .stlpec-panel {
@@ -1688,7 +1717,7 @@ body.rezim-crack.rezim-crack-mobile #rezimTest .panel {
   flex-direction: column;
   grid-column: 1;
   grid-row: 2;
-  min-height: calc(100svh - 140px);
+  min-height: calc(var(--mobil-vyska) - 140px);
   padding-top: clamp(18px, 8vh, 56px);
   padding-bottom: 0;
 }
@@ -1766,20 +1795,25 @@ body.rezim-crack.rezim-crack-mobile .ovladanie {
   }
 
   body.rezim-crack.rezim-crack-mobile .stranka {
-    height: 100svh;
-    padding: 8px 12px;
+    height: var(--mobil-vyska);
+    min-height: var(--mobil-vyska);
+    padding:
+      max(4px, env(safe-area-inset-top))
+      max(10px, env(safe-area-inset-right))
+      max(7px, env(safe-area-inset-bottom))
+      max(10px, env(safe-area-inset-left));
     overflow: hidden;
   }
 
   body.rezim-crack.rezim-crack-mobile .hlavicka {
     flex-direction: row;
-    gap: 10px;
-    margin-bottom: 6px;
-    padding-bottom: 8px;
+    gap: 8px;
+    margin-bottom: 4px;
+    padding-bottom: 5px;
   }
 
   body.rezim-crack.rezim-crack-mobile h1 {
-    font-size: clamp(20px, 3.2vw, 31px);
+    font-size: clamp(18px, 2.8vw, 27px);
   }
 
   body.rezim-crack.rezim-crack-mobile .statistiky {
@@ -1788,7 +1822,7 @@ body.rezim-crack.rezim-crack-mobile .ovladanie {
 
   body.rezim-crack.rezim-crack-mobile .statistiky span,
   body.rezim-crack.rezim-crack-mobile .tlacidlo-predosly {
-    padding: 5px 8px;
+    padding: 4px 7px;
     font-size: clamp(11px, 1.7vw, 15px);
   }
 
@@ -1798,13 +1832,19 @@ body.rezim-crack.rezim-crack-mobile .ovladanie {
   }
 
   body.rezim-crack.rezim-crack-mobile .panel-nastaveni {
-    max-height: calc(100svh - 20px);
+    max-height: calc(var(--mobil-vyska) - 20px);
     overflow-y: auto;
   }
 
-  body.rezim-crack.rezim-crack-mobile #rezimTest,
-  body.rezim-crack.rezim-crack-mobile #rezimTest .panel {
+  body.rezim-crack.rezim-crack-mobile #rezimTest {
+    height: calc(var(--mobil-vyska) - 52px);
     min-height: auto;
+    row-gap: 4px;
+    overflow: hidden;
+  }
+
+  body.rezim-crack.rezim-crack-mobile #rezimTest .panel {
+    min-height: 0;
   }
 
   body.rezim-crack.rezim-crack-mobile .stlpec-panel {
@@ -1812,30 +1852,42 @@ body.rezim-crack.rezim-crack-mobile .ovladanie {
   }
 
   body.rezim-crack.rezim-crack-mobile .stlpec-uspesnosti {
-    height: clamp(44px, 10vh, 72px);
-    min-height: 44px;
+    height: clamp(34px, 8vh, 52px);
+    min-height: 34px;
   }
 
   body.rezim-crack.rezim-crack-mobile #rezimTest .panel {
-    min-height: calc(100svh - 112px);
-    padding-top: clamp(12px, 5vh, 30px);
+    height: 100%;
+    padding-top: clamp(4px, 2vh, 14px);
+    overflow: hidden;
   }
 
   body.rezim-crack.rezim-crack-mobile #otazka {
     width: 100%;
-    max-height: 38vh;
-    margin-bottom: clamp(6px, 1.4vh, 12px);
-    font-size: clamp(22px, 4.1vw, 36px);
+    max-height: min(32vh, calc(var(--mobil-vyska) - 168px));
+    margin-bottom: clamp(4px, 1vh, 8px);
+    font-size: clamp(19px, 3.6vw, 31px);
+    line-height: 1.14;
   }
 
   body.rezim-crack.rezim-crack-mobile .moznosti {
-    min-height: clamp(96px, 30vh, 150px);
+    align-items: end;
+    flex: 1 0 clamp(76px, 24vh, 122px);
+    min-height: clamp(76px, 24vh, 122px);
+    padding-bottom: max(2px, env(safe-area-inset-bottom));
+    overflow: visible;
+  }
+
+  body.rezim-crack.rezim-crack-mobile .moznost {
+    align-items: flex-end;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   body.rezim-crack.rezim-crack-mobile .moznost .klavesa {
-    width: clamp(92px, 15vw, 132px);
-    height: clamp(86px, 14vw, 125px);
-    font-size: clamp(40px, 6.8vw, 62px);
+    width: clamp(76px, 12vw, 112px);
+    height: clamp(72px, 11.2vw, 106px);
+    font-size: clamp(34px, 5.7vw, 54px);
   }
 }
 
@@ -2272,7 +2324,7 @@ button.sekundarne {
 
 body.rezim-crack-timer #rezimTest {
   grid-template-columns: 140px minmax(0, 1fr) 140px;
-  min-height: calc(100svh - 150px);
+  min-height: calc(var(--mobil-vyska) - 150px);
   align-items: center;
 }
 
@@ -2378,7 +2430,7 @@ body.rezim-crack-timer .moznosti {
   body.rezim-crack-mobile.rezim-crack-timer .stlpec-panel-casovac .stlpec-uspesnosti,
   body.rezim-crack-mobile.rezim-crack-timer .stlpec-panel-progress .stlpec-uspesnosti {
     width: clamp(56px, 10vw, 108px);
-    height: calc(100svh - 148px);
+    height: calc(var(--mobil-vyska) - 148px);
     min-height: 150px;
   }
 }
