@@ -122,15 +122,27 @@
         <section class="skupina-nastaveni">
           <h2 class="nadpis-nastaveni">Modes</h2>
           <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
-            <span>Learn Mode</span>
+            <span id="textUcenia">Learn Mode</span>
             <input id="prepinacUcenia" class="prepinac-volby" type="checkbox">
-            <span class="hint-nastavenia" role="tooltip">Vypne testovanie a ukaze iba spravne odpovede. Otazkami prechadzas sipkami.</span>
+            <span id="hintUcenia" class="hint-nastavenia" role="tooltip">Zobrazi cely vybrany okruh so spravnymi odpovedami podla podokruhov.</span>
           </label>
 
-          <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+          <label id="riadokMultipleChoice" class="nastavenie nastavenie-prepinac nastavenie-s-hintom skryte">
+            <span>Multiple Choice Mode</span>
+            <input id="prepinacMultipleChoice" class="prepinac-volby" type="checkbox">
+            <span class="hint-nastavenia" role="tooltip">Iba pre HEL: vypne Crack Mode a zapne povodny mod s vyberom moznosti (kompatibilny len s niektorymi okruhmi).</span>
+          </label>
+
+          <label id="riadokSpeedMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
             <span id="textRychlehoRezimu">Speed Mode</span>
             <input id="prepinacRychlehoRezimu" class="prepinac-volby" type="checkbox">
             <span id="hintRychlehoRezimu" class="hint-nastavenia" role="tooltip">Po spravnej odpovedi automaticky prejde na dalsiu otazku.</span>
+          </label>
+
+          <label id="riadokSlowMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+            <span>Slow Mode</span>
+            <input id="prepinacSlowMode" class="prepinac-volby" type="checkbox">
+            <span class="hint-nastavenia" role="tooltip">V Crack Mode: po zlej odpovedi nepreskoci hned dalej, ale ukaze chybu a spravnu odpoved. Medzernikom (alebo z/x) prejdes na dalsiu otazku.</span>
           </label>
 
           <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
@@ -139,28 +151,22 @@
             <span class="hint-nastavenia" role="tooltip">Spravne zodpovedana otazka vypadne z aktualneho poolu. Nespravne odpovede ostanu v poole a bar sa iba plni, kym nedas spravne vsetko.</span>
           </label>
 
-          <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
-            <span>Crack Mode</span>
-            <input id="prepinacCrackMode" class="prepinac-volby" type="checkbox" checked>
-            <span class="hint-nastavenia" role="tooltip">Z vybraneho HEL alebo CZS poolu spravi tvrdenia Pravda/Nepravda. Po vybere hned pokracuje dalej; citat pride pri 7x streaku alebo po kazdych 10 zlych odpovediach.</span>
-          </label>
-
-          <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+          <label id="riadokExamMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom skryte">
             <span id="textExamMode">Exam Mode</span>
             <input id="prepinacExamMode" class="prepinac-volby" type="checkbox">
             <span class="hint-nastavenia" role="tooltip">Z vybranych HEL statementov spravi otvorenu skuskovu otazku. Ku kazdej casti dostanes pole na pisanie a medzernikom zobrazis vypracovanu odpoved. Druhym kliknutim prepnes na Exam Mode Mini, kde sa kazda podotazka rozbije na samostatny slide.</span>
           </label>
 
-          <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+          <label id="riadokTimerMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
             <span>Timer Mode</span>
             <input id="prepinacCrackTimeru" class="prepinac-volby" type="checkbox">
             <span class="hint-nastavenia" role="tooltip">V Crack Mode sa lava tyc zmeni na 10-sekundovy casovac. Ked sa naplni, odpoved sa vyhodnoti ako nespravna a ide sa dalej.</span>
           </label>
 
-          <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+          <label id="riadokMobileMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
             <span>Mobile Mode</span>
             <input id="prepinacMobilnehoCrackModu" class="prepinac-volby" type="checkbox">
-            <span class="hint-nastavenia" role="tooltip">Crack Mode layout pre mobil na sirku: statement cez sirku, velke z/x keycapy a velke klikatelne zony.</span>
+            <span class="hint-nastavenia" role="tooltip">Na mobile sa zapne automaticky. Crack Mode layout pre mobil na sirku: statement cez sirku, velke z/x keycapy a velke klikatelne zony.</span>
           </label>
         </section>
 
@@ -300,11 +306,15 @@
   <script src="czs-otazky.js"></script>
   <script src="czs1-crack.js"></script>
   <script src="czs2-crack.js"></script>
+  <script src="czs2-priklad.js"></script>
   <script src="czs3-crack.js"></script>
   <script src="czs4-crack.js"></script>
   <script src="czs5-crack.js"></script>
   <script src="czs6-crack.js"></script>
   <script src="czs6-priklad.js"></script>
+  <script src="czs6-priklad2.js"></script>
+  <script src="czs7-crack.js"></script>
+  <script src="czs8-crack.js"></script>
   <script src="hel-otazky.js"></script>
   <script src="hel1-crack.js"></script>
   <script src="hel2-crack.js"></script>

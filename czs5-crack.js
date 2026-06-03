@@ -705,26 +705,214 @@ const czsSkuska5CrackData = [
     podoblast: "Vypocty",
     pravda: String.raw`Pre $N = 4$, $s[n] = [1, 2, 3, 4]$ a $t[n] = [1, 1, 0, 0]$ je $z[n] = \displaystyle\sum_{m=0}^{3} s[m]\, t[(n + m) \bmod 4]$. Postupne: $z[0] = s[0]\,t[0] + s[1]\,t[1] = 1 + 2 = 3$, $z[1] = s[0]\,t[1] + s[3]\,t[0] = 1 + 4 = 5$, $z[2] = s[2]\,t[0] + s[3]\,t[1] = 3 + 4 = 7$, $z[3] = s[1]\,t[0] + s[2]\,t[1] = 2 + 3 = 5$. Vysledok $z = [3, 5, 7, 5]$ (overenie cez DFT: $S \cdot T^{*} = [20, -4, 0, -4] \Rightarrow z[0] = 3$).`,
     nepravda: String.raw`Pre $N = 4$, $s[n] = [1, 2, 3, 4]$ a $t[n] = [1, 1, 0, 0]$ je $z[n] = \displaystyle\sum_{m=0}^{3} s[m]\, t[(n + m) \bmod 4]$. Pouzitim formuly s indexom $t[(n - m) \bmod 4]$ (zamenou korelacie za konvoluciu) dostaneme $z[0] = 1$, $z[1] = 3$, $z[2] = 5$, $z[3] = 7$, takze $z = [1, 3, 5, 7]$.`
+  },
+
+  // ===== DOPLNENE: vlastnosti DTFT =====
+  {
+    id: "CZS 5. DTFT vlastnost posun 001",
+    oblast: "DTFT",
+    podoblast: "Vlastnosti",
+    pravda: String.raw`Posun v case: $s[n - k] \Leftrightarrow e^{-jk\omega} \cdot S(e^{j\omega})$ — posun signalu sa prejavi iba linearnou zmenou fazy, modul spektra sa nemeni.`,
+    nepravda: String.raw`Posun v case: $s[n - k] \Leftrightarrow e^{+jk\omega} \cdot S(e^{j\omega})$ — posun signalu zmeni modul spektra, faza ostane rovnaka.`
+  },
+  {
+    id: "CZS 5. DTFT vlastnost posun 002",
+    oblast: "DTFT",
+    podoblast: "Vlastnosti",
+    pravda: String.raw`Kmitoctovy posun (modulacia): $e^{j\omega_0 n} \cdot s[n] \Leftrightarrow S(e^{j(\omega - \omega_0)})$ — nasobenie komplexnym kmitom posunie cele spektrum o $\omega_0$.`,
+    nepravda: String.raw`Kmitoctovy posun (modulacia): $e^{j\omega_0 n} \cdot s[n] \Leftrightarrow S(e^{j\omega}) \cdot e^{-j\omega_0}$ — nasobenie komplexnym kmitom iba zmeni fazu spektra.`
+  },
+  {
+    id: "CZS 5. DTFT vlastnost otocenie 001",
+    oblast: "DTFT",
+    podoblast: "Vlastnosti",
+    pravda: String.raw`Otocenie casovej osi: $s[-n] \Leftrightarrow S(e^{-j\omega})$ — prevratenie signalu v case prevrati aj jeho spektrum.`,
+    nepravda: String.raw`Otocenie casovej osi: $s[-n] \Leftrightarrow -S(e^{j\omega})$ — prevratenie signalu v case iba zmeni znamienko spektra.`
+  },
+  {
+    id: "CZS 5. DTFT konvolucny teorem 001",
+    oblast: "DTFT",
+    podoblast: "Vlastnosti",
+    pravda: String.raw`Konvolucny teorem: $s_1[n] \ast s_2[n] \Leftrightarrow S_1(e^{j\omega}) \cdot S_2(e^{j\omega})$ — konvolucia v case je sucin spektier.`,
+    nepravda: String.raw`Konvolucny teorem: $s_1[n] \ast s_2[n] \Leftrightarrow S_1(e^{j\omega}) + S_2(e^{j\omega})$ — konvolucia v case je sucet spektier.`
+  },
+  {
+    id: "CZS 5. DTFT korelacny teorem 001",
+    oblast: "DTFT",
+    podoblast: "Vlastnosti",
+    pravda: String.raw`Korelacny teorem: $s_1[n] \circ s_2[n] \Leftrightarrow S_1(e^{j\omega}) \cdot S_2^{*}(e^{j\omega})$ — korelacia pouziva komplexne zdruzene spektrum druheho signalu.`,
+    nepravda: String.raw`Korelacny teorem: $s_1[n] \circ s_2[n] \Leftrightarrow S_1(e^{j\omega}) \cdot S_2(e^{j\omega})$ — korelacia je presne to iste ako konvolucia (sucin spektier bez zdruzenia).`
+  },
+  {
+    id: "CZS 5. DTFT parseval 001",
+    oblast: "DTFT",
+    podoblast: "Vlastnosti",
+    pravda: String.raw`Parsevalov teorem (DTFT): $\displaystyle\sum_{n=-\infty}^{\infty} |s[n]|^2 = \dfrac{1}{2\pi}\int_{-\pi}^{\pi} |S(e^{j\omega})|^2\, d\omega$ — energia v case sa rovna energii v jednej periode spektra.`,
+    nepravda: String.raw`Parsevalov teorem (DTFT): $\displaystyle\sum_{n=-\infty}^{\infty} |s[n]|^2 = \int_{-\pi}^{\pi} |S(e^{j\omega})|^2\, d\omega$ — bez faktora $\tfrac{1}{2\pi}$.`
+  },
+
+  // ===== DOPLNENE: vlastnosti a vyznam DFT =====
+  {
+    id: "CZS 5. DFT bin vyznam 001",
+    oblast: "DFT",
+    podoblast: "Vlastnosti",
+    pravda: String.raw`V DFT spektre je index $k = 0$ jednosmerna (DC) zlozka, $k = 1$ prva harmonicka, $k = 2$ druha harmonicka atd.`,
+    nepravda: String.raw`V DFT spektre je index $k = 0$ prva harmonicka, $k = 1$ jednosmerna (DC) zlozka, $k = 2$ druha harmonicka atd.`
+  },
+  {
+    id: "CZS 5. DFT bin vyznam 002",
+    oblast: "DFT",
+    podoblast: "Vlastnosti",
+    pravda: String.raw`Bin $k$ DFT zodpoveda normalizovanej frekvencii $\omega_k = \dfrac{2\pi k}{N}$ — spojite spektrum DTFT je vzorkovane $N$ bodmi.`,
+    nepravda: String.raw`Bin $k$ DFT zodpoveda normalizovanej frekvencii $\omega_k = \dfrac{2\pi N}{k}$ — pocet bodov nezavisi od dlzky signalu.`
+  },
+  {
+    id: "CZS 5. DFT modul faza 001",
+    oblast: "DFT",
+    podoblast: "Vlastnosti",
+    pravda: String.raw`Modul a faza DFT koeficientu: $|S[k]| = \sqrt{\mathrm{Re}^2(S[k]) + \mathrm{Im}^2(S[k])}$ a $\arg S[k] = \arctan\dfrac{\mathrm{Im}(S[k])}{\mathrm{Re}(S[k])}$.`,
+    nepravda: String.raw`Modul a faza DFT koeficientu: $|S[k]| = \mathrm{Re}(S[k]) + \mathrm{Im}(S[k])$ a $\arg S[k] = \mathrm{Re}(S[k]) \cdot \mathrm{Im}(S[k])$.`
+  },
+  {
+    id: "CZS 5. DFT kruhovy posun 001",
+    oblast: "DFT",
+    podoblast: "Vlastnosti",
+    pravda: String.raw`Kruhovy posun v case: $s[(n - l) \bmod N] \Leftrightarrow S[k] \cdot e^{-j\frac{2\pi}{N} k l}$ — posun postupnosti znasobi spektrum komplexnym kmitom.`,
+    nepravda: String.raw`Kruhovy posun v case: $s[(n - l) \bmod N] \Leftrightarrow S[k] + e^{-j\frac{2\pi}{N} k l}$ — posun postupnosti pripocita ku spektru komplexny kmit.`
+  },
+  {
+    id: "CZS 5. DFT kruhova konvolucia 001",
+    oblast: "DFT",
+    podoblast: "Vlastnosti",
+    pravda: String.raw`Kruhova konvolucia $s[n] \circledast t[n] \Leftrightarrow S[k] \cdot T[k]$ — kruhova konvolucia v case je sucin spektier prvok po prvku.`,
+    nepravda: String.raw`Kruhova konvolucia $s[n] \circledast t[n] \Leftrightarrow S[k] + T[k]$ — kruhova konvolucia v case je sucet spektier prvok po prvku.`
+  },
+  {
+    id: "CZS 5. DFT parseval 001",
+    oblast: "DFT",
+    podoblast: "Vlastnosti",
+    pravda: String.raw`Parsevalov teorem (DFT): $\displaystyle\sum_{n=0}^{N-1} |s[n]|^2 = \dfrac{1}{N}\sum_{k=0}^{N-1} |S[k]|^2$ — energia signalu a jeho spektra su rovnako velke.`,
+    nepravda: String.raw`Parsevalov teorem (DFT): $\displaystyle\sum_{n=0}^{N-1} |s[n]|^2 = \sum_{k=0}^{N-1} |S[k]|^2$ — bez normalizacneho faktora $\tfrac{1}{N}$.`
+  },
+
+  // ===== DOPLNENE: ciselne priklady DFT/DTFT =====
+  {
+    id: "CZS 5. DFT vypocet konkretny 004",
+    oblast: "DFT",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pre $N = 2$ a $x = [a, b]$ je $S[0] = a + b$ a $S[1] = a + b\,e^{-j\pi} = a - b$. Napr. $x = [3, 1] \Rightarrow S = [4, 2]$.`,
+    nepravda: String.raw`Pre $N = 2$ a $x = [a, b]$ je $S[0] = a - b$ a $S[1] = a + b$. Napr. $x = [3, 1] \Rightarrow S = [2, 4]$.`
+  },
+  {
+    id: "CZS 5. DFT vypocet konkretny 005",
+    oblast: "DFT",
+    podoblast: "Vypocty",
+    pravda: String.raw`DC zlozka $S[0] = \displaystyle\sum_{n=0}^{N-1} x[n]$ je proste sucet vzoriek. Pre $x = [1, 2, 3, 4]$ je $S[0] = 10$.`,
+    nepravda: String.raw`DC zlozka $S[0] = \dfrac{1}{N}\displaystyle\sum_{n=0}^{N-1} x[n]$ je priemer vzoriek. Pre $x = [1, 2, 3, 4]$ je $S[0] = 2{,}5$.`
+  },
+  {
+    id: "CZS 5. DTFT vypocet konkretny 004",
+    oblast: "DTFT",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pre $x[n] = a^n u[n]$ s $|a| < 1$ je $\mathrm{DTFT}\{x[n]\} = \displaystyle\sum_{n=0}^{\infty} a^n e^{-j\omega n} = \dfrac{1}{1 - a\,e^{-j\omega}}$ (geometricky rad).`,
+    nepravda: String.raw`Pre $x[n] = a^n u[n]$ s $|a| < 1$ je $\mathrm{DTFT}\{x[n]\} = \dfrac{1}{1 - a\,e^{+j\omega}}$, pricom rad konverguje aj pre $|a| > 1$.`
+  },
+
+  // ===== MINI PRIKLADY (ultra zaklady DFT/DTFT/IDFT pre zacinajucich) =====
+  {
+    id: "CZS 5. Mini DTFT definicia 001",
+    oblast: "DTFT",
+    podoblast: "Mini priklady",
+    pravda: String.raw`DTFT je definovana ako $S(e^{j\omega}) = \displaystyle\sum_{n=-\infty}^{\infty} s[n]\, e^{-j\omega n}$; vystupom je spojita periodicka funkcia s periodou $2\pi$.`,
+    nepravda: String.raw`DTFT je definovana ako $S(e^{j\omega}) = \displaystyle\sum_{n=-\infty}^{\infty} s[n]\, e^{+j\omega n}$; vystupom je konecny pocet diskretnych vzoriek.`
+  },
+  {
+    id: "CZS 5. Mini DTFT impulz 001",
+    oblast: "DTFT",
+    podoblast: "Mini priklady",
+    pravda: String.raw`Najjednoduchsi par: $\mathrm{DTFT}\{\delta[n]\} = 1$ — spektrum jednotkoveho impulzu je konstantne pre vsetky $\omega$.`,
+    nepravda: String.raw`Najjednoduchsi par: $\mathrm{DTFT}\{\delta[n]\} = e^{-j\omega}$ — spektrum jednotkoveho impulzu sa meni s frekvenciou.`
+  },
+  {
+    id: "CZS 5. Mini DTFT posun 001",
+    oblast: "DTFT",
+    podoblast: "Mini priklady",
+    pravda: String.raw`Posun v case sa v DTFT prejavi iba fazou: $\mathrm{DTFT}\{\delta[n - k]\} = e^{-j\omega k}$; modul ostane $1$.`,
+    nepravda: String.raw`Posun v case sa v DTFT prejavi zmenou modulu: $\mathrm{DTFT}\{\delta[n - k]\} = k\, e^{-j\omega}$.`
+  },
+  {
+    id: "CZS 5. Mini DTFT periodicita 001",
+    oblast: "DTFT",
+    podoblast: "Mini priklady",
+    pravda: String.raw`Spektrum DTFT je vzdy periodicke s periodou $2\pi$: $S(e^{j(\omega + 2\pi)}) = S(e^{j\omega})$.`,
+    nepravda: String.raw`Spektrum DTFT je neperiodicke a definovane iba pre $\omega \in \langle 0, \pi \rangle$.`
+  },
+  {
+    id: "CZS 5. Mini DFT definicia 001",
+    oblast: "DFT",
+    podoblast: "Mini priklady",
+    pravda: String.raw`DFT je definovana ako $S[k] = \displaystyle\sum_{n=0}^{N-1} s[n]\, e^{-j 2\pi k n / N}$ pre $k = 0, 1, \ldots, N-1$.`,
+    nepravda: String.raw`DFT je definovana ako $S[k] = \displaystyle\sum_{n=0}^{N-1} s[n]\, e^{-j 2\pi k n}$ (bez delenia dlzkou $N$ v exponente).`
+  },
+  {
+    id: "CZS 5. Mini DFT dc 001",
+    oblast: "DFT",
+    podoblast: "Mini priklady",
+    pravda: String.raw`Nulty koeficient DFT je sucet vsetkych vzoriek: $S[0] = \displaystyle\sum_{n=0}^{N-1} s[n]$ (jednosmerna zlozka).`,
+    nepravda: String.raw`Nulty koeficient DFT je priemer vsetkych vzoriek: $S[0] = \dfrac{1}{N}\displaystyle\sum_{n=0}^{N-1} s[n]$.`
+  },
+  {
+    id: "CZS 5. Mini DFT impulz 001",
+    oblast: "DFT",
+    podoblast: "Mini priklady",
+    pravda: String.raw`Pre $N$-bodovy vstup $x[n] = \delta[n] = [1, 0, \ldots, 0]$ je $S[k] = 1$ pre vsetky $k$ — impulz v case da konstantne spektrum.`,
+    nepravda: String.raw`Pre $N$-bodovy vstup $x[n] = \delta[n] = [1, 0, \ldots, 0]$ je $S[0] = 1$ a $S[k] = 0$ pre $k > 0$.`
+  },
+  {
+    id: "CZS 5. Mini DFT pocet 001",
+    oblast: "DFT",
+    podoblast: "Mini priklady",
+    pravda: String.raw`$N$-bodova DFT vyrobi z $N$ vstupnych vzoriek presne $N$ spektralnych koeficientov $S[0] \ldots S[N-1]$.`,
+    nepravda: String.raw`$N$-bodova DFT vyrobi z $N$ vstupnych vzoriek $2N$ spektralnych koeficientov.`
+  },
+  {
+    id: "CZS 5. Mini IDFT definicia 001",
+    oblast: "DFT",
+    podoblast: "Mini priklady",
+    pravda: String.raw`Inverzna DFT (IDFT) je $s[n] = \dfrac{1}{N}\displaystyle\sum_{k=0}^{N-1} S[k]\, e^{+j 2\pi k n / N}$ — normalizacny faktor $\tfrac{1}{N}$ a kladny exponent.`,
+    nepravda: String.raw`Inverzna DFT (IDFT) je $s[n] = \displaystyle\sum_{k=0}^{N-1} S[k]\, e^{-j 2\pi k n / N}$ — bez faktora $\tfrac{1}{N}$ a so zapornym exponentom (rovnako ako priama DFT).`
+  },
+  {
+    id: "CZS 5. Mini IDTFT definicia 001",
+    oblast: "DTFT",
+    podoblast: "Mini priklady",
+    pravda: String.raw`Inverzna DTFT (IDTFT) je $s[n] = \dfrac{1}{2\pi}\displaystyle\int_{-\pi}^{\pi} S(e^{j\omega})\, e^{+j\omega n}\, d\omega$ — integracia cez jednu periodu $2\pi$.`,
+    nepravda: String.raw`Inverzna DTFT (IDTFT) je $s[n] = \displaystyle\sum_{\omega=-\pi}^{\pi} S(e^{j\omega})\, e^{+j\omega n}$ — suma cez diskretne frekvencie bez integralu.`
   }
 ];
 
-const czsSkuska5CrackOtazky = czsSkuska5CrackData.map((polozka) => ({
-  id: polozka.id,
-  tema: `CZS 5. ${polozka.oblast} - ${polozka.podoblast}`,
-  typ: "jedna",
-  format: "crack",
-  uroven: "tazka",
-  otazka: polozka.pravda,
-  moznosti: ["z", "x"],
-  spravne: [0],
-  vysvetlenie: `Spravny statement: ${polozka.pravda}`,
-  prezentacia: "CZS 5",
-  subtema: `${polozka.oblast} / ${polozka.podoblast}`,
-  slideRef: "CZS_5_03.pdf",
-  crackPair: {
-    pravda: polozka.pravda,
-    nepravda: polozka.nepravda
-  }
-}));
+const czsSkuska5CrackOtazky = czsSkuska5CrackData.map((polozka) => {
+  // Vypoctove a mini priklady ostavaju v okruhu "CZS 5", teoria ide do samostatneho "Teoria 5".
+  const jeVypocet = polozka.podoblast === "Vypocty" || polozka.podoblast === "Mini priklady";
+  const prezentacia = jeVypocet ? "CZS 5" : "Teoria 5";
+  return {
+    id: polozka.id,
+    tema: `${prezentacia}. ${polozka.oblast} - ${polozka.podoblast}`,
+    typ: "jedna",
+    format: "crack",
+    uroven: "tazka",
+    otazka: polozka.pravda,
+    moznosti: ["z", "x"],
+    spravne: [0],
+    vysvetlenie: `Spravny statement: ${polozka.pravda}`,
+    prezentacia,
+    subtema: `${polozka.oblast} / ${polozka.podoblast}`,
+    slideRef: "CZS_5_03.pdf",
+    crackPair: {
+      pravda: polozka.pravda,
+      nepravda: polozka.nepravda
+    }
+  };
+});
 
 czsOtazky.push(...czsSkuska5CrackOtazky);

@@ -2,23 +2,12 @@
 /////URGENT//////
 /////////////////
 
--pri Mobile, kazdy zvuk prerusi spotify, da sa to opravit?
-
--nech je defalutne zapnuty Mastery Mode
-
--znizit zvuk prdu
--znizit zvuk citatu
+--pre Mobile mode nefunguje Dispaly sorting -- pridaj tam keycaps "q" "w" "e" bez popisu pre Mobile Mode ked je zakliknuty display sorting -- "q" bude nalavo zarovnane pod "x" a bude takisto velke, "e" bude napravo zarovnane s "z" a bude takisto velke, "w" bude takisto velke a bude v strede medzi nimni
 
 
-//////idk///////
-K CZS otazkam spravit okruh zakladnych pojmov IIR, FIR ... a ich strucne definicie
+//////OPTIONAL///////
 
-///////////
-CrackMode
-///////////
-
-
--vzorce v cervenom a ich zle variacie
+-normalizovat zvukuy
 
 
 ////////
@@ -27,14 +16,18 @@ STREAK
 
 -pri streaku pridat particals pri ktorych sa budem citit jak keby som siel rychlo, cim vacsi streak tym rychlejsi kazych 7
 
-//////////
-Music Mode
-//////////
-
--BPM 160, bude jemne falshovat/pulzovat - pri breaku (mensia amplituda, mensia dynamika) bude jemne pulzovat s jemnym odtienom pozadia s rychlostou deleno 2, na Drop pojde rychlostou 1x a budu vyraznejsie pulzy (na kazdu 1. dobu zo styroch bude bude este vyraznejsi pulz a na kazdy 4. / 8. takt bude slabsie pulzovanie)
 
 ////////////////////////
 ADHD inspect like Fidget
 ////////////////////////
 
--mozno prepojit s music mode?? ze ked stlacam nejake klavesy tak sa budu robit nejake blbosti?? napr. stalcim "," zapne sa flashovanie na na kazdu dobu na dalsie 4 takty, "." - pulzovanie "/" -prebehne napr. zdola hore nejaka vlna alebo sipka
+-v theme Chalk - nejaka anmimacia kriedy ako keby bol nozik v CSGO??
+
+
+////////////////////////////////
+VYPRACOVANIE MODE & SORTING MODE
+////////////////////////////////
+
+-bude vzyerat podobne ako Learn mode - rozsiahla datova struktura odpvoedi a sorting okruhov a podokruhov
+-main gola bude ze si tam clovek bude moct manualne pridavat nove otazky a ich spravne a nespravne oddpovede, bude moct upravovat uz vypracovnae otazky, bude moct triedit okruhy a pod okruhy, bude si moct vytvorit nove mini testik zoskladanych zo zvloneych otazok a to vsetko sa bude dat ukladat
+

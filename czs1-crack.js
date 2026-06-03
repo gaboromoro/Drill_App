@@ -56,6 +56,20 @@ const czsSkuska1CrackData = [
     nepravda: String.raw`Stredny vykon jednotkoveho skoku $u[n]$ je $P = \lim\limits_{N \to \infty} \dfrac{N+1}{2N+1} = 1$, takze $u[n]$ je vykonovy signal.`
   },
   {
+    id: "CZS 1. Zaklady energia a vykon 003",
+    oblast: "Zaklady",
+    podoblast: "Energia a vykon",
+    pravda: String.raw`Pre konecny signal $x[n] = \{1;\, 2;\, 2;\, 1\}$ je celkova energia $E = \displaystyle\sum_{n} |x[n]|^2 = 1 + 4 + 4 + 1 = 10$; konecny signal je energeticky a jeho stredny vykon je nula.`,
+    nepravda: String.raw`Pre konecny signal $x[n] = \{1;\, 2;\, 2;\, 1\}$ je celkova energia $E = \displaystyle\sum_{n} |x[n]| = 1 + 2 + 2 + 1 = 6$; konecny signal je vykonovy a jeho energia je nekonecna.`
+  },
+  {
+    id: "CZS 1. Zaklady energia a vykon 004",
+    oblast: "Zaklady",
+    podoblast: "Energia a vykon",
+    pravda: String.raw`Harmonicky signal $s[n] = A\cos(\omega n + \varphi)$ ma stredny vykon $P = \dfrac{A^2}{2}$; pre $A = 3$ vyjde $P = \dfrac{9}{2} = 4{,}5$ a jeho energia je nekonecna (vykonovy signal).`,
+    nepravda: String.raw`Harmonicky signal $s[n] = A\cos(\omega n + \varphi)$ ma stredny vykon $P = A^2$; pre $A = 3$ vyjde $P = 9$ a jeho energia je konecna (energeticky signal).`
+  },
+  {
     id: "CZS 1. Zaklady periodicita 001",
     oblast: "Zaklady",
     podoblast: "Periodicita diskretneho signalu",
@@ -82,6 +96,20 @@ const czsSkuska1CrackData = [
     podoblast: "Komplexna exponenciala",
     pravda: String.raw`Pre $s[n] = a^n$ s $a = r\, e^{j\theta}$ plati Eulerov rozpis $s[n] = r^n \cos(\theta n) + j\, r^n \sin(\theta n)$.`,
     nepravda: String.raw`Pre $s[n] = a^n$ s $a = r\, e^{j\theta}$ plati Eulerov rozpis $s[n] = r \cos(\theta^n) + j\, r \sin(\theta^n)$.`
+  },
+  {
+    id: "CZS 1. Zaklady komplexna exponenciala 002",
+    oblast: "Zaklady",
+    podoblast: "Komplexna exponenciala",
+    pravda: String.raw`Pre $s[n] = a^n$ s $r = 0{,}9$ a $\theta = \pi/10$ je realna zlozka $\mathrm{Re}\{s[n]\} = 0{,}9^{n}\cos\!\left(\tfrac{\pi}{10} n\right)$ — tlmena kosinusovka (obalka $0{,}9^{n}$ klesa).`,
+    nepravda: String.raw`Pre $s[n] = a^n$ s $r = 0{,}9$ a $\theta = \pi/10$ je realna zlozka $\mathrm{Re}\{s[n]\} = 0{,}9^{n}\sin\!\left(\tfrac{\pi}{10} n\right)$ — tlmena sinusovka.`
+  },
+  {
+    id: "CZS 1. Zaklady energia a vykon 005",
+    oblast: "Zaklady",
+    podoblast: "Energia a vykon",
+    pravda: String.raw`Komplexny harmonicky signal $s[n] = A\, e^{j\omega_0 n}$ ma $|s[n]|^2 = |A|^2$ pre kazde $n$, takze stredny vykon je $P = |A|^2$ a je to vykonovy signal (energia je nekonecna).`,
+    nepravda: String.raw`Komplexny harmonicky signal $s[n] = A\, e^{j\omega_0 n}$ ma stredny vykon $P = \dfrac{|A|^2}{2}$, lebo polovica energie pripada na realnu a polovica na imaginarnu zlozku.`
   }
 ];
 

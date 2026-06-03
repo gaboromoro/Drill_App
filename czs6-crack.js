@@ -567,7 +567,7 @@ const czsSkuska6CrackStatementy = [
 
 const czsSkuska6CrackOtazky = czsSkuska6CrackStatementy.map(([oblast, podoblast, pravda, nepravda], index) => ({
   id: `CZS 6. ${String(index + 1).padStart(3, "0")}`,
-  tema: `CZS 6. ${oblast} - ${podoblast}`,
+  tema: `Teoria 6. ${oblast} - ${podoblast}`,
   typ: "jedna",
   format: "crack",
   uroven: "tazka",
@@ -575,7 +575,7 @@ const czsSkuska6CrackOtazky = czsSkuska6CrackStatementy.map(([oblast, podoblast,
   moznosti: ["z", "x"],
   spravne: [0],
   vysvetlenie: `Spravny statement: ${pravda}`,
-  prezentacia: "CZS 6",
+  prezentacia: "Teoria 6",
   subtema: `${oblast} / ${podoblast}`,
   slideRef: "CZS_6_03.pdf",
   crackPair: {
@@ -621,12 +621,77 @@ const czsSkuska6CrackVypocty = [
     podoblast: "Vypocty",
     pravda: String.raw`Fazovaci clanok (all-pass) s polom v $z_{x} = a$ a nulou v $z_{0} = 1/a$ ($0 < a < 1$ realne) ma $H(z) = \dfrac{z^{-1} - a}{1 - a\, z^{-1}}$. Pre $z = e^{j\omega}$ plati $\bigl|e^{-j\omega} - a\bigr|^{2} = 1 - 2a\cos\omega + a^{2} = \bigl|1 - a\, e^{-j\omega}\bigr|^{2}$, takze $\bigl|H(e^{j\omega})\bigr| = 1$ pre vsetky $\omega$ — filter meni iba fazu, nie amplitudu.`,
     nepravda: String.raw`Fazovaci clanok (all-pass) s polom v $z_{x} = a$ a nulou v $z_{0} = 1/a$ ($0 < a < 1$ realne) ma $H(z) = \dfrac{z^{-1} - a}{1 - a\, z^{-1}}$. Pre $z = e^{j\omega}$ vychadza $\bigl|H(e^{j\omega})\bigr| = a$ pre vsetky $\omega$, takze filter rovnomerne tlmi amplitudu na hodnotu pola $a$.`
+  },
+
+  // ===== DOPLNENE: konkretne priklady zo slidov CZS 6 =====
+  {
+    id: "CZS 6. Filtre vypocet pasmova priepust 001",
+    oblast: "Pasmova priepust a zadrz",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pasmova priepust ma dva komplexne zdruzene poly $z_{x\,1,2} = r\,e^{\pm j\omega_0}$ vnutri kruznice. Z $z_1 + z_2 = 2\cos\omega_0$ a $z_1 z_2 = r^2$ je $H(z) = \dfrac{a_0\, z^2}{z^2 - 2r\cos(\omega_0)\, z + r^2}$.`,
+    nepravda: String.raw`Pasmova priepust ma dva komplexne zdruzene poly $z_{x\,1,2} = r\,e^{\pm j\omega_0}$ vnutri kruznice. Z $z_1 + z_2 = 2\cos\omega_0$ a $z_1 z_2 = r^2$ je $H(z) = \dfrac{a_0\, z^2}{z^2 + 2r\cos(\omega_0)\, z - r^2}$.`
+  },
+  {
+    id: "CZS 6. Filtre vypocet pasmova priepust 002",
+    oblast: "Pasmova priepust a zadrz",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pre pasmovu priepust s polmi v pociatku (nuly $z_0 = 0$) a $r = 0{,}9$, $\omega_0 = \pi/4$ vychadza normalizacny koeficient $a_0 = 0{,}1354$ (z podmienky $|H(e^{j\omega_0})| = 1$).`,
+    nepravda: String.raw`Pre pasmovu priepust s polmi v pociatku (nuly $z_0 = 0$) a $r = 0{,}9$, $\omega_0 = \pi/4$ vychadza normalizacny koeficient $a_0 = 1$, lebo poly normalizaciu neovplyvnuju.`
+  },
+  {
+    id: "CZS 6. Filtre vypocet pasmova priepust 003",
+    oblast: "Pasmova priepust a zadrz",
+    podoblast: "Vypocty",
+    pravda: String.raw`Pasmova priepust s nulami v $z_0 = \pm 1$ (potlaci DC aj Nyquist) ma $H(z) = a_0 \dfrac{z^2 - 1}{z^2 - 2r\cos(\omega_0)\, z + r^2}$ a $a_0 = \dfrac{1 - r^2}{2}$; pre $r = 0{,}9$ je $a_0 = 0{,}18$ (ako na slide).`,
+    nepravda: String.raw`Pasmova priepust s nulami v $z_0 = \pm 1$ ma $H(z) = a_0 \dfrac{z^2 + 1}{z^2 - 2r\cos(\omega_0)\, z + r^2}$ a $a_0 = \dfrac{1 + r^2}{2}$; pre $r = 0{,}9$ je $a_0 = 0{,}9$.`
+  },
+  {
+    id: "CZS 6. Filtre vypocet pasmova zadrz 001",
+    oblast: "Pasmova priepust a zadrz",
+    podoblast: "Vypocty",
+    pravda: String.raw`Vrubovy filter (pasmova zadrz) ma nuly presne na kruznici $z_{0\,1,2} = e^{\pm j\omega_0}$: $H(z) = a_0 \dfrac{z^2 - 2\cos(\omega_0)\, z + 1}{z^2}$, $a_0 = \dfrac{1}{2(1 + \cos\omega_0)}$; pre $\omega_0 = \pi/4$ je $a_0 = 0{,}2929$.`,
+    nepravda: String.raw`Vrubovy filter (pasmova zadrz) ma nuly presne na kruznici $z_{0\,1,2} = e^{\pm j\omega_0}$: $H(z) = a_0 \dfrac{z^2 - 2\cos(\omega_0)\, z + 1}{z^2}$, $a_0 = \dfrac{1}{2(1 - \cos\omega_0)}$; pre $\omega_0 = \pi/4$ je $a_0 = 1{,}707$.`
+  },
+  {
+    id: "CZS 6. Filtre vypocet pasmova zadrz 002",
+    oblast: "Pasmova priepust a zadrz",
+    podoblast: "Vypocty",
+    pravda: String.raw`Plnohodnotna pasmova zadrz ma nuly na kruznici a poly vnutri ($r < 1$) na rovnakej frekvencii: $H(z) = a_0 \dfrac{z^2 - 2\cos(\omega_0)\, z + 1}{z^2 - 2r\cos(\omega_0)\, z + r^2}$; pre $r = 0{,}9$, $\omega_0 = \pi/4$ je $a_0 = 0{,}9507$.`,
+    nepravda: String.raw`Plnohodnotna pasmova zadrz ma poly na kruznici a nuly vnutri: $H(z) = a_0 \dfrac{z^2 - 2r\cos(\omega_0)\, z + r^2}{z^2 - 2\cos(\omega_0)\, z + 1}$; pre $r = 0{,}9$ je $a_0 = 1$.`
+  },
+  {
+    id: "CZS 6. Filtre vypocet rezonator 001",
+    oblast: "Fazovaci clanok a rezonator",
+    podoblast: "Vypocty",
+    pravda: String.raw`Cislicovy rezonator ma poly presne na jednotkovej kruznici ($r = 1$): $H(z) = \dfrac{z^2}{z^2 - 2\cos(\omega_0)\, z + 1}$, takze pri $\omega = \omega_0$ ma nekonecny (maximalny) modul prenosu.`,
+    nepravda: String.raw`Cislicovy rezonator ma poly mimo jednotkovej kruznice ($r > 1$): $H(z) = \dfrac{z^2}{z^2 - 2\cos(\omega_0)\, z + 1}$, takze pri $\omega = \omega_0$ ma nulovy modul prenosu.`
+  },
+  {
+    id: "CZS 6. Filtre vypocet rezonator 002",
+    oblast: "Fazovaci clanok a rezonator",
+    podoblast: "Vypocty",
+    pravda: String.raw`Impulzna charakteristika rezonatora je $h[n] = \dfrac{\sin(\omega_0 (n + 1))}{\sin \omega_0}\, u[n]$ — netlmene realne kmity (poly su na kruznici, $r = 1$).`,
+    nepravda: String.raw`Impulzna charakteristika rezonatora je $h[n] = \cos(\omega_0 n)\, u[n]$ — exponencialne tlmene kmity, lebo poly su vnutri kruznice.`
+  },
+  {
+    id: "CZS 6. Filtre vypocet hreben 002",
+    oblast: "Vrubovy a hrebenovy filter",
+    podoblast: "Vypocty",
+    pravda: String.raw`Hrebenovy filter typu rozdiel $y[n] = s[n] - s[n - M]$ ma $H(z) = 1 - z^{-M}$ a nuly v bodoch $\omega = \dfrac{2k\pi}{M}$ (vratane $\omega = 0$). Pre $M = 4$ su nuly v $\{0, \tfrac{\pi}{2}, \pi, \tfrac{3\pi}{2}\}$.`,
+    nepravda: String.raw`Hrebenovy filter typu rozdiel $y[n] = s[n] - s[n - M]$ ma $H(z) = 1 - z^{-M}$ a nuly v bodoch $\omega = \dfrac{(2k+1)\pi}{M}$. Pre $M = 4$ su nuly v $\{\tfrac{\pi}{4}, \tfrac{3\pi}{4}, \tfrac{5\pi}{4}, \tfrac{7\pi}{4}\}$.`
+  },
+  {
+    id: "CZS 6. Filtre vypocet priemer 001",
+    oblast: "Priemerovaci filter",
+    podoblast: "Vypocty",
+    pravda: String.raw`Kuzavy priemer v okne $M+1$ prvkov: $H(z) = \dfrac{1}{M+1}\displaystyle\sum_{k=0}^{M} z^{-k} = \dfrac{1}{M+1}\dfrac{z^{M+1} - 1}{z^M (z - 1)}$ — FIR dolna priepust, kde sa nula a pol v $z = 1$ vyrusia.`,
+    nepravda: String.raw`Kuzavy priemer v okne $M+1$ prvkov: $H(z) = \dfrac{1}{M+1}\displaystyle\sum_{k=0}^{M} z^{-k} = \dfrac{1}{M+1}\dfrac{z^{M+1} + 1}{z^M (z + 1)}$ — FIR horna priepust s polom v $z = -1$.`
   }
 ];
 
 const czsSkuska6CrackVypoctyOtazky = czsSkuska6CrackVypocty.map((polozka) => ({
   id: polozka.id,
-  tema: `CZS 6 Vypocty. ${polozka.oblast} - ${polozka.podoblast}`,
+  tema: `CZS 6. ${polozka.oblast} - ${polozka.podoblast}`,
   typ: "jedna",
   format: "crack",
   uroven: "tazka",
@@ -634,8 +699,8 @@ const czsSkuska6CrackVypoctyOtazky = czsSkuska6CrackVypocty.map((polozka) => ({
   moznosti: ["z", "x"],
   spravne: [0],
   vysvetlenie: `Spravny statement: ${polozka.pravda}`,
-  prezentacia: "CZS 6 Vypocty",
-  subtema: polozka.oblast,
+  prezentacia: "CZS 6",
+  subtema: `${polozka.oblast} / ${polozka.podoblast}`,
   slideRef: "CZS_6_03.pdf",
   crackPair: {
     pravda: polozka.pravda,

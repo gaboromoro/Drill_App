@@ -4,6 +4,7 @@
   --pozadie: #ff6000;
   --text: #000000;
   --ciara: #000000;
+  --muted: var(--ciara);
   --farba-stlpca: #000000;
   --farba-cisla-stlpca: var(--pozadie);
   --tien-cisla-stlpca: #000000;
@@ -46,6 +47,7 @@ body {
   --rytmus-trvanie: 260ms;
 }
 
+html.tema-zlta,
 body.tema-zlta {
   --pozadie: #fed811;
   --farba-cisla-stlpca: #fed811;
@@ -60,6 +62,7 @@ body.tema-zlta {
   --klaves-vybrany-pismo: #000000;
 }
 
+html.tema-zlta-tmava,
 body.tema-zlta-tmava {
   --pozadie: #fed811;
   --farba-cisla-stlpca: #fed811;
@@ -74,6 +77,7 @@ body.tema-zlta-tmava {
   --klaves-vybrany-pismo: #ffffff;
 }
 
+html.tema-siva,
 body.tema-siva {
   --pozadie: #303030;
   --text: #ffffff;
@@ -93,6 +97,7 @@ body.tema-siva {
   --klaves-vybrany-pismo: #000000;
 }
 
+html.tema-fialova,
 body.tema-fialova {
   --pozadie: #aab2ff;
   --text: #000000;
@@ -109,6 +114,7 @@ body.tema-fialova {
   --klaves-vybrany-pismo: #000000;
 }
 
+html.tema-tyrkysova,
 body.tema-tyrkysova {
   --pozadie: #E6F910;
   --text: #000000;
@@ -125,6 +131,7 @@ body.tema-tyrkysova {
   --klaves-vybrany-pismo: #E6F910;
 }
 
+html.tema-tabula,
 body.tema-tabula {
   color-scheme: dark;
   --pozadie: #1e3828;
@@ -1242,6 +1249,20 @@ h3 {
   margin: 0;
 }
 
+/* Vacsie obrazky pre filtre (komplexne priklady CZS 6):
+   obrazky jednotkovej kruznice 2x, ostatne (3D modul, 2D charakteristika) 4x. */
+.obrazok-otazky[src*="zrovina"] {
+  max-width: min(100%, 480px);
+}
+
+.obrazok-otazky[src*="modul"] {
+  max-width: min(100%, 960px);
+}
+
+.obrazok-otazky[src*="signal_"] {
+  max-width: min(100%, 520px);
+}
+
 .moznosti {
   display: grid;
   gap: 10px;
@@ -1445,6 +1466,117 @@ body.rezim-crack.rezim-crack-mobile .vysledok-statement {
   text-align: justify;
 }
 
+.learn-master-vysledok {
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.learn-master {
+  display: grid;
+  gap: 28px;
+}
+
+.learn-master-podokruh {
+  display: grid;
+  gap: 0;
+  border-top: 3px solid var(--ciara);
+  padding-top: 16px;
+}
+
+.learn-master-podokruh:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.learn-master-nadpis {
+  margin: 0 0 8px;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.learn-master-otazka {
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid var(--ciara);
+  padding: 16px 0;
+}
+
+.learn-master-otazka:first-of-type {
+  border-top: 0;
+}
+
+.learn-master-hlavicka {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.learn-master-cislo {
+  min-width: 34px;
+  color: var(--text);
+  font-weight: 800;
+}
+
+.learn-master-okruh {
+  overflow-wrap: anywhere;
+}
+
+.learn-master-zadanie {
+  font-size: 20px;
+  line-height: 1.35;
+}
+
+.learn-master-media {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.learn-master-obrazok {
+  max-width: min(100%, 320px);
+}
+
+.learn-master-kod {
+  margin-top: 0;
+}
+
+.learn-master-odpovede {
+  display: grid;
+  gap: 8px;
+  border-left: 4px solid var(--ciara);
+  padding-left: 12px;
+}
+
+.learn-master-popisok {
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.learn-master-zoznam-odpovedi {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 22px;
+}
+
+.learn-master-odpoved-text {
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.learn-master-vysvetlenie {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
 .ovladanie {
   margin-top: 18px;
 }
@@ -1479,12 +1611,11 @@ body.rezim-crack.rezim-crack-mobile .vysledok-statement {
   margin-left: auto;
 }
 
-body.rezim-ucenia .tlacidla-sipok {
-  display: flex;
-}
-
 body.rezim-ucenia #tlacidloNeviem,
-body.rezim-ucenia #tlacidloMedzernik {
+body.rezim-ucenia #tlacidloMedzernik,
+body.rezim-ucenia #tlacidloOdstranitOtazku,
+body.rezim-ucenia #tlacidloPridatTazkuOtazku,
+body.rezim-ucenia .tlacidla-sipok {
   display: none;
 }
 
@@ -2508,4 +2639,36 @@ body.rezim-crack-timer .moznosti {
 
 .exam-edit-poznamka {
   margin-top: 10px;
+}
+
+/* ===== Citatelnost dlhych matematickych vyrazov (KaTeX) ===== */
+/* Kazdy inline vzorec ostane vcelku - nezalomi sa uprostred vyrazu.
+   Zalom riadku moze nastat iba medzi slovami/vyrazmi, nie vnutri rovnice. */
+.katex {
+  white-space: nowrap;
+}
+
+/* Vzdusnejsie riadkovanie a zarovnanie pre dlhe statementy a odpovede. */
+#otazka {
+  line-height: 1.6;
+}
+
+.vysledok-statement,
+.exam-odpoved li {
+  line-height: 1.6;
+}
+
+/* Inline vzorce mierne odsadene od textu, aby boli opticky oddelene. */
+#otazka .katex,
+.vysledok-statement .katex,
+.exam-odpoved li .katex {
+  padding: 0 1px;
+}
+
+/* Poistka: ak je jediny vzorec sirsi nez panel, da sa horizontalne posunut
+   namiesto pretecenia mimo obrazovku (zalom vnutri vyrazu sa aj tak nespravi). */
+#otazka,
+.vysledok-statement,
+.exam-odpoved li {
+  overflow-wrap: break-word;
 }

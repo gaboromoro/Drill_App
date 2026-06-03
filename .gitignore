@@ -11,3 +11,7 @@ czs*-extracted.txt
 # Ableton autosaves and source-of-truth project files (binary, regenerate)
 *.asd
 SoundDesign Project/
+
+# Editor/agent and nesuvisiace pracovne adresare
+.claude/
+jacob/

@@ -65,6 +65,20 @@ const czsSkuska2CrackData = [
     pravda: String.raw`Autokorelacia sa pouziva na odhalenie skrytej periodicity v silne zasumenych signaloch (miera samopodobnosti).`,
     nepravda: String.raw`Autokorelacia dokaze merat podobnost iba dvoch roznych signalov, na vlastnu periodicitu signalu sa pouzit neda.`
   },
+  {
+    id: "CZS 2. Korelacia echo 001",
+    oblast: "Korelacia",
+    podoblast: "Aplikacia - echo a radar",
+    pravda: String.raw`Pri zmesi priameho signalu a jeho oneskorenych echo kopii ma krizova korelacia vyslaneho a prijateho signalu vyrazne maxima na posunoch $m$, ktore zodpovedaju oneskoreniam ech (napr. $500$ a $1000$ vzoriek pri posunoch $50$ a $100$ ms a $T_\mathrm{vz} = 100\,\mu s$).`,
+    nepravda: String.raw`Pri zmesi priameho signalu a jeho oneskorenych echo kopii ma krizova korelacia jedine maximum v bode $m = 0$, z polohy ech sa nic vycitat neda.`
+  },
+  {
+    id: "CZS 2. Korelacia echo 002",
+    oblast: "Korelacia",
+    podoblast: "Aplikacia - echo a radar",
+    pravda: String.raw`Pri radarovom merani vzdialenosti sa z polohy maxima korelacie urci oneskorenie $m$, z neho cas $t = m\,T_\mathrm{vz}$ a nasledne draha k objektu.`,
+    nepravda: String.raw`Pri radarovom merani vzdialenosti sa vzdialenost objektu urci priamo z amplitudy maxima korelacie, poloha maxima nie je dolezita.`
+  },
   // ===== Prevodna funkcia / popis systemu =====
   {
     id: "CZS 2. Prevodna funkcia 001",
@@ -86,6 +100,27 @@ const czsSkuska2CrackData = [
     podoblast: "Akumulator",
     pravda: String.raw`Pre akumulator a vstup $x[n] = [3,2,1,0,1,2,3]$ (od $n=-3$) je vystup postupny sucet: $y[-3]=3,\ y[-2]=5,\ y[-1]=6,\ y[0]=6,\ y[1]=7$.`,
     nepravda: String.raw`Pre akumulator a vstup $x[n] = [3,2,1,0,1,2,3]$ (od $n=-3$) je vystup $y[-3]=3,\ y[-2]=2,\ y[-1]=1,\ y[0]=0$ (kopia vstupu).`
+  },
+  {
+    id: "CZS 2. Prevodna funkcia 004",
+    oblast: "Prevodne funkcie a popis systemu",
+    podoblast: "Akumulator",
+    pravda: String.raw`Akumulator je dynamicky (ma pamat) a kauzalny system, no je BIBO nestabilny: na ohraniceny vstup $x[n] = u[n]$ rastie vystup $y[n] = (n+1)\,u[n]$ nad vsetky medze.`,
+    nepravda: String.raw`Akumulator je staticky (bez pamate) a BIBO stabilny system: na ohraniceny vstup $x[n] = u[n]$ je vystup vzdy ohraniceny.`
+  },
+  {
+    id: "CZS 2. Prevodna funkcia 005",
+    oblast: "Prevodne funkcie a popis systemu",
+    podoblast: "Akumulator",
+    pravda: String.raw`Pre akumulator so vstupom $x[n] = n\,u[n]$ a $n_0 = 0$ je vystup suctom aritmetickej postupnosti: $y[n] = y[-1] + \dfrac{n(n+1)}{2}$. Pri nulovej pociatocnej podmienke $y[-1]=0$ je $y[n] = \dfrac{n(n+1)}{2}$.`,
+    nepravda: String.raw`Pre akumulator so vstupom $x[n] = n\,u[n]$ a $n_0 = 0$ je vystup $y[n] = y[-1] + n^2$. Pri nulovej pociatocnej podmienke $y[-1]=0$ je $y[n] = n^2$.`
+  },
+  {
+    id: "CZS 2. Prevodna funkcia 006",
+    oblast: "Prevodne funkcie a popis systemu",
+    podoblast: "Akumulator",
+    pravda: String.raw`Pre akumulator so vstupom $x[n] = n\,u[n]$ a NENULOVOU pociatocnou podmienkou $y[-1]=1$ je vystup $y[n] = 1 + \dfrac{n(n+1)}{2} = \dfrac{n^2 + n + 2}{2}$.`,
+    nepravda: String.raw`Pre akumulator so vstupom $x[n] = n\,u[n]$ a pociatocnou podmienkou $y[-1]=1$ je vystup rovnaky ako pri $y[-1]=0$, lebo pociatocna podmienka vystup neovplyvni.`
   },
   // ===== Klasifikacia: staticky/dynamicky =====
   {
@@ -110,6 +145,34 @@ const czsSkuska2CrackData = [
     pravda: String.raw`System $y[n] = n \cdot x[n]$ NIE je casovo invariantny: odozva na $x[n-i]$ je $n\,x[n-i]$, ale posunuta odozva ma byt $(n-i)\,x[n-i]$.`,
     nepravda: String.raw`System $y[n] = n \cdot x[n]$ je casovo invariantny, lebo odozva na $x[n-i]$ je $n\,x[n-i]$, co sa zhoduje s $(n-i)\,x[n-i]$.`
   },
+  {
+    id: "CZS 2. Klasifikacia invariantnost 003",
+    oblast: "Klasifikacia systemov",
+    podoblast: "Casova invariantnost",
+    pravda: String.raw`Test invariantnosti: porovnaj (1) odozvu na posunuty vstup $y[n,i] = T\{x[n-i]\}$ s (2) posunutou odozvou $y[n-i]$. System je invariantny, ak $y[n,i] = y[n-i]$.`,
+    nepravda: String.raw`Test invariantnosti: porovnaj (1) odozvu na posunuty vstup $y[n,i] = T\{x[n-i]\}$ s (2) posunutou odozvou $y[n-i]$. System je invariantny, ak $y[n,i] \neq y[n-i]$.`
+  },
+  {
+    id: "CZS 2. Klasifikacia invariantnost 004",
+    oblast: "Klasifikacia systemov",
+    podoblast: "Casova invariantnost",
+    pravda: String.raw`System $y[n] = x[n] - x[n-1]$ JE casovo invariantny: $T\{x[n-i]\} = x[n-i] - x[n-i-1]$ sa zhoduje s posunutou odozvou $y[n-i] = x[n-i] - x[n-i-1]$.`,
+    nepravda: String.raw`System $y[n] = x[n] - x[n-1]$ NIE je casovo invariantny, lebo $T\{x[n-i]\} = x[n-i] - x[n-i-1]$ sa lisi od posunutej odozvy $y[n-i]$.`
+  },
+  {
+    id: "CZS 2. Klasifikacia invariantnost 005",
+    oblast: "Klasifikacia systemov",
+    podoblast: "Casova invariantnost",
+    pravda: String.raw`Vseobecne plati: system s konstantnymi koeficientmi (napr. $y[n] = x[n] - x[n-1]$) je casovo invariantny, kym koeficient zavisly od $n$ (napr. $y[n] = n\,x[n]$) robi system casovo premennym.`,
+    nepravda: String.raw`Vseobecne plati: koeficient zavisly od $n$ (napr. $y[n] = n\,x[n]$) zachova casovu invariantnost, kym konstantne koeficienty ju vzdy porusuju.`
+  },
+  {
+    id: "CZS 2. Klasifikacia invariantnost 006",
+    oblast: "Klasifikacia systemov",
+    podoblast: "Casova invariantnost",
+    pravda: String.raw`System $y[n] = x[-n]$ (otocenie casovej osi) NIE je casovo invariantny: posun vstupu o $i$ da $x[-(n-i)] = x[-n+i]$, kym posun vystupu da $x[-(n-i)]$ — to sa nezhoduje.`,
+    nepravda: String.raw`System $y[n] = x[-n]$ (otocenie casovej osi) JE casovo invariantny, lebo otocenie casu nezavisi od polohy signalu.`
+  },
   // ===== Klasifikacia: linearita =====
   {
     id: "CZS 2. Klasifikacia linearita 001",
@@ -124,6 +187,34 @@ const czsSkuska2CrackData = [
     podoblast: "Linearita",
     pravda: String.raw`System $y[n] = x^2[n]$ NIE je linearny: $(a_1 x_1 + a_2 x_2)^2$ obsahuje krizovy clen $2 a_1 a_2 x_1 x_2$, ktory v $a_1 x_1^2 + a_2 x_2^2$ chyba.`,
     nepravda: String.raw`System $y[n] = x^2[n]$ je linearny, lebo $(a_1 x_1 + a_2 x_2)^2 = a_1 x_1^2 + a_2 x_2^2$.`
+  },
+  {
+    id: "CZS 2. Klasifikacia linearita 003",
+    oblast: "Klasifikacia systemov",
+    podoblast: "Linearita",
+    pravda: String.raw`Test linearity: porovnaj odozvu na zlozeny vstup $T\{a_1 x_1 + a_2 x_2\}$ s linearnou kombinaciou odoziev $a_1 T\{x_1\} + a_2 T\{x_2\}$. Ak sa rovnaju, system je linearny.`,
+    nepravda: String.raw`Test linearity: staci overit, ci $T\{a\,x[n]\} = a\,T\{x[n]\}$; aditivita $T\{x_1 + x_2\}$ sa testovat nemusi.`
+  },
+  {
+    id: "CZS 2. Klasifikacia linearita 004",
+    oblast: "Klasifikacia systemov",
+    podoblast: "Linearita",
+    pravda: String.raw`System $y[n] = n \cdot x[n]$ JE linearny: $T\{a_1 x_1 + a_2 x_2\} = n(a_1 x_1 + a_2 x_2) = a_1 (n x_1) + a_2 (n x_2)$, co je presne $a_1 y_1 + a_2 y_2$ (hoci je casovo premenny).`,
+    nepravda: String.raw`System $y[n] = n \cdot x[n]$ NIE je linearny, lebo nasobenie premennou $n$ porusuje princip superpozicie.`
+  },
+  {
+    id: "CZS 2. Klasifikacia linearita 005",
+    oblast: "Klasifikacia systemov",
+    podoblast: "Linearita",
+    pravda: String.raw`System s aditivnou konstantou $y[n] = x[n] + 5$ NIE je linearny: pre nulovy vstup $x[n] = 0$ je vystup $5 \neq 0$, takze sa porusuje homogenita (linearny system ma na nulovy vstup nulovy vystup).`,
+    nepravda: String.raw`System s aditivnou konstantou $y[n] = x[n] + 5$ je linearny, lebo posun o konstantu nemeni princip superpozicie.`
+  },
+  {
+    id: "CZS 2. Klasifikacia linearita 006",
+    oblast: "Klasifikacia systemov",
+    podoblast: "Linearita",
+    pravda: String.raw`Akumulator $y[n] = \sum_{i=-\infty}^{n} x[i]$ JE linearny: suma je linearna operacia, takze $\sum (a_1 x_1 + a_2 x_2) = a_1 \sum x_1 + a_2 \sum x_2$.`,
+    nepravda: String.raw`Akumulator $y[n] = \sum_{i=-\infty}^{n} x[i]$ NIE je linearny, lebo scitavanie minulych vzoriek porusuje superpoziciu.`
   },
   // ===== Klasifikacia: kauzalita =====
   {
@@ -147,6 +238,20 @@ const czsSkuska2CrackData = [
     podoblast: "Stabilita",
     pravda: String.raw`System je BIBO stabilny, ak na kazdy ohraniceny vstup $|x[n]| \le M_x < \infty$ odpoveda ohranicenym vystupom $|y[n]| \le M_y < \infty$.`,
     nepravda: String.raw`System je BIBO stabilny, ak na kazdy ohraniceny vstup odpoveda vystupom, ktory moze rast nad vsetky medze.`
+  },
+  {
+    id: "CZS 2. Klasifikacia stabilita 002",
+    oblast: "Klasifikacia systemov",
+    podoblast: "Stabilita",
+    pravda: String.raw`Pre system $y[n] = y^2[n-1] + x[n]$ s $x[n] = C\,\delta[n]$ a $y[-1]=0$ vyjde $y[0]=C$, $y[1]=C^2$, $y[2]=C^4$, vseobecne $y[n] = C^{2^n}$.`,
+    nepravda: String.raw`Pre system $y[n] = y^2[n-1] + x[n]$ s $x[n] = C\,\delta[n]$ a $y[-1]=0$ vyjde $y[0]=C$, $y[1]=2C$, $y[2]=3C$, vseobecne $y[n] = (n+1)C$.`
+  },
+  {
+    id: "CZS 2. Klasifikacia stabilita 003",
+    oblast: "Klasifikacia systemov",
+    podoblast: "Stabilita",
+    pravda: String.raw`System $y[n] = y^2[n-1] + x[n]$ s budenim $C\,\delta[n]$ ma vystup $y[n] = C^{2^n}$: pre $|C| > 1$ rastie nad vsetky medze (nestabilny), pre $0 < |C| < 1$ klesa k nule (stabilny).`,
+    nepravda: String.raw`System $y[n] = y^2[n-1] + x[n]$ s budenim $C\,\delta[n]$ je stabilny pre kazde $C$, lebo umocnovanie vystup vzdy utlmi.`
   }
 ];
 
