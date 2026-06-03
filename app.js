@@ -54,6 +54,9 @@ const zvukyAplikacie = [zvukSpravne, zvukSpravneStreak7, zvukSpravneStreak14, zv
 let zvukovyKontext = null;
 let audioRelaciaNastavena = false;
 const buffreZvukov = new Map();
+const normalizacneZosilneniaZvukov = new Map();
+const cieloveRmsZvuku = 0.16;
+let prednacitanieZvukov = null;
 
 const prvokTema = document.getElementById("tema");
 const prvokTypOtazky = document.getElementById("typOtazky");
@@ -375,6 +378,47 @@ function ziskajZdrojZvuku(zvuk) {
   return zvuk.currentSrc || zvuk.src;
 }
 
+function vypocitajNormalizacneZosilnenie(buffer) {
+  if (!buffer || buffer.length === 0 || buffer.numberOfChannels === 0) {
+    return 1;
+  }
+
+  let sucetStvorcov = 0;
+  let pocetVzoriek = 0;
+  let spicka = 0;
+  const krok = Math.max(1, Math.floor(buffer.length / 44100));
+
+  for (let kanal = 0; kanal < buffer.numberOfChannels; kanal++) {
+    const data = buffer.getChannelData(kanal);
+    for (let index = 0; index < data.length; index += krok) {
+      const hodnota = data[index];
+      const absolutnaHodnota = Math.abs(hodnota);
+      sucetStvorcov += hodnota * hodnota;
+      pocetVzoriek += 1;
+      if (absolutnaHodnota > spicka) {
+        spicka = absolutnaHodnota;
+      }
+    }
+  }
+
+  if (pocetVzoriek === 0 || spicka <= 0) {
+    return 1;
+  }
+
+  const rms = Math.sqrt(sucetStvorcov / pocetVzoriek);
+  if (rms <= 0) {
+    return 1;
+  }
+
+  const zosilneniePodlaRms = cieloveRmsZvuku / rms;
+  const limitPodlaSpicky = 0.95 / spicka;
+  return obmedz(Math.min(zosilneniePodlaRms, limitPodlaSpicky), 0.35, 2.4);
+}
+
+function ziskajNormalizacneZosilnenie(zvuk) {
+  return normalizacneZosilneniaZvukov.get(ziskajZdrojZvuku(zvuk)) || 1;
+}
+
 function dekodujZvuk(kontext, data) {
   return new Promise((resolve, reject) => {
     const vysledok = kontext.decodeAudioData(data, resolve, reject);
@@ -394,6 +438,12 @@ async function nacitajBufferZvuku(zvuk, kontext) {
     const nacitanie = fetch(zdroj)
       .then((odpoved) => (odpoved.ok ? odpoved.arrayBuffer() : null))
       .then((data) => (data ? dekodujZvuk(kontext, data) : null))
+      .then((buffer) => {
+        if (buffer) {
+          normalizacneZosilneniaZvukov.set(zdroj, vypocitajNormalizacneZosilnenie(buffer));
+        }
+        return buffer;
+      })
       .catch(() => null);
     buffreZvukov.set(zdroj, nacitanie);
   }
@@ -428,7 +478,7 @@ async function prehrajZvukCezWebAudio(zvuk, rychlost) {
   const zosilnenie = kontext.createGain();
   zdroj.buffer = buffer;
   zdroj.playbackRate.value = rychlost;
-  zosilnenie.gain.value = hlasitost;
+  zosilnenie.gain.value = hlasitost * ziskajNormalizacneZosilnenie(zvuk);
   zdroj.connect(zosilnenie);
   zosilnenie.connect(kontext.destination);
   zdroj.start(0);
@@ -438,7 +488,7 @@ async function prehrajZvukCezWebAudio(zvuk, rychlost) {
 function prehrajZvukCezHtmlAudio(zvuk, rychlost) {
   const prehravac = typeof zvuk.cloneNode === "function" ? zvuk.cloneNode(true) : zvuk;
   prehravac.currentTime = 0;
-  prehravac.volume = hlasitost;
+  prehravac.volume = obmedz(hlasitost * ziskajNormalizacneZosilnenie(zvuk), 0, 1);
   prehravac.preservesPitch = false;
   prehravac.mozPreservesPitch = false;
   prehravac.webkitPreservesPitch = false;
@@ -459,6 +509,31 @@ function prehrajZvuk(zvuk, rychlost = 1) {
   });
 }
 
+function prednacitajAudioElementy() {
+  zvukyAplikacie.forEach((zvuk) => {
+    try {
+      zvuk.preload = "auto";
+      zvuk.load();
+    } catch (chyba) {
+      // Niektore mobilne prehliadace load ignoruju, WebAudio preload to isti po prvom dotyku.
+    }
+  });
+
+  prednacitajBuffreZvukov(ziskajZvukovyKontext());
+}
+
+function prednacitajBuffreZvukov(kontext) {
+  if (!kontext) {
+    return null;
+  }
+
+  if (!prednacitanieZvukov) {
+    prednacitanieZvukov = Promise.allSettled(zvukyAplikacie.map((zvuk) => nacitajBufferZvuku(zvuk, kontext)));
+  }
+
+  return prednacitanieZvukov;
+}
+
 function pripravZvuky() {
   if (jeZvukVypnuty()) {
     return;
@@ -473,6 +548,8 @@ function pripravZvuky() {
   if (kontext.state === "suspended") {
     kontext.resume().catch(() => {});
   }
+
+  prednacitajBuffreZvukov(kontext);
 }
 
 function ziskajZvukSpravnejOdpovede(dlzkaSerie) {
@@ -3831,6 +3908,7 @@ if (window.visualViewport) {
 nastavTlacidlaOtazok();
 vytvorPixelyStlpca();
 aktualizujMobilneRozlozenie();
+prednacitajAudioElementy();
 nastavHlasitost(posuvnikHlasitosti.value);
 nastavVypnutieZvuku();
 prepinacNahodnehoPoradia.checked = true;
@@ -3845,5 +3923,5 @@ nastavMobilnyCrackMode();
 aktualizujRozlozenieUcenia();
 nastavTemu("tyrkysova");
 skryCitaty();
-nastavPredmet("hel");
+nastavPredmet("test");
 nastavKodovePoradie();

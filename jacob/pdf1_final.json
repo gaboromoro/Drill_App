@@ -1,0 +1,1346 @@
+[
+ {
+  "q": "Jak se nazývá mléčně zakalená tekutina tukové konzistence v dutině hrudní?",
+  "options": [
+   {
+    "text": "chylothorax",
+    "correct": true
+   },
+   {
+    "text": "hemothorax",
+    "correct": false
+   },
+   {
+    "text": "Pyothorax",
+    "correct": false
+   },
+   {
+    "text": "lipothorax",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 1
+ },
+ {
+  "q": "Při léčebné aplikaci progestinů u kočky můžeme na mléčné žláze pozorovat?",
+  "options": [
+   {
+    "text": "Cystická dilatace tubulů",
+    "correct": false
+   },
+   {
+    "text": "fibroadenomatózní hyperplazie mléčné žlázy",
+    "correct": true
+   },
+   {
+    "text": "lobulární hyperplazie mléčné žlázy",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 1
+ },
+ {
+  "q": "Pearlsovo barvení při ikteru u psa byl pozorován ikterus, vzorek z jater byl obarven, co jsou modro zelené inkluze?",
+  "options": [
+   {
+    "text": "Haptoglobin",
+    "correct": false
+   },
+   {
+    "text": "Hemosiderin",
+    "correct": true
+   },
+   {
+    "text": "Bilirubin",
+    "correct": false
+   },
+   {
+    "text": "Hemoglobin",
+    "correct": false
+   },
+   {
+    "text": "Hematin",
+    "correct": false
+   },
+   {
+    "text": "transferin",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 1
+ },
+ {
+  "q": "Chřipka koní - původce",
+  "options": [
+   {
+    "text": "Flavivirus",
+    "correct": false
+   },
+   {
+    "text": "Orbivirus",
+    "correct": false
+   },
+   {
+    "text": "Orthovirus",
+    "correct": false
+   },
+   {
+    "text": "Morbilivirus",
+    "correct": false
+   },
+   {
+    "text": "Reovirus",
+    "correct": false
+   },
+   {
+    "text": "Orthomyxoviridae",
+    "correct": true
+   },
+   {
+    "text": "herpesvirus",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 1
+ },
+ {
+  "q": "Fyziologická dilatace lymfatických CÉV",
+  "options": [
+   {
+    "text": "Lymfangiektázie",
+    "correct": true
+   },
+   {
+    "text": "Lymfadenopatie",
+    "correct": false
+   },
+   {
+    "text": "Lymfom",
+    "correct": false
+   },
+   {
+    "text": "lymfadenitis",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 2
+ },
+ {
+  "q": "Zvětšení MÍZNÍ UZLINY neznámé příčiny",
+  "options": [
+   {
+    "text": "Lymfangiektázie",
+    "correct": false
+   },
+   {
+    "text": "Lymfadenopatie",
+    "correct": true
+   },
+   {
+    "text": "Lymfom",
+    "correct": false
+   },
+   {
+    "text": "lymfadeinitis",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 2
+ },
+ {
+  "q": "Co s nejvyšší pravděpodobností nenalezneme u akutního zánětu ?",
+  "options": [
+   {
+    "text": "Metaplázie",
+    "correct": false
+   },
+   {
+    "text": "Nekróza",
+    "correct": false
+   },
+   {
+    "text": "Kalcifikace",
+    "correct": true
+   },
+   {
+    "text": "polymorfonukleáry",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 3
+ },
+ {
+  "q": "Hypostáza",
+  "options": [
+   {
+    "text": "Městnání krve ve spodní části orgánu",
+    "correct": true
+   },
+   {
+    "text": "zpomalení toku krve při zánětu",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 4
+ },
+ {
+  "q": "Livores mortis",
+  "options": [
+   {
+    "text": "Je v místě tlaku",
+    "correct": false
+   },
+   {
+    "text": "podkoží bledé nebo červené",
+    "correct": false
+   },
+   {
+    "text": "při vyšší okolní teplotě jsou lépe vidět než při nižší",
+    "correct": true
+   },
+   {
+    "text": "při otravě CO jsou modrofialové",
+    "correct": false
+   },
+   {
+    "text": "pokud je krev tekutá tak jsou lépe ohraničené",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 4
+ },
+ {
+  "q": "Co nepatří mezi adaptační změny buňky",
+  "options": [
+   {
+    "text": "Dystrofie",
+    "correct": true
+   },
+   {
+    "text": "atrofie prostá",
+    "correct": false
+   },
+   {
+    "text": "atrofie numerická",
+    "correct": false
+   },
+   {
+    "text": "metaplazie",
+    "correct": false
+   },
+   {
+    "text": "hyperplazie",
+    "correct": false
+   },
+   {
+    "text": "Hypoplazie",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 4
+ },
+ {
+  "q": "Jaký šok při popálení několik hodin po",
+  "options": [
+   {
+    "text": "Neurogenní",
+    "correct": false
+   },
+   {
+    "text": "Hypovolemický",
+    "correct": true
+   },
+   {
+    "text": "Septický",
+    "correct": false
+   },
+   {
+    "text": "kardiogenní",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 4
+ },
+ {
+  "q": "Atelektáza při pneumothoraxu",
+  "options": [
+   {
+    "text": "Kompresní",
+    "correct": true
+   },
+   {
+    "text": "Kontrakční",
+    "correct": false
+   },
+   {
+    "text": "fetální",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 4
+ },
+ {
+  "q": "Paraneoplastický syndrom u psa při lymfomu",
+  "options": [
+   {
+    "text": "Estrogenizace se změnami v kostní dřeni",
+    "correct": false
+   },
+   {
+    "text": "metastatická kalcifikace",
+    "correct": true
+   },
+   {
+    "text": "žádná odpověď není správná",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 4
+ },
+ {
+  "q": "Ventrální strana jazyku u kočky, na hlavě, šedavý, ulcerující, metastázuje do MU, napadá kosti",
+  "options": [
+   {
+    "text": "spinocelulární karcinom",
+    "correct": true
+   },
+   {
+    "text": "sarkom",
+    "correct": false
+   },
+   {
+    "text": "maligní melanom",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 5
+ },
+ {
+  "q": "Co nezpůsobuje hemodynamický plicní edém",
+  "options": [
+   {
+    "text": "Hypoproteinemie z enteritidy",
+    "correct": false
+   },
+   {
+    "text": "Sepse",
+    "correct": true
+   },
+   {
+    "text": "hypertenze v levém atriu",
+    "correct": false
+   },
+   {
+    "text": "porucha mitrální chlopně",
+    "correct": false
+   },
+   {
+    "text": "obstrukce plicních žil",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 6
+ },
+ {
+  "q": "Co je typické pro akutní nekrotickou pankreatitidu",
+  "options": [
+   {
+    "text": "Natrávený tuk",
+    "correct": false
+   },
+   {
+    "text": "bílá nekróza tuku okolo pankreatu a i ve větší dálce",
+    "correct": true
+   },
+   {
+    "text": "bílý pankreat",
+    "correct": false
+   },
+   {
+    "text": "černá, na řezu suchá, tvrdá",
+    "correct": false
+   },
+   {
+    "text": "žádná odpověď není správná",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 6
+ },
+ {
+  "q": "Nádor z ovarií produkující hormony",
+  "options": [
+   {
+    "text": "Z rete ovaris",
+    "correct": false
+   },
+   {
+    "text": "granulo-thekální",
+    "correct": true
+   },
+   {
+    "text": "adenokarcinom",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 6
+ },
+ {
+  "q": "U jakého nádoru z epitelu jsou nepřehledně uspořádané, vřetenovité, hyperchromní velká jádra",
+  "options": [
+   {
+    "text": "Sarkom ale není z epitelu ne",
+    "correct": false
+   },
+   {
+    "text": "Leiomyom",
+    "correct": false
+   },
+   {
+    "text": "Lymfom",
+    "correct": false
+   },
+   {
+    "text": "spinocelulární karcinom",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 7
+ },
+ {
+  "q": "Malignita tumoru na základě",
+  "options": [
+   {
+    "text": "Počet mitóz",
+    "correct": false
+   },
+   {
+    "text": "METASTÁZY / invazívny rast",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 7
+ },
+ {
+  "q": "Snížená kontraktilita srdce",
+  "options": [
+   {
+    "text": "Snižuje výdej, snižuje tlak",
+    "correct": true
+   },
+   {
+    "text": "Snižuje výdej, zvyšuje tlak",
+    "correct": false
+   },
+   {
+    "text": "Zvyšuje výdej, zvyšuje tlak",
+    "correct": false
+   },
+   {
+    "text": "Zvyšuje výdej, snižuje tlak",
+    "correct": false
+   },
+   {
+    "text": "Žádná odpověď není správná",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 7
+ },
+ {
+  "q": "Co způsobuje u zánětu zvětšení tkáně",
+  "options": [
+   {
+    "text": "Zvýšení propustnosti",
+    "correct": true
+   },
+   {
+    "text": "transdukce tekutin",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 8
+ },
+ {
+  "q": "Povrchový zánět kůže, je to zánět epidermo-dermální junkce, degenerace buněk stratum basale, lymfoplasmocytární infiltrát. Rozhodni, jestli se jedná o:",
+  "options": [
+   {
+    "text": "Nodulární",
+    "correct": false
+   },
+   {
+    "text": "Difuzní",
+    "correct": false
+   },
+   {
+    "text": "Perivaskulární",
+    "correct": false
+   },
+   {
+    "text": "lichenoidní",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 8
+ },
+ {
+  "q": "Při infekci ischemické koagulační nekrózy dochází ke vzniku:",
+  "options": [
+   {
+    "text": "Vlhké gangrény",
+    "correct": true
+   },
+   {
+    "text": "kolikvační nekrózy",
+    "correct": false
+   },
+   {
+    "text": "kaseózní nekrózy",
+    "correct": false
+   },
+   {
+    "text": "fibroplazie",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 8
+ },
+ {
+  "q": "Popis střevní patologie: deskvamace epitelu, hyperplazie pohárkových buněk, serózní výtok s příměsí hlenu? lehky lymfo+makrofág+plasmocyt inf. podslizničí, hyperemie cev. Vyber, co je to za zánět:",
+  "options": [
+   {
+    "text": "Pseudomembranózní",
+    "correct": false
+   },
+   {
+    "text": "Purulentní",
+    "correct": false
+   },
+   {
+    "text": "Katarální",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 8
+ },
+ {
+  "q": "Co je pravdivé tvrzení o trombu?",
+  "options": [
+   {
+    "text": "Pokud je trombus infikovaný, způsobí pyemii",
+    "correct": true
+   },
+   {
+    "text": "Vždy způsobí ischemii dané oblasti",
+    "correct": false
+   },
+   {
+    "text": "Nevzniká v proudu",
+    "correct": false
+   },
+   {
+    "text": "Nevzniká v srdci",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 8
+ },
+ {
+  "q": "Proč vzniká hemoragická diateza při DIC?",
+  "options": [
+   {
+    "text": "Zräzanin",
+    "correct": false
+   },
+   {
+    "text": "Spotřebování srážecích faktorů",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 9
+ },
+ {
+  "q": "Co je typické pro chronické selhání ledvin?",
+  "options": [
+   {
+    "text": "vzniká silným krvácením",
+    "correct": false
+   },
+   {
+    "text": "hypofosfatémie a hyperkalcemie",
+    "correct": false
+   },
+   {
+    "text": "dochází k ektopické kalcifikaci v srdci, plicích, cévách, žaludku",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 9
+ },
+ {
+  "q": "Jak se nazývá otočení orgánu kolem podélné osy",
+  "options": [
+   {
+    "text": "Torze",
+    "correct": true
+   },
+   {
+    "text": "Intususcepce",
+    "correct": false
+   },
+   {
+    "text": "Hernie",
+    "correct": false
+   },
+   {
+    "text": "volvulus",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 9
+ },
+ {
+  "q": "Granulačná tkáň čo NENÍ pravda",
+  "options": [
+   {
+    "text": "Obsahuje myofibroblasty",
+    "correct": false
+   },
+   {
+    "text": "Je zásadní součástí hojení",
+    "correct": false
+   },
+   {
+    "text": "Je hlavní část 2. fáze hojení",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 17
+ },
+ {
+  "q": "Jak reaguje srdce na objemové přetížení?",
+  "options": [
+   {
+    "text": "Hypertrofie levé komory",
+    "correct": false
+   },
+   {
+    "text": "Hypertrofie pravé komory",
+    "correct": false
+   },
+   {
+    "text": "Dilatace levé komory",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 22
+ },
+ {
+  "q": "Zmnožení počtu buněk",
+  "options": [
+   {
+    "text": "Hyperplazie",
+    "correct": true
+   },
+   {
+    "text": "Hypertrofie",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 22
+ },
+ {
+  "q": "Cornu cutaneum",
+  "options": [
+   {
+    "text": "U koní",
+    "correct": false
+   },
+   {
+    "text": "U všech zvířat",
+    "correct": false
+   },
+   {
+    "text": "U krav v oblasti rohu, papilomaviry",
+    "correct": false
+   },
+   {
+    "text": "U psu, způsobeno herpesvirem",
+    "correct": false
+   },
+   {
+    "text": "U koček rohovinová? ložiska spojené s FeLV",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 22
+ },
+ {
+  "q": "Jak může buňka reagovat na patologické podněty:",
+  "options": [
+   {
+    "text": "Nekroza",
+    "correct": false
+   },
+   {
+    "text": "Apoptoza",
+    "correct": false
+   },
+   {
+    "text": "Metaplazie",
+    "correct": false
+   },
+   {
+    "text": "Deplece glykogenu",
+    "correct": false
+   },
+   {
+    "text": "Všechno správně",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 22
+ },
+ {
+  "q": "Salmonelóza u psů a koček co je NEpravda:",
+  "options": [
+   {
+    "text": "Krváceniny v parenchymatózních orgánech",
+    "correct": false
+   },
+   {
+    "text": "Je častá u zvířat s dobrou imunitou",
+    "correct": true
+   },
+   {
+    "text": "Způsobuje bronchopneumonie",
+    "correct": true
+   }
+  ],
+  "typ": "viac",
+  "ncorrect": 2,
+  "page": 23
+ },
+ {
+  "q": "Kožní leishmanioza",
+  "options": [
+   {
+    "text": "neutrofilní a granulocytární infiltrát",
+    "correct": false
+   },
+   {
+    "text": "pěnité makrofágy",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 23
+ },
+ {
+  "q": "Který kationt převládá v kaseifikační/koagulační nekroze?",
+  "options": [
+   {
+    "text": "vápník",
+    "correct": true
+   },
+   {
+    "text": "draslík",
+    "correct": false
+   },
+   {
+    "text": "železo",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 23
+ },
+ {
+  "q": "Hyperhydratace v preformovaných dutinách se jmenuje:",
+  "options": [
+   {
+    "text": "hydrops",
+    "correct": false
+   },
+   {
+    "text": "transsudace/transsudát",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 24
+ },
+ {
+  "q": "Které z následujících tvrzení o inf. Hepatitidě psů je pravdivé",
+  "options": [
+   {
+    "text": "V důsledku DIC a poškození endot. Kapilár se rozvijí hemorh. Diatéza",
+    "correct": true
+   },
+   {
+    "text": "Játra zvetšená, edematózne prosákla",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 34
+ },
+ {
+  "q": "Které parazity NEnalezneme v průdušnici?",
+  "options": [
+   {
+    "text": "Schistosoma spp",
+    "correct": true
+   },
+   {
+    "text": "Capillarie aerophila",
+    "correct": false
+   },
+   {
+    "text": "Syngamus",
+    "correct": false
+   },
+   {
+    "text": "Spirocerca lupi",
+    "correct": false
+   },
+   {
+    "text": "Filaroides osleri",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 34
+ },
+ {
+  "q": "Zánět – správné tvrzení:",
+  "options": [
+   {
+    "text": "Vzniká jen z chemických podnětů",
+    "correct": false
+   },
+   {
+    "text": "Len z fyzikálnych",
+    "correct": false
+   },
+   {
+    "text": "Obecná reakce na noxu pomocí cév",
+    "correct": true
+   },
+   {
+    "text": "Chemotaxe je působení chemických látek při zánětu",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 46
+ },
+ {
+  "q": "serozní atrofie perikardiální tukové tkáně – vybrat správné tvrzení",
+  "options": [
+   {
+    "text": "jen u obéznich",
+    "correct": false
+   },
+   {
+    "text": "želatinózna hmota s ložiskami nekrózy tukové tkáne",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 50
+ },
+ {
+  "q": "Lymfoplazmocytární chronická enteritida – o jaké onemocnění se jedná?",
+  "options": [
+   {
+    "text": "ulcerativní kolitida",
+    "correct": false
+   },
+   {
+    "text": "nespecifický střevní zánět",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 51
+ },
+ {
+  "q": "Co určuje, zda je nádor maligní/benigní",
+  "options": [
+   {
+    "text": "Počet mitóz",
+    "correct": false
+   },
+   {
+    "text": "Metastáze",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 52
+ },
+ {
+  "q": "Co je hlavní funkcí granulační tkáně při hojení per secundam:",
+  "options": [
+   {
+    "text": "přemostit ránu = vyplniť defekt",
+    "correct": true
+   },
+   {
+    "text": "poskytnout výživu makrofágům",
+    "correct": false
+   },
+   {
+    "text": "vychytat bakterie",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 54
+ },
+ {
+  "q": "Pes, byla mu provedena levostranná nefrektomie, poté byla pravá ledvina zvětšená, o jaký problém se jedná:",
+  "options": [
+   {
+    "text": "hypertrofie",
+    "correct": false
+   },
+   {
+    "text": "hyperplazie",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 54
+ },
+ {
+  "q": "Co tvoří primární krevní zátku",
+  "options": [
+   {
+    "text": "trombocyty",
+    "correct": true
+   },
+   {
+    "text": "endotelie",
+    "correct": false
+   },
+   {
+    "text": "fibrin",
+    "correct": false
+   },
+   {
+    "text": "endotelin",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 55
+ },
+ {
+  "q": "Pri nedostatku živín je to atrofia z akej príčiny",
+  "options": [
+   {
+    "text": "inaniční atrofie",
+    "correct": true
+   },
+   {
+    "text": "Atrofie z imobilizace",
+    "correct": false
+   },
+   {
+    "text": "Tlaková atrofie",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 57
+ },
+ {
+  "q": "Nádor z podpornej tkáne perifernich nervu",
+  "options": [
+   {
+    "text": "neurinom -neurofibrom",
+    "correct": true
+   },
+   {
+    "text": "neurocytom -neuroblastom",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 61
+ },
+ {
+  "q": "Hypertrofická osteopatie - Marieho syndom",
+  "options": [
+   {
+    "text": "Hypertrofická osteopatie jako sekundární reakce na chronické procesy zánětlivého, nebo neoplastického původu",
+    "correct": true
+   },
+   {
+    "text": "Něco s vitamínem A a ovlivněním proliferace dlouhých kostí",
+    "correct": false
+   },
+   {
+    "text": "Málo vit D",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 62
+ },
+ {
+  "q": "Co neplatí pro akutní zánět",
+  "options": [
+   {
+    "text": "edém",
+    "correct": false
+   },
+   {
+    "text": "kongesce cévy",
+    "correct": false
+   },
+   {
+    "text": "metaplazie",
+    "correct": true
+   },
+   {
+    "text": "nekróza",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 81
+ },
+ {
+  "q": "Rhodococcus equi – co dělá a které orgány jsou nejvíce postiženy?",
+  "options": [
+   {
+    "text": "katarální bronchopneumonie, abcedující lymfadenitida, pyogranulomatózní enteritida",
+    "correct": false
+   },
+   {
+    "text": "fibrinózní pleuropneumonie, hnisavá lymfadenitida, ulcerativní enterokolitida",
+    "correct": false
+   },
+   {
+    "text": "granulomatózní splenitida, pneumonie, lymfadenitida a enterokolitida",
+    "correct": false
+   },
+   {
+    "text": "pyogranulomatózní pneumonie, lymfadenitida, ulcerativní enterokolitida",
+    "correct": true
+   },
+   {
+    "text": "abcedující pneumonie, pyogranulomatózní splenitida, katarální enteritida",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 81
+ },
+ {
+  "q": "Co vzniká při poškození kůže popálením/zánětem",
+  "options": [
+   {
+    "text": "Leukoderma",
+    "correct": true
+   },
+   {
+    "text": "Vitiligo",
+    "correct": false
+   },
+   {
+    "text": "Lentigo",
+    "correct": false
+   },
+   {
+    "text": "Amelanosis",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 82
+ },
+ {
+  "q": "Jak se označuje nádor tvořený propletenými snopci protáhlých nestejně velkých vřetenitých buněk s velkými, atypickými hyperchromními jádry a četnými mitózami?",
+  "options": [
+   {
+    "text": "Sarkom",
+    "correct": true
+   },
+   {
+    "text": "Leiomyom",
+    "correct": false
+   },
+   {
+    "text": "Lymfom",
+    "correct": false
+   },
+   {
+    "text": "adenokarcinom",
+    "correct": false
+   },
+   {
+    "text": "dlaždicový karcinom",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 83
+ },
+ {
+  "q": "Které z následujících tvrzení o Steatóze je pravdivé?",
+  "options": [
+   {
+    "text": "každá porucha metabolismu lipidů se projeví jako steatóza",
+    "correct": false
+   },
+   {
+    "text": "steatóza je nahromadění tuků v jakékoliv buňce",
+    "correct": false
+   },
+   {
+    "text": "je to akumulace lipidů v buňce ve formě kapkovitých agregátů",
+    "correct": true
+   },
+   {
+    "text": "výskyt lipidů v buňce je vždy patologický jev",
+    "correct": false
+   },
+   {
+    "text": "příkladem steatózy je např. lipomatóza myokardu",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 84
+ },
+ {
+  "q": "Který z následujících stavů můžeme s nejmenší pravděpodobností očekávat v oblasti akutního zánětu?",
+  "options": [
+   {
+    "text": "Kongesci cév",
+    "correct": false
+   },
+   {
+    "text": "Edém",
+    "correct": false
+   },
+   {
+    "text": "Polymorfonukleáry",
+    "correct": false
+   },
+   {
+    "text": "Nekrózu",
+    "correct": false
+   },
+   {
+    "text": "Metaplazii",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 86
+ },
+ {
+  "q": "Mezi příčinu hemodynamického edému plic nepatří",
+  "options": [
+   {
+    "text": "Mitrální stenóza",
+    "correct": false
+   },
+   {
+    "text": "Sepse",
+    "correct": true
+   },
+   {
+    "text": "Enteropatie se ztrátou proteinů",
+    "correct": false
+   },
+   {
+    "text": "Obstrukce plicních žil a stagnace krve v plicích",
+    "correct": false
+   },
+   {
+    "text": "Hypertenze v levém atriu při levostranné srdeční insuficienci",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 86
+ },
+ {
+  "q": "Které tvrzení o selhání levého srdce je nepravdivé?",
+  "options": [
+   {
+    "text": "Vzniká při poruše funkce mitrální a aortální chlopně",
+    "correct": false
+   },
+   {
+    "text": "Vzniká v důsledku difúzní intersticiální fibrózy plic",
+    "correct": true
+   },
+   {
+    "text": "Vzniká edém plic",
+    "correct": false
+   },
+   {
+    "text": "Morfologicky se projeví výrazným městnáním krve v plicích",
+    "correct": false
+   },
+   {
+    "text": "Nejčastěji způsobeno snížením kontraktility myokardu při myokarditidách",
+    "correct": false
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 86
+ },
+ {
+  "q": "Které tvrzení o akutní bronchitidě je pravdivé?",
+  "options": [
+   {
+    "text": "Nápadná je fibróza lamina propria",
+    "correct": false
+   },
+   {
+    "text": "Infiltrát je tvořen především lymfocyty, makrofágy a plasmocyty",
+    "correct": false
+   },
+   {
+    "text": "Častou komplikací psů jsou alveolární atelektázy a bronchoektázie",
+    "correct": false
+   },
+   {
+    "text": "Vyvíjí se v případech intenzivního prolongovaného poškození epitelu s nadprodukcí hlenu",
+    "correct": false
+   },
+   {
+    "text": "Je charakteristická různě intenzivní sekrecí, často dochází k rychlé restituci epitelu",
+    "correct": true
+   }
+  ],
+  "typ": "jedna",
+  "ncorrect": 1,
+  "page": 86
+ },
+ {
+  "q": "Při kterém z následujících stavů vzniká metastatická kalcifikace?",
+  "options": [
+   {
+    "text": "Hyperparathyroidismus",
+    "correct": true
+   },
+   {
+    "text": "Nekróza tkáně",
+    "correct": false
+   },
+   {
+    "text": "Akutní onemocnění ledvin",
+    "correct": true
+   },
+   {
+    "text": "Nedostatek vitaminu D",
+    "correct": false
+   },
+   {
+    "text": "Embolie atheronových kalcifikovaných hmot",
+    "correct": true
+   }
+  ],
+  "typ": "viac",
+  "ncorrect": 3,
+  "page": 86
+ }
+]

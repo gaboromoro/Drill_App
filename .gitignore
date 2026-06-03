@@ -1,17 +1,19 @@
-czs2-extracted.txt
-czs3-extracted.txt
-czs-1-review-prvych-20.md
+# OS / editor cruft
 .DS_Store
 Thumbs.db
 desktop.ini
+Desktop.ini
 
-# PDF text dumps (analysis material, regenerate from PDFs)
-czs*-extracted.txt
-
-# Ableton autosaves and source-of-truth project files (binary, regenerate)
-*.asd
-SoundDesign Project/
-
-# Editor/agent and nesuvisiace pracovne adresare
+# Agent/editor config (machine-specific)
 .claude/
-jacob/
+
+# PDF text dumps a docasne analyzy (regenerate from PDFs)
+czs*-extracted.txt
+czs*-fitz.txt
+czs-1-review-prvych-20.md
+
+# Ableton autosaves (binary cache, regenerate)
+*.asd
+
+# Velke zdrojove PDF v jacob/ - skripty/JSON/prompty sa trackuju, PDF nie (104 MB)
+jacob/*.pdf

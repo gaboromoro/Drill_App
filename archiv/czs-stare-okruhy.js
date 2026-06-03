@@ -1,4 +1,10 @@
-const czsOtazky = [
+// STARE CZS okruhy - referencny material, NENACITAVA sa do aplikacie.
+//
+// 250 klasickych otazok (format: klasicka / najdi_chybu / vypocet) k temam
+// CZS 1 - CZS 4, vyextrahovanych zo zdrojov CZS_1_03.pdf - 4 a Teoria 5 a 6.
+// Ponechane na pripadne neskorsie zurodnenie aktualnych Okruhov 1 - 8.
+// V appke ich nahradili crack okruhy (CZS 1 - CZS 8) z czsN-crack.js suborov.
+const czsStareOkruhy = [
   {
     "id": "czs1-001",
     "tema": "CZS 1: Bloková schéma",

@@ -29,7 +29,11 @@ const server = createServer(async (poziadavka, odpoved) => {
 
   try {
     const obsah = await readFile(subor);
-    odpoved.writeHead(200, { "Content-Type": typy[extname(subor)] || "application/octet-stream" });
+    odpoved.writeHead(200, {
+      "Content-Type": typy[extname(subor)] || "application/octet-stream",
+      // Lokalny dev server: nikdy necachuj, nech preview vzdy odzrkadli zmeny v suboroch.
+      "Cache-Control": "no-store"
+    });
     odpoved.end(obsah);
   } catch {
     odpoved.writeHead(404);
