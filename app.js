@@ -129,6 +129,7 @@ const tlacidloTemaZlta = document.getElementById("tlacidloTemaZlta");
 const tlacidloTemaSiva = document.getElementById("tlacidloTemaSiva");
 const tlacidloTemaFialova = document.getElementById("tlacidloTemaFialova");
 const tlacidloTemaTyrkysova = document.getElementById("tlacidloTemaTyrkysova");
+const tlacidloTemaMentolova = document.getElementById("tlacidloTemaMentolova");
 const tlacidloTemaTabula = document.getElementById("tlacidloTemaTabula");
 const kriedaPlatno = document.getElementById("krieda-platno");
 const posuvnikHlasitosti = document.getElementById("posuvnikHlasitosti");
@@ -624,7 +625,7 @@ function nastavVypnutieZvuku(pripravitZvuk = false) {
 
 function nastavTemu(tema) {
   aktualnaTema = tema;
-  const triedyTemy = ["tema-zlta", "tema-zlta-tmava", "tema-siva", "tema-fialova", "tema-tyrkysova", "tema-tabula"];
+  const triedyTemy = ["tema-zlta", "tema-zlta-tmava", "tema-siva", "tema-fialova", "tema-tyrkysova", "tema-mentolova", "tema-tabula"];
   document.body.classList.remove(...triedyTemy);
   document.documentElement.classList.remove(...triedyTemy);
 
@@ -635,6 +636,7 @@ function nastavTemu(tema) {
       siva: "tema-siva",
       fialova: "tema-fialova",
       tyrkysova: "tema-tyrkysova",
+      mentolova: "tema-mentolova",
       tabula: "tema-tabula"
     };
 
@@ -650,6 +652,7 @@ function nastavTemu(tema) {
   tlacidloTemaSiva.classList.toggle("aktivny", tema === "siva");
   tlacidloTemaFialova.classList.toggle("aktivny", tema === "fialova");
   tlacidloTemaTyrkysova.classList.toggle("aktivny", tema === "tyrkysova");
+  tlacidloTemaMentolova.classList.toggle("aktivny", tema === "mentolova");
   tlacidloTemaTabula.classList.toggle("aktivny", tema === "tabula");
 
   if (tema !== "tabula") krieda.vymazat();
@@ -3844,6 +3847,7 @@ tlacidloTemaZlta.addEventListener("click", prepniZltuTemu);
 tlacidloTemaSiva.addEventListener("click", () => nastavTemu("siva"));
 tlacidloTemaFialova.addEventListener("click", () => nastavTemu("fialova"));
 tlacidloTemaTyrkysova.addEventListener("click", () => nastavTemu("tyrkysova"));
+tlacidloTemaMentolova.addEventListener("click", () => nastavTemu("mentolova"));
 tlacidloTemaTabula.addEventListener("click", () => nastavTemu("tabula"));
 document.addEventListener("mousedown", (e) => krieda.zacat(e));
 document.addEventListener("mousemove", (e) => krieda.pokracovat(e));

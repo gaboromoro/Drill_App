@@ -131,6 +131,24 @@ body.tema-tyrkysova {
   --klaves-vybrany-pismo: #E6F910;
 }
 
+html.tema-mentolova,
+body.tema-mentolova {
+  --pozadie: #CBF9C3;
+  --text: #000000;
+  --ciara: #000000;
+  --farba-stlpca: #ffffff;
+  --farba-cisla-stlpca: #ffffff;
+  --filter-klaves: none;
+  --klaves-vrch: #f6fff4;
+  --klaves-okraj: #f2fcf0;
+  --klaves-obrys: #ffffff;
+  --klaves-pismo: #000000;
+  --klaves-vybrany-vrch: #000000;
+  --klaves-vybrany-okraj: #202020;
+  --klaves-vybrany-obrys: #ffffff;
+  --klaves-vybrany-pismo: #CBF9C3;
+}
+
 html.tema-tabula,
 body.tema-tabula {
   color-scheme: dark;
@@ -871,6 +889,7 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
 
 .vyber-temy {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -917,6 +936,10 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
 
 .vzorka-tyrkysova {
   background: #E6F910;
+}
+
+.vzorka-mentolova {
+  background: #CBF9C3;
 }
 
 .vzorka-tabula {
@@ -1376,6 +1399,11 @@ body.tema-tyrkysova .moznost.spravna input:checked + .klavesa {
   --aktivny-obrys-klavesy: #E6F910;
 }
 
+body.tema-mentolova .moznost.spravna .klavesa,
+body.tema-mentolova .moznost.spravna input:checked + .klavesa {
+  --aktivny-obrys-klavesy: #ffffff;
+}
+
 .moznost.chybna .klavesa {
   color: #000000;
 }
@@ -1388,6 +1416,10 @@ body.tema-tyrkysova .moznost.spravna input:checked + .klavesa {
 
 body.tema-tyrkysova .moznost.chybna input:checked + .klavesa {
   --aktivny-obrys-klavesy: #E6F910;
+}
+
+body.tema-mentolova .moznost.chybna input:checked + .klavesa {
+  --aktivny-obrys-klavesy: #ffffff;
 }
 
 .moznost input:disabled {
