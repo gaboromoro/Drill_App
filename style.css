@@ -1498,6 +1498,35 @@ body.rezim-crack.rezim-crack-mobile .vysledok-statement {
   text-align: justify;
 }
 
+/* Slow Mode reveal v slote otazky: cerveny "chip" zvyrazni text, ktory sa lisi
+   od chybneho statementu. Bily text na cervenej drzi kontrast na kazdej teme
+   (aj na oranzovej/zltej). box-decoration-break drzi chip pekny aj cez riadky. */
+.crack-rozdiel {
+  background: #ff4d6d;
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 4px;
+  padding: 0.02em 0.18em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.crack-rozdiel .katex {
+  color: #ffffff;
+}
+
+/* Mala caption nad odhalenou spravnou odpovedou (cisto cez CSS, miznе s triedou). */
+.crack-odhalena::before {
+  content: "Správna odpoveď";
+  display: block;
+  font-size: 0.46em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin-bottom: 0.35em;
+}
+
 .learn-master-vysledok {
   border: 0;
   padding: 0;
@@ -2062,6 +2091,118 @@ body.display-sorting-vypnuty #tlacidloOdstranitOtazku,
 body.display-sorting-vypnuty #tlacidloPridatTazkuOtazku,
 body.display-sorting-vypnuty #tlacidloNeviem {
   display: none;
+}
+
+/* Mobile Mode + Sorting Mode: pod velke z/x keycapy pribudnu rovnako velke
+   ovladacie keycapy na triedenie a navigaciu.
+   z (vpravo):  pod nim q (Trash), pod q sipka vpravo.
+   x (vlavo):   pod nim w (Hard),  pod w sipka vlavo.
+   Vsetky keycapy su rovnako velke ako z/x a daju sa nimi preklikavat otazky. */
+
+/* Uvolnit vertikalny priestor pre 3 riadky keycapov (statement + chrome zmensit). */
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #rezimTest .panel {
+  min-height: 0;
+  padding-top: clamp(8px, 2vh, 18px);
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .stlpec-uspesnosti {
+  height: clamp(32px, 6vh, 54px);
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #otazka {
+  max-height: clamp(96px, 22vh, 230px);
+  margin-bottom: clamp(8px, 1.6vh, 14px);
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .moznosti {
+  flex: 0 0 auto;
+  min-height: 0;
+  margin-top: clamp(8px, 3vh, 40px);
+}
+
+/* Zrusit iba vertikalne odsadenie moznosti; horizontalne (zarovnanie z/x) ostava. */
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .moznost {
+  min-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .ovladanie {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(8px, 1.6vh, 18px) 0;
+  width: 100%;
+  margin: clamp(10px, 2vh, 20px) 0 max(8px, env(safe-area-inset-bottom));
+}
+
+/* Sploststit medzi-kontajnery, aby sa vsetky tlacidla stali priamo bunkami gridu .ovladanie. */
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .riadok-ovladania,
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .tlacidla-otazky,
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #tlacidlaUcenia {
+  display: contents;
+}
+
+/* Skry to, co tu nepatri: Idk (e), medzernik a textove popisky (napr. "Trash"). */
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #tlacidloNeviem,
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #tlacidloMedzernik {
+  display: none;
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .ovladanie .text-tlacidla-otazky {
+  display: none;
+}
+
+/* Pravy stlpec (pod z): q v 1. riadku, sipka vpravo (prirodzene) v 2. riadku. */
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #tlacidloOdstranitOtazku {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  padding-right: clamp(0px, 3vw, 36px);
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #tlacidloSipkaVpravo {
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: end;
+  padding-right: clamp(0px, 3vw, 36px);
+}
+
+/* Lavy stlpec (pod x): w v 1. riadku, sipka vlavo (prirodzene) v 2. riadku. */
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #tlacidloPridatTazkuOtazku {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+  padding-left: clamp(0px, 3vw, 36px);
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #tlacidloSipkaVlavo {
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: start;
+  padding-left: clamp(0px, 3vw, 36px);
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .ovladanie .tlacidlo-otazky {
+  min-height: 0;
+  gap: 0;
+}
+
+/* Vsetkych 6 keycapov (z/x aj ovladacie) ma rovnaku velkost. Vyska sa viaze aj na
+   vysku obrazovky (vh), aby sa 3 riadky zmestili aj na nizsich telefonoch. */
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .moznost .klavesa,
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .ovladanie .klavesa-tlacidla {
+  width: max(60px, min(clamp(96px, 18vw, 170px), 11.7vh));
+  height: max(56px, min(clamp(90px, 17vw, 160px), 11vh));
+  font-size: max(24px, min(clamp(42px, 8vw, 78px), 8.4vh));
+}
+
+/* Na velmi nizkej (landscape) obrazovke povolit skrolovanie ako poistku. */
+@media (orientation: landscape) and (max-height: 560px) {
+  body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #rezimTest,
+  body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #rezimTest .panel {
+    overflow-y: auto;
+  }
 }
 
 .tlacidlo-otazky {

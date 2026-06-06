@@ -126,36 +126,6 @@ const czsSkuska7CrackData = [
     nepravda: String.raw`Z DFT segmentu sa pocita iba faza $\arg S[k]$, ktora sa priamo vykresluje ako vykon.`
   },
 
-  // ===== Periodogram a PSD =====
-  {
-    id: "CZS 7. PSD 001",
-    oblast: "Periodogram a PSD",
-    podoblast: "Definicia PSD",
-    pravda: String.raw`Spektralna hustota vykonu (PSD) vyjadruje vykon signalu pripadajuci na jednotku frekvencie; pre diskretne signaly sa uvadza jej odhad.`,
-    nepravda: String.raw`Spektralna hustota vykonu (PSD) vyjadruje celkovu energiu signalu v case a pre diskretne signaly je vzdy presna, nie odhad.`
-  },
-  {
-    id: "CZS 7. PSD 002",
-    oblast: "Periodogram a PSD",
-    podoblast: "Periodogram",
-    pravda: String.raw`Periodogram je odhad PSD: $P[k] = \dfrac{1}{N}|S[k]|^2 = \dfrac{1}{N}\left|\displaystyle\sum_{n=0}^{N-1} s[n]\, e^{-j2\pi kn/N}\right|^2$.`,
-    nepravda: String.raw`Periodogram je odhad PSD: $P[k] = N\,|S[k]|^2 = N\left|\displaystyle\sum_{n=0}^{N-1} s[n]\, e^{-j2\pi kn/N}\right|^2$.`
-  },
-  {
-    id: "CZS 7. PSD 003",
-    oblast: "Periodogram a PSD",
-    podoblast: "Periodogram",
-    pravda: String.raw`Periodogram (odhad PSD) ma oproti klasickemu spektru lepsie vlastnosti pri praci s nahodnymi signalmi.`,
-    nepravda: String.raw`Periodogram (odhad PSD) ma oproti klasickemu spektru horsie vlastnosti pri praci s nahodnymi signalmi, preto sa pre sum nepouziva.`
-  },
-  {
-    id: "CZS 7. PSD 004",
-    oblast: "Periodogram a PSD",
-    podoblast: "Vyjadrenie v dB",
-    pravda: String.raw`Pri vyjadreni urovne v dB uz nezalezi, ci ide o vykon alebo amplitudu, lebo $20\log_{10}|S[k]| = 10\log_{10}|S[k]|^2$.`,
-    nepravda: String.raw`Pri vyjadreni urovne v dB plati $20\log_{10}|S[k]| = 20\log_{10}|S[k]|^2$, takze vykon a amplituda davaju vzdy odlisne dB hodnoty.`
-  },
-
   // ===== Parseval pre DFT =====
   {
     id: "CZS 7. Parseval 001",

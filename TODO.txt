@@ -2,11 +2,13 @@
 /////URGENT//////
 /////////////////
 
---pre Mobile mode nefunguje Dispaly sorting -- pridaj tam keycaps "q" "w" "e" bez popisu pre Mobile Mode ked je zakliknuty display sorting -- "q" bude nalavo zarovnane pod "x" a bude takisto velke, "e" bude napravo zarovnane s "z" a bude takisto velke, "w" bude takisto velke a bude v strede medzi nimni
+
 
 
 //////OPTIONAL///////
 
+-lepsie flash pre streak?
+-pridat Mode na predcitavanie teorie podla okruhov?
 -normalizovat zvukuy
 
 

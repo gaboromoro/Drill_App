@@ -595,48 +595,6 @@ const czsSkuska5CrackData = [
     nepravda: "IIR filtre sa casto navrhuju odrezanim idealnej impulznej odozvy bez pouzitia analogoveho prototypu."
   },
   {
-    id: "CZS 5. Filtre aproximacie 007",
-    oblast: "Filtre",
-    podoblast: "Aproximacie FIR a IIR",
-    pravda: "Bilinearna transformacia je metoda prevodu analogoveho filtra do digitalnej oblasti.",
-    nepravda: "Bilinearna transformacia je metoda prevodu digitalneho spektra na casovu korelaciu bez analogoveho prototypu."
-  },
-  {
-    id: "CZS 5. Filtre aproximacie 008",
-    oblast: "Filtre",
-    podoblast: "Aproximacie FIR a IIR",
-    pravda: "Butterworthov filter ma monotonne amplitudove charakteristiky bez vlnenia v prepustnom aj zadrznom pasme.",
-    nepravda: "Butterworthov filter ma vlnenie v prepustnom pasme a nuly vytvarajuce vlnenie v zadrznom pasme."
-  },
-  {
-    id: "CZS 5. Filtre aproximacie 009",
-    oblast: "Filtre",
-    podoblast: "Aproximacie FIR a IIR",
-    pravda: "Chebyshevov filter I. druhu ma vlnenie v prepustnom pasme.",
-    nepravda: "Chebyshevov filter I. druhu ma vlnenie v zadrznom pasme a monotonne prepustne pasmo."
-  },
-  {
-    id: "CZS 5. Filtre aproximacie 010",
-    oblast: "Filtre",
-    podoblast: "Aproximacie FIR a IIR",
-    pravda: "Chebyshevov filter II. druhu ma vlnenie v zadrznom pasme.",
-    nepravda: "Chebyshevov filter II. druhu ma vlnenie v prepustnom pasme a monotonne zadrzne pasmo."
-  },
-  {
-    id: "CZS 5. Filtre aproximacie 011",
-    oblast: "Filtre",
-    podoblast: "Aproximacie FIR a IIR",
-    pravda: "Elipticky filter ma vlnenie v prepustnom aj zadrznom pasme a dosahuje najstrmsi prechod.",
-    nepravda: "Elipticky filter nema vlnenie ani v jednom pasme a dosahuje najpomalsi prechod."
-  },
-  {
-    id: "CZS 5. Filtre aproximacie 012",
-    oblast: "Filtre",
-    podoblast: "Aproximacie FIR a IIR",
-    pravda: "Butterworthov filter ma zo spominanych IIR aproximacii fazovu charakteristiku najblizsiu linearnej, ale najmenej strmy prechod.",
-    nepravda: "Butterworthov filter ma zo spominanych IIR aproximacii fazovu charakteristiku najdalej od linearnej, ale najstrmsi prechod."
-  },
-  {
     id: "CZS 5. DFT vypocet konkretny 001",
     oblast: "DFT",
     podoblast: "Vypocty",

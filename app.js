@@ -215,6 +215,114 @@ function vykresliVysledokPredoslej(otazka, jeSpravne, fallbackText) {
   nastavStatementText(prvokVysledok, fallbackText || "");
 }
 
+// Rozdeli statement na tokeny: cele matematicke bloky ($...$, \(...\), ...) su
+// atomicke, zvysok sa deli na slova a medzery. Vdaka tomu sa LaTeX nikdy nerozbije.
+function tokenizujStatement(text) {
+  const tokeny = [];
+  const matematika = /\$\$[\s\S]*?\$\$|\$[^$]*\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]/g;
+  let posledny = 0;
+  let zhoda;
+
+  const pridajText = (kus) => {
+    for (const cast of kus.split(/(\s+)/)) {
+      if (cast === "") continue;
+      const jeMedzera = /^\s+$/.test(cast);
+      tokeny.push({ raw: cast, kluc: jeMedzera ? " " : cast, medzera: jeMedzera });
+    }
+  };
+
+  while ((zhoda = matematika.exec(text)) !== null) {
+    if (zhoda.index > posledny) pridajText(text.slice(posledny, zhoda.index));
+    tokeny.push({ raw: zhoda[0], kluc: zhoda[0].replace(/\s+/g, ""), medzera: false });
+    posledny = matematika.lastIndex;
+  }
+  if (posledny < text.length) pridajText(text.slice(posledny));
+  return tokeny;
+}
+
+// Cez najdlhsiu spolocnu podpostupnost oznaci tokeny prveho (spravneho) statementu,
+// ktore maju protejsok v druhom (zobrazenom) statemente. Neoznacene = rozdiely.
+function spolocneTokeny(spravne, zobrazene) {
+  const n = spravne.length;
+  const m = zobrazene.length;
+  const dp = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
+  for (let i = n - 1; i >= 0; i--) {
+    for (let j = m - 1; j >= 0; j--) {
+      dp[i][j] = spravne[i].kluc === zobrazene[j].kluc
+        ? dp[i + 1][j + 1] + 1
+        : Math.max(dp[i + 1][j], dp[i][j + 1]);
+    }
+  }
+  const spolocne = new Array(n).fill(false);
+  let i = 0;
+  let j = 0;
+  while (i < n && j < m) {
+    if (spravne[i].kluc === zobrazene[j].kluc) {
+      spolocne[i] = true;
+      i++;
+      j++;
+    } else if (dp[i + 1][j] >= dp[i][j + 1]) {
+      i++;
+    } else {
+      j++;
+    }
+  }
+  return spolocne;
+}
+
+// Vlozi do prvku spravny statement a cerveno zvyrazni tokeny, ktore sa lisia od
+// zobrazeneho statementu. Cely odlisny matematicky blok sa zvyrazni naraz.
+function vlozZvyrazneneRozdiely(prvok, spravneText, zobrazeneText) {
+  prvok.innerHTML = "";
+  const spravne = tokenizujStatement(spravneText);
+  const zobrazene = tokenizujStatement(zobrazeneText || "");
+  const spolocne = spolocneTokeny(spravne, zobrazene);
+
+  spravne.forEach((token, index) => {
+    if (token.medzera || spolocne[index]) {
+      prvok.appendChild(document.createTextNode(token.raw));
+      return;
+    }
+    const span = document.createElement("span");
+    span.className = "crack-rozdiel";
+    span.textContent = token.raw;
+    prvok.appendChild(span);
+  });
+
+  if (typeof window.renderMathInElement === "function") {
+    try {
+      window.renderMathInElement(prvok, {
+        delimiters: katexDelimitery,
+        throwOnError: false,
+        errorColor: "#cc0000"
+      });
+    } catch (chyba) {
+      // KaTeX nedostupny - text ostane ako plain text
+    }
+  }
+}
+
+// Slow Mode reveal: spravnu odpoved ukaz na mieste otazky (nie pod keycapmi).
+// Pri crackPair zvyrazni rozdiely oproti zobrazenemu (chybnemu) statementu.
+function zobrazSpravnuOdpovedVStatemente(otazka, jeSpravne, fallbackText) {
+  if (otazka && otazka.crackPair && otazka.crackPair.pravda) {
+    vlozZvyrazneneRozdiely(prvokOtazka, otazka.crackPair.pravda, otazka.otazka);
+    prvokOtazka.classList.add("crack-odhalena");
+    prvokVysledok.className = "vysledok skryte";
+    prvokVysledok.innerHTML = "";
+    return;
+  }
+
+  // Bez crackPair neexistuje "spravna verzia" statementu - ponechaj povodne zobrazenie.
+  vykresliVysledokPredoslej(otazka, jeSpravne, fallbackText);
+}
+
+// Vrati #otazka do bezneho stavu (zrusi Slow Mode reveal).
+function nastavOtazkuStatement(text) {
+  prvokOtazka.classList.remove("crack-odhalena");
+  nastavStatementText(prvokOtazka, text);
+}
+
 function zamiesaj(pole) {
   const kopia = [...pole];
   for (let i = kopia.length - 1; i > 0; i--) {
@@ -1136,7 +1244,9 @@ function nastavDisplaySorting() {
 function aktualizujRozlozenieUcenia() {
   const ucenie = jeRezimUcenia();
   const exam = jeExamMode();
-  const sipkyDostupne = exam && poradieOtazok.length > 0 && !poolDokonceny && !zobrazujePredoslyVysledok;
+  // Sipky sluzia na navigaciu medzi otazkami aj v Mobile Mode so zapnutym Sorting (Display Sorting).
+  const mobilneTriedenie = jeMobilnyCrackMode() && jeDisplaySortingZapnuty();
+  const sipkyDostupne = (exam || mobilneTriedenie) && poradieOtazok.length > 0 && !poolDokonceny && !zobrazujePredoslyVysledok;
 
   document.body.classList.toggle("rezim-ucenia", ucenie);
   document.body.classList.toggle("rezim-ucenia-master", ucenie);
@@ -2202,7 +2312,7 @@ function obnovNahladAktualnejOtazky() {
 
   prvokTema.textContent = otazka.tema;
   prvokTypOtazky.textContent = textTypuOtazky(otazka, nahlad.ucenie);
-  nastavStatementText(prvokOtazka, otazka.otazka);
+  nastavOtazkuStatement(otazka.otazka);
   prvokPocitadlo.textContent = `${aktualnyIndex + 1} / ${poradieOtazok.length}`;
   prvokSkore.textContent = `Skóre: ${skore}`;
   prvokVysledok.className = nahlad.vysledokTrieda;
@@ -2237,7 +2347,7 @@ function vykresliPredoslyVysledok() {
 
   prvokTema.textContent = otazka.tema;
   prvokTypOtazky.textContent = predoslyVysledok.jeSpravne ? "Previous: správne" : "Previous: nesprávne";
-  nastavStatementText(prvokOtazka, otazka.otazka);
+  nastavOtazkuStatement(otazka.otazka);
   prvokPocitadlo.textContent = "Previous";
   prvokSkore.textContent = `Skóre: ${skore}`;
   vykresliVysledokPredoslej(otazka, predoslyVysledok.jeSpravne, predoslyVysledok.textVysledku);
@@ -2553,7 +2663,7 @@ function zobrazPrazdnyVyber() {
     : pocetPredOdstranenim > 0
     ? "V aktuálnom poole už nie sú otázky. Vráť niektorú odstránenú otázku v nastaveniach."
     : "Vyber aspoň jeden podokruh v nastaveniach.";
-  nastavStatementText(prvokOtazka, textPrazdnehoPoolu);
+  nastavOtazkuStatement(textPrazdnehoPoolu);
   prvokPocitadlo.textContent = "0 / 0";
   prvokSkore.textContent = "Skóre: 0";
   prvokMoznosti.innerHTML = "";
@@ -2640,6 +2750,12 @@ function vykresliMoznosti(otazka, moznosti, vybrane = [], ukazVyhodnotenie = fal
       vstup.addEventListener("change", aktualizujVybraneMoznosti);
       popisok.addEventListener("click", (udalost) => {
         udalost.preventDefault();
+        // Slow Mode reveal: tapnutim na keycap (z/x) prejdes na dalsiu otazku (mobil bez medzernika).
+        if (cakaNaSlowPotvrdenie) {
+          cakaNaSlowPotvrdenie = false;
+          dalsiaOtazka();
+          return;
+        }
         prepniVstupOdpovede(vstup);
       });
     }
@@ -2883,7 +2999,7 @@ function zobrazLearnModeMaster() {
   const skupiny = zoskupLearnMasterOtazky(otazky);
   prvokTema.textContent = ziskajNadpisLearnMasterOkruhu();
   prvokTypOtazky.textContent = "Learn Mode Master";
-  nastavStatementText(prvokOtazka, "Learn Mode Master");
+  nastavOtazkuStatement("Learn Mode Master");
   prvokOtazka.classList.remove("exam-otazka");
   prvokPocitadlo.textContent = `${otazky.length} odpovedi`;
   prvokSkore.textContent = `${skupiny.length} podokruhov`;
@@ -3101,7 +3217,7 @@ function zobrazOtazku() {
 
   prvokTema.textContent = otazka.tema;
   prvokTypOtazky.textContent = textTypuOtazky(otazka, ucenie);
-  nastavStatementText(prvokOtazka, otazka.otazka);
+  nastavOtazkuStatement(otazka.otazka);
   prvokOtazka.classList.toggle("exam-otazka", Boolean(otazka.exam));
   prvokPocitadlo.textContent = `${aktualnyIndex + 1} / ${poradieOtazok.length}`;
   prvokSkore.textContent = `Skóre: ${skore}`;
@@ -3451,7 +3567,7 @@ function skontrolujOdpoved(vybrane = ziskajVybraneIndexy(), povolPrazdnu = false
 
   if (jeCrackMode() && slowZastavenie) {
     cakaNaSlowPotvrdenie = true;
-    vykresliVysledokPredoslej(otazka, jeSpravne, textVysledku);
+    zobrazSpravnuOdpovedVStatemente(otazka, jeSpravne, textVysledku);
   } else if (jeCrackMode()) {
     prvokVysledok.className = "vysledok skryte";
     prvokVysledok.textContent = "";
@@ -3856,7 +3972,11 @@ document.addEventListener("contextmenu", (e) => krieda.odvolat(e));
 window.addEventListener("blur", () => krieda.skoncit());
 prepinacCitatov.addEventListener("change", nastavZobrazenieCitatov);
 prepinacNahodnehoPoradia.addEventListener("change", nastavPoradie);
-prepinacDisplaySorting.addEventListener("change", nastavDisplaySorting);
+prepinacDisplaySorting.addEventListener("change", () => {
+  nastavDisplaySorting();
+  // Prepocita rozlozenie (vratane dostupnosti sipok pre Mobile Mode sorting).
+  aktualizujRozlozenieUcenia();
+});
 prepinacUcenia.addEventListener("change", nastavRezimUcenia);
 prepinacRychlehoRezimu.addEventListener("change", prepniRychlyRezim);
 prepinacPrejdeniaPoolu.addEventListener("change", nastavRezimPrejdeniaPoolu);
@@ -3873,6 +3993,8 @@ prepinacCrackTimeru.addEventListener("change", nastavCrackTimer);
 prepinacMobilnehoCrackModu.addEventListener("change", () => {
   mobilnyCrackModeZmenenyRucne = true;
   nastavMobilnyCrackMode();
+  // Prepocita rozlozenie (vratane dostupnosti sipok pre Mobile Mode sorting).
+  aktualizujRozlozenieUcenia();
 });
 prvokVyberPrezentacie.addEventListener("change", () => {
   pouzivaTazkyPool = false;
@@ -3919,6 +4041,8 @@ prepinacNahodnehoPoradia.checked = true;
 prepinacMultipleChoice.checked = false;
 prepinacCrackTimeru.checked = false;
 prepinacDisplaySorting.checked = false;
+// Slow Mode je automaticky zapnuty: po zlej odpovedi v Crack Mode ukaze spravnu odpoved.
+prepinacSlowMode.checked = true;
 aktualizujAutomatickyMobilnyCrackMode();
 nastavRychlyRezim();
 nastavDisplaySorting();

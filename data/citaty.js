@@ -8,6 +8,14 @@ const citaty = [
     text: "„O jedno prosím Pána a za tým túžim, aby som mohol bývať v dome Pánovom po všetky dni svojho života, aby som pociťoval nehu Pánovu a obdivoval jeho chrám.“"
   },
   {
+    zdroj: "Ž 27",
+    text: "„Pán je moje svetlo a moja spása, koho sa mám báť?\nPán je ochranca môjho života, pred kým sa mám strachovať?\n\nKeď sa približujú ku mne zločinci a chcú mi zničiť telo, vtedy moji utláčatelia a nepriatelia strácajú silu a padajú.\n\nAj keby sa proti mne postavili šíky, moje srdce sa nezľakne. Aj keby proti mne vzbĺkol boj, zotrvám v dôvere.\n\nO jedno prosím Pána a za tým túžim, aby som mohol bývať v dome Pánovom po všetky dni svojho života, aby som pociťoval nehu Pánovu a obdivoval jeho chrám.\n\nA on ma vo svojom stane schová v deň nešťastia, ukryje ma v skrýši svojho príbytku a postaví ma vysoko na skalu.\n\nA už teraz dvíham hlavu nad svojich nepriateľov, čo ma obkľučujú. V jeho stánku mu prinesiem obetu chvály, budem spievať a hrať Pánovi.\n\nČuj, Pane, hlas môjho volania, zľutuj sa nado mnou a vyslyš ma.\n\nV srdci mi znejú tvoje slová: „Hľadajte moju tvár!“ Pane, ja hľadám tvoju tvár.\n\nNeodvracaj svoju tvár odo mňa, neodkláňaj sa v hneve od svojho služobníka. Ty si moja pomoc, neodvrhuj ma, ani ma neopúšťaj, Bože, moja spása.\n\nHoci by ma opustili otec aj mať, Pán sa ma predsa ujme.\n\nUkáž mi, Pane, svoju cestu a priveď ma na správny chodník, lebo mám mnoho nepriateľov.\n\nNevydávaj ma zvoli utláčateľov; veď povstali proti mne kriví svedkovia, dychtiví po násilí.\n\nVerím, že uvidím dobrodenia Pánove v krajine žijúcich.\n\nOčakávaj Pána a buď statočný; srdce maj silné a drž sa Pána.“"
+  },
+  {
+    zdroj: "Ž 23, 1",
+    text: "„Pán je môj pastier, nič mi nechýba:\n\npasie ma na zelených pašienkach,\n\nnič mi nechýba.“"
+  },
+  {
     zdroj: "Ž 23",
     text: "„Pán je môj pastier, nič mi nechýba: pasie ma na zelených pašienkach. Vodí ma k tichým vodám, dušu mi osviežuje. Vodí ma po správnych chodníkoch, verný svojmu menu. I keby som mal ísť tmavou dolinou, nebudem sa báť zlého, lebo ty si so mnou. Tvoj prút a tvoja palica, tie sú mi útechou. Prestieraš mi stôl pred očami mojich protivníkov. Leješ mi olej na hlavu a kalich mi napĺňaš až po okraj. Dobrota a milosť budú ma sprevádzať po všetky dni môjho života. A budem bývať v dome Pánovom mnoho a mnoho dní.“"
   },
@@ -29,11 +37,21 @@ const citaty = [
   },
   {
     zdroj: "Prís 5, 15 - 23",
-    text: "„Pi vodu z vlastnej studnice, tečúcu (vodu) z vlastnej studienky!\nAby sa nevylievali von tvoje pramene a na námestia stružky vôd.\nNech patria iba tebe samému a okrem teba nikomu!\nNech je požehnaný tvoj prameň a teš sa žene svojej mladosti!\nJe sťaby utešená laň a srnka pôvabná; jej ňadrá nech ťa opájajú v každý čas, kochaj sa jednostaj v jej ľúbosti!\nVeď prečože by si sa kochal v inej, syn môj, a (prečo) by si cudzinku objímal?!\nLebo pred Pánom sú cesty človeka, on zvažuje všetky jeho kroky.\nCudzoložník sa polapí vo vlastných neprávostiach a zapletie sa v putách svojich pokleskov.\nTaký zomrie z nedostatku náuky a zblúdi v množstve svojej hlúposti.“"
+    text: "„Pi vodu z vlastnej studnice, tečúcu (vodu) z vlastnej studienky!\nAby sa nevylievali von tvoje pramene a na námestia stružky vôd.\nNech patria iba tebe samému a okrem teba nikomu!\nNech je požehnaný tvoj prameň a teš sa žene svojej mladosti!\nJe sťaby utešená laň a srnka pôvabná; jej ňadrá nech ťa opájajú v každý čas, kochaj sa jednostaj v jej ľúbosti!\nVeď prečože by si sa kochal v inej, syn môj, a (prečo) by si cudzinku objímal?!“"
   },
-  //{
-  //  zdroj: "",
-  //  text: "„“"
-  //},
-
+  {
+    zdroj: "Jób 1, 21",
+    text: "„Nahý som vyšiel z lona svojej matky\n\na nahý sa ta vrátim.\n\nPán dal, Pán vzal,\n\nnech je Pánovo meno zvelebené!“"
+  },
+  {
+    zdroj: "2 Kor 4, 10",
+    text: "„Nosíme stále na našom tele umieranie Ježiša,\n\naby sa ukázalo na nás jeho zmŕtvychvstanie.“"
+  },
+  
+  /*
+  {
+    zdroj: "",
+    text: "„“"
+  },
+  */
 ];
