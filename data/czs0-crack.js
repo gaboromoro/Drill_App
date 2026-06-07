@@ -133,7 +133,7 @@ const czsSkuska0CrackData = [
     oblast: "Viacrozmerne signaly",
     podoblast: "Definicia a oddelitelnost",
     pravda: String.raw`Viacrozmerny diskretny signal zavisi od viacerych nezavislych premennych — napr. obraz $x[m, n]$ ma dva priestorove indexy.`,
-    nepravda: String.raw`Viacrozmerny diskretny signal zavisi vzdy iba od jednej premennej — napr. obraz $x[n]$ ma jediny index.`
+    nepravda: String.raw`Viacrozmerny diskretny signal zavisi iba od jednej premennej — napr. obraz $x[n]$ ma jediny index.`
   },
   {
     id: "CZS 0. Viacrozmerne oddelitelnost 001",

@@ -32,7 +32,7 @@ const czsSkuska5CrackData = [
     oblast: "Fourierove nastroje",
     podoblast: "Vyber transformacie",
     pravda: "DFT opisuje konecnu postupnost pomocou konecneho poctu diskretnych spektralnych koeficientov.",
-    nepravda: "DFT opisuje konecnu postupnost pomocou spojitej spektralnej funkcie definovanej pre kazde omega."
+    nepravda: String.raw`DFT opisuje konecnu postupnost pomocou spojitej spektralnej funkcie definovanej pre kazde $\omega$.`
   },
   {
     id: "CZS 5. Fourierove nastroje vyber transformacie 006",
@@ -73,8 +73,8 @@ const czsSkuska5CrackData = [
     id: "CZS 5. DTFT definicia spektrum 003",
     oblast: "DTFT",
     podoblast: "Definicia a spektrum",
-    pravda: "Spektralna funkcia DTFT je spojita v premennej omega a periodicka s periodou 2 pi.",
-    nepravda: "Spektralna funkcia DTFT je diskretna v premennej omega a periodicka s periodou N."
+    pravda: String.raw`Spektralna funkcia DTFT je spojita v premennej $\omega$ a periodicka s periodou $2\pi$.`,
+    nepravda: String.raw`Spektralna funkcia DTFT je diskretna v premennej $\omega$ a periodicka s periodou $N$.`
   },
   {
     id: "CZS 5. DTFT definicia spektrum 004",
@@ -94,15 +94,15 @@ const czsSkuska5CrackData = [
     id: "CZS 5. DTFT definicia spektrum 006",
     oblast: "DTFT",
     podoblast: "Definicia a spektrum",
-    pravda: "Pri inverznej DTFT staci integrovat cez jednu periodu spektra, napriklad od -pi po pi.",
+    pravda: String.raw`Pri inverznej DTFT staci integrovat cez jednu periodu spektra, napriklad od $-\pi$ po $\pi$.`,
     nepravda: "Pri inverznej DTFT treba integrovat cez vsetky periodicke opakovania spektra od minus nekonecna po nekonecno."
   },
   {
     id: "CZS 5. DTFT definicia spektrum 007",
     oblast: "DTFT",
     podoblast: "Definicia a spektrum",
-    pravda: "Interval omega od -pi po pi zodpoveda frekvencnemu intervalu od -Fs/2 po Fs/2.",
-    nepravda: "Interval omega od -pi po pi zodpoveda frekvencnemu intervalu od 0 po Fs."
+    pravda: String.raw`Interval $\omega$ od $-\pi$ po $\pi$ zodpoveda frekvencnemu intervalu od $-F_s/2$ po $F_s/2$.`,
+    nepravda: String.raw`Interval $\omega$ od $-\pi$ po $\pi$ zodpoveda frekvencnemu intervalu od $0$ po $F_s$.`
   },
   {
     id: "CZS 5. DTFT definicia spektrum 008",
@@ -115,22 +115,22 @@ const czsSkuska5CrackData = [
     id: "CZS 5. DTFT normalizovana frekvencia 001",
     oblast: "DTFT",
     podoblast: "Normalizovana frekvencia",
-    pravda: "Vzorkovacia frekvencia Fs je prevratena hodnota vzorkovacej periody Ts.",
-    nepravda: "Vzorkovacia frekvencia Fs je sucin vzorkovacej periody Ts a uhlovej frekvencie omega."
+    pravda: String.raw`Vzorkovacia frekvencia $F_s$ je prevratena hodnota vzorkovacej periody $T_s$.`,
+    nepravda: String.raw`Vzorkovacia frekvencia $F_s$ je sucin vzorkovacej periody $T_s$ a uhlovej frekvencie $\omega$.`
   },
   {
     id: "CZS 5. DTFT normalizovana frekvencia 002",
     oblast: "DTFT",
     podoblast: "Normalizovana frekvencia",
-    pravda: "Normalizovana frekvencia f vyjadruje pomer skutocnej frekvencie F k vzorkovacej frekvencii Fs.",
-    nepravda: "Normalizovana frekvencia f vyjadruje pomer vzorkovacej frekvencie Fs k skutocnej frekvencii F."
+    pravda: String.raw`Normalizovana frekvencia $f$ vyjadruje pomer skutocnej frekvencie $F$ k vzorkovacej frekvencii $F_s$.`,
+    nepravda: String.raw`Normalizovana frekvencia $f$ vyjadruje pomer vzorkovacej frekvencie $F_s$ k skutocnej frekvencii $F$.`
   },
   {
     id: "CZS 5. DTFT normalizovana frekvencia 003",
     oblast: "DTFT",
     podoblast: "Normalizovana frekvencia",
-    pravda: "Uhlova normalizovana frekvencia omega plati omega = 2 pi F / Fs.",
-    nepravda: "Uhlova normalizovana frekvencia omega plati omega = F / Fs bez nasobenia 2 pi."
+    pravda: String.raw`Uhlova normalizovana frekvencia $\omega$ plati $\omega = \dfrac{2\pi F}{F_s}$.`,
+    nepravda: String.raw`Uhlova normalizovana frekvencia $\omega$ plati $\omega = \dfrac{F}{F_s}$ bez nasobenia $2\pi$.`
   },
   {
     id: "CZS 5. DTFT normalizovana frekvencia 004",
@@ -143,22 +143,22 @@ const czsSkuska5CrackData = [
     id: "CZS 5. DTFT normalizovana frekvencia 005",
     oblast: "DTFT",
     podoblast: "Normalizovana frekvencia",
-    pravda: "Interval omega od 0 po 2 pi zodpoveda jednej celej periode DTFT spektra.",
-    nepravda: "Interval omega od 0 po 2 pi zodpoveda iba kladnej polovici DTFT spektra bez periodickeho opakovania."
+    pravda: String.raw`Interval $\omega$ od $0$ po $2\pi$ zodpoveda jednej celej periode DTFT spektra.`,
+    nepravda: String.raw`Interval $\omega$ od $0$ po $2\pi$ zodpoveda iba kladnej polovici DTFT spektra bez periodickeho opakovania.`
   },
   {
     id: "CZS 5. DTFT normalizovana frekvencia 006",
     oblast: "DTFT",
     podoblast: "Normalizovana frekvencia",
-    pravda: "Na opis kmitoctovych vlastnosti realneho systemu casto staci interval od 0 po Fs/2.",
-    nepravda: "Na opis kmitoctovych vlastnosti realneho systemu je nutny interval od Fs/2 po Fs bez nizkych frekvencii."
+    pravda: String.raw`Na opis kmitoctovych vlastnosti realneho systemu casto staci interval od $0$ po $F_s/2$.`,
+    nepravda: String.raw`Na opis kmitoctovych vlastnosti realneho systemu je nutny interval od $F_s/2$ po $F_s$ bez nizkych frekvencii.`
   },
   {
     id: "CZS 5. DTFT jednotkova kruznica 001",
     oblast: "DTFT",
     podoblast: "Jednotkova kruznica",
-    pravda: "Komplexne cislo v tvare z = r e^(j omega) ma modul r a argument omega.",
-    nepravda: "Komplexne cislo v tvare z = r e^(j omega) ma modul omega a argument r."
+    pravda: String.raw`Komplexne cislo v tvare $z = r\,e^{j\omega}$ ma modul $r$ a argument $\omega$.`,
+    nepravda: String.raw`Komplexne cislo v tvare $z = r\,e^{j\omega}$ ma modul $\omega$ a argument $r$.`
   },
   {
     id: "CZS 5. DTFT jednotkova kruznica 002",
@@ -171,15 +171,15 @@ const czsSkuska5CrackData = [
     id: "CZS 5. DTFT jednotkova kruznica 003",
     oblast: "DTFT",
     podoblast: "Jednotkova kruznica",
-    pravda: "Kazdej uhlovej frekvencii omega z jednej periody zodpoveda jeden bod na jednotkovej kruznici.",
-    nepravda: "Kazdej uhlovej frekvencii omega z jednej periody zodpoveda iny polomer mimo jednotkovej kruznice."
+    pravda: String.raw`Kazdej uhlovej frekvencii $\omega$ z jednej periody zodpoveda jeden bod na jednotkovej kruznici.`,
+    nepravda: String.raw`Kazdej uhlovej frekvencii $\omega$ z jednej periody zodpoveda iny polomer mimo jednotkovej kruznice.`
   },
   {
     id: "CZS 5. DTFT jednotkova kruznica 004",
     oblast: "DTFT",
     podoblast: "Jednotkova kruznica",
-    pravda: "Opakovanie uhla omega o 2 pi vedie k rovnakemu bodu na jednotkovej kruznici.",
-    nepravda: "Opakovanie uhla omega o 2 pi vedie k inemu bodu na jednotkovej kruznici s opacnym znamenkom."
+    pravda: String.raw`Opakovanie uhla $\omega$ o $2\pi$ vedie k rovnakemu bodu na jednotkovej kruznici.`,
+    nepravda: String.raw`Opakovanie uhla $\omega$ o $2\pi$ vedie k inemu bodu na jednotkovej kruznici s opacnym znamenkom.`
   },
   {
     id: "CZS 5. DTFT vlastnosti 001",
@@ -192,35 +192,35 @@ const czsSkuska5CrackData = [
     id: "CZS 5. DTFT vlastnosti 002",
     oblast: "DTFT",
     podoblast: "Vlastnosti",
-    pravda: "Nasobenie postupnosti indexom n zodpoveda derivacii jej spektra podla omega s faktorom j.",
-    nepravda: "Nasobenie postupnosti indexom n zodpoveda posunu jej spektra o omega0 bez derivacie."
+    pravda: String.raw`Nasobenie postupnosti indexom $n$ zodpoveda derivacii jej spektra podla $\omega$ s faktorom $j$.`,
+    nepravda: String.raw`Nasobenie postupnosti indexom $n$ zodpoveda posunu jej spektra o $\omega_0$ bez derivacie.`
   },
   {
     id: "CZS 5. DTFT vlastnosti 003",
     oblast: "DTFT",
     podoblast: "Vlastnosti",
-    pravda: "Otocenie signalu v case s[-n] zmeni spektrum na S(e^(-j omega)).",
-    nepravda: "Otocenie signalu v case s[-n] iba vynasobi povodne spektrum linearnou fazou e^(-j omega n)."
+    pravda: String.raw`Otocenie signalu v case $s[-n]$ zmeni spektrum na $S(e^{-j\omega})$.`,
+    nepravda: String.raw`Otocenie signalu v case $s[-n]$ vynasobi povodne spektrum linearnou fazou $e^{-j\omega n}$.`
   },
   {
     id: "CZS 5. DTFT vlastnosti 004",
     oblast: "DTFT",
     podoblast: "Vlastnosti",
-    pravda: "Posun signalu v case o k vzoriek sa v spektre prejavi nasobenim faktorom e^(-j k omega).",
-    nepravda: "Posun signalu v case o k vzoriek sa v spektre prejavi posunom amplitudovej charakteristiky o k binov."
+    pravda: String.raw`Posun signalu v case o $k$ vzoriek sa v spektre prejavi nasobenim faktorom $e^{-j k\omega}$.`,
+    nepravda: String.raw`Posun signalu v case o $k$ vzoriek sa v spektre prejavi posunom amplitudovej charakteristiky o $k$ binov.`
   },
   {
     id: "CZS 5. DTFT vlastnosti 005",
     oblast: "DTFT",
     podoblast: "Vlastnosti",
     pravda: "Casova konvolucia dvoch postupnosti zodpoveda sucinu ich DTFT spektier.",
-    nepravda: "Casova konvolucia dvoch postupnosti zodpoveda konvolucii ich DTFT spektier s faktorom 1/(2 pi)."
+    nepravda: String.raw`Casova konvolucia dvoch postupnosti zodpoveda konvolucii ich DTFT spektier s faktorom $\dfrac{1}{2\pi}$.`
   },
   {
     id: "CZS 5. DTFT vlastnosti 006",
     oblast: "DTFT",
     podoblast: "Vlastnosti",
-    pravda: "Sucin dvoch postupnosti v case zodpoveda periodickej konvolucii ich spektier s faktorom 1/(2 pi).",
+    pravda: String.raw`Sucin dvoch postupnosti v case zodpoveda periodickej konvolucii ich spektier s faktorom $\dfrac{1}{2\pi}$.`,
     nepravda: "Sucin dvoch postupnosti v case zodpoveda jednoduchemu bodovemu sucinu ich spektier."
   },
   {
@@ -234,8 +234,8 @@ const czsSkuska5CrackData = [
     id: "CZS 5. DTFT vlastnosti 008",
     oblast: "DTFT",
     podoblast: "Vlastnosti",
-    pravda: "Nasobenie signalu komplexnou exponencialou e^(j omega0 n) posunie jeho spektrum o omega0.",
-    nepravda: "Nasobenie signalu komplexnou exponencialou e^(j omega0 n) posunie signal v case o omega0 vzoriek."
+    pravda: String.raw`Nasobenie signalu komplexnou exponencialou $e^{j\omega_0 n}$ posunie jeho spektrum o $\omega_0$.`,
+    nepravda: String.raw`Nasobenie signalu komplexnou exponencialou $e^{j\omega_0 n}$ posunie signal v case o $\omega_0$ vzoriek.`
   },
   {
     id: "CZS 5. DTFT vlastnosti 009",
@@ -255,36 +255,36 @@ const czsSkuska5CrackData = [
     id: "CZS 5. DFT definicia indexy 001",
     oblast: "DFT",
     podoblast: "Definicia a indexy",
-    pravda: "DFT pracuje s konecnou vstupnou postupnostou dlzky N.",
-    nepravda: "DFT pracuje s teoreticky nekonecnou vstupnou postupnostou bez urcenej dlzky N."
+    pravda: String.raw`DFT pracuje s konecnou vstupnou postupnostou dlzky $N$.`,
+    nepravda: String.raw`DFT pracuje s teoreticky nekonecnou vstupnou postupnostou bez urcenej dlzky $N$.`
   },
   {
     id: "CZS 5. DFT definicia indexy 002",
     oblast: "DFT",
     podoblast: "Definicia a indexy",
-    pravda: "Vystupom DFT je konecny vektor N spektralnych koeficientov.",
-    nepravda: "Vystupom DFT je spojita periodicka funkcia definovana pre kazdu hodnotu omega."
+    pravda: String.raw`Vystupom DFT je konecny vektor $N$ spektralnych koeficientov.`,
+    nepravda: String.raw`Vystupom DFT je spojita periodicka funkcia definovana pre kazdu hodnotu $\omega$.`
   },
   {
     id: "CZS 5. DFT definicia indexy 003",
     oblast: "DFT",
     podoblast: "Definicia a indexy",
-    pravda: "DFT vzorkuje DTFT v bodoch omega_k = 2 pi k / N.",
-    nepravda: "DFT vzorkuje DTFT v bodoch omega_k = k / (2 pi N)."
+    pravda: String.raw`DFT vzorkuje DTFT v bodoch $\omega_k = \dfrac{2\pi k}{N}$.`,
+    nepravda: String.raw`DFT vzorkuje DTFT v bodoch $\omega_k = \dfrac{k}{2\pi N}$.`
   },
   {
     id: "CZS 5. DFT definicia indexy 004",
     oblast: "DFT",
     podoblast: "Definicia a indexy",
-    pravda: "Koeficient DFT s indexom k = 0 predstavuje jednosmernu zlozku signalu.",
-    nepravda: "Koeficient DFT s indexom k = 0 predstavuje prvu nenulovu harmonicku zlozku signalu."
+    pravda: String.raw`Koeficient DFT s indexom $k = 0$ predstavuje jednosmernu zlozku signalu.`,
+    nepravda: String.raw`Koeficient DFT s indexom $k = 0$ predstavuje prvu nenulovu harmonicku zlozku signalu.`
   },
   {
     id: "CZS 5. DFT definicia indexy 005",
     oblast: "DFT",
     podoblast: "Definicia a indexy",
-    pravda: "Koeficient DFT s indexom k = 1 zodpoveda prvej harmonickej zlozke v ramci N-bodovej analyzy.",
-    nepravda: "Koeficient DFT s indexom k = 1 zodpoveda jednosmernej zlozke v ramci N-bodovej analyzy."
+    pravda: String.raw`Koeficient DFT s indexom $k = 1$ zodpoveda prvej harmonickej zlozke v ramci $N$-bodovej analyzy.`,
+    nepravda: String.raw`Koeficient DFT s indexom $k = 1$ zodpoveda jednosmernej zlozke v ramci $N$-bodovej analyzy.`
   },
   {
     id: "CZS 5. DFT definicia indexy 006",
@@ -318,8 +318,8 @@ const czsSkuska5CrackData = [
     id: "CZS 5. DFT vlastnosti 002",
     oblast: "DFT",
     podoblast: "Vlastnosti",
-    pravda: "Spektrum DFT je periodicke s periodou N, teda S[k] = S[k + N].",
-    nepravda: "Spektrum DFT je neperiodicke a koeficienty za indexom N sa povazuju za nulove."
+    pravda: String.raw`Spektrum DFT je periodicke s periodou $N$, teda $S[k] = S[k+N]$.`,
+    nepravda: String.raw`Spektrum DFT je neperiodicke a koeficienty za indexom $N$ sa povazuju za nulove.`
   },
   {
     id: "CZS 5. DFT vlastnosti 003",
@@ -367,22 +367,22 @@ const czsSkuska5CrackData = [
     id: "CZS 5. DFT vlastnosti 009",
     oblast: "DFT",
     podoblast: "Vlastnosti",
-    pravda: "Parsevalov vztah pre DFT obsahuje faktor 1/N pri sucte energii spektralnych koeficientov.",
-    nepravda: "Parsevalov vztah pre DFT obsahuje faktor N pri sucte energii spektralnych koeficientov."
+    pravda: String.raw`Parsevalov vztah pre DFT obsahuje faktor $\tfrac{1}{N}$ pri sucte energii spektralnych koeficientov.`,
+    nepravda: String.raw`Parsevalov vztah pre DFT obsahuje faktor $N$ pri sucte energii spektralnych koeficientov.`
   },
   {
     id: "CZS 5. DFT vlastnosti 010",
     oblast: "DFT",
     podoblast: "Vlastnosti",
-    pravda: "Pri DFT sa posuny a konvolucie vyhodnocuju modulo N.",
-    nepravda: "Pri DFT sa posuny a konvolucie vyhodnocuju bez modula N ako pri nekonecnych postupnostiach."
+    pravda: String.raw`Pri DFT sa posuny a konvolucie vyhodnocuju modulo $N$.`,
+    nepravda: String.raw`Pri DFT sa posuny a konvolucie vyhodnocuju bez modula $N$ ako pri nekonecnych postupnostiach.`
   },
   {
     id: "CZS 5. DFT vlastnosti 011",
     oblast: "DFT",
     podoblast: "Vlastnosti",
-    pravda: "Casove otocenie konecnej postupnosti sa v DFT zapisuje cez indexy N - n a N - k.",
-    nepravda: "Casove otocenie konecnej postupnosti sa v DFT zapisuje cez indexy n + N a k + N bez zmeny smeru."
+    pravda: String.raw`Casove otocenie konecnej postupnosti sa v DFT zapisuje cez indexy $N-n$ a $N-k$.`,
+    nepravda: String.raw`Casove otocenie konecnej postupnosti sa v DFT zapisuje cez indexy $n+N$ a $k+N$ bez zmeny smeru.`
   },
   {
     id: "CZS 5. Kruhove operacie konvolucia korelacia 001",
@@ -444,8 +444,8 @@ const czsSkuska5CrackData = [
     id: "CZS 5. LTI system kmitoctova charakteristika 004",
     oblast: "LTI system",
     podoblast: "Kmitoctova charakteristika",
-    pravda: "Frekvencna charakteristika H(e^(j omega)) je DTFT impulznej odozvy h[n].",
-    nepravda: "Frekvencna charakteristika H(e^(j omega)) je DFT vstupneho signalu x[n]."
+    pravda: String.raw`Frekvencna charakteristika $H(e^{j\omega})$ je DTFT impulznej odozvy $h[n]$.`,
+    nepravda: String.raw`Frekvencna charakteristika $H(e^{j\omega})$ je DFT vstupneho signalu $x[n]$.`
   },
   {
     id: "CZS 5. LTI system kmitoctova charakteristika 005",
@@ -458,22 +458,22 @@ const czsSkuska5CrackData = [
     id: "CZS 5. LTI system kmitoctova charakteristika 006",
     oblast: "LTI system",
     podoblast: "Kmitoctova charakteristika",
-    pravda: "Modul H(e^(j omega)) urcuje amplitudovu kmitoctovu charakteristiku systemu.",
-    nepravda: "Modul H(e^(j omega)) urcuje fazovu kmitoctovu charakteristiku systemu."
+    pravda: String.raw`Modul $|H(e^{j\omega})|$ urcuje amplitudovu kmitoctovu charakteristiku systemu.`,
+    nepravda: String.raw`Modul $|H(e^{j\omega})|$ urcuje fazovu kmitoctovu charakteristiku systemu.`
   },
   {
     id: "CZS 5. LTI system kmitoctova charakteristika 007",
     oblast: "LTI system",
     podoblast: "Kmitoctova charakteristika",
-    pravda: "Argument H(e^(j omega)) urcuje fazovu kmitoctovu charakteristiku systemu.",
-    nepravda: "Argument H(e^(j omega)) urcuje amplitudovu kmitoctovu charakteristiku systemu."
+    pravda: String.raw`Argument $H(e^{j\omega})$ urcuje fazovu kmitoctovu charakteristiku systemu.`,
+    nepravda: String.raw`Argument $H(e^{j\omega})$ urcuje amplitudovu kmitoctovu charakteristiku systemu.`
   },
   {
     id: "CZS 5. LTI system kmitoctova charakteristika 008",
     oblast: "LTI system",
     podoblast: "Kmitoctova charakteristika",
-    pravda: "Frekvencnu charakteristiku mozno zapisat ako H(e^(j omega)) = M(omega) e^(j theta(omega)).",
-    nepravda: "Frekvencnu charakteristiku mozno zapisat ako H(e^(j omega)) = M(omega) + e^(j theta(omega)) bez komplexneho nasobenia."
+    pravda: String.raw`Frekvencnu charakteristiku mozno zapisat ako $H(e^{j\omega}) = M(\omega)\,e^{j\theta(\omega)}$.`,
+    nepravda: String.raw`Frekvencnu charakteristiku mozno zapisat ako $H(e^{j\omega}) = M(\omega) + e^{j\theta(\omega)}$ bez komplexneho nasobenia.`
   },
   {
     id: "CZS 5. Filtre typy filtrov 001",
@@ -514,15 +514,15 @@ const czsSkuska5CrackData = [
     id: "CZS 5. Filtre idealna dolna priepust 001",
     oblast: "Filtre",
     podoblast: "Idealna dolna priepust",
-    pravda: "Idealna dolna priepust ma hodnotu prenosu 1 pre frekvencie s absolutnou hodnotou omega mensou alebo rovnou omega_c.",
-    nepravda: "Idealna dolna priepust ma hodnotu prenosu 0 pre frekvencie s absolutnou hodnotou omega mensou alebo rovnou omega_c."
+    pravda: String.raw`Idealna dolna priepust ma hodnotu prenosu $1$ pre frekvencie s absolutnou hodnotou $\omega$ mensou alebo rovnou $\omega_c$.`,
+    nepravda: String.raw`Idealna dolna priepust ma hodnotu prenosu $0$ pre frekvencie s absolutnou hodnotou $\omega$ mensou alebo rovnou $\omega_c$.`
   },
   {
     id: "CZS 5. Filtre idealna dolna priepust 002",
     oblast: "Filtre",
     podoblast: "Idealna dolna priepust",
-    pravda: "Idealna dolna priepust ma hodnotu prenosu 0 pre frekvencie nad medznou frekvenciou az po pi.",
-    nepravda: "Idealna dolna priepust ma hodnotu prenosu 1 pre frekvencie nad medznou frekvenciou az po pi."
+    pravda: String.raw`Idealna dolna priepust ma hodnotu prenosu $0$ pre frekvencie nad medznou frekvenciou az po $\pi$.`,
+    nepravda: String.raw`Idealna dolna priepust ma hodnotu prenosu $1$ pre frekvencie nad medznou frekvenciou az po $\pi$.`
   },
   {
     id: "CZS 5. Filtre idealna dolna priepust 003",
@@ -557,7 +557,7 @@ const czsSkuska5CrackData = [
     oblast: "Filtre",
     podoblast: "Aproximacie FIR a IIR",
     pravda: "Idealne frekvencne charakteristiky sa v praxi nahradzaju realizovatelnymi aproximaciami FIR alebo IIR.",
-    nepravda: "Idealne frekvencne charakteristiky sa v praxi realizuju priamo bez aproximacie, ak sa pouzije dost velke Fs."
+    nepravda: String.raw`Idealne frekvencne charakteristiky sa v praxi realizuju priamo bez aproximacie, ak sa pouzije dost velke $F_s$.`
   },
   {
     id: "CZS 5. Filtre aproximacie 002",
@@ -577,15 +577,15 @@ const czsSkuska5CrackData = [
     id: "CZS 5. Filtre aproximacie 004",
     oblast: "Filtre",
     podoblast: "Aproximacie FIR a IIR",
-    pravda: "Pri metode frekvencneho vzorkovania sa zvolena frekvencna charakteristika navzorkuje v N bodoch a cez IDFT sa ziska impulzna odozva.",
-    nepravda: "Pri metode frekvencneho vzorkovania sa zvolena impulzna odozva navzorkuje v N bodoch a cez DFT sa priamo ziska vstupny signal."
+    pravda: String.raw`Pri metode frekvencneho vzorkovania sa zvolena frekvencna charakteristika navzorkuje v $N$ bodoch a cez IDFT sa ziska impulzna odozva.`,
+    nepravda: String.raw`Pri metode frekvencneho vzorkovania sa zvolena impulzna odozva navzorkuje v $N$ bodoch a cez DFT sa priamo ziska vstupny signal.`
   },
   {
     id: "CZS 5. Filtre aproximacie 005",
     oblast: "Filtre",
     podoblast: "Aproximacie FIR a IIR",
-    pravda: "Pri frekvencnom vzorkovani je vhodne zadavat dvojstranne spektrum v intervale od -Fs/2 po Fs/2.",
-    nepravda: "Pri frekvencnom vzorkovani je vhodne zadavat iba jednostranne spektrum v intervale od Fs/2 po Fs."
+    pravda: String.raw`Pri frekvencnom vzorkovani je vhodne zadavat dvojstranne spektrum v intervale od $-F_s/2$ po $F_s/2$.`,
+    nepravda: String.raw`Pri frekvencnom vzorkovani je vhodne zadavat iba jednostranne spektrum v intervale od $F_s/2$ po $F_s$.`
   },
   {
     id: "CZS 5. Filtre aproximacie 006",

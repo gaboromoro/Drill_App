@@ -27,7 +27,7 @@ const czsSkuska3CrackData = [
     oblast: "Konvolucia",
     podoblast: "Vzorec konvolucnej sumy",
     pravda: String.raw`Diskretna konvolucia sa pocita ako $y[n] = \displaystyle\sum_{i=-\infty}^{\infty} x[i]\, h[n-i]$; signal $h$ sa zrkadli a posuva o $n$.`,
-    nepravda: String.raw`Diskretna konvolucia sa pocita ako $y[n] = \displaystyle\sum_{i=-\infty}^{\infty} x[i]\, h[n+i]$; signal $h$ sa iba posuva bez zrkadlenia.`
+    nepravda: String.raw`Diskretna konvolucia sa pocita ako $y[n] = \displaystyle\sum_{i=-\infty}^{\infty} x[i]\, h[n+i]$; signal $h$ sa posuva bez zrkadlenia.`
   },
   {
     id: "CZS 3. Konvolucia vzorec 002",

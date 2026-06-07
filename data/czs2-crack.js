@@ -85,7 +85,7 @@ const czsSkuska2CrackData = [
     oblast: "Prevodne funkcie a popis systemu",
     podoblast: "Vonkajsi a vnutorny popis",
     pravda: String.raw`Vonkajsi popis systemu je $y[n] = T\{x[n]\}$ (vstup priamo na vystup), vnutorny popis pouziva stavove premenne $v_i[n]$.`,
-    nepravda: String.raw`Vonkajsi popis systemu pouziva stavove premenne $v_i[n]$, kym vnutorny popis je iba $y[n] = T\{x[n]\}$.`
+    nepravda: String.raw`Vonkajsi popis systemu pouziva stavove premenne $v_i[n]$, kym vnutorny popis je $y[n] = T\{x[n]\}$.`
   },
   {
     id: "CZS 2. Prevodna funkcia 002",

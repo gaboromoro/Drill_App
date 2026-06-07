@@ -33,6 +33,9 @@
   <div id="videoOverlay" class="video-overlay" aria-hidden="true">
     <video id="videoPrehravac" class="video-overlay-video" muted playsinline></video>
   </div>
+  <div id="casovacZaplava" class="casovac-zaplava" aria-hidden="true">
+    <div id="casovacZaplavaObsah" class="casovac-zaplava-obsah"></div>
+  </div>
   <main class="stranka">
     <header class="hlavicka">
       <div>
@@ -66,13 +69,13 @@
           <div class="nastavenie">
             <span>Predmet</span>
             <div class="prepinace prepinace-nastaveni" aria-label="Predmet">
-              <button id="tlacidloPredmetTest" class="aktivny" type="button">TEST</button>
+              <button id="tlacidloPredmetTest" class="sekundarne" type="button">TEST</button>
               <button id="tlacidloPredmetVs2" class="sekundarne" type="button">VS2</button>
               <button id="tlacidloPredmetAud" class="sekundarne" type="button">AUD</button>
               <button id="tlacidloPredmetVet" class="sekundarne" type="button">VET</button>
               <button id="tlacidloPredmetPc2" class="sekundarne" type="button">PC2</button>
               <button id="tlacidloPredmetHel" class="sekundarne" type="button">HEL</button>
-              <button id="tlacidloPredmetCzs" class="sekundarne" type="button">CZS</button>
+              <button id="tlacidloPredmetCzs" class="aktivny" type="button">CZS</button>
             </div>
           </div>
 
@@ -91,10 +94,10 @@
               <button id="tlacidloTemaFialova" class="tlacidlo-temy" type="button" aria-label="Violet tema">
                 <span class="vzorka-temy vzorka-fialova" aria-hidden="true"></span>
               </button>
-              <button id="tlacidloTemaTyrkysova" class="tlacidlo-temy aktivny" type="button" aria-label="Tyrkysova tema">
+              <button id="tlacidloTemaTyrkysova" class="tlacidlo-temy" type="button" aria-label="Tyrkysova tema">
                 <span class="vzorka-temy vzorka-tyrkysova" aria-hidden="true"></span>
               </button>
-              <button id="tlacidloTemaMentolova" class="tlacidlo-temy" type="button" aria-label="Mentolova tema">
+              <button id="tlacidloTemaMentolova" class="tlacidlo-temy aktivny" type="button" aria-label="Mentolova tema">
                 <span class="vzorka-temy vzorka-mentolova" aria-hidden="true"></span>
               </button>
               <button id="tlacidloTemaTabula" class="tlacidlo-temy" type="button" aria-label="Chalkboard tema">
@@ -319,6 +322,7 @@
   <script src="data/czs6-priklad2.js"></script>
   <script src="data/czs7-crack.js"></script>
   <script src="data/czs8-crack.js"></script>
+  <script src="data/vzorce-crack.js"></script>
   <script src="data/hel-otazky.js"></script>
   <script src="data/hel1-crack.js"></script>
   <script src="data/hel2-crack.js"></script>

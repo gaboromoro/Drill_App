@@ -134,19 +134,19 @@ body.tema-tyrkysova {
 html.tema-mentolova,
 body.tema-mentolova {
   --pozadie: #CBF9C3;
-  --text: #000000;
-  --ciara: #000000;
-  --farba-stlpca: #ffffff;
-  --farba-cisla-stlpca: #ffffff;
+  --text: #374335;
+  --ciara: #374335;
+  --farba-stlpca: #576A53;
+  --farba-cisla-stlpca: #576A53;
   --filter-klaves: none;
-  --klaves-vrch: #f6fff4;
-  --klaves-okraj: #f2fcf0;
-  --klaves-obrys: #ffffff;
-  --klaves-pismo: #000000;
-  --klaves-vybrany-vrch: #000000;
-  --klaves-vybrany-okraj: #202020;
-  --klaves-vybrany-obrys: #ffffff;
-  --klaves-vybrany-pismo: #CBF9C3;
+  --klaves-vrch: #F2FEF0;
+  --klaves-okraj: #b9e3b2;
+  --klaves-obrys: #b9e3b2;
+  --klaves-pismo: #ADD4A6;
+  --klaves-vybrany-vrch: #ffffff;
+  --klaves-vybrany-okraj: #e5fce1;
+  --klaves-vybrany-obrys: #CBF9C3;
+  --klaves-vybrany-pismo: #ADD4A6;
 }
 
 html.tema-tabula,
@@ -951,21 +951,21 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
   height: 30px;
   appearance: none;
   background: transparent;
-  accent-color: var(--farba-posuvnika);
+  accent-color: var(--text);
 }
 
 #posuvnikHlasitosti::-webkit-slider-runnable-track {
   height: 12px;
   border-radius: 0;
-  background: var(--farba-posuvnika);
+  background: var(--text);
 }
 
 #posuvnikHlasitosti::-webkit-slider-thumb {
   width: 24px;
   height: 24px;
   margin-top: -6px;
-  border: 2px solid var(--farba-posuvnika);
-  background: var(--farba-posuvnika);
+  border: 2px solid var(--text);
+  background: var(--text);
   box-shadow: 0 0 0 2px var(--pozadie);
   appearance: none;
 }
@@ -973,20 +973,20 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
 #posuvnikHlasitosti::-moz-range-track {
   height: 12px;
   border-radius: 0;
-  background: var(--farba-posuvnika);
+  background: var(--text);
 }
 
 #posuvnikHlasitosti::-moz-range-progress {
   height: 12px;
-  background: var(--farba-posuvnika);
+  background: var(--text);
 }
 
 #posuvnikHlasitosti::-moz-range-thumb {
   width: 20px;
   height: 20px;
-  border: 2px solid var(--farba-posuvnika);
+  border: 2px solid var(--text);
   border-radius: 0;
-  background: var(--farba-posuvnika);
+  background: var(--text);
   box-shadow: 0 0 0 2px var(--pozadie);
 }
 
@@ -1525,6 +1525,16 @@ body.rezim-crack.rezim-crack-mobile .vysledok-statement {
   text-transform: uppercase;
   opacity: 0.55;
   margin-bottom: 0.35em;
+}
+
+/* Staty na obrazovke dokonceneho poolu (pod velkym "HOTOVO"). */
+.pool-hotovo-staty {
+  display: block;
+  margin-top: 0.35em;
+  font-size: 0.42em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0.8;
 }
 
 .learn-master-vysledok {
@@ -2741,6 +2751,92 @@ body.rezim-crack-timer .moznosti {
     height: calc(var(--mobil-vyska) - 148px);
     min-height: 150px;
   }
+}
+
+/* ===== Timer Mode v Mobile Mode: casovac ako celoobrazovkova cierna zaplava ===== */
+/* Counting (progress) bar ostava klasicky horny pruh. Casovacovy bar skryjeme -
+   namiesto neho cez celu obrazovku stupa zdola hore cierna hladina (#casovacZaplava),
+   v ktorej je pismo biele. Layout vratime na bezny mobilny jednostlpcovy. */
+body.rezim-crack.rezim-crack-mobile.rezim-crack-timer #rezimTest {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  column-gap: 0;
+  align-items: stretch;
+  min-height: calc(var(--mobil-vyska) - 86px);
+}
+
+/* Timer bar sa na mobile nepouziva (casovac je zaplava). */
+body.rezim-crack.rezim-crack-mobile.rezim-crack-timer .stlpec-panel-casovac {
+  display: none;
+}
+
+/* Counting (progress) bar = bezny horny pruh. */
+body.rezim-crack.rezim-crack-mobile.rezim-crack-timer .stlpec-panel-progress {
+  display: block;
+  grid-column: 1;
+  grid-row: 1;
+  align-self: auto;
+  justify-self: auto;
+  width: 100%;
+  margin-top: 0;
+  transform: none;
+}
+
+body.rezim-crack.rezim-crack-mobile.rezim-crack-timer .stlpec-panel-progress .stlpec-uspesnosti {
+  width: 100%;
+  height: clamp(48px, 10vh, 84px);
+}
+
+body.rezim-crack.rezim-crack-mobile.rezim-crack-timer #rezimTest .panel {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: stretch;
+  transform: none;
+}
+
+/* Celoobrazovkova cierna zaplava casovaca (stupa zdola hore cez clip-path). */
+.casovac-zaplava {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  pointer-events: none;
+  background: #000;
+  clip-path: inset(100% 0 0 0);
+  will-change: clip-path;
+}
+
+body.rezim-crack.rezim-crack-mobile.rezim-crack-timer .casovac-zaplava {
+  display: block;
+}
+
+/* Klon obsahu (zarovnany cez celu obrazovku), pismo biele. Realny obsah pod
+   zaplavou je prekryty ciernou, takze vidno len tento biely klon. */
+.casovac-zaplava-obsah {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--mobil-vyska);
+}
+
+.casovac-zaplava-obsah,
+.casovac-zaplava-obsah * {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  box-shadow: none !important;
+}
+
+/* Keycapy v zaplave: cierne telo (splynie s hladinou) + biely obrys a pismeno. */
+.casovac-zaplava-obsah .vrch-klavesy,
+.casovac-zaplava-obsah .okraj-klavesy {
+  fill: #000 !important;
+}
+
+.casovac-zaplava-obsah .obrys-klavesy {
+  stroke: #fff !important;
 }
 
 /* ===== Exam Mode: editovanie spravnej odpovede ===== */

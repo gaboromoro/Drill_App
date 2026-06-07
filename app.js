@@ -17,6 +17,7 @@ let casovacSpravnehoFlashu = null;
 let casovacMegaStreaku = null;
 let hlasitost = 0.5;
 let pociatocnyPocetPoolu = 0;
+let casZaciatkuPoolu = 0;
 let cakaNaVyradenieOtazky = false;
 let poolDokonceny = false;
 let pouzivaTazkyPool = false;
@@ -70,6 +71,8 @@ const prvokPocitadlo = document.getElementById("pocitadloOtazok");
 const prvokSkore = document.getElementById("skore");
 const prvokVyplnStlpca = document.getElementById("vyplnStlpca");
 const prvokVyplnCrackTimeru = document.getElementById("vyplnCrackTimeru");
+const prvokCasovacZaplava = document.getElementById("casovacZaplava");
+const prvokCasovacZaplavaObsah = document.getElementById("casovacZaplavaObsah");
 const prvokPixelyStlpca = document.getElementById("pixelyStlpca");
 const prvokStreakAktualny = document.getElementById("streakAktualny");
 const prvokStreakNajlepsi = document.getElementById("streakNajlepsi");
@@ -1285,7 +1288,10 @@ function textTypuOtazky(otazka, ucenie = jeRezimUcenia()) {
   }
 
   if (otazka?.crack || jeCrackMode()) {
-    return "Crack Mode: z = pravda, x = nepravda";
+    // V Mobile Mode su keycapy 1/0 namiesto klaves z/x.
+    return jeMobilnyCrackMode()
+      ? "Crack Mode: 1 = pravda, 0 = nepravda"
+      : "Crack Mode: z = pravda, x = nepravda";
   }
 
   if (ucenie) {
@@ -1431,15 +1437,52 @@ function aktualizujRozlozenieCrackTimeru() {
   }
 }
 
+// Celoobrazovkova zaplava casovaca (Mobile Mode): klon obsahu s bielym pismom,
+// pod ktory zdola hore stupa cierna hladina. Realny obsah ostava interaktivny
+// (zaplava ma pointer-events: none), takze z/x dalej funguju.
+function pripravTimerZaplavu() {
+  if (!prvokCasovacZaplavaObsah) return;
+  prvokCasovacZaplavaObsah.innerHTML = "";
+  const stranka = document.querySelector(".stranka");
+  if (!stranka) return;
+  const klon = stranka.cloneNode(true);
+  klon.removeAttribute("id");
+  klon.querySelectorAll("[id]").forEach((prvok) => prvok.removeAttribute("id"));
+  klon.querySelectorAll(".panel-nastaveni, script, canvas").forEach((prvok) => prvok.remove());
+  prvokCasovacZaplavaObsah.appendChild(klon);
+}
+
+function zrusTimerZaplavu() {
+  if (!prvokCasovacZaplava) return;
+  prvokCasovacZaplava.style.transition = "none";
+  prvokCasovacZaplava.style.clipPath = "inset(100% 0 0 0)";
+  if (prvokCasovacZaplavaObsah) {
+    prvokCasovacZaplavaObsah.innerHTML = "";
+  }
+}
+
+function spustiTimerZaplavu() {
+  if (!prvokCasovacZaplava || !jeMobilnyCrackMode()) return;
+  pripravTimerZaplavu();
+  prvokCasovacZaplava.style.transition = "none";
+  prvokCasovacZaplava.style.clipPath = "inset(100% 0 0 0)";
+  void prvokCasovacZaplava.offsetHeight;
+  prvokCasovacZaplava.style.transition = `clip-path ${trvanieCrackTimeru}ms linear`;
+  prvokCasovacZaplava.style.clipPath = "inset(0% 0 0 0)";
+}
+
 function zrusCrackTimer(resetuj = false) {
   if (casovacCrackTimeru) {
     window.clearTimeout(casovacCrackTimeru);
     casovacCrackTimeru = null;
   }
 
-  if (resetuj && prvokVyplnCrackTimeru) {
-    prvokVyplnCrackTimeru.style.transition = "none";
-    prvokVyplnCrackTimeru.style.height = "0%";
+  if (resetuj) {
+    if (prvokVyplnCrackTimeru) {
+      prvokVyplnCrackTimeru.style.transition = "none";
+      prvokVyplnCrackTimeru.style.height = "0%";
+    }
+    zrusTimerZaplavu();
   }
 }
 
@@ -1458,11 +1501,13 @@ function spustiCrackTimer() {
     return;
   }
 
+  // Desktop: vertikalny bar (height). Mobile: celoobrazovkova cierna zaplava.
   prvokVyplnCrackTimeru.style.transition = "none";
   prvokVyplnCrackTimeru.style.height = "0%";
   void prvokVyplnCrackTimeru.offsetHeight;
   prvokVyplnCrackTimeru.style.transition = `height ${trvanieCrackTimeru}ms linear`;
   prvokVyplnCrackTimeru.style.height = "100%";
+  spustiTimerZaplavu();
   casovacCrackTimeru = window.setTimeout(vyprsalCrackTimer, trvanieCrackTimeru);
 }
 
@@ -2623,6 +2668,7 @@ function nastavPoradie() {
   aktualnyIndex = 0;
   skore = 0;
   pocetVyhodnotenychOtazok = 0;
+  casZaciatkuPoolu = Date.now();
   pocetZlychOdpovediPreCitat = 0;
   skryCitaty();
   stavStlpca = 0;
@@ -2767,7 +2813,12 @@ function vykresliMoznosti(otazka, moznosti, vybrane = [], ukazVyhodnotenie = fal
 
     const cisloKlavesy = document.createElement("span");
     cisloKlavesy.className = "cisloKlavesy";
-    cisloKlavesy.textContent = otazka.crack ? (index === 0 ? "z" : "x") : String(index + 1);
+    // V Mobile Mode su keycapy "1" (pravda) a "0" (nepravda) namiesto klaves z/x.
+    const mobilCrack = jeMobilnyCrackMode();
+    const crackPopisok = index === 0
+      ? (mobilCrack ? "1" : "z")
+      : (mobilCrack ? "0" : "x");
+    cisloKlavesy.textContent = otazka.crack ? crackPopisok : String(index + 1);
     klavesa.append(obrazokKlavesy, cisloKlavesy);
 
     const obsah = document.createElement("span");
@@ -3640,6 +3691,21 @@ function vyradSpravneZodpovedanuOtazku() {
   return true;
 }
 
+function formatTrvanie(ms) {
+  const sekundy = Math.max(0, Math.round(ms / 1000));
+  const hodiny = Math.floor(sekundy / 3600);
+  const minuty = Math.floor((sekundy % 3600) / 60);
+  const zvysok = sekundy % 60;
+  const dvojm = (n) => String(n).padStart(2, "0");
+  return hodiny > 0 ? `${hodiny}:${dvojm(minuty)}:${dvojm(zvysok)}` : `${minuty}:${dvojm(zvysok)}`;
+}
+
+function sklonujOtazky(pocet) {
+  if (pocet === 1) return "otázka";
+  if (pocet >= 2 && pocet <= 4) return "otázky";
+  return "otázok";
+}
+
 function zobrazDokoncenyPool() {
   zrusCrackTimer(true);
   poolDokonceny = true;
@@ -3650,14 +3716,19 @@ function zobrazDokoncenyPool() {
   zobrazujePredoslyVysledok = false;
   nahladAktualnejOtazky = null;
   const vsetkoSpravne = skore >= pociatocnyPocetPoolu && pociatocnyPocetPoolu > 0;
+  const casPoolu = formatTrvanie(Date.now() - casZaciatkuPoolu);
   prvokTema.textContent = "Pool hotovy";
   prvokTypOtazky.textContent = vsetkoSpravne ? "Vsetko spravne" : `Vysledok ${skore} / ${pociatocnyPocetPoolu}`;
-  nastavStatementText(
-    prvokOtazka,
-    vsetkoSpravne
-      ? "Vsetky otazky v aktualnom poole boli zodpovedane spravne."
-      : `Presiel si cely pool. Vysledok: ${skore} / ${pociatocnyPocetPoolu}.`
-  );
+
+  // "HOTOVO" v slote otazky + staty: kolko otazok bolo zodpovedanych a za aky cas.
+  prvokOtazka.classList.remove("crack-odhalena", "exam-otazka");
+  prvokOtazka.innerHTML = "";
+  prvokOtazka.appendChild(document.createTextNode("HOTOVO"));
+  const staty = document.createElement("span");
+  staty.className = "pool-hotovo-staty";
+  staty.textContent = `${pocetVyhodnotenychOtazok} ${sklonujOtazky(pocetVyhodnotenychOtazok)} za ${casPoolu}`;
+  prvokOtazka.appendChild(staty);
+
   prvokPocitadlo.textContent = `${stavStlpca} / ${pociatocnyPocetPoolu}`;
   prvokSkore.textContent = `Skore: ${skore}`;
   prvokMoznosti.innerHTML = "";
@@ -4049,7 +4120,7 @@ nastavDisplaySorting();
 nastavCrackTimer();
 nastavMobilnyCrackMode();
 aktualizujRozlozenieUcenia();
-nastavTemu("tyrkysova");
+nastavTemu("mentolova");
 skryCitaty();
-nastavPredmet("test");
+nastavPredmet("czs");
 nastavKodovePoradie();
