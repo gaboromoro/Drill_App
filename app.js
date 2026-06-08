@@ -18,6 +18,7 @@ let casovacMegaStreaku = null;
 let hlasitost = 0.5;
 let pociatocnyPocetPoolu = 0;
 let casZaciatkuPoolu = 0;
+let casZobrazeniaOtazky = 0;
 let cakaNaVyradenieOtazky = false;
 let poolDokonceny = false;
 let pouzivaTazkyPool = false;
@@ -97,6 +98,7 @@ const prvokKodVysledok = document.getElementById("kodVysledok");
 const prvokKodRiesenie = document.getElementById("kodRiesenie");
 const prvokFlashEfekt = document.getElementById("flashEfekt");
 const prvokStreakFlashCislo = document.getElementById("streakFlashCislo");
+const prvokRychlyBonus = document.getElementById("rychlyBonus");
 const prvokVideoOverlay = document.getElementById("videoOverlay");
 const prvokVideoPrehravac = document.getElementById("videoPrehravac");
 const blokyCitatu = [...document.querySelectorAll(".blok-citatu")];
@@ -162,6 +164,41 @@ const prepinacCrackTimeru = document.getElementById("prepinacCrackTimeru");
 const prepinacMobilnehoCrackModu = document.getElementById("prepinacMobilnehoCrackModu");
 const klavesyMoznosti = ["1", "2", "3", "4", "5", "6"];
 const trvanieCrackTimeru = 10000;
+
+// Streak mechanika: pomenovane tiery (farba pre flash/cislo), milnik kazdych KROK_MILNIKA.
+const KROK_MILNIKA = 5;
+const PRAH_RYCHLEJ_ODPOVEDE = 3000; // ms - rychla (FAST) odpoved
+const PRAH_DRAMY_STRATY = 5;        // od akeho streaku ma strata dramaticky efekt
+const TIERY = [
+  { od: 5,  nazov: "ZAHRIEVAM SA", rgb: "255, 214, 17",  okrajRgb: "255, 126, 0" },
+  { od: 10, nazov: "ON FIRE",      rgb: "255, 126, 0",   okrajRgb: "255, 38, 0" },
+  { od: 15, nazov: "UNSTOPPABLE",  rgb: "255, 61, 139",  okrajRgb: "200, 30, 90" },
+  { od: 20, nazov: "GODLIKE",      rgb: "61, 165, 255",  okrajRgb: "21, 97, 200" },
+  { od: 25, nazov: "LEGENDARY",    rgb: "176, 107, 255", okrajRgb: "255, 210, 61" },
+  { od: 35, nazov: "MYTHIC",       rgb: "255, 255, 255", okrajRgb: "125, 249, 255" }
+];
+
+function ziskajTier(streak) {
+  let aktualny = null;
+  for (const tier of TIERY) {
+    if (streak >= tier.od) aktualny = tier;
+  }
+  return aktualny;
+}
+
+function ziskajFarbyTieru(streak) {
+  const tier = ziskajTier(streak);
+  return tier
+    ? { ziara: tier.rgb, okraj: tier.okrajRgb }
+    : { ziara: "255, 230, 58", okraj: "255, 126, 0" };
+}
+
+function zavibruj(vzor) {
+  if (!vzor) return;
+  if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
+    try { navigator.vibrate(vzor); } catch (chyba) { /* nepodporovane */ }
+  }
+}
 const rytmickeBpm = 160;
 const pocetBeatovRytmickehoEfektu = 16;
 const intervalRytmickehoBeatu = Math.round(60000 / rytmickeBpm);
@@ -1271,9 +1308,10 @@ function aktualizujRozlozenieUcenia() {
 function aktualizujViditelnostModov() {
   const hel = aktualnyPredmet === "hel";
   const crack = jeCrackMode();
-  // Multiple Choice + Exam su iba pre HEL.
+  // Multiple Choice je iba pre HEL; Exam Mode pre HEL aj CZS.
+  const examPodporovany = hel || aktualnyPredmet === "czs";
   if (riadokMultipleChoice) riadokMultipleChoice.classList.toggle("skryte", !hel);
-  if (riadokExamMode) riadokExamMode.classList.toggle("skryte", !hel);
+  if (riadokExamMode) riadokExamMode.classList.toggle("skryte", !examPodporovany);
   // Speed Mode dava zmysel iba v klasickom (non-crack) mode.
   if (riadokSpeedMode) riadokSpeedMode.classList.toggle("skryte", crack);
   // Timer, Mobile a Slow su crack-only vlastnosti.
@@ -1557,7 +1595,7 @@ function nastavExamMode() {
     if (prepinacMultipleChoice) {
       prepinacMultipleChoice.checked = false;
     }
-    if (aktualnyPredmet !== "hel") {
+    if (aktualnyPredmet !== "hel" && aktualnyPredmet !== "czs") {
       nastavPredmet("hel");
       return;
     }
@@ -1814,6 +1852,7 @@ function zlozExamNadpis(prezentacia, oblast) {
 function ziskajExamOtazky() {
   const mini = jeExamModeMini();
   const skupiny = new Map();
+  const videneTexty = new Set();
 
   ziskajOtazkyZBeznychFiltrov(true).forEach((otazka) => {
     if (!otazka.crackPair?.pravda) {
@@ -1821,6 +1860,18 @@ function ziskajExamOtazky() {
     }
 
     const prezentacia = ziskajPrezentaciu(otazka);
+    // Okruh "Vzorce" su strucne vzorcove flashcardy - do exam mode (vypracovanie) nepatria.
+    // (examSkip = rucne oznaceny duplikat: ostava v crack mode, do exam mode nejde.)
+    if (otazka.examSkip || prezentacia === "Vzorce") {
+      return;
+    }
+    // Rovnaku odpoved (pravda) zaradime do exam mode iba raz (deduplikacia opakovanych otazok).
+    const dedupKluc = normalizujKluc(otazka.crackPair.pravda);
+    if (videneTexty.has(dedupKluc)) {
+      return;
+    }
+    videneTexty.add(dedupKluc);
+
     const { oblast, podoblast } = rozdelExamPodokruh(otazka);
     // V Mini rezime je kazda podotazka samostatny slide (skupina podla oblast aj podoblast)
     const kluc = mini ? `${prezentacia}::${oblast}::${podoblast}` : `${prezentacia}::${oblast}`;
@@ -1867,7 +1918,7 @@ function ziskajExamOtazky() {
 }
 
 function unikatneHodnoty(hodnoty) {
-  return [...new Set(hodnoty)].sort((a, b) => a.localeCompare(b, "sk"));
+  return [...new Set(hodnoty)].sort((a, b) => a.localeCompare(b, "sk", { numeric: true }));
 }
 
 function ziskajOkruhyOtazky(otazka) {
@@ -2435,15 +2486,17 @@ function ziskajNastaveniaFlashu(dlzkaSerie) {
   };
 }
 
-function nastavPozadieFlashu(nastavenia) {
+function nastavPozadieFlashu(nastavenia, farby) {
+  const ziara = farby ? farby.ziara : "255, 230, 58";
+  const okraj = farby ? farby.okraj : "255, 126, 0";
   return [
-    `radial-gradient(circle at 50% 48%, rgba(255, 255, 255, ${nastavenia.bieleJadro}) 0%, rgba(255, 255, 255, ${Math.min(nastavenia.bieleJadro * 0.84, 0.92)}) 18%, rgba(255, 230, 58, ${nastavenia.zltaZiara}) ${nastavenia.rozsah}%, rgba(255, 126, 0, ${nastavenia.zltyOkraj}) 78%, rgba(255, 126, 0, 0) 92%)`,
+    `radial-gradient(circle at 50% 48%, rgba(255, 255, 255, ${nastavenia.bieleJadro}) 0%, rgba(255, 255, 255, ${Math.min(nastavenia.bieleJadro * 0.84, 0.92)}) 18%, rgba(${ziara}, ${nastavenia.zltaZiara}) ${nastavenia.rozsah}%, rgba(${okraj}, ${nastavenia.zltyOkraj}) 78%, rgba(${okraj}, 0) 92%)`,
     `rgba(255, 255, 255, ${nastavenia.bielyPodklad})`
   ].join(", ");
 }
 
 function spustiMegaStreakCislo(dlzkaSerie) {
-  if (!prvokStreakFlashCislo || dlzkaSerie <= 0 || dlzkaSerie % 7 !== 0) {
+  if (!prvokStreakFlashCislo || dlzkaSerie <= 0 || dlzkaSerie % KROK_MILNIKA !== 0) {
     return;
   }
 
@@ -2452,9 +2505,26 @@ function spustiMegaStreakCislo(dlzkaSerie) {
     casovacMegaStreaku = null;
   }
 
+  const tier = ziskajTier(dlzkaSerie);
   const trvanie = 220;
-  prvokStreakFlashCislo.classList.remove("aktivny", "specialny");
-  prvokStreakFlashCislo.textContent = String(dlzkaSerie);
+  prvokStreakFlashCislo.classList.remove("aktivny", "specialny", "strata");
+  prvokStreakFlashCislo.innerHTML = "";
+
+  const cislo = document.createElement("span");
+  cislo.className = "mega-cislo";
+  cislo.textContent = String(dlzkaSerie);
+  prvokStreakFlashCislo.appendChild(cislo);
+
+  if (tier) {
+    const nazov = document.createElement("span");
+    nazov.className = "mega-tier";
+    nazov.textContent = tier.nazov;
+    prvokStreakFlashCislo.appendChild(nazov);
+    prvokStreakFlashCislo.style.setProperty("--mega-farba", `rgb(${tier.rgb})`);
+  } else {
+    prvokStreakFlashCislo.style.setProperty("--mega-farba", "rgb(255, 216, 17)");
+  }
+
   prvokStreakFlashCislo.style.setProperty("--mega-trvanie", `${trvanie}ms`);
   prvokStreakFlashCislo.style.setProperty("--mega-scale", Math.min(1 + dlzkaSerie * 0.035, 1.9));
   void prvokStreakFlashCislo.offsetWidth;
@@ -2466,15 +2536,69 @@ function spustiMegaStreakCislo(dlzkaSerie) {
   }, trvanie + 60);
 }
 
+// Otras obrazovky pri milniku (sila rastie so streakom).
+function spustiOtras(dlzkaSerie) {
+  document.body.style.setProperty("--otras-sila", `${Math.min(4 + dlzkaSerie * 0.5, 16)}px`);
+  document.body.classList.remove("streak-otras");
+  void document.body.offsetWidth;
+  document.body.classList.add("streak-otras");
+  window.setTimeout(() => document.body.classList.remove("streak-otras"), 430);
+}
+
+// Kratke "FAST" pri rychlej spravnej odpovedi.
+function spustiRychlyBonus() {
+  if (!prvokRychlyBonus) return;
+  prvokRychlyBonus.classList.remove("aktivny");
+  prvokRychlyBonus.textContent = "⚡ FAST";
+  void prvokRychlyBonus.offsetWidth;
+  prvokRychlyBonus.classList.add("aktivny");
+  window.setTimeout(() => prvokRychlyBonus.classList.remove("aktivny"), 620);
+}
+
+// Dramaticka strata streaku: spomalenie + odsednutie + rozbite cislo.
+function spustiStratuStreaku(dlzka) {
+  if (!prvokStreakFlashCislo || dlzka < PRAH_DRAMY_STRATY) return;
+
+  if (casovacMegaStreaku) {
+    window.clearTimeout(casovacMegaStreaku);
+    casovacMegaStreaku = null;
+  }
+
+  document.body.classList.remove("streak-strata");
+  void document.body.offsetWidth;
+  document.body.classList.add("streak-strata");
+
+  prvokStreakFlashCislo.classList.remove("aktivny", "specialny", "strata");
+  prvokStreakFlashCislo.innerHTML = "";
+  const cislo = document.createElement("span");
+  cislo.className = "mega-cislo strata-cislo";
+  cislo.textContent = String(dlzka);
+  prvokStreakFlashCislo.appendChild(cislo);
+  const popis = document.createElement("span");
+  popis.className = "mega-tier strata-popis";
+  popis.textContent = "STREAK STRATENÝ";
+  prvokStreakFlashCislo.appendChild(popis);
+  void prvokStreakFlashCislo.offsetWidth;
+  prvokStreakFlashCislo.classList.add("strata");
+
+  window.setTimeout(() => {
+    document.body.classList.remove("streak-strata");
+    prvokStreakFlashCislo.classList.remove("strata");
+  }, 820);
+}
+
 function spustiSpravnyFlash(dlzkaSerie) {
   if (!prvokFlashEfekt) {
     return false;
   }
 
   const nastavenia = ziskajNastaveniaFlashu(dlzkaSerie);
-  const pozadie = nastavPozadieFlashu(nastavenia);
-  const specialny = dlzkaSerie > 0 && dlzkaSerie % 7 === 0;
+  const pozadie = nastavPozadieFlashu(nastavenia, ziskajFarbyTieru(dlzkaSerie));
+  const specialny = dlzkaSerie > 0 && dlzkaSerie % KROK_MILNIKA === 0;
   spustiMegaStreakCislo(dlzkaSerie);
+  if (specialny) {
+    spustiOtras(dlzkaSerie);
+  }
   if (animaciaSpravnehoFlashu) {
     animaciaSpravnehoFlashu.cancel();
   } else if (typeof prvokFlashEfekt.getAnimations === "function") {
@@ -2582,7 +2706,7 @@ function spustiEfekt(jeSpravne, dlzkaSerie = 0) {
   window.setTimeout(() => document.body.classList.remove(trieda), casOdstranenia);
 }
 
-function spustiSpatnuVazbu(jeSpravne, dlzkaSerie = 0) {
+function spustiSpatnuVazbu(jeSpravne, dlzkaSerie = 0, rychla = false) {
   const spatnaVazba = jeSpravne
     ? ziskajZvukSpravnejOdpovede(dlzkaSerie)
     : ziskajZvukZlejOdpovede(dlzkaSerie);
@@ -2594,6 +2718,27 @@ function spustiSpatnuVazbu(jeSpravne, dlzkaSerie = 0) {
   }
 
   spustiEfekt(jeSpravne, dlzkaSerie);
+
+  // Haptika (mobil): stupa so streakom; milnik a strata maju vlastny vzor.
+  const milnik = jeSpravne && dlzkaSerie > 0 && dlzkaSerie % KROK_MILNIKA === 0;
+  let vzor;
+  if (!jeSpravne) {
+    vzor = dlzkaSerie >= PRAH_DRAMY_STRATY ? [60, 40, 130] : [40, 30, 70];
+  } else if (milnik) {
+    vzor = [18, 26, Math.min(45 + dlzkaSerie * 3, 170)];
+  } else if (rychla) {
+    vzor = [10, 18, 26];
+  } else {
+    vzor = Math.min(8 + dlzkaSerie, 26);
+  }
+  zavibruj(vzor);
+
+  if (jeSpravne && rychla) {
+    spustiRychlyBonus();
+  }
+  if (!jeSpravne) {
+    spustiStratuStreaku(dlzkaSerie);
+  }
 }
 
 function maximumStlpca() {
@@ -2617,6 +2762,16 @@ function aktualizujStreak(animuj = false) {
   prvokStreakAktualny.textContent = String(zobrazenaHodnota);
   prvokStreakAktualny.style.setProperty("--streak-velkost", `${velkost}px`);
   prvokStreakNajlepsi.textContent = `HS: ${najvyssiaSeriaSpravnych}`;
+
+  // Farba a ziara cisla podla aktualneho tieru (rastie so streakom).
+  const tier = ziskajTier(zobrazenaHodnota);
+  prvokStreakAktualny.classList.toggle("ma-tier", Boolean(tier));
+  if (tier) {
+    prvokStreakAktualny.style.setProperty("--streak-farba", `rgb(${tier.rgb})`);
+  } else {
+    prvokStreakAktualny.style.removeProperty("--streak-farba");
+  }
+  prvokStreakAktualny.style.setProperty("--streak-glow", `${Math.min(zobrazenaHodnota * 1.4, 32)}px`);
 
   if (!animuj) {
     return;
@@ -3153,7 +3308,7 @@ function vytvorExamOdpoved(otazka) {
         ? window.aplikujExamEditText(idBodu, povodny)
         : povodny;
       const polozka = document.createElement("li");
-      polozka.textContent = text;
+      nastavStatementText(polozka, text);
       if (idBodu) {
         polozka.dataset.editId = idBodu;
       }
@@ -3292,6 +3447,7 @@ function zobrazOtazku() {
 
   const spravneMoznosti = ucenie ? spravneZobrazeneIndexy(otazka, aktualneMoznosti) : [];
   vykresliMoznosti(otazka, aktualneMoznosti, spravneMoznosti, ucenie, ucenie);
+  casZobrazeniaOtazky = ucenie ? 0 : Date.now();
   spustiCrackTimer();
 }
 
@@ -3604,9 +3760,14 @@ function skontrolujOdpoved(vybrane = ziskajVybraneIndexy(), povolPrazdnu = false
     seriaSpravnych = 0;
   }
 
+  // Speed bonus: spravna odpoved do PRAH_RYCHLEJ_ODPOVEDE od zobrazenia otazky.
+  const rychlaOdpoved = jeSpravne
+    && casZobrazeniaOtazky > 0
+    && (Date.now() - casZobrazeniaOtazky) <= PRAH_RYCHLEJ_ODPOVEDE;
+
   upravStlpec(jeSpravne);
   aktualizujStreak(jeSpravne);
-  spustiSpatnuVazbu(jeSpravne, jeSpravne ? seriaSpravnych : predoslaSeriaSpravnych);
+  spustiSpatnuVazbu(jeSpravne, jeSpravne ? seriaSpravnych : predoslaSeriaSpravnych, rychlaOdpoved);
   posunCitatPoOdpovedi(jeSpravne);
 
   if (jeSpravne) {
@@ -3864,11 +4025,13 @@ function ziskajOtazkyPredmetu(predmet) {
 }
 
 function nastavPredmet(predmet) {
-  // Multiple Choice override aj Exam Mode su iba pre HEL - pri inom predmete ich vypneme.
+  // Multiple Choice override je iba pre HEL; Exam Mode pre HEL aj CZS - inde ich vypneme.
   if (predmet !== "hel") {
     if (prepinacMultipleChoice) {
       prepinacMultipleChoice.checked = false;
     }
+  }
+  if (predmet !== "hel" && predmet !== "czs") {
     if (prepinacExamMode) {
       prepinacExamMode.checked = false;
       examModeMini = false;

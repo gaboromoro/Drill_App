@@ -294,7 +294,7 @@ body.tema-tabula .krieda-platno {
 
 @keyframes streakNarast {
   0% {
-    color: var(--farba-cisla-stlpca);
+    color: var(--streak-farba, var(--farba-cisla-stlpca));
     transform: translate(-50%, -50%) scale(1);
     filter: brightness(1);
   }
@@ -320,7 +320,7 @@ body.tema-tabula .krieda-platno {
   }
 
   100% {
-    color: var(--farba-cisla-stlpca);
+    color: var(--streak-farba, var(--farba-cisla-stlpca));
     transform: translate(-50%, -50%) scale(1);
     filter: brightness(1);
   }
@@ -715,6 +715,124 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
   100% {
     opacity: 0;
     transform: scale(1.14);
+  }
+}
+
+/* ===== Streak juice: tier cislo, milnik, FAST bonus, drama straty ===== */
+/* Milnikove mega cislo + nazov tieru (farba podla tieru). */
+.streak-flash-cislo .mega-cislo {
+  font-size: 1em;
+  line-height: 0.85;
+  color: #ffffff;
+  text-shadow:
+    -4px 0 #000000, 0 4px #000000, 4px 0 #000000, 0 -4px #000000,
+    0 0 36px var(--mega-farba, rgba(255, 216, 17, 0.95)),
+    0 0 78px var(--mega-farba, rgba(255, 216, 17, 0.6));
+}
+
+.streak-flash-cislo .mega-tier {
+  margin-top: 0.1em;
+  font-size: 0.24em;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  color: var(--mega-farba, #ffd811);
+  text-shadow:
+    -2px 0 #000000, 0 2px #000000, 2px 0 #000000, 0 -2px #000000,
+    0 0 26px var(--mega-farba, #ffd811);
+}
+
+/* Cislo streaku v bare "hreje" farbou tieru + ziara podla dlzky. */
+.streak-aktualny.ma-tier {
+  color: var(--streak-farba, #ffffff);
+  text-shadow:
+    -2px 0 var(--tien-cisla-stlpca), 0 2px var(--tien-cisla-stlpca),
+    2px 0 var(--tien-cisla-stlpca), 0 -2px var(--tien-cisla-stlpca),
+    0 0 var(--streak-glow, 0px) var(--streak-farba, transparent);
+}
+
+/* Otras obrazovky pri milniku. */
+body.streak-otras .stranka {
+  animation: streakOtras 420ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes streakOtras {
+  10%, 90% { transform: translate(calc(var(--otras-sila, 8px) * -0.4), 0); }
+  20%, 80% { transform: translate(calc(var(--otras-sila, 8px) * 0.7), 0); }
+  30%, 50%, 70% { transform: translate(calc(var(--otras-sila, 8px) * -1), 1px); }
+  40%, 60% { transform: translate(var(--otras-sila, 8px), -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* "⚡ FAST" za rychlu spravnu odpoved. */
+.rychly-bonus {
+  position: fixed;
+  left: 50%;
+  top: 34%;
+  z-index: 9999;
+  color: #ffffff;
+  font-size: clamp(30px, 7vw, 66px);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.6) rotate(-7deg);
+  text-shadow:
+    -3px 0 #000000, 0 3px #000000, 3px 0 #000000, 0 -3px #000000,
+    0 0 28px rgba(125, 249, 255, 0.95);
+  will-change: opacity, transform;
+}
+
+.rychly-bonus.aktivny {
+  animation: rychlyBonusPop 620ms cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes rychlyBonusPop {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5) rotate(-10deg); }
+  25% { opacity: 1; transform: translate(-50%, -58%) scale(1.12) rotate(-4deg); }
+  60% { opacity: 0.92; transform: translate(-50%, -64%) scale(1) rotate(-6deg); }
+  100% { opacity: 0; transform: translate(-50%, -82%) scale(0.95) rotate(-6deg); }
+}
+
+/* Dramaticka strata streaku: spomalenie + odsednutie + padajuce cervene cislo. */
+body.streak-strata .stranka {
+  animation: strataSpomalenie 820ms ease-out;
+}
+
+@keyframes strataSpomalenie {
+  0% { filter: none; transform: none; }
+  16% { filter: grayscale(0.72) brightness(0.66); transform: scale(0.99); }
+  100% { filter: none; transform: none; }
+}
+
+.streak-flash-cislo.strata {
+  animation: strataCisla 800ms cubic-bezier(0.3, 0, 0.2, 1) forwards;
+}
+
+.streak-flash-cislo.strata .mega-cislo {
+  color: #ff4d4d;
+  text-shadow:
+    -4px 0 #000000, 0 4px #000000, 4px 0 #000000, 0 -4px #000000,
+    0 0 32px rgba(255, 45, 45, 0.9);
+}
+
+.streak-flash-cislo.strata .strata-popis {
+  color: #ff7a7a;
+  text-shadow:
+    -2px 0 #000000, 0 2px #000000, 2px 0 #000000, 0 -2px #000000;
+}
+
+@keyframes strataCisla {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.72) rotate(0deg); }
+  14% { opacity: 1; transform: translate(-50%, -52%) scale(1.16) rotate(-3deg); filter: brightness(1.5); }
+  26% { transform: translate(-50%, -50%) scale(1.04) rotate(3deg); }
+  42% { transform: translate(-50%, -50%) scale(1) rotate(-1.5deg); }
+  100% { opacity: 0; transform: translate(-50%, 14%) scale(0.82) rotate(7deg); filter: blur(2px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.streak-otras .stranka,
+  body.streak-strata .stranka {
+    animation: none;
   }
 }
 
