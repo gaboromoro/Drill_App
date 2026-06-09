@@ -1,7 +1,7 @@
 const citaty = [
   {
     zdroj: "Ž 27, 1",
-    text: "„Pán je moje svetlo a moja spása, koho sa mám báť?\n\nPán je ochranca môjho života, pred kým sa mám strachovať?“"
+    text: "„Pán je moje svetlo a moja spása, koho sa mám báť?\nPán je ochranca môjho života, pred kým sa mám strachovať?“"
   },
   {
     zdroj: "Ž 27, 4",
@@ -13,7 +13,7 @@ const citaty = [
   },
   {
     zdroj: "Ž 23, 1",
-    text: "„Pán je môj pastier, nič mi nechýba:\n\npasie ma na zelených pašienkach,\n\nnič mi nechýba.“"
+    text: "„Pán je môj pastier, nič mi nechýba:\npasie ma na zelených pašienkach,\nnič mi nechýba.“"
   },
   {
     zdroj: "Ž 23",

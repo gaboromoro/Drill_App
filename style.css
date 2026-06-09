@@ -197,7 +197,8 @@ body.tema-tabula .krieda-platno {
   display: block;
   align-items: center;
   margin-top: 80px;
-  transform: translateX(-64px);
+  justify-self: center;
+  transform: none;
 }
 
 .stlpec-uspesnosti {
@@ -579,6 +580,7 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
   z-index: 10000;
   display: none;
   pointer-events: none;
+  mix-blend-mode: screen;
 }
 
 .video-overlay.aktivny {
@@ -589,6 +591,7 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  mix-blend-mode: screen;
   filter: url(#lumaKey) brightness(1.15) saturate(1.25);
 }
 
@@ -868,6 +871,268 @@ body.streak-strata .stranka {
   padding-bottom: 18px;
 }
 
+.hlavicka-vlavo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tlacidlo-menu {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.tlacidlo-menu:hover,
+.tlacidlo-menu[aria-expanded="true"] {
+  text-decoration: none;
+}
+
+.ikona-menu {
+  width: 24px;
+  height: 18px;
+  background:
+    linear-gradient(var(--ciara), var(--ciara)) 0 0 / 24px 3px no-repeat,
+    linear-gradient(var(--ciara), var(--ciara)) 0 7px / 24px 3px no-repeat,
+    linear-gradient(var(--ciara), var(--ciara)) 0 15px / 24px 3px no-repeat;
+}
+
+.prekrytie-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.prekrytie-menu.otvorene {
+  opacity: 1;
+  visibility: visible;
+}
+
+.uvodne-info {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.48);
+  padding: 18px;
+}
+
+.uvodne-info.skryte {
+  display: none;
+}
+
+.uvodne-info-karta {
+  width: min(560px, calc(100vw - 36px));
+  border: 2px solid var(--ciara);
+  background: var(--pozadie);
+  color: var(--text);
+  box-shadow: 10px 10px 0 var(--ciara);
+  padding: 20px;
+}
+
+.uvodne-info-nadpis {
+  margin: 0 0 14px;
+  color: var(--ciara);
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.uvodne-info-podnadpis {
+  margin: 0 0 10px;
+  color: var(--ciara);
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.uvodne-info-zoznam {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 18px;
+  padding-left: 22px;
+  line-height: 1.35;
+}
+
+.uvodne-info-zoznam kbd {
+  display: inline-block;
+  min-width: 1.8em;
+  border: 2px solid var(--ciara);
+  padding: 1px 5px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  text-align: center;
+}
+
+.uvodne-info-tlacidlo {
+  width: 100%;
+  background: var(--ciara);
+  color: var(--pozadie);
+  font-weight: 700;
+}
+
+.bocne-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 41;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: min(300px, 82vw);
+  border-right: 2px solid var(--ciara);
+  background: var(--pozadie);
+  padding: 18px 16px;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition: transform 0.25s ease, visibility 0.25s ease;
+}
+
+.bocne-menu.otvorene {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+.bocne-menu-hlavicka {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 2px solid var(--ciara);
+  padding-bottom: 14px;
+}
+
+.bocne-menu-nadpis {
+  color: var(--ciara);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.tlacidlo-zavriet-menu {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  padding: 0;
+  border: 2px solid var(--ciara);
+  background: transparent;
+  color: var(--text);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.bocne-menu-sekcia {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bocne-menu-podnadpis {
+  margin: 0 0 4px;
+  color: var(--ciara);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.bocne-menu-zoznam {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-polozka {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border: 2px solid var(--ciara);
+  background: transparent;
+  color: var(--text);
+  padding: 12px 14px;
+  font-size: 17px;
+  text-align: left;
+}
+
+.menu-polozka:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.menu-polozka.aktivny {
+  background: var(--ciara);
+  color: var(--pozadie);
+  text-decoration: none;
+}
+
+.menu-vetva {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.menu-podstrom {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 2px 0 4px 8px;
+  padding-left: 12px;
+  border-left: 2px solid var(--ciara);
+}
+
+.menu-podstrom:empty {
+  display: none;
+}
+
+.menu-okruh {
+  width: 100%;
+  border: 1px solid var(--ciara);
+  background: transparent;
+  color: var(--text);
+  padding: 8px 10px;
+  font-size: 14px;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.menu-okruh:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.menu-okruh.aktivny {
+  background: var(--ciara);
+  color: var(--pozadie);
+  text-decoration: none;
+}
+
+.ikona-nastavenia-mini {
+  position: relative;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  background: url("assets/settings-transparent.png") center / contain no-repeat;
+}
+
+.ikona-nastavenia-mini::before,
+.ikona-nastavenia-mini::after {
+  content: none;
+}
+
 .vrch-vpravo {
   display: flex;
   align-items: center;
@@ -893,44 +1158,111 @@ body.streak-strata .stranka {
 .ikona-nastavenia {
   position: relative;
   width: 28px;
-  height: 22px;
-  background:
-    linear-gradient(var(--ciara), var(--ciara)) 0 3px / 28px 3px no-repeat,
-    linear-gradient(var(--ciara), var(--ciara)) 0 10px / 28px 3px no-repeat,
-    linear-gradient(var(--ciara), var(--ciara)) 0 17px / 28px 3px no-repeat;
+  height: 28px;
+  background: url("assets/settings-transparent.png") center / contain no-repeat;
 }
 
 .ikona-nastavenia::before,
 .ikona-nastavenia::after {
-  content: "";
-  position: absolute;
-  width: 7px;
-  height: 7px;
-  background: var(--pozadie);
-  border: 3px solid var(--ciara);
+  content: none;
 }
 
-.ikona-nastavenia::before {
-  left: 5px;
-  top: 0;
-}
-
-.ikona-nastavenia::after {
-  right: 5px;
-  top: 14px;
+.prekrytie-nastaveni {
+  position: fixed;
+  inset: 0;
+  z-index: 44;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .panel-nastaveni {
   display: grid;
-  gap: 14px;
-  position: absolute;
-  right: 0;
-  top: calc(100% + 10px);
-  z-index: 20;
-  width: min(520px, calc(100vw - 32px));
+  gap: 18px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 45;
+  width: min(900px, 94vw);
+  max-height: 90vh;
+  overflow-y: auto;
   border: 2px solid var(--ciara);
   background: var(--pozadie);
-  padding: 16px;
+  padding: 20px 22px;
+}
+
+.nastavenia-hlavicka {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 2px solid var(--ciara);
+  padding-bottom: 14px;
+}
+
+.nastavenia-titulok {
+  color: var(--ciara);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.tlacidlo-zavriet {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  padding: 0;
+  border: 2px solid var(--ciara);
+  background: transparent;
+  color: var(--text);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.nastavenia-telo {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.nastavenia-telo > .skupina-nastaveni {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.nastavenia-stlpec {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.nastavenia-stlpec .skupina-nastaveni {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.nastavenia-stlpec .skupina-nastaveni + .skupina-nastaveni {
+  border-top: 2px solid var(--ciara);
+  padding-top: 14px;
+}
+
+.prepinace-mriezka {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 18px;
+}
+
+.pooly-mriezka {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.nastavenie-podokruhy .zoznam-podokruhov {
+  max-height: min(46vh, 360px);
 }
 
 .skupina-nastaveni {
@@ -1519,7 +1851,10 @@ body.tema-tyrkysova .moznost.spravna input:checked + .klavesa {
 
 body.tema-mentolova .moznost.spravna .klavesa,
 body.tema-mentolova .moznost.spravna input:checked + .klavesa {
-  --aktivny-obrys-klavesy: #ffffff;
+  --aktivny-vrch-klavesy: #97FF97;
+  --aktivny-okraj-klavesy: var(--klaves-okraj);
+  --aktivny-obrys-klavesy: var(--klaves-obrys);
+  color: #ffffff;
 }
 
 .moznost.chybna .klavesa {
@@ -1537,7 +1872,10 @@ body.tema-tyrkysova .moznost.chybna input:checked + .klavesa {
 }
 
 body.tema-mentolova .moznost.chybna input:checked + .klavesa {
-  --aktivny-obrys-klavesy: #ffffff;
+  --aktivny-vrch-klavesy: #FFB088;
+  --aktivny-okraj-klavesy: var(--klaves-okraj);
+  --aktivny-obrys-klavesy: var(--klaves-obrys);
+  color: #ffffff;
 }
 
 .moznost input:disabled {
@@ -1617,11 +1955,11 @@ body.rezim-crack.rezim-crack-mobile .vysledok-statement {
 }
 
 /* Slow Mode reveal v slote otazky: cerveny "chip" zvyrazni text, ktory sa lisi
-   od chybneho statementu. Bily text na cervenej drzi kontrast na kazdej teme
-   (aj na oranzovej/zltej). box-decoration-break drzi chip pekny aj cez riadky. */
+   od chybneho statementu. Text ostava cierny aj pod cervenym zvyraznenim.
+   box-decoration-break drzi chip pekny aj cez riadky. */
 .crack-rozdiel {
   background: #ff4d6d;
-  color: #ffffff;
+  color: #000000;
   font-weight: 700;
   border-radius: 4px;
   padding: 0.02em 0.18em;
@@ -1630,7 +1968,7 @@ body.rezim-crack.rezim-crack-mobile .vysledok-statement {
 }
 
 .crack-rozdiel .katex {
-  color: #ffffff;
+  color: #000000;
 }
 
 /* Mala caption nad odhalenou spravnou odpovedou (cisto cez CSS, miznе s triedou). */
@@ -1682,6 +2020,24 @@ body.rezim-crack.rezim-crack-mobile .vysledok-statement {
   margin: 0 0 8px;
   font-size: 24px;
   line-height: 1.2;
+}
+
+.learn-master-statementy {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 24px;
+}
+
+.learn-master-statement {
+  padding: 0;
+  line-height: 1.35;
+}
+
+.learn-master-statement-text {
+  display: inline;
+  font-size: 17px;
+  line-height: 1.35;
 }
 
 .learn-master-otazka {
@@ -1935,6 +2291,12 @@ body.rezim-crack:not(.rezim-crack-mobile):not(.rezim-exam) #otazka {
   text-align: justify;
   text-justify: inter-word;
   hyphens: none;
+}
+
+@media (min-width: 1760px) {
+  body.rezim-crack:not(.rezim-crack-mobile):not(.rezim-crack-timer) .stlpec-panel {
+    transform: translateX(-64px);
+  }
 }
 
 body.rezim-crack .moznost {
@@ -2664,18 +3026,25 @@ button.sekundarne {
   }
 
   .panel-nastaveni {
-    right: auto;
-    left: 0;
-    width: min(100vw - 12px, 520px);
-    max-height: calc(100vh - 92px);
-    overflow-y: auto;
-    padding: 12px;
-    gap: 12px;
+    width: min(100vw - 12px, 560px);
+    max-height: calc(100vh - 24px);
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .nastavenia-telo,
+  .prepinace-mriezka,
+  .pooly-mriezka {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .zoznam-podokruhov,
   .zoznam-odstranenych {
     max-height: 190px;
+  }
+
+  .nastavenie-podokruhy .zoznam-podokruhov {
+    max-height: 38vh;
   }
 }
 

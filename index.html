@@ -20,6 +20,7 @@
   <div id="flashEfekt" class="flash-efekt" aria-hidden="true"></div>
   <div id="streakFlashCislo" class="streak-flash-cislo" aria-hidden="true"></div>
   <div id="rychlyBonus" class="rychly-bonus" aria-hidden="true"></div>
+  <div id="novyRekord" class="novy-rekord" aria-hidden="true"></div>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
       <filter id="lumaKey" color-interpolation-filters="sRGB">
@@ -37,186 +38,261 @@
   <div id="casovacZaplava" class="casovac-zaplava" aria-hidden="true">
     <div id="casovacZaplavaObsah" class="casovac-zaplava-obsah"></div>
   </div>
+  <div id="prekrytieMenu" class="prekrytie-menu" aria-hidden="true"></div>
+  <div id="uvodneInfo" class="uvodne-info skryte" role="dialog" aria-modal="true" aria-labelledby="uvodneInfoNadpis" aria-hidden="true">
+    <section class="uvodne-info-karta">
+      <h2 id="uvodneInfoNadpis" class="uvodne-info-nadpis">Ako na to</h2>
+      <ul class="uvodne-info-zoznam">
+        <li>Aplikácia je zameraná najmä na drillovanie formou otázok a odpovedí pravda/nepravda.</li>
+        <li>V nastaveniach si môžeš zapnúť aj Exam Mode na otvorené otázky s následne zobrazenými vypracovanými odpoveďami alebo Learn Mode na jednoduchý zoznam vypracovaných okruhov.</li>
+        <li>Vľavo hore je menu s výberom predmetu.</li>
+        <li>Okruhy PC2, VS2 a AUD sú zatiaľ iba staré prípravy na skúšku; VS2 neskôr vypracujem pre SZZ.</li>
+      </ul>
+      <h3 class="uvodne-info-podnadpis">Ovládanie</h3>
+      <ul class="uvodne-info-zoznam">
+        <li><kbd>z</kbd> - pravda</li>
+        <li><kbd>x</kbd> - nepravda</li>
+        <li>Na mobile je <kbd>1</kbd> pravda a <kbd>0</kbd> nepravda.</li>
+        <li><kbd>Backspace</kbd> zobrazí predchádzajúcu zodpovedanú otázku.</li>
+        <li>Šípkami vpravo a vľavo sa dá skákať medzi otázkami.</li>
+      </ul>
+      <button id="tlacidloZavrietUvodneInfo" class="uvodne-info-tlacidlo" type="button">Jasne</button>
+    </section>
+  </div>
+  <nav id="bocneMenu" class="bocne-menu" aria-label="Hlavné menu" aria-hidden="true">
+    <div class="bocne-menu-hlavicka">
+      <span class="bocne-menu-nadpis">Drill on Crack</span>
+      <button id="tlacidloZavrietMenu" class="tlacidlo-zavriet-menu" type="button" aria-label="Zavrieť menu">×</button>
+    </div>
+
+    <section class="bocne-menu-sekcia">
+      <h2 class="bocne-menu-podnadpis">Predmety</h2>
+      <div class="bocne-menu-zoznam menu-strom">
+        <div class="menu-vetva" data-predmet="test">
+          <button class="menu-polozka" type="button" data-predmet="test">TEST</button>
+          <div class="menu-podstrom" data-predmet="test"></div>
+        </div>
+        <div class="menu-vetva" data-predmet="vs2">
+          <button class="menu-polozka" type="button" data-predmet="vs2">VS2</button>
+          <div class="menu-podstrom" data-predmet="vs2"></div>
+        </div>
+        <div class="menu-vetva" data-predmet="aud">
+          <button class="menu-polozka" type="button" data-predmet="aud">AUD</button>
+          <div class="menu-podstrom" data-predmet="aud"></div>
+        </div>
+        <div class="menu-vetva" data-predmet="vet">
+          <button class="menu-polozka" type="button" data-predmet="vet">VET</button>
+          <div class="menu-podstrom" data-predmet="vet"></div>
+        </div>
+        <div class="menu-vetva" data-predmet="pc2">
+          <button class="menu-polozka" type="button" data-predmet="pc2">PC2</button>
+          <div class="menu-podstrom" data-predmet="pc2"></div>
+        </div>
+        <div class="menu-vetva" data-predmet="hel">
+          <button class="menu-polozka" type="button" data-predmet="hel">HEL</button>
+          <div class="menu-podstrom" data-predmet="hel"></div>
+        </div>
+        <div class="menu-vetva" data-predmet="czs">
+          <button class="menu-polozka" type="button" data-predmet="czs">CZS</button>
+          <div class="menu-podstrom" data-predmet="czs"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bocne-menu-sekcia">
+      <button id="menuOtvoritNastavenia" class="menu-polozka menu-polozka-nastavenia" type="button">
+        <span class="ikona-nastavenia-mini" aria-hidden="true"></span>
+        Nastavenia
+      </button>
+    </section>
+  </nav>
+
   <main class="stranka">
     <header class="hlavicka">
-      <div>
+      <div class="hlavicka-vlavo">
+        <button id="tlacidloMenu" class="tlacidlo-menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="bocneMenu">
+          <span class="ikona-menu" aria-hidden="true"></span>
+        </button>
         <h1>Drill on Crack</h1>
       </div>
       <div class="vrch-vpravo">
         <div class="statistiky">
+          <span id="casPoolu">0</span>
           <span id="streakNajlepsi" class="hs-count">HS: 0</span>
           <button id="tlacidloPredoslyVysledok" class="tlacidlo-predosly" type="button" disabled>Previous</button>
           <span id="pocitadloOtazok">0 / 0</span>
-          <span id="skore">Skóre: 0</span>
+          <span id="skore">0</span>
         </div>
         <button id="tlacidloNastavenia" class="tlacidlo-nastavenia" type="button" aria-label="Nastavenia" aria-expanded="false">
           <span class="ikona-nastavenia" aria-hidden="true"></span>
         </button>
       </div>
 
-      <section id="panelNastaveni" class="panel-nastaveni skryte" aria-label="Nastavenia">
-        <section class="skupina-nastaveni">
-          <h2 class="nadpis-nastaveni">Zaklad</h2>
-          <label class="nastavenie">
-            <span>Volume</span>
-            <input id="posuvnikHlasitosti" type="range" min="0" max="100" value="33">
-          </label>
+      <div id="prekrytieNastaveni" class="prekrytie-nastaveni skryte" aria-hidden="true"></div>
+      <section id="panelNastaveni" class="panel-nastaveni skryte" role="dialog" aria-modal="true" aria-label="Nastavenia">
+        <div class="nastavenia-hlavicka">
+          <span class="nastavenia-titulok">Nastavenia</span>
+          <button id="tlacidloZavrietNastavenia" class="tlacidlo-zavriet" type="button" aria-label="Zavrieť nastavenia">×</button>
+        </div>
 
-          <label class="nastavenie nastavenie-prepinac">
-            <span>Vypnut zvuk</span>
-            <input id="prepinacVypnutiaZvuku" class="prepinac-volby" type="checkbox">
-          </label>
+        <div class="nastavenia-telo">
+          <section id="nastavenieOkruhu" class="skupina-nastaveni nastavenie-okruhu">
+            <h2 class="nadpis-nastaveni">Okruh</h2>
+            <label class="nastavenie">
+              <select id="vyberPrezentacie" aria-label="Okruh"></select>
+            </label>
 
-          <div class="nastavenie">
-            <span>Predmet</span>
-            <div class="prepinace prepinace-nastaveni" aria-label="Predmet">
-              <button id="tlacidloPredmetTest" class="sekundarne" type="button">TEST</button>
-              <button id="tlacidloPredmetVs2" class="sekundarne" type="button">VS2</button>
-              <button id="tlacidloPredmetAud" class="sekundarne" type="button">AUD</button>
-              <button id="tlacidloPredmetVet" class="sekundarne" type="button">VET</button>
-              <button id="tlacidloPredmetPc2" class="sekundarne" type="button">PC2</button>
-              <button id="tlacidloPredmetHel" class="sekundarne" type="button">HEL</button>
-              <button id="tlacidloPredmetCzs" class="aktivny" type="button">CZS</button>
-            </div>
-          </div>
-
-          <div class="nastavenie">
-            <span>Theme</span>
-            <div class="vyber-temy" aria-label="Theme">
-              <button id="tlacidloTemaOranzova" class="tlacidlo-temy" type="button" aria-label="Oranzova tema">
-                <span class="vzorka-temy vzorka-oranzova" aria-hidden="true"></span>
-              </button>
-              <button id="tlacidloTemaZlta" class="tlacidlo-temy" type="button" aria-label="Zlta tema">
-                <span class="vzorka-temy vzorka-zlta" aria-hidden="true"></span>
-              </button>
-              <button id="tlacidloTemaSiva" class="tlacidlo-temy" type="button" aria-label="Siva tema">
-                <span class="vzorka-temy vzorka-siva" aria-hidden="true"></span>
-              </button>
-              <button id="tlacidloTemaFialova" class="tlacidlo-temy" type="button" aria-label="Violet tema">
-                <span class="vzorka-temy vzorka-fialova" aria-hidden="true"></span>
-              </button>
-              <button id="tlacidloTemaTyrkysova" class="tlacidlo-temy" type="button" aria-label="Tyrkysova tema">
-                <span class="vzorka-temy vzorka-tyrkysova" aria-hidden="true"></span>
-              </button>
-              <button id="tlacidloTemaMentolova" class="tlacidlo-temy aktivny" type="button" aria-label="Mentolova tema">
-                <span class="vzorka-temy vzorka-mentolova" aria-hidden="true"></span>
-              </button>
-              <button id="tlacidloTemaTabula" class="tlacidlo-temy" type="button" aria-label="Chalkboard tema">
-                <span class="vzorka-temy vzorka-tabula" aria-hidden="true"></span>
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <section class="skupina-nastaveni">
-          <h2 class="nadpis-nastaveni">Spravanie</h2>
-          <label class="nastavenie nastavenie-prepinac">
-            <span>Citáty</span>
-            <input id="prepinacCitatov" class="prepinac-volby" type="checkbox" checked>
-          </label>
-
-          <label class="nastavenie nastavenie-prepinac">
-            <span>Random</span>
-            <input id="prepinacNahodnehoPoradia" class="prepinac-volby" type="checkbox" checked>
-          </label>
-
-          <label class="nastavenie nastavenie-prepinac">
-            <span>Display Sorting</span>
-            <input id="prepinacDisplaySorting" class="prepinac-volby" type="checkbox">
-          </label>
-        </section>
-
-        <section class="skupina-nastaveni">
-          <h2 class="nadpis-nastaveni">Modes</h2>
-          <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
-            <span id="textUcenia">Learn Mode</span>
-            <input id="prepinacUcenia" class="prepinac-volby" type="checkbox">
-            <span id="hintUcenia" class="hint-nastavenia" role="tooltip">Zobrazi cely vybrany okruh so spravnymi odpovedami podla podokruhov.</span>
-          </label>
-
-          <label id="riadokMultipleChoice" class="nastavenie nastavenie-prepinac nastavenie-s-hintom skryte">
-            <span>Multiple Choice Mode</span>
-            <input id="prepinacMultipleChoice" class="prepinac-volby" type="checkbox">
-            <span class="hint-nastavenia" role="tooltip">Iba pre HEL: vypne Crack Mode a zapne povodny mod s vyberom moznosti (kompatibilny len s niektorymi okruhmi).</span>
-          </label>
-
-          <label id="riadokSpeedMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
-            <span id="textRychlehoRezimu">Speed Mode</span>
-            <input id="prepinacRychlehoRezimu" class="prepinac-volby" type="checkbox">
-            <span id="hintRychlehoRezimu" class="hint-nastavenia" role="tooltip">Po spravnej odpovedi automaticky prejde na dalsiu otazku.</span>
-          </label>
-
-          <label id="riadokSlowMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
-            <span>Slow Mode</span>
-            <input id="prepinacSlowMode" class="prepinac-volby" type="checkbox">
-            <span class="hint-nastavenia" role="tooltip">V Crack Mode: po zlej odpovedi nepreskoci hned dalej, ale ukaze chybu a spravnu odpoved. Medzernikom (alebo z/x) prejdes na dalsiu otazku.</span>
-          </label>
-
-          <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
-            <span>Mastery Mode</span>
-            <input id="prepinacPrejdeniaPoolu" class="prepinac-volby" type="checkbox">
-            <span class="hint-nastavenia" role="tooltip">Spravne zodpovedana otazka vypadne z aktualneho poolu. Nespravne odpovede ostanu v poole a bar sa iba plni, kym nedas spravne vsetko.</span>
-          </label>
-
-          <label id="riadokExamMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom skryte">
-            <span id="textExamMode">Exam Mode</span>
-            <input id="prepinacExamMode" class="prepinac-volby" type="checkbox">
-            <span class="hint-nastavenia" role="tooltip">Z vybranych HEL statementov spravi otvorenu skuskovu otazku. Ku kazdej casti dostanes pole na pisanie a medzernikom zobrazis vypracovanu odpoved. Druhym kliknutim prepnes na Exam Mode Mini, kde sa kazda podotazka rozbije na samostatny slide.</span>
-          </label>
-
-          <label id="riadokTimerMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
-            <span>Timer Mode</span>
-            <input id="prepinacCrackTimeru" class="prepinac-volby" type="checkbox">
-            <span class="hint-nastavenia" role="tooltip">V Crack Mode sa lava tyc zmeni na 10-sekundovy casovac. Ked sa naplni, odpoved sa vyhodnoti ako nespravna a ide sa dalej.</span>
-          </label>
-
-          <label id="riadokMobileMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
-            <span>Mobile Mode</span>
-            <input id="prepinacMobilnehoCrackModu" class="prepinac-volby" type="checkbox">
-            <span class="hint-nastavenia" role="tooltip">Na mobile sa zapne automaticky. Crack Mode layout pre mobil na sirku: statement cez sirku, velke z/x keycapy a velke klikatelne zony.</span>
-          </label>
-        </section>
-
-        <section id="nastavenieOkruhu" class="skupina-nastaveni nastavenie-okruhu">
-          <h2 class="nadpis-nastaveni">Okruhy</h2>
-          <label class="nastavenie">
-            <select id="vyberPrezentacie" aria-label="Okruh"></select>
-          </label>
-
-          <div class="nastavenie">
-            <div class="riadok-nastavenia">
-              <span>Podokruhy</span>
-              <div class="tlacidla-podokruhov">
-                <button id="tlacidloVsetkyPodokruhy" class="mini-tlacidlo" type="button">Všetko</button>
-                <button id="tlacidloZiadnePodokruhy" class="mini-tlacidlo" type="button">Nič</button>
+            <div class="nastavenie nastavenie-podokruhy">
+              <div class="riadok-nastavenia">
+                <span>Podokruhy</span>
+                <div class="tlacidla-podokruhov">
+                  <button id="tlacidloVsetkyPodokruhy" class="mini-tlacidlo" type="button">Všetko</button>
+                  <button id="tlacidloZiadnePodokruhy" class="mini-tlacidlo" type="button">Nič</button>
+                </div>
               </div>
+              <div id="zoznamPodokruhov" class="zoznam-podokruhov"></div>
+              <span id="pocetFiltra" class="pocet-filtra">0 otázok</span>
             </div>
-            <div id="zoznamPodokruhov" class="zoznam-podokruhov"></div>
-            <span id="pocetFiltra" class="pocet-filtra">0 otázok</span>
+          </section>
+
+          <div class="nastavenia-stlpec">
+            <section class="skupina-nastaveni">
+              <h2 class="nadpis-nastaveni">Modes</h2>
+              <div class="prepinace-mriezka">
+                <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+                  <span id="textUcenia">Learn Mode</span>
+                  <input id="prepinacUcenia" class="prepinac-volby" type="checkbox">
+                  <span id="hintUcenia" class="hint-nastavenia" role="tooltip">Zobrazi cely vybrany okruh so spravnymi odpovedami podla podokruhov.</span>
+                </label>
+
+                <label id="riadokMultipleChoice" class="nastavenie nastavenie-prepinac nastavenie-s-hintom skryte">
+                  <span>Multiple Choice</span>
+                  <input id="prepinacMultipleChoice" class="prepinac-volby" type="checkbox">
+                  <span class="hint-nastavenia" role="tooltip">Iba pre HEL: vypne Crack Mode a zapne povodny mod s vyberom moznosti (kompatibilny len s niektorymi okruhmi).</span>
+                </label>
+
+                <label id="riadokSpeedMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+                  <span id="textRychlehoRezimu">Speed Mode</span>
+                  <input id="prepinacRychlehoRezimu" class="prepinac-volby" type="checkbox">
+                  <span id="hintRychlehoRezimu" class="hint-nastavenia" role="tooltip">Po spravnej odpovedi automaticky prejde na dalsiu otazku.</span>
+                </label>
+
+                <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+                  <span>Mastery Mode</span>
+                  <input id="prepinacPrejdeniaPoolu" class="prepinac-volby" type="checkbox" checked>
+                  <span class="hint-nastavenia" role="tooltip">Spravne zodpovedana otazka vypadne z aktualneho poolu. Nespravne odpovede ostanu v poole a bar sa iba plni, kym nedas spravne vsetko.</span>
+                </label>
+
+                <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+                  <span>Endless Mode</span>
+                  <input id="prepinacEndlessMode" class="prepinac-volby" type="checkbox">
+                  <span class="hint-nastavenia" role="tooltip">Otazky ostavaju v poole aj po spravnej odpovedi. Pri zapnutom Random sa po kazdej odpovedi vyberie nahodna otazka donekonecna.</span>
+                </label>
+
+                <label id="riadokExamMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom skryte">
+                  <span id="textExamMode">Exam Mode</span>
+                  <input id="prepinacExamMode" class="prepinac-volby" type="checkbox">
+                  <span class="hint-nastavenia" role="tooltip">Z vybranych HEL statementov spravi otvorenu skuskovu otazku. Ku kazdej casti dostanes pole na pisanie a medzernikom zobrazis vypracovanu odpoved. Druhym kliknutim prepnes na Exam Mode Mini, kde sa kazda podotazka rozbije na samostatny slide.</span>
+                </label>
+
+                <label id="riadokTimerMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+                  <span>Timer Mode</span>
+                  <input id="prepinacCrackTimeru" class="prepinac-volby" type="checkbox">
+                  <span class="hint-nastavenia" role="tooltip">V Crack Mode sa lava tyc zmeni na 10-sekundovy casovac. Ked sa naplni, odpoved sa vyhodnoti ako nespravna a ide sa dalej.</span>
+                </label>
+
+                <label id="riadokMobileMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
+                  <span>Mobile Mode</span>
+                  <input id="prepinacMobilnehoCrackModu" class="prepinac-volby" type="checkbox">
+                  <span class="hint-nastavenia" role="tooltip">Na mobile sa zapne automaticky. Crack Mode layout pre mobil na sirku: statement cez sirku, velke z/x keycapy a velke klikatelne zony.</span>
+                </label>
+              </div>
+            </section>
+
+            <section class="skupina-nastaveni">
+              <h2 class="nadpis-nastaveni">Behavior</h2>
+              <div class="prepinace-mriezka">
+                <label class="nastavenie nastavenie-prepinac">
+                  <span>Citáty</span>
+                  <input id="prepinacCitatov" class="prepinac-volby" type="checkbox" checked>
+                </label>
+
+                <label class="nastavenie nastavenie-prepinac">
+                  <span>Random</span>
+                  <input id="prepinacNahodnehoPoradia" class="prepinac-volby" type="checkbox" checked>
+                </label>
+
+                <label class="nastavenie nastavenie-prepinac">
+                  <span>Display Sorting</span>
+                  <input id="prepinacDisplaySorting" class="prepinac-volby" type="checkbox">
+                </label>
+              </div>
+            </section>
+
+            <section class="skupina-nastaveni">
+              <label class="nastavenie">
+                <span>Volume</span>
+                <input id="posuvnikHlasitosti" type="range" min="0" max="100" value="33">
+              </label>
+
+              <label class="nastavenie nastavenie-prepinac">
+                <span>Mute</span>
+                <input id="prepinacVypnutiaZvuku" class="prepinac-volby" type="checkbox">
+              </label>
+
+              <div class="nastavenie">
+                <span>Themes</span>
+                <div class="vyber-temy" aria-label="Themes">
+                  <button id="tlacidloTemaOranzova" class="tlacidlo-temy" type="button" aria-label="Oranzova tema">
+                    <span class="vzorka-temy vzorka-oranzova" aria-hidden="true"></span>
+                  </button>
+                  <button id="tlacidloTemaZlta" class="tlacidlo-temy" type="button" aria-label="Zlta tema">
+                    <span class="vzorka-temy vzorka-zlta" aria-hidden="true"></span>
+                  </button>
+                  <button id="tlacidloTemaSiva" class="tlacidlo-temy" type="button" aria-label="Siva tema">
+                    <span class="vzorka-temy vzorka-siva" aria-hidden="true"></span>
+                  </button>
+                  <button id="tlacidloTemaFialova" class="tlacidlo-temy" type="button" aria-label="Violet tema">
+                    <span class="vzorka-temy vzorka-fialova" aria-hidden="true"></span>
+                  </button>
+                  <button id="tlacidloTemaTyrkysova" class="tlacidlo-temy" type="button" aria-label="Tyrkysova tema">
+                    <span class="vzorka-temy vzorka-tyrkysova" aria-hidden="true"></span>
+                  </button>
+                  <button id="tlacidloTemaMentolova" class="tlacidlo-temy aktivny" type="button" aria-label="Mentolova tema">
+                    <span class="vzorka-temy vzorka-mentolova" aria-hidden="true"></span>
+                  </button>
+                  <button id="tlacidloTemaTabula" class="tlacidlo-temy" type="button" aria-label="Chalkboard tema">
+                    <span class="vzorka-temy vzorka-tabula" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </div>
+            </section>
           </div>
-        </section>
+        </div>
 
         <section id="skupinaPoolov" class="skupina-nastaveni skupina-poolov skryte">
           <h2 class="nadpis-nastaveni">Pooly</h2>
-          <section id="blokOdstranenych" class="blok-odstranenych skryte">
-            <div class="hlavicka-odstranenych">
-              <span>Odstránené otázky</span>
-              <button id="tlacidloVratitVsetkyOtazky" class="mini-tlacidlo" type="button">Vrátiť všetky</button>
-            </div>
-            <div id="zoznamOdstranenychOtazok" class="zoznam-odstranenych"></div>
-          </section>
-
-          <section id="blokTazkychOtazok" class="blok-odstranenych skryte">
-            <div class="hlavicka-odstranenych">
-              <span>Ťažké otázky <span id="pocetTazkychOtazok" class="pocet-filtra">0</span></span>
-              <div class="tlacidla-podokruhov">
-                <button id="tlacidloSpustitTazkyPool" class="mini-tlacidlo" type="button">Precvičiť</button>
-                <button id="tlacidloVypnutTazkyPool" class="mini-tlacidlo" type="button">Filter</button>
-                <button id="tlacidloVycistitTazkyPool" class="mini-tlacidlo" type="button">Vyčistiť</button>
+          <div class="pooly-mriezka">
+            <section id="blokOdstranenych" class="blok-odstranenych skryte">
+              <div class="hlavicka-odstranenych">
+                <span>Odstránené otázky</span>
+                <button id="tlacidloVratitVsetkyOtazky" class="mini-tlacidlo" type="button">Vrátiť všetky</button>
               </div>
-            </div>
-            <div id="zoznamTazkychOtazok" class="zoznam-odstranenych"></div>
-          </section>
+              <div id="zoznamOdstranenychOtazok" class="zoznam-odstranenych"></div>
+            </section>
+
+            <section id="blokTazkychOtazok" class="blok-odstranenych skryte">
+              <div class="hlavicka-odstranenych">
+                <span>Ťažké otázky <span id="pocetTazkychOtazok" class="pocet-filtra">0</span></span>
+                <div class="tlacidla-podokruhov">
+                  <button id="tlacidloSpustitTazkyPool" class="mini-tlacidlo" type="button">Precvičiť</button>
+                  <button id="tlacidloVypnutTazkyPool" class="mini-tlacidlo" type="button">Filter</button>
+                  <button id="tlacidloVycistitTazkyPool" class="mini-tlacidlo" type="button">Vyčistiť</button>
+                </div>
+              </div>
+              <div id="zoznamTazkychOtazok" class="zoznam-odstranenych"></div>
+            </section>
+          </div>
         </section>
       </section>
     </header>
@@ -323,6 +399,7 @@
   <script src="data/czs6-priklad2.js"></script>
   <script src="data/czs7-crack.js"></script>
   <script src="data/czs8-crack.js"></script>
+  <script src="data/czs-doplnky.js"></script>
   <script src="data/vzorce-crack.js"></script>
   <script src="data/czs-szz-okruhy.js"></script>
   <script src="data/hel-otazky.js"></script>
@@ -334,7 +411,11 @@
   <script src="data/hel5-zvysne.js"></script>
   <script src="data/hel7-crack.js"></script>
   <script src="data/hel8-crack.js"></script>
+  <script src="data/hel-szz5-crack.js"></script>
+  <script src="data/hel-szz2-doplnky.js"></script>
+  <script src="data/hel-szz10-crack.js"></script>
   <script src="data/hel-tier1.js"></script>
+  <script src="data/hel-szz-okruhy.js"></script>
   <script src="data/vs2-otazky.js"></script>
   <script src="data/aud-otazky.js"></script>
   <script src="data/Veterina.js"></script>
