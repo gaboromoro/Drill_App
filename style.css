@@ -208,6 +208,8 @@ body.tema-tabula .krieda-platno {
   --vyska-liquidu: 0%;
   --viditelnost-pixelov: 0;
   --velkost-pixelu-stlpca: 4px;
+  --vyska-pixelovej-hladiny: calc(var(--velkost-pixelu-stlpca) * 4);
+  --prekrytie-pixelovej-hladiny: 1px;
   box-sizing: content-box;
   border: 2px solid var(--farba-stlpca);
   background: transparent;
@@ -260,11 +262,25 @@ body.tema-tabula .krieda-platno {
   image-rendering: pixelated;
 }
 
+body.streak-bar-nabity .stlpec-panel-progress .stlpec-uspesnosti {
+  box-shadow:
+    0 0 calc(8px + var(--streak-intenzita, 0) * 28px) rgba(var(--streak-rgb, 255, 216, 17), 0.42),
+    inset 0 0 calc(4px + var(--streak-intenzita, 0) * 16px) rgba(var(--streak-rgb, 255, 216, 17), 0.18);
+}
+
+body.streak-bar-nabity .stlpec-panel-progress .vypln-stlpca {
+  background: var(--farba-stlpca);
+}
+
+body.streak-bar-nabity .stlpec-panel-progress .vypln-stlpca::before {
+  background: var(--farba-stlpca);
+}
+
 .pixely-stlpca {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: var(--vyska-liquidu);
+  bottom: calc(var(--vyska-liquidu) - var(--prekrytie-pixelovej-hladiny));
   z-index: 1;
   display: grid;
   grid-template-columns: repeat(24, minmax(0, 1fr));
@@ -615,11 +631,36 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
   pointer-events: none;
 }
 
+.flash-efekt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background:
+    repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, 0.18) 0deg 7deg, transparent 7deg 18deg),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.52), transparent 58%);
+  mix-blend-mode: screen;
+  transform: scale(0.92) rotate(0deg);
+}
+
+.flash-efekt.lucovy::after {
+  opacity: 0.36;
+  animation: flashLucovyOverlay var(--flash-trvanie, 220ms) ease-out forwards;
+}
+
 .flash-efekt.specialny::before {
   background:
     repeating-linear-gradient(90deg, rgba(255, 216, 17, 0.32) 0 14px, transparent 14px 30px),
     repeating-linear-gradient(0deg, rgba(255, 96, 0, 0.28) 0 10px, transparent 10px 26px);
   animation: specialnyStreakFlash 620ms steps(5, end) forwards;
+}
+
+.flash-efekt.lucovy.specialny::after {
+  opacity: 0.72;
+  background:
+    repeating-conic-gradient(from 8deg at 50% 50%, rgba(255, 255, 255, 0.32) 0deg 5deg, rgba(255, 216, 17, 0.24) 5deg 12deg, transparent 12deg 22deg),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.72), transparent 64%);
 }
 
 .flash-efekt.aktivny {
@@ -744,6 +785,115 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
     0 0 26px var(--mega-farba, #ffd811);
 }
 
+@keyframes flashLucovyOverlay {
+  0% {
+    opacity: 0.58;
+    transform: scale(0.88) rotate(0deg);
+    filter: brightness(1.7);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.28) rotate(18deg);
+    filter: brightness(1);
+  }
+}
+
+.streak-efekty {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.streak-efekty::before {
+  content: "";
+  position: absolute;
+  inset: -12vmax;
+  opacity: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(255, 255, 255, 0.96) 0%, rgba(var(--milnik-rgb, 255, 216, 17), 0.62) 24%, rgba(var(--milnik-okraj-rgb, 255, 126, 0), 0.26) 52%, transparent 72%),
+    repeating-linear-gradient(90deg, rgba(var(--milnik-rgb, 255, 216, 17), 0.18) 0 10px, transparent 10px 22px);
+  mix-blend-mode: screen;
+}
+
+body.streak-milnik-flash .streak-efekty::before {
+  animation: milnikHalo 760ms cubic-bezier(0.05, 0.82, 0.22, 1) forwards;
+}
+
+.streak-burn-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  image-rendering: pixelated;
+  mix-blend-mode: screen;
+  transition: opacity 180ms linear;
+}
+
+body.streak-burn-okraje .streak-burn-canvas {
+  opacity: calc(0.46 + var(--streak-burn-intenzita, 0) * 0.54);
+}
+
+.milnik-burst {
+  position: fixed;
+  left: 50%;
+  top: 49%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.milnik-burst span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: clamp(18px, 3vw, 46px);
+  height: 8px;
+  background: rgb(var(--burst-rgb, 255, 216, 17));
+  box-shadow:
+    0 0 18px rgba(var(--burst-rgb, 255, 216, 17), 0.86),
+    0 0 44px rgba(var(--burst-rgb, 255, 216, 17), 0.42);
+  transform-origin: 0 50%;
+  animation: milnikLuc 720ms cubic-bezier(0.08, 0.72, 0.2, 1) var(--delay, 0ms) forwards;
+}
+
+.keycap-shockwave {
+  position: fixed;
+  width: 78px;
+  height: 78px;
+  border: 4px solid rgba(var(--shockwave-rgb, 255, 216, 17), 0.95);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.28);
+  box-shadow:
+    0 0 16px rgba(var(--shockwave-rgb, 255, 216, 17), 0.88),
+    inset 0 0 12px rgba(var(--shockwave-rgb, 255, 216, 17), 0.36);
+  animation: keycapShockwave 660ms cubic-bezier(0.08, 0.72, 0.18, 1) forwards;
+}
+
+.keycap-shockwave::before,
+.keycap-shockwave::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 2px solid rgba(var(--shockwave-rgb, 255, 216, 17), 0.62);
+}
+
+.keycap-shockwave::after {
+  inset: -12px;
+  opacity: 0.42;
+}
+
+.keycap-shockwave.chybna {
+  animation-duration: 480ms;
+}
+
 /* Cislo streaku v bare "hreje" farbou tieru + ziara podla dlzky. */
 .streak-aktualny.ma-tier {
   color: var(--streak-farba, #ffffff);
@@ -764,6 +914,57 @@ body.streak-otras .stranka {
   30%, 50%, 70% { transform: translate(calc(var(--otras-sila, 8px) * -1), 1px); }
   40%, 60% { transform: translate(var(--otras-sila, 8px), -1px); }
   100% { transform: translate(0, 0); }
+}
+
+@keyframes milnikHalo {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+    filter: brightness(2.4) saturate(1.6);
+  }
+
+  18% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.16);
+    filter: brightness(1) saturate(1);
+  }
+}
+
+@keyframes milnikLuc {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--uhol)) translateX(28px) scaleX(0.2);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: rotate(var(--uhol)) translateX(var(--dlzka)) scaleX(1.28);
+  }
+}
+
+@keyframes keycapShockwave {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.22) rotate(0deg);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(calc(var(--shockwave-scale, 1.35) * 1.45)) rotate(4deg);
+  }
 }
 
 /* "⚡ FAST" za rychlu spravnu odpoved. */
@@ -836,6 +1037,25 @@ body.streak-strata .stranka {
   body.streak-otras .stranka,
   body.streak-strata .stranka {
     animation: none;
+  }
+
+  .flash-efekt.lucovy::after,
+  .milnik-burst span,
+  .keycap-shockwave,
+  body.streak-aura-zapnuta #otazka::after {
+    animation: none;
+  }
+
+  .streak-efekty {
+    display: none;
+  }
+
+  body.streak-aura-zapnuta #otazka {
+    text-shadow: none;
+  }
+
+  body.streak-aura-zapnuta #otazka::after {
+    display: none;
   }
 }
 
@@ -932,10 +1152,12 @@ body.streak-strata .stranka {
 
 .uvodne-info-karta {
   width: min(560px, calc(100vw - 36px));
+  max-height: calc(100vh - 36px);
   border: 2px solid var(--ciara);
   background: var(--pozadie);
   color: var(--text);
   box-shadow: 10px 10px 0 var(--ciara);
+  overflow-y: auto;
   padding: 20px;
 }
 
@@ -1082,16 +1304,38 @@ body.streak-strata .stranka {
 .menu-vetva {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0;
 }
 
 .menu-podstrom {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin: 2px 0 4px 8px;
+  max-height: 0;
+  margin: 0 0 0 8px;
   padding-left: 12px;
-  border-left: 2px solid var(--ciara);
+  border-left: 2px solid transparent;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition:
+    max-height 420ms ease,
+    margin 260ms ease,
+    border-color 260ms ease,
+    opacity 240ms ease,
+    transform 280ms ease;
+}
+
+.menu-vetva.rozbalena > .menu-podstrom {
+  max-height: min(56vh, 560px);
+  margin: 6px 0 8px 8px;
+  border-left-color: var(--ciara);
+  opacity: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .menu-podstrom:empty {
@@ -1206,6 +1450,12 @@ body.streak-strata .stranka {
   line-height: 1.1;
 }
 
+.nastavenia-hlavicka-akcie {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .tlacidlo-zavriet {
   display: grid;
   place-items: center;
@@ -1286,6 +1536,7 @@ body.streak-strata .stranka {
 }
 
 .nastavenie {
+  position: relative;
   display: grid;
   gap: 8px;
   color: var(--text);
@@ -1320,8 +1571,8 @@ body.streak-strata .stranka {
     transform 120ms ease;
 }
 
-.nastavenie-s-hintom:hover .hint-nastavenia,
-.nastavenie-s-hintom:focus-within .hint-nastavenia {
+.nastavenie:hover .hint-nastavenia,
+.nastavenie:focus-within .hint-nastavenia {
   opacity: 1;
   transform: translateY(0);
   transition-delay: 1s;
@@ -2034,10 +2285,60 @@ body.rezim-crack.rezim-crack-mobile .vysledok-statement {
   line-height: 1.35;
 }
 
+.learn-master-statement-riadok {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18px;
+  gap: 8px;
+  align-items: start;
+}
+
 .learn-master-statement-text {
   display: inline;
   font-size: 17px;
   line-height: 1.35;
+}
+
+.learn-master-trash {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  margin-top: 2px;
+  border: 2px solid var(--ciara);
+  border-radius: 2px;
+  padding: 0;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.learn-master-trash::before,
+.learn-master-trash::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  top: 50%;
+  height: 2px;
+  background: var(--ciara);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.learn-master-trash::after {
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+.learn-master-trash:hover,
+.learn-master-trash:focus-visible {
+  background: var(--ciara);
+  outline: none;
+}
+
+.learn-master-trash:hover::before,
+.learn-master-trash:hover::after,
+.learn-master-trash:focus-visible::before,
+.learn-master-trash:focus-visible::after {
+  background: var(--pozadie);
 }
 
 .learn-master-otazka {
@@ -2143,6 +2444,12 @@ body.rezim-crack.rezim-crack-mobile .vysledok-statement {
   margin-top: 18px;
 }
 
+.tlacidla-predosly-sort {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+}
+
 .riadok-ovladania .tlacidla-otazky {
   margin-top: 0;
 }
@@ -2160,6 +2467,7 @@ body.rezim-ucenia #tlacidloNeviem,
 body.rezim-ucenia #tlacidloMedzernik,
 body.rezim-ucenia #tlacidloOdstranitOtazku,
 body.rezim-ucenia #tlacidloPridatTazkuOtazku,
+body.rezim-ucenia .tlacidla-predosly-sort,
 body.rezim-ucenia .tlacidla-sipok {
   display: none;
 }
@@ -2185,7 +2493,8 @@ body.rezim-exam #rezimTest .ovladanie {
 
 body.rezim-exam #tlacidloOdstranitOtazku,
 body.rezim-exam #tlacidloPridatTazkuOtazku,
-body.rezim-exam #tlacidloNeviem {
+body.rezim-exam #tlacidloNeviem,
+body.rezim-exam .tlacidla-predosly-sort {
   display: none;
 }
 
@@ -2579,7 +2888,8 @@ body.rezim-crack.rezim-crack-mobile .ovladanie {
 
 body.display-sorting-vypnuty #tlacidloOdstranitOtazku,
 body.display-sorting-vypnuty #tlacidloPridatTazkuOtazku,
-body.display-sorting-vypnuty #tlacidloNeviem {
+body.display-sorting-vypnuty #tlacidloNeviem,
+body.display-sorting-vypnuty .tlacidla-predosly-sort {
   display: none;
 }
 
@@ -2635,7 +2945,8 @@ body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #tlacidlaUceni
 
 /* Skry to, co tu nepatri: Idk (e), medzernik a textove popisky (napr. "Trash"). */
 body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #tlacidloNeviem,
-body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #tlacidloMedzernik {
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #tlacidloMedzernik,
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .tlacidla-predosly-sort {
   display: none;
 }
 
@@ -2738,6 +3049,32 @@ body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .ovladanie .kl
 
 .tlacidlo-otazky.stlacene .klavesa-tlacidla {
   transform: translateY(2px);
+}
+
+.tlacidlo-backspace-sort {
+  min-height: 54px;
+}
+
+.tlacidlo-backspace-sort:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+.tlacidlo-backspace-sort:not(:disabled):hover .ikona-backspace-sort {
+  transform: translateY(-1px);
+}
+
+.tlacidlo-backspace-sort.stlacene .ikona-backspace-sort,
+.tlacidlo-backspace-sort:not(:disabled):active .ikona-backspace-sort {
+  transform: translateY(2px);
+}
+
+.ikona-backspace-sort {
+  display: block;
+  width: 132px;
+  height: 54px;
+  object-fit: fill;
+  transition: transform 120ms ease-out;
 }
 
 .text-tlacidla-otazky {
@@ -3406,7 +3743,46 @@ body.rezim-crack.rezim-crack-mobile.rezim-crack-timer .casovac-zaplava {
 
 /* Vzdusnejsie riadkovanie a zarovnanie pre dlhe statementy a odpovede. */
 #otazka {
+  position: relative;
+  isolation: isolate;
   line-height: 1.6;
+}
+
+#otazka::after {
+  content: "";
+  position: absolute;
+  inset: -0.22em -0.42em;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(var(--streak-rgb, 255, 216, 17), 0.22), transparent 68%),
+    linear-gradient(90deg, transparent, rgba(var(--streak-rgb, 255, 216, 17), 0.12), transparent);
+  filter: blur(8px);
+  transform: scale(0.98);
+}
+
+body.streak-aura-zapnuta #otazka {
+  text-shadow:
+    0 0 calc(8px + var(--streak-intenzita, 0) * 22px) rgba(var(--streak-rgb, 255, 216, 17), 0.28);
+}
+
+body.streak-aura-zapnuta #otazka::after {
+  opacity: calc(0.38 + var(--streak-intenzita, 0) * 0.34);
+  animation: otazkaAuraPulz 1600ms ease-in-out infinite;
+}
+
+@keyframes otazkaAuraPulz {
+  0%,
+  100% {
+    transform: scale(0.985);
+    filter: blur(8px) saturate(1.1);
+  }
+
+  50% {
+    transform: scale(1.015);
+    filter: blur(12px) saturate(1.45);
+  }
 }
 
 .vysledok-statement,

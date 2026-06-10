@@ -315,6 +315,38 @@ const czsDoplnkyData = [
     okruhy: ["6. FIR a IIR systemy"],
     pravda: String.raw`Stavovy popis systemu $N$-teho radu zavedie $N$ vnutornych stavovych premennych $v_1[n], \ldots, v_N[n]$, kde kazda pracuje s oneskorenim o jednu vzorku ($z^{-1}$).`,
     nepravda: String.raw`Stavovy popis systemu $N$-teho radu zavedie jedinu stavovu premennu, ktora drzi celu minulost vstupu bez oneskorovacich clenov.`
+  },
+
+  // ===================== SZZ 7: Z-transformacia z CZS_4_03.pdf (doplnenie teorie) =====================
+  // Jednostranna definicia pre kauzalne signaly (slide 2) - nas zakladny "definicia" je obojstranny
+  {
+    prezentacia: "CZS 4", oblast: "Z-transformacia", podoblast: "Zaklady Z-transformacie",
+    pravda: String.raw`Jednostranna Z-transformacia (pre kauzalne signaly) je $X(z) = \displaystyle\sum_{n=0}^{\infty} x[n]\,z^{-n}$, kde $z = r\,e^{j\varphi}$ je komplexne cislo; rad konverguje na oblasti konvergencie.`,
+    nepravda: String.raw`Jednostranna Z-transformacia (pre kauzalne signaly) je $X(z) = \displaystyle\sum_{n=-\infty}^{\infty} x[n]\,z^{-n}$, teda sumuje aj cez zaporne casy $n < 0$.`
+  },
+  // Derivacna vlastnost: nasobenie indexom n (slidy 18-21)
+  {
+    prezentacia: "CZS 4", oblast: "Z-transformacia", podoblast: "Vlastnosti — nasobenie postupnostou",
+    pravda: String.raw`Nasobenie postupnosti indexom $n$ zodpoveda derivacii obrazu: $n\,x[n] \;\Leftrightarrow\; -z\,\dfrac{dX(z)}{dz}$.`,
+    nepravda: String.raw`Nasobenie postupnosti indexom $n$ zodpoveda derivacii obrazu: $n\,x[n] \;\Leftrightarrow\; z\,\dfrac{dX(z)}{dz}$ (bez zaporneho znamienka).`
+  },
+  // Konvolucia = polynomialne nasobenie obrazov (slide 25)
+  {
+    prezentacia: "CZS 4", oblast: "Z-transformacia", podoblast: "Konvolucny teorem",
+    pravda: String.raw`Cez Z-transformaciu sa konvolucia zmeni na sucin obrazov, co prakticky zodpoveda polynomialnemu nasobeniu: vzorky signalov su koeficienty polynomov v $z^{-1}$.`,
+    nepravda: String.raw`Cez Z-transformaciu sa konvolucia zmeni na sucet obrazov, co prakticky zodpoveda scitaniu polynomov v $z^{-1}$.`
+  },
+  // Spatna Z - dva sposoby (slide 30)
+  {
+    prezentacia: "CZS 4", oblast: "Z-transformacia", podoblast: "Spatna Z-transformacia",
+    pravda: String.raw`Spatnu Z-transformaciu mozno urcit dvoma sposobmi: (1) rozklad na parcialne zlomky + slovnik obrazov, alebo (2) Cauchyho reziduova veta (univerzalna aj pre vyrazy mimo slovnik).`,
+    nepravda: String.raw`Spatnu Z-transformaciu mozno urcit iba rozkladom na parcialne zlomky a slovnikom obrazov; reziduova veta sa na spatnu Z-transformaciu nepouziva.`
+  },
+  // Reziduum pre jednoduchy pol (slidy 35-38)
+  {
+    prezentacia: "CZS 4", oblast: "Z-transformacia", podoblast: "Spatna Z-transformacia",
+    pravda: String.raw`Reziduum pre jednoduchy pol $z_k$: $\mathrm{Res}_{z_k} = \displaystyle\lim_{z \to z_k} (z - z_k)\,X(z)\,z^{n-1}$; vzorka $x[n]$ je sucet rezidui cez vsetky poly.`,
+    nepravda: String.raw`Reziduum pre jednoduchy pol $z_k$: $\mathrm{Res}_{z_k} = \displaystyle\lim_{z \to z_k} (z - z_k)\,X(z)$; faktor $z^{n-1}$ sa do rezidua nezahrna.`
   }
 ];
 

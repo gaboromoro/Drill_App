@@ -5,6 +5,7 @@ let pocetSpravnychSession = 0;
 let pocetVyhodnotenychOtazok = 0;
 let vyhodnotene = false;
 let aktualnyPredmet = "test";
+let rozbalenyPredmetMenu = null;
 let zakladneOtazkyPredmetu = [];
 let aktualneOtazky = [];
 let aktualneMoznosti = [];
@@ -58,6 +59,7 @@ const zvukyAplikacie = [zvukSpravne, zvukSpravneStreak7, zvukSpravneStreak14, zv
 let zvukovyKontext = null;
 let audioRelaciaNastavena = false;
 const buffreZvukov = new Map();
+const hotoveBuffreZvukov = new Map();
 const normalizacneZosilneniaZvukov = new Map();
 const cieloveRmsZvuku = 0.16;
 let prednacitanieZvukov = null;
@@ -102,10 +104,36 @@ const prvokKodRiesenie = document.getElementById("kodRiesenie");
 const prvokFlashEfekt = document.getElementById("flashEfekt");
 const prvokStreakFlashCislo = document.getElementById("streakFlashCislo");
 const prvokRychlyBonus = document.getElementById("rychlyBonus");
+const prvokStreakEfekty = document.getElementById("streakEfekty");
+const prvokStreakBurnCanvas = document.getElementById("streakBurnCanvas");
 const prvokVideoOverlay = document.getElementById("videoOverlay");
 const prvokVideoPrehravac = document.getElementById("videoPrehravac");
 const blokyCitatu = [...document.querySelectorAll(".blok-citatu")];
 const prvkyTextuCitatu = [...document.querySelectorAll(".text-citatu")];
+
+const streakBurn = {
+  canvas: prvokStreakBurnCanvas,
+  ctx: prvokStreakBurnCanvas ? prvokStreakBurnCanvas.getContext("2d", { alpha: true }) : null,
+  aktivny: false,
+  animacia: null,
+  poslednyCas: 0,
+  sirka: 0,
+  vyska: 0,
+  velkostPixelu: 6,
+  hlbka: 12,
+  intenzita: 0,
+  interval: 180,
+  faza: 0,
+  seed: Math.random() * 1000,
+  rgb: [255, 216, 17],
+  okrajRgb: [255, 126, 0],
+  teplo: null,
+  dalsie: null,
+  obrazok: null,
+  znizenyPohyb: typeof window !== "undefined" && window.matchMedia
+    ? window.matchMedia("(prefers-reduced-motion: reduce)")
+    : null
+};
 
 const tlacidloMedzernik = document.getElementById("tlacidloMedzernik");
 const tlacidloNastavenia = document.getElementById("tlacidloNastavenia");
@@ -113,12 +141,17 @@ const tlacidloMenu = document.getElementById("tlacidloMenu");
 const bocneMenu = document.getElementById("bocneMenu");
 const prekrytieMenu = document.getElementById("prekrytieMenu");
 const uvodneInfo = document.getElementById("uvodneInfo");
+const uvodneInfoKarta = uvodneInfo ? uvodneInfo.querySelector(".uvodne-info-karta") : null;
+const uvodneInfoNadpis = document.getElementById("uvodneInfoNadpis");
 const tlacidloZavrietUvodneInfo = document.getElementById("tlacidloZavrietUvodneInfo");
+const tlacidloZobrazitUvodneInfo = document.getElementById("tlacidloZobrazitUvodneInfo");
 const tlacidloZavrietMenu = document.getElementById("tlacidloZavrietMenu");
 const menuOtvoritNastavenia = document.getElementById("menuOtvoritNastavenia");
 const menuPolozkyPredmetov = [...bocneMenu.querySelectorAll(".menu-polozka[data-predmet]")];
 const menuPodstromy = [...bocneMenu.querySelectorAll(".menu-podstrom")];
+const menuVetvyPredmetov = [...bocneMenu.querySelectorAll(".menu-vetva[data-predmet]")];
 const tlacidloPredoslyVysledok = document.getElementById("tlacidloPredoslyVysledok");
+const tlacidloBackspaceSorting = document.getElementById("tlacidloBackspaceSorting");
 const tlacidloOdstranitOtazku = document.getElementById("tlacidloOdstranitOtazku");
 const tlacidloPridatTazkuOtazku = document.getElementById("tlacidloPridatTazkuOtazku");
 const tlacidloNeviem = document.getElementById("tlacidloNeviem");
@@ -178,6 +211,9 @@ const klucUvodnehoInfo = "drill-uvodne-info-v1";
 const KROK_MILNIKA = 5;
 const PRAH_RYCHLEJ_ODPOVEDE = 3000; // ms - rychla (FAST) odpoved
 const PRAH_DRAMY_STRATY = 5;        // od akeho streaku ma strata dramaticky efekt
+const PRAH_BURN_OKRAJOV = 7;        // od akeho streaku zacnu horiet okraje obrazovky
+const KROK_BURN_OKRAJOV = 7;
+const PRAH_SILNEHO_BURNU = PRAH_BURN_OKRAJOV + KROK_BURN_OKRAJOV * 2;
 const TIERY = [
   { od: 5,  nazov: "ZAHRIEVAM SA", rgb: "255, 214, 17",  okrajRgb: "255, 126, 0" },
   { od: 10, nazov: "ON FIRE",      rgb: "255, 126, 0",   okrajRgb: "255, 38, 0" },
@@ -207,6 +243,317 @@ function zavibruj(vzor) {
   if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
     try { navigator.vibrate(vzor); } catch (chyba) { /* nepodporovane */ }
   }
+}
+
+function rgbTextNaPole(hodnota, zaloha = [255, 216, 17]) {
+  if (Array.isArray(hodnota) && hodnota.length >= 3) {
+    return hodnota.slice(0, 3).map((cast) => Math.max(0, Math.min(255, Number(cast) || 0)));
+  }
+
+  const casti = String(hodnota || "")
+    .split(",")
+    .map((cast) => Number(cast.trim()))
+    .filter((cast) => Number.isFinite(cast));
+
+  return casti.length >= 3
+    ? casti.slice(0, 3).map((cast) => Math.max(0, Math.min(255, cast)))
+    : zaloha;
+}
+
+function nahodneBurnCislo(minimum, maximum) {
+  return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+}
+
+function obmedzBurnIndex(hodnota, maximum) {
+  return Math.max(0, Math.min(maximum - 1, hodnota));
+}
+
+function ziskajUrovenStreakBurnu(streak) {
+  if (streak < PRAH_BURN_OKRAJOV) return -1;
+  return Math.floor((streak - PRAH_BURN_OKRAJOV) / KROK_BURN_OKRAJOV);
+}
+
+function ziskajIntenzituStreakBurnu(streak) {
+  const uroven = ziskajUrovenStreakBurnu(streak);
+  if (uroven < 0) return 0;
+  return Math.min(0.12 + uroven * 0.31, 1);
+}
+
+function hashStreakBurnu(hodnota) {
+  const sinus = Math.sin(hodnota * 12.9898 + streakBurn.seed * 78.233) * 43758.5453;
+  return sinus - Math.floor(sinus);
+}
+
+function hladkyHashStreakBurnu(hodnota) {
+  const zaklad = Math.floor(hodnota);
+  const pomer = hodnota - zaklad;
+  const plynulyPomer = pomer * pomer * (3 - 2 * pomer);
+  const a = hashStreakBurnu(zaklad);
+  const b = hashStreakBurnu(zaklad + 1);
+  return a + (b - a) * plynulyPomer;
+}
+
+function dosahStreakBurnu(smer, pozicia) {
+  const i = streakBurn.intenzita;
+  const faza = streakBurn.faza;
+  const posun = smer * 37.17;
+  const velkaVlna = (Math.sin(pozicia * 0.105 + faza * 0.28 + posun) + 1) * 0.5;
+  const malaVlna = (Math.sin(pozicia * 0.31 - faza * 0.44 + posun * 0.7) + 1) * 0.5;
+  const bunka = (pozicia + faza * 0.72 + smer * 11) / 5;
+  const sum = velkaVlna * 0.48 + malaVlna * 0.3 + hladkyHashStreakBurnu(bunka) * 0.22;
+  const spicaBunka = pozicia / 7 + smer * 101;
+  const spicaPulz = (Math.sin(faza * 0.32 + spicaBunka * 1.9) + 1) * 0.5;
+  const spicaSeed = hladkyHashStreakBurnu(spicaBunka) * 0.64 + spicaPulz * 0.36;
+  const spica = spicaSeed > 0.52 ? Math.pow((spicaSeed - 0.52) / 0.48, 1.35) : 0;
+  const zaklad = 4 + i * 4;
+  const vlna = Math.pow(sum, 1.25) * (7 + i * 11);
+  const spicovyBonus = spica * (13 + i * 22);
+  return Math.round(zaklad + vlna + spicovyBonus);
+}
+
+function najblizsiaHranaBurnu(x, y) {
+  const { sirka, vyska } = streakBurn;
+  const moznosti = [
+    { smer: 0, vzdialenost: x, pozicia: y },
+    { smer: 1, vzdialenost: sirka - 1 - x, pozicia: y },
+    { smer: 2, vzdialenost: y, pozicia: x },
+    { smer: 3, vzdialenost: vyska - 1 - y, pozicia: x }
+  ];
+  let najblizsia = moznosti[0];
+  for (const moznost of moznosti) {
+    if (moznost.vzdialenost < najblizsia.vzdialenost) {
+      najblizsia = moznost;
+    }
+  }
+  najblizsia.dosah = dosahStreakBurnu(najblizsia.smer, najblizsia.pozicia);
+  return najblizsia;
+}
+
+function nastavRozmeryStreakBurnu(vynutit = false) {
+  if (!streakBurn.canvas || !streakBurn.ctx) return false;
+
+  const pixel = window.innerWidth < 720 ? 7 : 8;
+  const sirka = Math.max(1, Math.ceil(window.innerWidth / pixel));
+  const vyska = Math.max(1, Math.ceil(window.innerHeight / pixel));
+  if (!vynutit && streakBurn.sirka === sirka && streakBurn.vyska === vyska) {
+    return true;
+  }
+
+  streakBurn.velkostPixelu = pixel;
+  streakBurn.sirka = sirka;
+  streakBurn.vyska = vyska;
+  streakBurn.canvas.width = sirka;
+  streakBurn.canvas.height = vyska;
+  streakBurn.ctx.imageSmoothingEnabled = false;
+  streakBurn.teplo = new Uint8ClampedArray(sirka * vyska);
+  streakBurn.dalsie = new Uint8ClampedArray(sirka * vyska);
+  streakBurn.obrazok = streakBurn.ctx.createImageData(sirka, vyska);
+  return true;
+}
+
+function zastavStreakBurn() {
+  streakBurn.aktivny = false;
+  if (streakBurn.animacia) {
+    window.cancelAnimationFrame(streakBurn.animacia);
+    streakBurn.animacia = null;
+  }
+  if (streakBurn.ctx && streakBurn.canvas) {
+    streakBurn.ctx.clearRect(0, 0, streakBurn.canvas.width, streakBurn.canvas.height);
+  }
+  if (streakBurn.teplo) streakBurn.teplo.fill(0);
+  if (streakBurn.dalsie) streakBurn.dalsie.fill(0);
+}
+
+function namiesajZlozky(a, b, pomer) {
+  return [
+    Math.round(a[0] + (b[0] - a[0]) * pomer),
+    Math.round(a[1] + (b[1] - a[1]) * pomer),
+    Math.round(a[2] + (b[2] - a[2]) * pomer)
+  ];
+}
+
+function farbaPixeluBurnu(teplota) {
+  const t = Math.max(0, Math.min(1, teplota / 255));
+  if (t < 0.08) return [0, 0, 0, 0];
+
+  const tmava = streakBurn.okrajRgb.map((cast) => Math.round(cast * 0.34));
+  const jasna = namiesajZlozky(streakBurn.rgb, [255, 255, 255], 0.78);
+  let farba;
+  if (t < 0.34) {
+    farba = namiesajZlozky(tmava, streakBurn.okrajRgb, (t - 0.08) / 0.26);
+  } else if (t < 0.56) {
+    farba = namiesajZlozky(streakBurn.okrajRgb, streakBurn.rgb, (t - 0.34) / 0.22);
+  } else if (t < 0.8) {
+    farba = namiesajZlozky(streakBurn.rgb, jasna, (t - 0.56) / 0.24);
+  } else {
+    farba = namiesajZlozky(jasna, [255, 255, 255], (t - 0.8) / 0.2);
+  }
+
+  const alfa = Math.round(Math.min(255, ((t - 0.08) / 0.92) * (205 + streakBurn.intenzita * 50)));
+  return [farba[0], farba[1], farba[2], alfa];
+}
+
+function seedujStreakBurn() {
+  const { teplo, sirka, vyska, intenzita } = streakBurn;
+  if (!teplo || sirka <= 0 || vyska <= 0) return;
+
+  const hrubkaJadra = 1 + Math.round(intenzita * 2);
+  const sanca = 0.52 + intenzita * 0.28;
+  const minimum = Math.round(184 + intenzita * 42);
+
+  for (let x = 0; x < sirka; x++) {
+    for (let d = 0; d < hrubkaJadra; d++) {
+      const vrch = d * sirka + x;
+      const spodok = (vyska - 1 - d) * sirka + x;
+      const cielVrch = Math.random() < sanca ? nahodneBurnCislo(minimum, 255) : nahodneBurnCislo(18, 118);
+      const cielSpodok = Math.random() < sanca ? nahodneBurnCislo(minimum, 255) : nahodneBurnCislo(18, 118);
+      teplo[vrch] = Math.max(teplo[vrch], Math.round(teplo[vrch] * 0.68 + cielVrch * 0.32));
+      teplo[spodok] = Math.max(teplo[spodok], Math.round(teplo[spodok] * 0.68 + cielSpodok * 0.32));
+    }
+  }
+
+  for (let y = 0; y < vyska; y++) {
+    for (let d = 0; d < hrubkaJadra; d++) {
+      const vlavo = y * sirka + d;
+      const vpravo = y * sirka + (sirka - 1 - d);
+      const cielVlavo = Math.random() < sanca ? nahodneBurnCislo(minimum, 255) : nahodneBurnCislo(18, 118);
+      const cielVpravo = Math.random() < sanca ? nahodneBurnCislo(minimum, 255) : nahodneBurnCislo(18, 118);
+      teplo[vlavo] = Math.max(teplo[vlavo], Math.round(teplo[vlavo] * 0.68 + cielVlavo * 0.32));
+      teplo[vpravo] = Math.max(teplo[vpravo], Math.round(teplo[vpravo] * 0.68 + cielVpravo * 0.32));
+    }
+  }
+}
+
+function prepocitajStreakBurn() {
+  const { sirka, vyska, teplo, dalsie, hlbka } = streakBurn;
+  if (!teplo || !dalsie) return;
+
+  seedujStreakBurn();
+  dalsie.fill(0);
+
+  const limit = Math.min(hlbka, Math.max(sirka, vyska));
+  const limitX = Math.min(limit, sirka);
+  const limitY = Math.min(limit, vyska);
+  const zaciatokPravej = Math.max(limitX, sirka - limitX);
+  const zaciatokSpodku = Math.max(limitY, vyska - limitY);
+
+  const spracuj = (x, y) => {
+    const index = y * sirka + x;
+    const hrana = najblizsiaHranaBurnu(x, y);
+    const vzdialenost = hrana.vzdialenost;
+
+    if (vzdialenost > Math.min(hlbka, hrana.dosah)) {
+      return;
+    }
+
+    const bocnyPosun = nahodneBurnCislo(-1, 1);
+    let zdrojX = x;
+    let zdrojY = y;
+    if (hrana.smer === 0) {
+      zdrojX = obmedzBurnIndex(x - 1, sirka);
+      zdrojY = obmedzBurnIndex(y + bocnyPosun, vyska);
+    } else if (hrana.smer === 1) {
+      zdrojX = obmedzBurnIndex(x + 1, sirka);
+      zdrojY = obmedzBurnIndex(y + bocnyPosun, vyska);
+    } else if (hrana.smer === 2) {
+      zdrojX = obmedzBurnIndex(x + bocnyPosun, sirka);
+      zdrojY = obmedzBurnIndex(y - 1, vyska);
+    } else {
+      zdrojX = obmedzBurnIndex(x + bocnyPosun, sirka);
+      zdrojY = obmedzBurnIndex(y + 1, vyska);
+    }
+
+    const zdroj = zdrojY * sirka + zdrojX;
+    const hranovyPomer = vzdialenost / Math.max(Math.min(hlbka, hrana.dosah), 1);
+    const rozpad = nahodneBurnCislo(1, 5) + Math.round(Math.pow(hranovyPomer, 1.55) * (24 + streakBurn.intenzita * 20));
+    dalsie[index] = Math.max(0, teplo[zdroj] - rozpad);
+  };
+
+  for (let y = 0; y < vyska; y++) {
+    for (let x = 0; x < limitX; x++) spracuj(x, y);
+    for (let x = zaciatokPravej; x < sirka; x++) spracuj(x, y);
+  }
+
+  for (let x = limitX; x < zaciatokPravej; x++) {
+    for (let y = 0; y < limitY; y++) spracuj(x, y);
+    for (let y = zaciatokSpodku; y < vyska; y++) spracuj(x, y);
+  }
+
+  streakBurn.teplo = dalsie;
+  streakBurn.dalsie = teplo;
+}
+
+function vykresliStreakBurn() {
+  const { ctx, obrazok, teplo, sirka, vyska } = streakBurn;
+  if (!ctx || !obrazok || !teplo) return;
+
+  const data = obrazok.data;
+  data.fill(0);
+  const limit = Math.min(streakBurn.hlbka, Math.max(sirka, vyska));
+  const limitX = Math.min(limit, sirka);
+  const limitY = Math.min(limit, vyska);
+  const zaciatokPravej = Math.max(limitX, sirka - limitX);
+  const zaciatokSpodku = Math.max(limitY, vyska - limitY);
+
+  const zapis = (x, y) => {
+    const index = y * sirka + x;
+    const teplota = teplo[index];
+    if (teplota < 21) return;
+    const [r, g, b, a] = farbaPixeluBurnu(teplota);
+    const offset = index * 4;
+    data[offset] = r;
+    data[offset + 1] = g;
+    data[offset + 2] = b;
+    data[offset + 3] = a;
+  };
+
+  for (let y = 0; y < vyska; y++) {
+    for (let x = 0; x < limitX; x++) zapis(x, y);
+    for (let x = zaciatokPravej; x < sirka; x++) zapis(x, y);
+  }
+
+  for (let x = limitX; x < zaciatokPravej; x++) {
+    for (let y = 0; y < limitY; y++) zapis(x, y);
+    for (let y = zaciatokSpodku; y < vyska; y++) zapis(x, y);
+  }
+
+  ctx.putImageData(obrazok, 0, 0);
+}
+
+function krokStreakBurn(cas) {
+  if (!streakBurn.aktivny) return;
+
+  if (cas - streakBurn.poslednyCas >= streakBurn.interval) {
+    streakBurn.poslednyCas = cas;
+    streakBurn.faza += 0.18 + streakBurn.intenzita * 0.42;
+    prepocitajStreakBurn();
+    vykresliStreakBurn();
+  }
+
+  streakBurn.animacia = window.requestAnimationFrame(krokStreakBurn);
+}
+
+function nastavStreakBurn(zapnuty, farby, intenzita) {
+  streakBurn.rgb = rgbTextNaPole(farby.ziara, [255, 216, 17]);
+  streakBurn.okrajRgb = rgbTextNaPole(farby.okraj, [255, 126, 0]);
+  streakBurn.intenzita = Math.max(0, Math.min(1, intenzita));
+  streakBurn.hlbka = Math.round(7 + streakBurn.intenzita * 28);
+  streakBurn.interval = Math.round(196 - streakBurn.intenzita * 94);
+
+  if (!zapnuty || !streakBurn.canvas || !streakBurn.ctx || streakBurn.znizenyPohyb?.matches) {
+    zastavStreakBurn();
+    return;
+  }
+
+  if (!nastavRozmeryStreakBurnu()) {
+    zastavStreakBurn();
+    return;
+  }
+
+  if (streakBurn.aktivny) return;
+  streakBurn.aktivny = true;
+  streakBurn.poslednyCas = 0;
+  streakBurn.animacia = window.requestAnimationFrame(krokStreakBurn);
 }
 const rytmickeBpm = 160;
 const pocetBeatovRytmickehoEfektu = 16;
@@ -405,7 +752,7 @@ function vytvorSkusobnuOtazku(cislo) {
 
 function pravdepodobnostPixelu(riadokOdHladiny) {
   if (riadokOdHladiny === 0) {
-    return 0.95;
+    return 1;
   }
 
   if (riadokOdHladiny === 1) {
@@ -526,7 +873,11 @@ function ziskajZvukovyKontext() {
 
   if (!zvukovyKontext) {
     const KonstruktorKontextu = window.AudioContext || window.webkitAudioContext;
-    zvukovyKontext = new KonstruktorKontextu();
+    try {
+      zvukovyKontext = new KonstruktorKontextu({ latencyHint: "interactive" });
+    } catch (chyba) {
+      zvukovyKontext = new KonstruktorKontextu();
+    }
   }
 
   return zvukovyKontext;
@@ -577,6 +928,10 @@ function ziskajNormalizacneZosilnenie(zvuk) {
   return normalizacneZosilneniaZvukov.get(ziskajZdrojZvuku(zvuk)) || 1;
 }
 
+function ziskajHotovyBufferZvuku(zvuk) {
+  return hotoveBuffreZvukov.get(ziskajZdrojZvuku(zvuk)) || null;
+}
+
 function dekodujZvuk(kontext, data) {
   return new Promise((resolve, reject) => {
     const vysledok = kontext.decodeAudioData(data, resolve, reject);
@@ -598,6 +953,7 @@ async function nacitajBufferZvuku(zvuk, kontext) {
       .then((data) => (data ? dekodujZvuk(kontext, data) : null))
       .then((buffer) => {
         if (buffer) {
+          hotoveBuffreZvukov.set(zdroj, buffer);
           normalizacneZosilneniaZvukov.set(zdroj, vypocitajNormalizacneZosilnenie(buffer));
         }
         return buffer;
@@ -609,9 +965,16 @@ async function nacitajBufferZvuku(zvuk, kontext) {
   return buffreZvukov.get(zdroj);
 }
 
-async function prehrajZvukCezWebAudio(zvuk, rychlost) {
+async function prehrajZvukCezWebAudio(zvuk, rychlost, cakatNaBuffer = false) {
   const kontext = ziskajZvukovyKontext();
   if (!kontext) {
+    return false;
+  }
+
+  const hotovyBuffer = ziskajHotovyBufferZvuku(zvuk);
+  const buffer = hotovyBuffer || (cakatNaBuffer ? await nacitajBufferZvuku(zvuk, kontext) : null);
+  if (!buffer) {
+    nacitajBufferZvuku(zvuk, kontext);
     return false;
   }
 
@@ -621,11 +984,6 @@ async function prehrajZvukCezWebAudio(zvuk, rychlost) {
     } catch (chyba) {
       return false;
     }
-  }
-
-  const buffer = await nacitajBufferZvuku(zvuk, kontext);
-  if (!buffer) {
-    return false;
   }
 
   if (jeZvukVypnuty() || hlasitost <= 0) {
@@ -1006,7 +1364,7 @@ function spustiJednorazovyFlash() {
     window.clearTimeout(casovacSpravnehoFlashu);
     casovacSpravnehoFlashu = null;
   }
-  prvokFlashEfekt.classList.remove("aktivny", "specialny");
+  prvokFlashEfekt.classList.remove("aktivny", "specialny", "lucovy");
   prvokFlashEfekt.style.mixBlendMode = "normal";
   prvokFlashEfekt.style.background = "rgba(255, 255, 255, 0.97)";
   prvokFlashEfekt.style.setProperty("--flash-trvanie", "380ms");
@@ -1044,7 +1402,7 @@ function spustiInvertFlash() {
     window.clearTimeout(casovacSpravnehoFlashu);
     casovacSpravnehoFlashu = null;
   }
-  prvokFlashEfekt.classList.remove("aktivny", "specialny");
+  prvokFlashEfekt.classList.remove("aktivny", "specialny", "lucovy");
   prvokFlashEfekt.style.background = "#ffffff";
   prvokFlashEfekt.style.mixBlendMode = "difference";
   prvokFlashEfekt.style.setProperty("--flash-trvanie", "380ms");
@@ -1183,6 +1541,18 @@ function spustiEfektTlacidla(tlacidlo) {
   casovaceEfektuTlacidiel.set(tlacidlo, novyCasovac);
 }
 
+function nastavTlacidloPredoslehoVysledku(disabled, text = "Previous") {
+  tlacidloPredoslyVysledok.disabled = disabled;
+  tlacidloPredoslyVysledok.textContent = text;
+  if (tlacidloBackspaceSorting) {
+    tlacidloBackspaceSorting.disabled = disabled;
+    tlacidloBackspaceSorting.setAttribute(
+      "aria-label",
+      text === "Current" ? "Backspace: aktualna otazka" : "Backspace: predchadzajuca odpoved"
+    );
+  }
+}
+
 function dostupneCitaty() {
   if (typeof citaty === "undefined" || !Array.isArray(citaty)) {
     return [];
@@ -1306,10 +1676,10 @@ function aktualizujRozlozenieUcenia() {
   document.body.classList.toggle("rezim-crack", jeCrackMode());
   document.body.classList.toggle("rezim-exam", exam);
   if (prvokTextUcenia) {
-    prvokTextUcenia.textContent = ucenie ? "Learn Mode Master" : "Learn Mode";
+    prvokTextUcenia.textContent = "Learn Mode";
   }
   if (prvokHintUcenia) {
-    prvokHintUcenia.textContent = "Zobrazi cely vybrany okruh so spravnymi odpovedami podla podokruhov.";
+    prvokHintUcenia.textContent = "Zobrazi vybrany okruh ako prehlad podokruhov so spravnymi odpovedami. Pri statementoch vies krizikom presunut otazku do Trash poolu.";
   }
   aktualizujRozlozenieCrackTimeru();
   nastavMobilnyCrackMode();
@@ -1322,8 +1692,8 @@ function aktualizujViditelnostModov() {
   const hel = aktualnyPredmet === "hel";
   const test = jeTestPredmet();
   const crack = jeCrackMode();
-  // Multiple Choice je iba pre HEL; Exam Mode pre HEL aj CZS.
-  const examPodporovany = hel || aktualnyPredmet === "czs";
+  // Multiple Choice je iba pre HEL; Exam Mode pre HEL, CZS aj ZIN.
+  const examPodporovany = hel || aktualnyPredmet === "czs" || aktualnyPredmet === "zin";
   if (riadokMultipleChoice) riadokMultipleChoice.classList.toggle("skryte", !hel);
   if (riadokExamMode) riadokExamMode.classList.toggle("skryte", !examPodporovany);
   // TEST ma rychly rezim automaticky; pre crack mode Speed Mode tiez nedava zmysel.
@@ -1361,8 +1731,8 @@ function nastavRychlyRezim() {
   }
   if (prvokHintRychlehoRezimu) {
     prvokHintRychlehoRezimu.textContent = jeRychlyRezim2x()
-      ? "Po spravnej odpovedi automaticky prejde dalej. Pri otazkach s jednou odpovedou sa odpoved odosle hned po vybere."
-      : "Po spravnej odpovedi automaticky prejde na dalsiu otazku. Druhy klik zapne Speed Mode 2x.";
+      ? "V klasickom teste odosle single-choice odpoved hned po vybere a pri spravnej odpovedi automaticky ide dalej."
+      : "V klasickom teste po spravnej odpovedi automaticky prejde na dalsiu otazku. Druhy klik zapne Speed Mode 2x.";
   }
 
   if (!jeRychlyRezim()) {
@@ -1397,7 +1767,7 @@ function jeTestPredmet() {
 }
 
 function predmetPodporujeCrack() {
-  return aktualnyPredmet === "hel" || aktualnyPredmet === "czs";
+  return aktualnyPredmet === "hel" || aktualnyPredmet === "czs" || aktualnyPredmet === "zin";
 }
 
 function jeMultipleChoiceOverride() {
@@ -1628,7 +1998,7 @@ function nastavExamMode() {
     if (prepinacMultipleChoice) {
       prepinacMultipleChoice.checked = false;
     }
-    if (aktualnyPredmet !== "hel" && aktualnyPredmet !== "czs") {
+    if (aktualnyPredmet !== "hel" && aktualnyPredmet !== "czs" && aktualnyPredmet !== "zin") {
       nastavPredmet("hel");
       return;
     }
@@ -1773,8 +2143,8 @@ function jeUvodneInfoOtvorene() {
   return Boolean(uvodneInfo && !uvodneInfo.classList.contains("skryte"));
 }
 
-function zobrazUvodneInfoAkTreba() {
-  if (!uvodneInfo || boloUvodneInfoPotvrdene()) {
+function zobrazUvodneInfoAkTreba(vynutit = false) {
+  if (!uvodneInfo || (!vynutit && boloUvodneInfoPotvrdene())) {
     return;
   }
 
@@ -1782,8 +2152,19 @@ function zobrazUvodneInfoAkTreba() {
   zavriMenu();
   uvodneInfo.classList.remove("skryte");
   uvodneInfo.setAttribute("aria-hidden", "false");
-  if (tlacidloZavrietUvodneInfo) {
-    window.setTimeout(() => tlacidloZavrietUvodneInfo.focus(), 0);
+  if (uvodneInfoKarta) {
+    uvodneInfoKarta.scrollTop = 0;
+    window.requestAnimationFrame(() => {
+      uvodneInfoKarta.scrollTop = 0;
+    });
+  }
+  if (uvodneInfoNadpis) {
+    window.setTimeout(() => {
+      uvodneInfoNadpis.focus({ preventScroll: true });
+      if (uvodneInfoKarta) {
+        uvodneInfoKarta.scrollTop = 0;
+      }
+    }, 0);
   }
 }
 
@@ -1809,14 +2190,87 @@ function aktualizujMenuPredmet(predmet) {
   menuPolozkyPredmetov.forEach((tlacidlo) => {
     tlacidlo.classList.toggle("aktivny", tlacidlo.dataset.predmet === predmet);
   });
+  aktualizujRozbalenieMenuPredmetov();
 }
 
-// Strom okruhov v bocnom menu: rozbaleny je vzdy len aktualny predmet,
-// ostatne podstromy ostavaju prazdne (CSS :empty ich skryje).
+function aktualizujRozbalenieMenuPredmetov() {
+  menuVetvyPredmetov.forEach((vetva) => {
+    const jeRozbalena = vetva.dataset.predmet === rozbalenyPredmetMenu;
+    const jeAktivna = vetva.dataset.predmet === aktualnyPredmet;
+    vetva.classList.toggle("rozbalena", jeRozbalena);
+    vetva.classList.toggle("ma-aktivny-predmet", jeAktivna);
+  });
+}
+
+function ziskajPrezentaciuPrePredmet(otazka, predmet) {
+  if (otazka.prezentacia) {
+    return otazka.prezentacia;
+  }
+
+  const referencia = String(otazka.slideRef || otazka.zdroj || "");
+  const zhoda = referencia.match(/[^\s/\\]+\.pdf/i);
+  if (zhoda) {
+    return zhoda[0];
+  }
+
+  if (predmet === "pc2") {
+    return "PC2";
+  }
+
+  if (predmet === "hel") {
+    return "HEL";
+  }
+
+  return "Bez prezentacie";
+}
+
+function ziskajOkruhyOtazkyPrePredmet(otazka, predmet) {
+  const okruhy = [ziskajPrezentaciuPrePredmet(otazka, predmet)];
+  if (Array.isArray(otazka.okruhy)) {
+    otazka.okruhy.forEach((okruh) => {
+      if (okruh) {
+        okruhy.push(okruh);
+      }
+    });
+  }
+  return okruhy;
+}
+
+function ziskajPrezentaciePredmetu(predmet) {
+  if (predmet === "test") {
+    return [];
+  }
+
+  return unikatneHodnoty(ziskajOtazkyPredmetu(predmet).flatMap((otazka) => ziskajOkruhyOtazkyPrePredmet(otazka, predmet)));
+}
+
+function nastavPredmetZMenu(predmet) {
+  rozbalenyPredmetMenu = rozbalenyPredmetMenu === predmet ? null : predmet;
+  if (predmet === aktualnyPredmet) {
+    aktualizujRozbalenieMenuPredmetov();
+    return;
+  }
+  nastavPredmet(predmet);
+  aktualizujRozbalenieMenuPredmetov();
+}
+
+// Strom okruhov je naplneny pre vsetky predmety; rozbali sa iba po kliknuti na predmet.
 function vykresliMenuOkruhy() {
   menuPodstromy.forEach((podstrom) => {
+    const predmet = podstrom.dataset.predmet;
     podstrom.innerHTML = "";
+    [hodnotaVsetko, ...ziskajPrezentaciePredmetu(predmet)].forEach((okruh) => {
+      const tlacidlo = document.createElement("button");
+      tlacidlo.type = "button";
+      tlacidlo.className = "menu-okruh";
+      tlacidlo.textContent = okruh === hodnotaVsetko ? "V\u0161etko" : okruh;
+      tlacidlo.classList.toggle("aktivny", predmet === aktualnyPredmet && vybranaPrezentacia === okruh);
+      tlacidlo.addEventListener("click", () => vyberOkruhZMenu(okruh, predmet));
+      podstrom.appendChild(tlacidlo);
+    });
   });
+  aktualizujRozbalenieMenuPredmetov();
+  return;
 
   const aktivnyPodstrom = menuPodstromy.find((p) => p.dataset.predmet === aktualnyPredmet);
   if (!aktivnyPodstrom) {
@@ -1834,7 +2288,12 @@ function vykresliMenuOkruhy() {
   });
 }
 
-function vyberOkruhZMenu(okruh) {
+function vyberOkruhZMenu(okruh, predmet = aktualnyPredmet) {
+  if (predmet !== aktualnyPredmet) {
+    nastavPredmet(predmet);
+  }
+
+  rozbalenyPredmetMenu = predmet;
   pouzivaTazkyPool = false;
   vybranaPrezentacia = okruh;
   prvokVyberPrezentacie.value = okruh;
@@ -2013,9 +2472,11 @@ function ziskajExamOtazky() {
     }
 
     const primarnaPrezentacia = ziskajPrezentaciu(otazka);
-    // Okruh "Vzorce" su strucne vzorcove flashcardy - do exam mode (vypracovanie) nepatria.
+    // Okruhy "Vzorce" (flashcardy), "Mimo SZZ" (CZS teoria mimo SZZ otazok), "Vypocty"
+    // (CZS vypoctove drily) a "11. Ostatne (mimo SZZ)" (HEL) do exam mode
+    // (vypracovanie) nepatria - exam = len SZZ temy.
     // (examSkip = rucne oznaceny duplikat: ostava v crack mode, do exam mode nejde.)
-    if (otazka.examSkip || primarnaPrezentacia === "Vzorce") {
+    if (otazka.examSkip || ["Vzorce", "Mimo SZZ", "Vypocty", "11. Ostatne (mimo SZZ)"].includes(primarnaPrezentacia)) {
       return;
     }
     // Pri vybranom konkretnom okruhu zoskup slidy pod jeho nazvom (aj cross-listed otazky cez `okruhy`).
@@ -2112,16 +2573,16 @@ function ziskajOtazkyZBeznychFiltrov(vratCrackData = false) {
 }
 
 function ziskajOtazkyPodlaFiltra() {
+  if (pouzivaTazkyPool) {
+    return [...tazkeOtazky.values()].filter((otazka) => !odstraneneOtazky.has(ziskajIdOtazky(otazka)));
+  }
+
   if (jeExamMode()) {
     return ziskajExamOtazky().filter((otazka) => !odstraneneOtazky.has(ziskajIdOtazky(otazka)));
   }
 
   if (jeCrackMode()) {
     return ziskajCrackOtazky().filter((otazka) => !odstraneneOtazky.has(ziskajIdOtazky(otazka)));
-  }
-
-  if (pouzivaTazkyPool) {
-    return [...tazkeOtazky.values()].filter((otazka) => !odstraneneOtazky.has(ziskajIdOtazky(otazka)));
   }
 
   return ziskajOtazkyZBeznychFiltrov();
@@ -2148,6 +2609,11 @@ function nastavVsetkyPodokruhy() {
 function aktualizujPocetFiltra() {
   const pocet = jeRezimUcenia() ? ziskajOtazkyPreLearnMaster().length : ziskajOtazkyPodlaFiltra().length;
   const textPoctu = pocet === 1 ? "1 otazka" : `${pocet} otazok`;
+  if (pouzivaTazkyPool) {
+    prvokPocetFiltra.textContent = `${textPoctu} v tazkom poole`;
+    return;
+  }
+
   if (jeRezimUcenia()) {
     prvokPocetFiltra.textContent = `${textPoctu} v Learn Mode Master`;
     return;
@@ -2163,7 +2629,7 @@ function aktualizujPocetFiltra() {
     return;
   }
 
-  prvokPocetFiltra.textContent = pouzivaTazkyPool ? `${textPoctu} v tazkom poole` : textPoctu;
+  prvokPocetFiltra.textContent = textPoctu;
 }
 
 function aktualizujViditelnostPoolov() {
@@ -2482,8 +2948,7 @@ function vycistiPredoslyVysledok() {
   predoslyVysledok = null;
   zobrazujePredoslyVysledok = false;
   nahladAktualnejOtazky = null;
-  tlacidloPredoslyVysledok.disabled = true;
-  tlacidloPredoslyVysledok.textContent = "Previous";
+  nastavTlacidloPredoslehoVysledku(true);
 }
 
 function textyOdpovedi(indexy, moznosti = aktualneMoznosti) {
@@ -2526,8 +2991,7 @@ function ulozPredoslyVysledok(otazka, vybrane, jeSpravne, textVysledku = null) {
   if (textVysledku) {
     predoslyVysledok.textVysledku = textVysledku;
   }
-  tlacidloPredoslyVysledok.disabled = false;
-  tlacidloPredoslyVysledok.textContent = "Previous";
+  nastavTlacidloPredoslehoVysledku(false);
 }
 
 function ulozNahladAktualnejOtazky() {
@@ -2576,7 +3040,7 @@ function obnovNahladAktualnejOtazky() {
   aktualizujTlacidloTazkejOtazky();
   aktualizujTlacidloNeviem();
   aktualizujRozlozenieUcenia();
-  tlacidloPredoslyVysledok.textContent = "Previous";
+  nastavTlacidloPredoslehoVysledku(tlacidloPredoslyVysledok.disabled);
   if (!vyhodnotene) {
     spustiCrackTimer();
   }
@@ -2610,7 +3074,7 @@ function vykresliPredoslyVysledok() {
   aktualizujTlacidloTazkejOtazky();
   aktualizujTlacidloNeviem();
   aktualizujRozlozenieUcenia();
-  tlacidloPredoslyVysledok.textContent = "Current";
+  nastavTlacidloPredoslehoVysledku(false, "Current");
 }
 
 function prepniPredoslyVysledok() {
@@ -2700,6 +3164,73 @@ function spustiOtras(dlzkaSerie) {
   window.setTimeout(() => document.body.classList.remove("streak-otras"), 430);
 }
 
+function odstranPoAnimacii(prvok, zaloznyCas = 900) {
+  if (!prvok) return;
+  let odstranene = false;
+  const odstran = () => {
+    if (odstranene) return;
+    odstranene = true;
+    prvok.remove();
+  };
+  prvok.addEventListener("animationend", (udalost) => {
+    if (udalost.target === prvok) odstran();
+  }, { once: true });
+  window.setTimeout(odstran, zaloznyCas);
+}
+
+function najdiPrvokVybranejKlavesy(vybrane) {
+  if (!Array.isArray(vybrane) || vybrane.length === 0) return null;
+  const hladane = new Set(vybrane);
+  const popisky = [...prvokMoznosti.children];
+  const index = aktualneMoznosti.findIndex((moznost) => hladane.has(moznost.povodnyIndex));
+  if (index < 0) return null;
+  return popisky[index]?.querySelector(".klavesa") || popisky[index] || null;
+}
+
+function spustiKeycapShockwave(jeSpravne, dlzkaSerie, vybrane) {
+  if (!prvokStreakEfekty) return;
+  const klavesa = najdiPrvokVybranejKlavesy(vybrane);
+  if (!klavesa) return;
+
+  const rect = klavesa.getBoundingClientRect();
+  const farby = ziskajFarbyTieru(dlzkaSerie);
+  const vlna = document.createElement("span");
+  vlna.className = `keycap-shockwave ${jeSpravne ? "spravna" : "chybna"}`;
+  vlna.style.left = `${rect.left + rect.width / 2}px`;
+  vlna.style.top = `${rect.top + rect.height / 2}px`;
+  vlna.style.setProperty("--shockwave-rgb", jeSpravne ? farby.ziara : "255, 72, 0");
+  vlna.style.setProperty("--shockwave-scale", Math.min(1.1 + dlzkaSerie * 0.035, 2.2));
+  prvokStreakEfekty.appendChild(vlna);
+  odstranPoAnimacii(vlna, 760);
+}
+
+function spustiMilnikovyBurst(dlzkaSerie) {
+  if (!prvokStreakEfekty || dlzkaSerie <= 0 || dlzkaSerie % KROK_MILNIKA !== 0) return;
+
+  const farby = ziskajFarbyTieru(dlzkaSerie);
+  document.body.style.setProperty("--milnik-rgb", farby.ziara);
+  document.body.style.setProperty("--milnik-okraj-rgb", farby.okraj);
+  document.body.classList.remove("streak-milnik-flash");
+  void document.body.offsetWidth;
+  document.body.classList.add("streak-milnik-flash");
+  window.setTimeout(() => document.body.classList.remove("streak-milnik-flash"), 760);
+
+  const burst = document.createElement("div");
+  burst.className = "milnik-burst";
+  const pocet = Math.min(18 + Math.floor(dlzkaSerie / 5) * 4, 42);
+  for (let i = 0; i < pocet; i++) {
+    const luc = document.createElement("span");
+    const uhol = (360 / pocet) * i + nahodneCeleCislo(-6, 6);
+    luc.style.setProperty("--uhol", `${uhol}deg`);
+    luc.style.setProperty("--dlzka", `${nahodneCeleCislo(120, 330)}px`);
+    luc.style.setProperty("--delay", `${i % 5 * 18}ms`);
+    luc.style.setProperty("--burst-rgb", i % 3 === 0 ? farby.okraj : farby.ziara);
+    burst.appendChild(luc);
+  }
+  prvokStreakEfekty.appendChild(burst);
+  odstranPoAnimacii(burst, 980);
+}
+
 // Kratke "FAST" pri rychlej spravnej odpovedi.
 function spustiRychlyBonus() {
   if (!prvokRychlyBonus) return;
@@ -2749,6 +3280,7 @@ function spustiSpravnyFlash(dlzkaSerie) {
   spustiMegaStreakCislo(dlzkaSerie);
   if (specialny) {
     spustiOtras(dlzkaSerie);
+    spustiMilnikovyBurst(dlzkaSerie);
   }
   if (animaciaSpravnehoFlashu) {
     animaciaSpravnehoFlashu.cancel();
@@ -2761,7 +3293,7 @@ function spustiSpravnyFlash(dlzkaSerie) {
     casovacSpravnehoFlashu = null;
   }
 
-  prvokFlashEfekt.classList.remove("aktivny", "specialny");
+  prvokFlashEfekt.classList.remove("aktivny", "specialny", "lucovy");
   prvokFlashEfekt.style.mixBlendMode = "normal";
   prvokFlashEfekt.style.background = pozadie;
   prvokFlashEfekt.style.opacity = "1";
@@ -2769,12 +3301,13 @@ function spustiSpravnyFlash(dlzkaSerie) {
   prvokFlashEfekt.style.setProperty("--flash-scale-start", nastavenia.scaleStart);
   prvokFlashEfekt.style.setProperty("--flash-scale-peak", nastavenia.scalePeak);
   void prvokFlashEfekt.offsetHeight;
+  prvokFlashEfekt.classList.add("lucovy");
   prvokFlashEfekt.classList.toggle("specialny", specialny);
 
   if (typeof prvokFlashEfekt.animate !== "function") {
     prvokFlashEfekt.classList.add("aktivny");
     casovacSpravnehoFlashu = window.setTimeout(() => {
-      prvokFlashEfekt.classList.remove("aktivny", "specialny");
+      prvokFlashEfekt.classList.remove("aktivny", "specialny", "lucovy");
       prvokFlashEfekt.style.opacity = "0";
       casovacSpravnehoFlashu = null;
     }, nastavenia.trvanie + 40);
@@ -2809,7 +3342,7 @@ function spustiSpravnyFlash(dlzkaSerie) {
 
   animaciaSpravnehoFlashu.onfinish = () => {
     prvokFlashEfekt.style.opacity = "0";
-    prvokFlashEfekt.classList.remove("specialny");
+    prvokFlashEfekt.classList.remove("specialny", "lucovy");
     animaciaSpravnehoFlashu = null;
   };
 
@@ -2857,7 +3390,7 @@ function spustiEfekt(jeSpravne, dlzkaSerie = 0) {
   window.setTimeout(() => document.body.classList.remove(trieda), casOdstranenia);
 }
 
-function spustiSpatnuVazbu(jeSpravne, dlzkaSerie = 0, rychla = false) {
+function spustiSpatnuVazbu(jeSpravne, dlzkaSerie = 0, rychla = false, vybrane = []) {
   const spatnaVazba = jeSpravne
     ? ziskajZvukSpravnejOdpovede(dlzkaSerie)
     : ziskajZvukZlejOdpovede(dlzkaSerie);
@@ -2869,6 +3402,7 @@ function spustiSpatnuVazbu(jeSpravne, dlzkaSerie = 0, rychla = false) {
   }
 
   spustiEfekt(jeSpravne, dlzkaSerie);
+  spustiKeycapShockwave(jeSpravne, dlzkaSerie, vybrane);
 
   // Haptika (mobil): stupa so streakom; milnik a strata maju vlastny vzor.
   const milnik = jeSpravne && dlzkaSerie > 0 && dlzkaSerie % KROK_MILNIKA === 0;
@@ -2916,6 +3450,10 @@ function aktualizujStreak(animuj = false) {
 
   // Farba a ziara cisla podla aktualneho tieru (rastie so streakom).
   const tier = ziskajTier(zobrazenaHodnota);
+  const farby = ziskajFarbyTieru(zobrazenaHodnota);
+  const intenzita = Math.min(zobrazenaHodnota / 20, 1);
+  const burnIntenzita = ziskajIntenzituStreakBurnu(zobrazenaHodnota);
+  const burnZapnuty = zobrazenaHodnota >= PRAH_BURN_OKRAJOV && !poolDokonceny;
   prvokStreakAktualny.classList.toggle("ma-tier", Boolean(tier));
   if (tier) {
     prvokStreakAktualny.style.setProperty("--streak-farba", `rgb(${tier.rgb})`);
@@ -2923,6 +3461,17 @@ function aktualizujStreak(animuj = false) {
     prvokStreakAktualny.style.removeProperty("--streak-farba");
   }
   prvokStreakAktualny.style.setProperty("--streak-glow", `${Math.min(zobrazenaHodnota * 1.4, 32)}px`);
+  document.body.style.setProperty("--streak-rgb", farby.ziara);
+  document.body.style.setProperty("--streak-okraj-rgb", farby.okraj);
+  document.body.style.setProperty("--streak-intenzita", String(intenzita));
+  document.body.style.setProperty("--streak-burn-rgb", farby.ziara);
+  document.body.style.setProperty("--streak-burn-okraj-rgb", farby.okraj);
+  document.body.style.setProperty("--streak-burn-intenzita", String(burnIntenzita));
+  document.body.classList.toggle("streak-bar-nabity", zobrazenaHodnota >= 5);
+  document.body.classList.remove("streak-aura-zapnuta");
+  document.body.classList.toggle("streak-burn-okraje", burnZapnuty);
+  document.body.classList.toggle("streak-burn-silny", burnZapnuty && zobrazenaHodnota >= PRAH_SILNEHO_BURNU);
+  nastavStreakBurn(burnZapnuty, farby, burnIntenzita);
 
   if (!animuj) {
     return;
@@ -3033,7 +3582,7 @@ function zobrazPrazdnyVyber() {
   aktualizujTlacidloTazkejOtazky();
   aktualizujTlacidloNeviem();
   aktualizujRozlozenieUcenia();
-  tlacidloPredoslyVysledok.textContent = "Previous";
+  nastavTlacidloPredoslehoVysledku(tlacidloPredoslyVysledok.disabled);
 }
 
 function vytvorObrazokMedia(src, alt) {
@@ -3340,10 +3889,60 @@ function vytvorOtazkuLearnMaster(otazka, poradoveCislo) {
   return clanok;
 }
 
+function presunOtazkuDoTrashPoolu(otazka, moznosti = {}) {
+  const { upravPociatocnyPool = false } = moznosti;
+  const idOtazky = ziskajIdOtazky(otazka);
+
+  odstraneneOtazky.set(idOtazky, otazka);
+  poradieOtazok = poradieOtazok.filter((polozka) => ziskajIdOtazky(polozka) !== idOtazky);
+  aktualneOtazky = aktualneOtazky.filter((polozka) => ziskajIdOtazky(polozka) !== idOtazky);
+
+  if (upravPociatocnyPool && jeRezimPrejdeniaPoolu()) {
+    pociatocnyPocetPoolu = Math.max(stavStlpca, pociatocnyPocetPoolu - 1);
+  }
+
+  stavStlpca = Math.min(stavStlpca, maximumStlpca());
+
+  if (aktualnyIndex >= poradieOtazok.length) {
+    aktualnyIndex = Math.max(0, poradieOtazok.length - 1);
+  }
+
+  vykresliOdstraneneOtazky();
+  aktualizujPocetFiltra();
+  aktualizujStlpec();
+  aktualizujStreak();
+}
+
+function odstranOtazkuZLearnMaster(otazka) {
+  presunOtazkuDoTrashPoolu(otazka);
+  zobrazLearnModeMaster();
+}
+
+function vytvorTlacidloTrashLearnMaster(otazka) {
+  const tlacidlo = document.createElement("button");
+  tlacidlo.type = "button";
+  tlacidlo.className = "learn-master-trash";
+  tlacidlo.setAttribute("aria-label", "Presunut otazku do Trash poolu");
+  tlacidlo.addEventListener("click", (udalost) => {
+    udalost.preventDefault();
+    udalost.stopPropagation();
+    odstranOtazkuZLearnMaster(otazka);
+  });
+  return tlacidlo;
+}
+
 function vytvorStatementLearnMaster(otazka) {
   const polozka = document.createElement("li");
   polozka.className = "learn-master-statement";
-  polozka.appendChild(vytvorTextLearnMaster(ziskajZadanieLearnMaster(otazka), "learn-master-statement-text"));
+
+  const riadok = document.createElement("div");
+  riadok.className = "learn-master-statement-riadok";
+  riadok.append(
+    vytvorTextLearnMaster(ziskajZadanieLearnMaster(otazka), "learn-master-statement-text"),
+    vytvorTlacidloTrashLearnMaster(otazka)
+  );
+  polozka.appendChild(riadok);
+
   return polozka;
 }
 
@@ -3423,8 +4022,7 @@ function zobrazLearnModeMaster() {
   tlacidloPridatTazkuOtazku.disabled = true;
   tlacidloPridatTazkuOtazku.classList.remove("vybrana");
   tlacidloPridatTazkuOtazku.setAttribute("aria-pressed", "false");
-  tlacidloPredoslyVysledok.disabled = true;
-  tlacidloPredoslyVysledok.textContent = "Previous";
+  nastavTlacidloPredoslehoVysledku(true);
   aktualizujRozlozenieUcenia();
 }
 
@@ -3609,7 +4207,7 @@ function zobrazOtazku() {
   aktualizujTlacidloTazkejOtazky();
   aktualizujTlacidloNeviem();
   aktualizujRozlozenieUcenia();
-  tlacidloPredoslyVysledok.textContent = "Previous";
+  nastavTlacidloPredoslehoVysledku(tlacidloPredoslyVysledok.disabled);
 
   nastavMediaOtazky(otazka);
 
@@ -3971,7 +4569,7 @@ function skontrolujOdpoved(vybrane = ziskajVybraneIndexy(), povolPrazdnu = false
 
   upravStlpec(jeSpravne);
   aktualizujStreak(jeSpravne);
-  spustiSpatnuVazbu(jeSpravne, jeSpravne ? seriaSpravnych : predoslaSeriaSpravnych, rychlaOdpoved);
+  spustiSpatnuVazbu(jeSpravne, jeSpravne ? seriaSpravnych : predoslaSeriaSpravnych, rychlaOdpoved, vybrane);
   posunCitatPoOdpovedi(jeSpravne);
 
   if (jeSpravne) {
@@ -4096,6 +4694,8 @@ function sklonujOtazky(pocet) {
 function zobrazDokoncenyPool() {
   zrusCrackTimer(true);
   poolDokonceny = true;
+  document.body.classList.remove("streak-aura-zapnuta", "streak-burn-okraje", "streak-burn-silny");
+  zastavStreakBurn();
   prehrajZvuk(zvukDokonceniaPoolu);
   prehrajZvuk(zvukDokonceniaPooluChoir);
   prehrajVideoOverlay("Animations/explosion_ultiamte.mp4", 1);
@@ -4132,7 +4732,7 @@ function zobrazDokoncenyPool() {
   aktualizujTlacidloTazkejOtazky();
   aktualizujTlacidloNeviem();
   aktualizujRozlozenieUcenia();
-  tlacidloPredoslyVysledok.textContent = "Previous";
+  nastavTlacidloPredoslehoVysledku(tlacidloPredoslyVysledok.disabled);
 }
 
 function posunNaDalsiuEndlessOtazku() {
@@ -4205,25 +4805,8 @@ function odoberAktualnuOtazku() {
   }
 
   zrusCasovacDalsejOtazky();
-  odstraneneOtazky.set(ziskajIdOtazky(otazka), otazka);
   cakaNaVyradenieOtazky = false;
-  poradieOtazok = poradieOtazok.filter((polozka) => ziskajIdOtazky(polozka) !== ziskajIdOtazky(otazka));
-  aktualneOtazky = aktualneOtazky.filter((polozka) => ziskajIdOtazky(polozka) !== ziskajIdOtazky(otazka));
-
-  if (jeRezimPrejdeniaPoolu()) {
-    pociatocnyPocetPoolu = Math.max(stavStlpca, pociatocnyPocetPoolu - 1);
-  }
-
-  stavStlpca = Math.min(stavStlpca, maximumStlpca());
-
-  if (aktualnyIndex >= poradieOtazok.length) {
-    aktualnyIndex = Math.max(0, poradieOtazok.length - 1);
-  }
-
-  vykresliOdstraneneOtazky();
-  aktualizujPocetFiltra();
-  aktualizujStlpec();
-  aktualizujStreak();
+  presunOtazkuDoTrashPoolu(otazka, { upravPociatocnyPool: true });
 
   if (poradieOtazok.length === 0) {
     zobrazPrazdnyVyber();
@@ -4272,17 +4855,21 @@ function ziskajOtazkyPredmetu(predmet) {
     return typeof veterinaOtazky === "undefined" ? [] : veterinaOtazky;
   }
 
+  if (predmet === "zin") {
+    return typeof zinOtazky === "undefined" ? [] : zinOtazky;
+  }
+
   return czsOtazky;
 }
 
 function nastavPredmet(predmet) {
-  // Multiple Choice override je iba pre HEL; Exam Mode pre HEL aj CZS - inde ich vypneme.
+  // Multiple Choice override je iba pre HEL; Exam Mode pre HEL, CZS aj ZIN - inde ich vypneme.
   if (predmet !== "hel") {
     if (prepinacMultipleChoice) {
       prepinacMultipleChoice.checked = false;
     }
   }
-  if (predmet !== "hel" && predmet !== "czs") {
+  if (predmet !== "hel" && predmet !== "czs" && predmet !== "zin") {
     if (prepinacExamMode) {
       prepinacExamMode.checked = false;
       examModeMini = false;
@@ -4290,7 +4877,7 @@ function nastavPredmet(predmet) {
   }
 
   // Predmety bez crack podpory bezia v klasickom mode - zrusime crack timer.
-  if (predmet !== "hel" && predmet !== "czs") {
+  if (predmet !== "hel" && predmet !== "czs" && predmet !== "zin") {
     zrusCrackTimer(true);
   }
 
@@ -4403,16 +4990,21 @@ prekrytieNastaveni.addEventListener("click", zavriNastavenia);
 tlacidloMenu.addEventListener("click", prepniMenu);
 tlacidloZavrietMenu.addEventListener("click", zavriMenu);
 tlacidloZavrietUvodneInfo.addEventListener("click", zavriUvodneInfo);
+tlacidloZobrazitUvodneInfo.addEventListener("click", () => zobrazUvodneInfoAkTreba(true));
 prekrytieMenu.addEventListener("click", zavriMenu);
 menuOtvoritNastavenia.addEventListener("click", otvorNastaveniaZMenu);
 menuPolozkyPredmetov.forEach((tlacidlo) => {
   tlacidlo.addEventListener("click", () => {
     // Prepne predmet a necha menu otvorene, aby bolo vidno strom okruhov.
     // Menu zatvori az vyber konkretneho okruhu (vratane "Všetko").
-    nastavPredmet(tlacidlo.dataset.predmet);
+    nastavPredmetZMenu(tlacidlo.dataset.predmet);
   });
 });
 tlacidloPredoslyVysledok.addEventListener("click", prepniPredoslyVysledok);
+tlacidloBackspaceSorting.addEventListener("click", () => {
+  spustiEfektTlacidla(tlacidloBackspaceSorting);
+  prepniPredoslyVysledok();
+});
 tlacidloOdstranitOtazku.addEventListener("click", odoberAktualnuOtazku);
 tlacidloPridatTazkuOtazku.addEventListener("click", pridajAktualnuOtazkuDoTazkych);
 tlacidloNeviem.addEventListener("click", odpovedzNeviem);
@@ -4493,12 +5085,23 @@ document.addEventListener("click", obsluzKlikCitatu, true);
 document.addEventListener("click", obsluzKlikVolitelnehoPrvku);
 document.addEventListener("change", obsluzZmenuVolitelnehoPrvku);
 document.addEventListener("keydown", obsluzKlavesnicu);
-document.addEventListener("pointerdown", pripravZvuky, { once: true });
-document.addEventListener("keydown", pripravZvuky, { once: true });
+document.addEventListener("pointerdown", pripravZvuky, { once: true, capture: true });
+document.addEventListener("keydown", pripravZvuky, { once: true, capture: true });
 window.addEventListener("resize", aktualizujMobilneRozlozenie);
+window.addEventListener("resize", () => {
+  if (streakBurn.aktivny) nastavRozmeryStreakBurnu(true);
+});
 window.addEventListener("orientationchange", () => window.setTimeout(aktualizujMobilneRozlozenie, 250));
 if (window.visualViewport) {
   window.visualViewport.addEventListener("resize", aktualizujMobilneRozlozenie);
+}
+if (streakBurn.znizenyPohyb) {
+  const obnovBurnPoZmenePohybu = () => aktualizujStreak();
+  if (typeof streakBurn.znizenyPohyb.addEventListener === "function") {
+    streakBurn.znizenyPohyb.addEventListener("change", obnovBurnPoZmenePohybu);
+  } else if (typeof streakBurn.znizenyPohyb.addListener === "function") {
+    streakBurn.znizenyPohyb.addListener(obnovBurnPoZmenePohybu);
+  }
 }
 
 nastavTlacidlaOtazok();

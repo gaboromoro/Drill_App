@@ -21,6 +21,9 @@
   <div id="streakFlashCislo" class="streak-flash-cislo" aria-hidden="true"></div>
   <div id="rychlyBonus" class="rychly-bonus" aria-hidden="true"></div>
   <div id="novyRekord" class="novy-rekord" aria-hidden="true"></div>
+  <div id="streakEfekty" class="streak-efekty" aria-hidden="true">
+    <canvas id="streakBurnCanvas" class="streak-burn-canvas"></canvas>
+  </div>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
       <filter id="lumaKey" color-interpolation-filters="sRGB">
@@ -41,10 +44,11 @@
   <div id="prekrytieMenu" class="prekrytie-menu" aria-hidden="true"></div>
   <div id="uvodneInfo" class="uvodne-info skryte" role="dialog" aria-modal="true" aria-labelledby="uvodneInfoNadpis" aria-hidden="true">
     <section class="uvodne-info-karta">
-      <h2 id="uvodneInfoNadpis" class="uvodne-info-nadpis">Ako na to</h2>
+      <h2 id="uvodneInfoNadpis" class="uvodne-info-nadpis" tabindex="-1">How to</h2>
       <ul class="uvodne-info-zoznam">
         <li>Aplikácia je zameraná najmä na drillovanie formou otázok a odpovedí pravda/nepravda.</li>
         <li>V nastaveniach si môžeš zapnúť aj Exam Mode na otvorené otázky s následne zobrazenými vypracovanými odpoveďami alebo Learn Mode na jednoduchý zoznam vypracovaných okruhov.</li>
+        <li>Najviac sa mi osvedčilo učiť sa po malých blokoch: vybrať si konkrétny podokruh, ideálne okolo 20 otázok, a drillovať ho dovtedy, kým ho neviem perfektne a dokážem ho speedrunúť pod jednu až dve minúty (čas sa počíta hore). Potom prejdem na otvorené otázky toho istého okruhu cez Exam Mode; druhý klik na Exam Mode zapne Exam Mode Mini, kde je okruh rozdelený na menšie časti. Cieľ je vedieť otvorenú otázku samostatne vypracovať.</li>
         <li>Vľavo hore je menu s výberom predmetu.</li>
         <li>Okruhy PC2, VS2 a AUD sú zatiaľ iba staré prípravy na skúšku; VS2 neskôr vypracujem pre SZZ.</li>
       </ul>
@@ -55,8 +59,9 @@
         <li>Na mobile je <kbd>1</kbd> pravda a <kbd>0</kbd> nepravda.</li>
         <li><kbd>Backspace</kbd> zobrazí predchádzajúcu zodpovedanú otázku.</li>
         <li>Šípkami vpravo a vľavo sa dá skákať medzi otázkami.</li>
+        <li>Keď si v nastaveniach zapneš Display Sorting, <kbd>q</kbd> presunie otázku do Trash poolu (preč z aktuálneho poolu), <kbd>w</kbd> ju pridá do poolu Ťažké na neskoršie precvičenie a <kbd>e</kbd> označí odpoveď Neviem.</li>
       </ul>
-      <button id="tlacidloZavrietUvodneInfo" class="uvodne-info-tlacidlo" type="button">Jasne</button>
+      <button id="tlacidloZavrietUvodneInfo" class="uvodne-info-tlacidlo" type="button">lesgooooo</button>
     </section>
   </div>
   <nav id="bocneMenu" class="bocne-menu" aria-label="Hlavné menu" aria-hidden="true">
@@ -71,6 +76,18 @@
         <div class="menu-vetva" data-predmet="test">
           <button class="menu-polozka" type="button" data-predmet="test">TEST</button>
           <div class="menu-podstrom" data-predmet="test"></div>
+        </div>
+        <div class="menu-vetva" data-predmet="czs">
+          <button class="menu-polozka" type="button" data-predmet="czs">CZS SZZ</button>
+          <div class="menu-podstrom" data-predmet="czs"></div>
+        </div>
+        <div class="menu-vetva" data-predmet="hel">
+          <button class="menu-polozka" type="button" data-predmet="hel">HEL SZZ</button>
+          <div class="menu-podstrom" data-predmet="hel"></div>
+        </div>
+        <div class="menu-vetva" data-predmet="zin">
+          <button class="menu-polozka" type="button" data-predmet="zin">ZIN SZZ</button>
+          <div class="menu-podstrom" data-predmet="zin"></div>
         </div>
         <div class="menu-vetva" data-predmet="vs2">
           <button class="menu-polozka" type="button" data-predmet="vs2">VS2</button>
@@ -87,14 +104,6 @@
         <div class="menu-vetva" data-predmet="pc2">
           <button class="menu-polozka" type="button" data-predmet="pc2">PC2</button>
           <div class="menu-podstrom" data-predmet="pc2"></div>
-        </div>
-        <div class="menu-vetva" data-predmet="hel">
-          <button class="menu-polozka" type="button" data-predmet="hel">HEL</button>
-          <div class="menu-podstrom" data-predmet="hel"></div>
-        </div>
-        <div class="menu-vetva" data-predmet="czs">
-          <button class="menu-polozka" type="button" data-predmet="czs">CZS</button>
-          <div class="menu-podstrom" data-predmet="czs"></div>
         </div>
       </div>
     </section>
@@ -132,7 +141,10 @@
       <section id="panelNastaveni" class="panel-nastaveni skryte" role="dialog" aria-modal="true" aria-label="Nastavenia">
         <div class="nastavenia-hlavicka">
           <span class="nastavenia-titulok">Nastavenia</span>
-          <button id="tlacidloZavrietNastavenia" class="tlacidlo-zavriet" type="button" aria-label="Zavrieť nastavenia">×</button>
+          <div class="nastavenia-hlavicka-akcie">
+            <button id="tlacidloZobrazitUvodneInfo" class="mini-tlacidlo" type="button">Info</button>
+            <button id="tlacidloZavrietNastavenia" class="tlacidlo-zavriet" type="button" aria-label="Zavrieť nastavenia">×</button>
+          </div>
         </div>
 
         <div class="nastavenia-telo">
@@ -162,49 +174,49 @@
                 <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
                   <span id="textUcenia">Learn Mode</span>
                   <input id="prepinacUcenia" class="prepinac-volby" type="checkbox">
-                  <span id="hintUcenia" class="hint-nastavenia" role="tooltip">Zobrazi cely vybrany okruh so spravnymi odpovedami podla podokruhov.</span>
+                  <span id="hintUcenia" class="hint-nastavenia" role="tooltip">Zobrazi vybrany okruh ako prehlad podokruhov so spravnymi odpovedami. Pri statementoch vies krizikom presunut otazku do Trash poolu.</span>
                 </label>
 
                 <label id="riadokMultipleChoice" class="nastavenie nastavenie-prepinac nastavenie-s-hintom skryte">
                   <span>Multiple Choice</span>
                   <input id="prepinacMultipleChoice" class="prepinac-volby" type="checkbox">
-                  <span class="hint-nastavenia" role="tooltip">Iba pre HEL: vypne Crack Mode a zapne povodny mod s vyberom moznosti (kompatibilny len s niektorymi okruhmi).</span>
+                  <span class="hint-nastavenia" role="tooltip">Klasicky vyber moznosti pre HEL. Vypne Crack Mode a je kompatibilny len s okruhmi, ktore maju povodne multiple-choice otazky.</span>
                 </label>
 
                 <label id="riadokSpeedMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
                   <span id="textRychlehoRezimu">Speed Mode</span>
                   <input id="prepinacRychlehoRezimu" class="prepinac-volby" type="checkbox">
-                  <span id="hintRychlehoRezimu" class="hint-nastavenia" role="tooltip">Po spravnej odpovedi automaticky prejde na dalsiu otazku.</span>
+                  <span id="hintRychlehoRezimu" class="hint-nastavenia" role="tooltip">V klasickom teste po spravnej odpovedi automaticky prejde na dalsiu otazku. Speed Mode 2x navyse odosle odpoved hned po vybere.</span>
                 </label>
 
                 <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
                   <span>Mastery Mode</span>
                   <input id="prepinacPrejdeniaPoolu" class="prepinac-volby" type="checkbox" checked>
-                  <span class="hint-nastavenia" role="tooltip">Spravne zodpovedana otazka vypadne z aktualneho poolu. Nespravne odpovede ostanu v poole a bar sa iba plni, kym nedas spravne vsetko.</span>
+                  <span class="hint-nastavenia" role="tooltip">Spravne zodpovedana otazka vypadne z aktualneho poolu. Nespravne odpovede v nom ostanu, aby si ich drilloval, kym neprejdes vsetko.</span>
                 </label>
 
                 <label class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
                   <span>Endless Mode</span>
                   <input id="prepinacEndlessMode" class="prepinac-volby" type="checkbox">
-                  <span class="hint-nastavenia" role="tooltip">Otazky ostavaju v poole aj po spravnej odpovedi. Pri zapnutom Random sa po kazdej odpovedi vyberie nahodna otazka donekonecna.</span>
+                  <span class="hint-nastavenia" role="tooltip">Otazky ostavaju v poole aj po spravnej odpovedi, takze trening nekonci prejdenim celeho okruhu. S Randomom sa po odpovedi vybera nahodne.</span>
                 </label>
 
                 <label id="riadokExamMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom skryte">
                   <span id="textExamMode">Exam Mode</span>
                   <input id="prepinacExamMode" class="prepinac-volby" type="checkbox">
-                  <span class="hint-nastavenia" role="tooltip">Z vybranych HEL statementov spravi otvorenu skuskovu otazku. Ku kazdej casti dostanes pole na pisanie a medzernikom zobrazis vypracovanu odpoved. Druhym kliknutim prepnes na Exam Mode Mini, kde sa kazda podotazka rozbije na samostatny slide.</span>
+                  <span class="hint-nastavenia" role="tooltip">Pre HEL, CZS a ZIN vytvori otvorene skuskove otazky z vybraneho okruhu. Najprv pises vlastnu odpoved, medzernik zobrazi vypracovanie; druhy klik prepne na Exam Mode Mini po mensich castiach.</span>
                 </label>
 
                 <label id="riadokTimerMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
                   <span>Timer Mode</span>
                   <input id="prepinacCrackTimeru" class="prepinac-volby" type="checkbox">
-                  <span class="hint-nastavenia" role="tooltip">V Crack Mode sa lava tyc zmeni na 10-sekundovy casovac. Ked sa naplni, odpoved sa vyhodnoti ako nespravna a ide sa dalej.</span>
+                  <span class="hint-nastavenia" role="tooltip">V Crack Mode zapne 10-sekundovy limit na statement. Po vyprsani casu sa otazka vyhodnoti ako nespravna a aplikacia ide dalej.</span>
                 </label>
 
                 <label id="riadokMobileMode" class="nastavenie nastavenie-prepinac nastavenie-s-hintom">
                   <span>Mobile Mode</span>
                   <input id="prepinacMobilnehoCrackModu" class="prepinac-volby" type="checkbox">
-                  <span class="hint-nastavenia" role="tooltip">Na mobile sa zapne automaticky. Crack Mode layout pre mobil na sirku: statement cez sirku, velke z/x keycapy a velke klikatelne zony.</span>
+                  <span class="hint-nastavenia" role="tooltip">Mobilny layout pre Crack Mode. Na telefone sa zapne automaticky; pouziva vacsie zony a klavesy 1/0 namiesto z/x.</span>
                 </label>
               </div>
             </section>
@@ -215,17 +227,21 @@
                 <label class="nastavenie nastavenie-prepinac">
                   <span>Citáty</span>
                   <input id="prepinacCitatov" class="prepinac-volby" type="checkbox" checked>
+                  <span class="hint-nastavenia" role="tooltip">Zapne kratke citaty po odpovediach. Pri vypnuti ostane trening bez tychto textovych hlaskov.</span>
                 </label>
 
                 <label class="nastavenie nastavenie-prepinac">
                   <span>Random</span>
                   <input id="prepinacNahodnehoPoradia" class="prepinac-volby" type="checkbox" checked>
+                  <span class="hint-nastavenia" role="tooltip">Premiesa aktualny pool. Pri vypnuti idu otazky v poradi okruhu; pri zapnuti sa poradie po nastaveni poolu nahodne zamiesa.</span>
                 </label>
 
                 <label class="nastavenie nastavenie-prepinac">
                   <span>Display Sorting</span>
                   <input id="prepinacDisplaySorting" class="prepinac-volby" type="checkbox">
+                  <span class="hint-nastavenia" role="tooltip">Zobrazi tlacidla a klavesy na triedenie: q presunie otazku do Trash poolu, w do Tazkeho poolu a e oznaci odpoved Neviem.</span>
                 </label>
+
               </div>
             </section>
 
@@ -233,11 +249,13 @@
               <label class="nastavenie">
                 <span>Volume</span>
                 <input id="posuvnikHlasitosti" type="range" min="0" max="100" value="33">
+                <span class="hint-nastavenia" role="tooltip">Nastavi hlasitost zvukov aplikacie. Hodnota sa pouzije pre efekty spravnych a nespravnych odpovedi.</span>
               </label>
 
               <label class="nastavenie nastavenie-prepinac">
                 <span>Mute</span>
                 <input id="prepinacVypnutiaZvuku" class="prepinac-volby" type="checkbox">
+                <span class="hint-nastavenia" role="tooltip">Vypne zvuky aplikacie bez zmeny nastavenej hlasitosti.</span>
               </label>
 
               <div class="nastavenie">
@@ -265,6 +283,7 @@
                     <span class="vzorka-temy vzorka-tabula" aria-hidden="true"></span>
                   </button>
                 </div>
+                <span class="hint-nastavenia" role="tooltip">Prepina vizualnu temu aplikacie. Vyber sa ulozi pre dalsie otvorenie stranky.</span>
               </div>
             </section>
           </div>
@@ -336,6 +355,11 @@
               <button id="tlacidloOdstranitOtazku" class="tlacidlo-otazky" type="button"></button>
               <button id="tlacidloPridatTazkuOtazku" class="tlacidlo-otazky" type="button"></button>
               <button id="tlacidloNeviem" class="tlacidlo-otazky" type="button"></button>
+            </div>
+            <div class="tlacidla-predosly-sort">
+              <button id="tlacidloBackspaceSorting" class="tlacidlo-otazky tlacidlo-backspace-sort" type="button" aria-label="Backspace: predchadzajuca odpoved" disabled>
+                <img class="ikona-backspace-sort" src="assets/backspace.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <div id="tlacidlaUcenia" class="tlacidla-otazky tlacidla-sipok" aria-label="Ovládanie Learn Mode">
               <button id="tlacidloSipkaVlavo" class="tlacidlo-otazky tlacidlo-sipky" type="button">Vlavo</button>
@@ -416,6 +440,17 @@
   <script src="data/hel-szz10-crack.js"></script>
   <script src="data/hel-tier1.js"></script>
   <script src="data/hel-szz-okruhy.js"></script>
+  <script src="data/zin-otazky.js"></script>
+  <script src="data/zin1-crack.js"></script>
+  <script src="data/zin2-crack.js"></script>
+  <script src="data/zin3-crack.js"></script>
+  <script src="data/zin4-crack.js"></script>
+  <script src="data/zin5-crack.js"></script>
+  <script src="data/zin6-crack.js"></script>
+  <script src="data/zin7-crack.js"></script>
+  <script src="data/zin8-crack.js"></script>
+  <script src="data/zin9-crack.js"></script>
+  <script src="data/zin10-crack.js"></script>
   <script src="data/vs2-otazky.js"></script>
   <script src="data/aud-otazky.js"></script>
   <script src="data/Veterina.js"></script>

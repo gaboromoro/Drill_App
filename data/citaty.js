@@ -41,7 +41,7 @@ const citaty = [
   },
   {
     zdroj: "Jób 1, 21",
-    text: "„Nahý som vyšiel z lona svojej matky a nahý sa ta vrátim.\n\nPán dal, Pán vzal, nech je Pánovo meno zvelebené!“"
+    text: "„Nahý som vyšiel z lona svojej matky a nahý sa ta vrátim.\nPán dal, Pán vzal, nech je Pánovo meno zvelebené!“"
   },
   {
     zdroj: "2 Kor 4, 10",

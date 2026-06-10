@@ -16,8 +16,10 @@
 //   Skuska 2 -> SZZ 3
 //   Skuska 3 -> SZZ 4 (hybrid/bicie) + SZZ 9 (sekvencery/sync)
 //   Skuska 4 -> SZZ 6 (tabulky/sampler) + "Ostatne" (PD/modalna/Karplus)
-//   Skuska 5 -> SZZ 8 (multitembr./GM-GS-XG) + SZZ 9 (sekvencery/SMF) + SZZ 6 (sampler)
-//   Skuska 6 -> SZZ 5   (gap-fill HEL_06 Digitalna realizacia)
+//   Skuska 5 -> SZZ 8 (multitembr./standardizacia/GM) + SZZ 9 (sekvencery/SMF)
+//               + SZZ 6 (sampler) + "Ostatne" (Roland GS / Yamaha XG specifika)
+//   Skuska 6 -> SZZ 5 (gap-fill HEL_06 Digitalna realizacia oscilatora)
+//               + "Ostatne" (sum, parametricke filtre, VA syntezatory)
 //   Skuska 7 -> SZZ 7
 //   Skuska 8 -> SZZ 8 (klaviatura) + "Ostatne" (pedale/ribbon/enkodery/...)
 //   Skuska 9 -> SZZ 10  (gap-fill HEL_09 Kytarove kombo)
@@ -63,22 +65,36 @@
     "MIDI synchronizacia", "Standardne MIDI subory"
   ]);
 
+  // SZZ 8 pyta organizaciu zvukov multitembroveho nastroja - vseobecna
+  // standardizacia a General MIDI ostavaju, GS/XG specifika otazka nemenuje.
+  const S5_GMGSXG_DO_OSTATNE = new Set(["Roland GS", "Yamaha XG"]);
+
+  // Skuska 6: SZZ 5 pyta len realizacie digitalneho oscilatora - sumove signaly,
+  // parametricke filtre a VA syntezatory otazka nemenuje -> Ostatne.
+  // (Aliasing a nadvzorkovanie ostava: zdovodnuje pasmovo obmedzene metody.)
+  const S6_DO_OSTATNE = new Set([
+    "Sumove signaly", "Parametricke filtre", "Virtualne analogove syntezatory"
+  ]);
+
   // Skuska 8: parametre klaviatury -> SZZ 8; zvysok ovladacov (pedale, otocne/
   // posuvne, dotykove/ribbon, snimanie, MIDI kontrolery/DAW, specialne) -> Ostatne.
   const S8_DO_SZZ8 = new Set(["Klaviatura nastroja"]);
 
   function szzCislo(otazka) {
-    const oblast = String(otazka.subtema || "").split("/")[0].trim();
+    const casti = String(otazka.subtema || "").split("/").map((c) => c.trim());
+    const oblast = casti[0] || "";
+    const podoblast = casti[1] || "";
     switch (otazka.prezentacia) {
       case "HEL Skuska 1":  return S1_DO_SZZ2.has(oblast) ? 2 : 1;
       case "HEL Skuska 2":  return 3;
       case "HEL Skuska 3":  return S3_DO_SZZ9.has(oblast) ? 9 : 4;
       case "HEL Skuska 4":  return S4_DO_OSTATNE.has(oblast) ? 11 : 6;
       case "HEL Skuska 5":
+        if (oblast === "GM GS XG" && S5_GMGSXG_DO_OSTATNE.has(podoblast)) return 11;
         if (S5_DO_SZZ8.has(oblast)) return 8;
         if (S5_DO_SZZ9.has(oblast)) return 9;
         return 6;
-      case "HEL Skuska 6":  return 5;   // gap-fill: HEL_06 Digitalna realizacia
+      case "HEL Skuska 6":  return S6_DO_OSTATNE.has(oblast) ? 11 : 5;
       case "HEL Skuska 7":  return 7;
       case "HEL Skuska 8":  return S8_DO_SZZ8.has(oblast) ? 8 : 11;
       case "HEL Skuska 9":  return 10;  // gap-fill: HEL_09 Kytarove kombo
