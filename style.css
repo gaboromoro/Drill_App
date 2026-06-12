@@ -831,12 +831,12 @@ body.streak-milnik-flash .streak-efekty::before {
   opacity: 0;
   pointer-events: none;
   image-rendering: pixelated;
-  mix-blend-mode: screen;
+  mix-blend-mode: normal;
   transition: opacity 180ms linear;
 }
 
 body.streak-burn-okraje .streak-burn-canvas {
-  opacity: calc(0.46 + var(--streak-burn-intenzita, 0) * 0.54);
+  opacity: 1;
 }
 
 .milnik-burst {
@@ -1963,6 +1963,35 @@ h3 {
   background: var(--pozadie);
 }
 
+/* Crack mode s obrazkom nastroja (ZIN): otazka ma plnu sirku,
+   obrazok ostava napravo az pod textom otazky. */
+body.rezim-crack .panel:has(> .obrazok-otazky:not(.skryte)) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(112px, 26%, 220px);
+  grid-template-areas:
+    "riadok riadok"
+    "otazka otazka"
+    "moznosti obrazok"
+    "vysledok vysledok"
+    "ovladanie ovladanie";
+  column-gap: 20px;
+  align-items: start;
+}
+
+body.rezim-crack .panel:has(> .obrazok-otazky:not(.skryte)) > .riadok { grid-area: riadok; }
+body.rezim-crack .panel:has(> .obrazok-otazky:not(.skryte)) > #otazka { grid-area: otazka; }
+body.rezim-crack .panel:has(> .obrazok-otazky:not(.skryte)) > .moznosti { grid-area: moznosti; }
+body.rezim-crack .panel:has(> .obrazok-otazky:not(.skryte)) > .vysledok { grid-area: vysledok; }
+body.rezim-crack .panel:has(> .obrazok-otazky:not(.skryte)) > .ovladanie { grid-area: ovladanie; }
+
+body.rezim-crack .panel:has(> .obrazok-otazky:not(.skryte)) > .obrazok-otazky {
+  grid-area: obrazok;
+  justify-self: end;
+  align-self: start;
+  max-width: 100%;
+  margin: -4px 0 0;
+}
+
 .media-otazky {
   display: grid;
   gap: 12px;
@@ -2222,16 +2251,21 @@ body.rezim-crack.rezim-crack-mobile .vysledok-statement {
   color: #000000;
 }
 
-/* Mala caption nad odhalenou spravnou odpovedou (cisto cez CSS, miznе s triedou). */
+/* Slow Mode label: spravna odpoved nahradi text v tom istom slote;
+   label je absolutny, takze statement neposuva nizsie. */
 .crack-odhalena::before {
-  content: "Správna odpoveď";
-  display: block;
+  content: "SPRAVNA ODPOVED";
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 0.35em);
+  display: inline-block;
   font-size: 0.46em;
   font-weight: 700;
   letter-spacing: 0.06em;
-  text-transform: uppercase;
+  line-height: 1.2;
   opacity: 0.55;
-  margin-bottom: 0.35em;
+  pointer-events: none;
+  white-space: nowrap;
 }
 
 /* Staty na obrazovke dokonceneho poolu (pod velkym "HOTOVO"). */
@@ -2594,6 +2628,12 @@ body.rezim-crack #rezimTest .panel {
 
 body.rezim-crack:not(.rezim-crack-mobile) .stranka {
   width: min(1720px, calc(100% - 32px));
+}
+
+/* Crack mode (desktop, bez timera): uzsi pravy stlpec - pravy okraj textu
+   otazky siaha dalej doprava. Timer si necha 220px na zvisly bar. */
+body.rezim-crack:not(.rezim-crack-mobile):not(.rezim-crack-timer) #rezimTest {
+  grid-template-columns: 170px minmax(0, 1fr) 110px;
 }
 
 body.rezim-crack:not(.rezim-crack-mobile):not(.rezim-exam) #otazka {
@@ -3003,6 +3043,137 @@ body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .ovladanie .kl
   body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #rezimTest,
   body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #rezimTest .panel {
     overflow-y: auto;
+  }
+}
+
+body.rezim-crack.rezim-crack-mobile .moznost,
+body.rezim-crack.rezim-crack-mobile .tlacidlo-otazky,
+body.rezim-crack.rezim-crack-mobile button {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Mobile Display Sorting keeps the original big 1/0 answer keycaps.
+   Sorting actions are a separate compact keycap row, so low phones stay usable. */
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #rezimTest .panel {
+  min-height: calc(var(--mobil-vyska) - 140px);
+  padding-top: clamp(18px, 8vh, 56px);
+  overflow: hidden;
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .stlpec-uspesnosti {
+  height: clamp(48px, 10vh, 84px);
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #otazka {
+  max-height: 34vh;
+  margin-bottom: clamp(8px, 2vh, 18px);
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .moznosti {
+  flex: 1 1 auto;
+  min-height: clamp(110px, 30vh, 230px);
+  margin-top: 0;
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .moznost {
+  min-height: 100%;
+  padding-top: clamp(6px, 1.4vh, 14px);
+  padding-bottom: clamp(6px, 1.4vh, 14px);
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .moznost .klavesa {
+  width: clamp(96px, 18vw, 170px);
+  height: clamp(90px, 17vw, 160px);
+  font-size: clamp(42px, 8vw, 78px);
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .ovladanie {
+  display: flex;
+  flex: 0 0 auto;
+  width: 100%;
+  margin: clamp(8px, 1.6vh, 16px) 0 max(8px, env(safe-area-inset-bottom));
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .riadok-ovladania {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(8px, 2vw, 16px);
+  width: 100%;
+  margin-top: 0;
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .tlacidla-otazky {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+  gap: clamp(8px, 2vw, 14px);
+  margin-top: 0;
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .tlacidla-predosly-sort {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  margin-left: 0;
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #tlacidlaUcenia,
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #tlacidloMedzernik {
+  display: none;
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #tlacidloNeviem {
+  display: inline-flex;
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .ovladanie .text-tlacidla-otazky {
+  display: none;
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .ovladanie .tlacidlo-otazky {
+  min-height: clamp(50px, 11vw, 82px);
+  padding: 0;
+  gap: 0;
+}
+
+body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .ovladanie .klavesa-tlacidla {
+  width: clamp(54px, 12vw, 88px);
+  height: clamp(50px, 11vw, 82px);
+  font-size: clamp(22px, 5vw, 40px);
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #rezimTest .panel {
+    padding-top: clamp(4px, 2vh, 14px);
+    overflow-y: auto;
+  }
+
+  body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .stlpec-uspesnosti {
+    height: clamp(34px, 8vh, 52px);
+  }
+
+  body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) #otazka {
+    max-height: min(30vh, calc(var(--mobil-vyska) - 172px));
+    margin-bottom: clamp(4px, 1vh, 8px);
+  }
+
+  body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .moznosti {
+    flex: 1 0 clamp(76px, 24vh, 122px);
+    min-height: clamp(76px, 24vh, 122px);
+  }
+
+  body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .moznost .klavesa {
+    width: clamp(76px, 12vw, 112px);
+    height: clamp(72px, 11.2vw, 106px);
+    font-size: clamp(34px, 5.7vw, 54px);
+  }
+
+  body.rezim-crack.rezim-crack-mobile:not(.display-sorting-vypnuty) .ovladanie .klavesa-tlacidla {
+    width: clamp(46px, 9.6vw, 64px);
+    height: clamp(44px, 9vw, 60px);
+    font-size: clamp(20px, 4vw, 30px);
   }
 }
 

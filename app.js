@@ -182,6 +182,8 @@ const prepinacVypnutiaZvuku = document.getElementById("prepinacVypnutiaZvuku");
 const prepinacCitatov = document.getElementById("prepinacCitatov");
 const prepinacNahodnehoPoradia = document.getElementById("prepinacNahodnehoPoradia");
 const prepinacDisplaySorting = document.getElementById("prepinacDisplaySorting");
+const prepinacExtraStatements = document.getElementById("prepinacExtraStatements");
+const riadokExtraStatements = document.getElementById("riadokExtraStatements");
 const prepinacUcenia = document.getElementById("prepinacUcenia");
 const prvokTextUcenia = document.getElementById("textUcenia");
 const prvokHintUcenia = document.getElementById("hintUcenia");
@@ -276,7 +278,13 @@ function ziskajUrovenStreakBurnu(streak) {
 function ziskajIntenzituStreakBurnu(streak) {
   const uroven = ziskajUrovenStreakBurnu(streak);
   if (uroven < 0) return 0;
-  return Math.min(0.12 + uroven * 0.31, 1);
+  const krok = Math.max(0, streak - PRAH_BURN_OKRAJOV);
+  const poziciaVKroku = krok % KROK_BURN_OKRAJOV;
+  const jemnyNarast = poziciaVKroku / Math.max(KROK_BURN_OKRAJOV - 1, 1);
+  const zaklady = [0.02, 0.34, 0.68, 0.92];
+  const prirastky = [0.12, 0.16, 0.14, 0.08];
+  const index = Math.min(uroven, zaklady.length - 1);
+  return Math.min(zaklady[index] + jemnyNarast * prirastky[index], 1);
 }
 
 function hashStreakBurnu(hodnota) {
@@ -297,28 +305,39 @@ function dosahStreakBurnu(smer, pozicia) {
   const i = streakBurn.intenzita;
   const faza = streakBurn.faza;
   const posun = smer * 37.17;
-  const velkaVlna = (Math.sin(pozicia * 0.105 + faza * 0.28 + posun) + 1) * 0.5;
-  const malaVlna = (Math.sin(pozicia * 0.31 - faza * 0.44 + posun * 0.7) + 1) * 0.5;
-  const bunka = (pozicia + faza * 0.72 + smer * 11) / 5;
-  const sum = velkaVlna * 0.48 + malaVlna * 0.3 + hladkyHashStreakBurnu(bunka) * 0.22;
-  const spicaBunka = pozicia / 7 + smer * 101;
-  const spicaPulz = (Math.sin(faza * 0.32 + spicaBunka * 1.9) + 1) * 0.5;
-  const spicaSeed = hladkyHashStreakBurnu(spicaBunka) * 0.64 + spicaPulz * 0.36;
-  const spica = spicaSeed > 0.52 ? Math.pow((spicaSeed - 0.52) / 0.48, 1.35) : 0;
-  const zaklad = 4 + i * 4;
-  const vlna = Math.pow(sum, 1.25) * (7 + i * 11);
-  const spicovyBonus = spica * (13 + i * 22);
-  return Math.round(zaklad + vlna + spicovyBonus);
+  const velkaVlna = (Math.sin(pozicia * 0.11 + faza * 0.42 + posun) + 1) * 0.5;
+  const malaVlna = (Math.sin(pozicia * 0.43 - faza * 1.05 + posun * 0.7) + 1) * 0.5;
+  const bunka = (pozicia + faza * 0.9 + smer * 11) / 3.1;
+  const sum = velkaVlna * 0.36 + malaVlna * 0.26 + hladkyHashStreakBurnu(bunka) * 0.38;
+  const spicaBunka = pozicia / 3.25 + faza * 0.28 + smer * 101;
+  const spicaPulz = (Math.sin(faza * 0.92 + spicaBunka * 2.8) + 1) * 0.5;
+  const spicaSeed = hladkyHashStreakBurnu(spicaBunka) * 0.7 + spicaPulz * 0.3;
+  const spica = spicaSeed > 0.62 ? Math.pow((spicaSeed - 0.62) / 0.38, 1.85) : 0;
+  const zarez = Math.pow(hladkyHashStreakBurnu(pozicia / 2.2 - faza * 0.42 + smer * 19), 1.35) * (1.2 + i * 3.8);
+  const zaklad = 1 + i * 3.2;
+  const vlna = Math.pow(sum, 1.95) * (2.6 + i * 10);
+  const spicovyBonus = spica * (7 + i * 32);
+  return Math.max(1, Math.round(zaklad + vlna + spicovyBonus - zarez));
+}
+
+function kresliBocneHranyStreakBurnu() {
+  if (typeof window === "undefined") return true;
+  return window.innerWidth >= 720;
 }
 
 function najblizsiaHranaBurnu(x, y) {
   const { sirka, vyska } = streakBurn;
-  const moznosti = [
-    { smer: 0, vzdialenost: x, pozicia: y },
-    { smer: 1, vzdialenost: sirka - 1 - x, pozicia: y },
-    { smer: 2, vzdialenost: y, pozicia: x },
-    { smer: 3, vzdialenost: vyska - 1 - y, pozicia: x }
-  ];
+  const moznosti = kresliBocneHranyStreakBurnu()
+    ? [
+        { smer: 0, vzdialenost: x, pozicia: y },
+        { smer: 1, vzdialenost: sirka - 1 - x, pozicia: y },
+        { smer: 2, vzdialenost: y, pozicia: x },
+        { smer: 3, vzdialenost: vyska - 1 - y, pozicia: x }
+      ]
+    : [
+        { smer: 2, vzdialenost: y, pozicia: x },
+        { smer: 3, vzdialenost: vyska - 1 - y, pozicia: x }
+      ];
   let najblizsia = moznosti[0];
   for (const moznost of moznosti) {
     if (moznost.vzdialenost < najblizsia.vzdialenost) {
@@ -372,25 +391,104 @@ function namiesajZlozky(a, b, pomer) {
   ];
 }
 
-function farbaPixeluBurnu(teplota) {
-  const t = Math.max(0, Math.min(1, teplota / 255));
-  if (t < 0.08) return [0, 0, 0, 0];
-
-  const tmava = streakBurn.okrajRgb.map((cast) => Math.round(cast * 0.34));
-  const jasna = namiesajZlozky(streakBurn.rgb, [255, 255, 255], 0.78);
-  let farba;
-  if (t < 0.34) {
-    farba = namiesajZlozky(tmava, streakBurn.okrajRgb, (t - 0.08) / 0.26);
-  } else if (t < 0.56) {
-    farba = namiesajZlozky(streakBurn.okrajRgb, streakBurn.rgb, (t - 0.34) / 0.22);
-  } else if (t < 0.8) {
-    farba = namiesajZlozky(streakBurn.rgb, jasna, (t - 0.56) / 0.24);
-  } else {
-    farba = namiesajZlozky(jasna, [255, 255, 255], (t - 0.8) / 0.2);
+function najblizsiaStatickaHranaBurnu(x, y) {
+  const { sirka, vyska } = streakBurn;
+  if (!kresliBocneHranyStreakBurnu()) {
+    const hore = y;
+    const dole = vyska - 1 - y;
+    return hore <= dole
+      ? { smer: 2, vzdialenost: hore, pozicia: x }
+      : { smer: 3, vzdialenost: dole, pozicia: x };
   }
 
-  const alfa = Math.round(Math.min(255, ((t - 0.08) / 0.92) * (205 + streakBurn.intenzita * 50)));
-  return [farba[0], farba[1], farba[2], alfa];
+  const vlavo = x;
+  const vpravo = sirka - 1 - x;
+  const hore = y;
+  const dole = vyska - 1 - y;
+  const minimum = Math.min(vlavo, vpravo, hore, dole);
+
+  if (minimum === vlavo) return { smer: 0, vzdialenost: vlavo, pozicia: y };
+  if (minimum === vpravo) return { smer: 1, vzdialenost: vpravo, pozicia: y };
+  if (minimum === hore) return { smer: 2, vzdialenost: hore, pozicia: x };
+  return { smer: 3, vzdialenost: dole, pozicia: x };
+}
+
+function silaVnutornychCiarBurnu(x, y, teplota) {
+  const t = Math.max(0, Math.min(1, teplota / 255));
+  if (t < 0.34) return 0;
+
+  const hrana = najblizsiaStatickaHranaBurnu(x, y);
+  const pomerDoVnutra = hrana.vzdialenost / Math.max(streakBurn.hlbka, 1);
+  if (pomerDoVnutra < 0.1 || pomerDoVnutra > 0.94) return 0;
+
+  const faza = streakBurn.faza;
+  const pozicia = hrana.pozicia;
+  const cikcak =
+    Math.sin(pozicia * 0.72 + hrana.vzdialenost * 1.18 + faza * 0.94 + hrana.smer * 4.1) +
+    Math.sin(pozicia * 0.31 - hrana.vzdialenost * 0.86 + faza * 0.62) * 0.55;
+  const jadroCiary = Math.max(0, 1 - Math.abs(cikcak) / 0.36);
+  const zubatost = hladkyHashStreakBurnu(pozicia / 2.6 + hrana.vzdialenost * 0.38 + hrana.smer * 17);
+  const vnutro = Math.sin(Math.PI * pomerDoVnutra);
+  return Math.min(1, Math.pow(jadroCiary, 1.8) * (0.45 + zubatost * 0.75) * vnutro);
+}
+
+function silaBielehoJadraBurnu(x, y, teplota) {
+  const t = Math.max(0, Math.min(1, teplota / 255));
+  if (t < 0.58) return 0;
+
+  const hrana = najblizsiaStatickaHranaBurnu(x, y);
+  const faza = streakBurn.faza;
+  const i = streakBurn.intenzita;
+  const pozicia = hrana.pozicia;
+  const vzdialenost = hrana.vzdialenost;
+  const vlna =
+    (Math.sin(pozicia * 0.5 + faza * 1.25 + hrana.smer * 2.8) + 1) * 0.35 +
+    (Math.sin(pozicia * 0.19 - faza * 0.84 + vzdialenost * 0.9) + 1) * 0.2 +
+    hladkyHashStreakBurnu(pozicia / 2.2 + faza * 0.52 + hrana.smer * 31) * 0.45;
+  const vyskaJadra = 0.55 + i * 0.65 + Math.pow(vlna, 1.65) * (1.7 + i * 4.4);
+  const hlbka = Math.max(0, 1 - vzdialenost / Math.max(vyskaJadra, 0.1));
+  if (hlbka <= 0) return 0;
+
+  const deravaMaska =
+    hladkyHashStreakBurnu(pozicia / 1.45 + faza * 0.92 + vzdialenost * 0.8 + hrana.smer * 13) * 0.62 +
+    vlna * 0.38;
+  if (vzdialenost <= 0 && deravaMaska < 0.34) return 0;
+
+  const horucost = Math.max(0, Math.min(1, (t - 0.58) / 0.42));
+  return Math.min(1, Math.pow(hlbka, 0.72) * Math.pow(horucost, 0.95) * (0.42 + deravaMaska * 0.82));
+}
+
+function farbaPixeluBurnu(teplota, x, y) {
+  const t = Math.max(0, Math.min(1, teplota / 255));
+  if (t < 0.12) return [0, 0, 0, 0];
+
+  const hrot = namiesajZlozky(streakBurn.okrajRgb, streakBurn.rgb, 0.08);
+  const okraj = namiesajZlozky(streakBurn.okrajRgb, streakBurn.rgb, 0.28);
+  const stred = namiesajZlozky(streakBurn.rgb, [255, 255, 255], 0.08);
+  let farba;
+  if (t < 0.72) {
+    farba = namiesajZlozky(hrot, okraj, (t - 0.12) / 0.6);
+  } else if (t < 0.9) {
+    farba = namiesajZlozky(okraj, stred, (t - 0.72) / 0.18);
+  } else if (t < 0.965) {
+    farba = namiesajZlozky(stred, [255, 255, 255], (t - 0.9) / 0.065);
+  } else {
+    farba = namiesajZlozky(stred, [255, 255, 255], 0.82);
+  }
+
+  const silaBielehoJadra = silaBielehoJadraBurnu(x, y, teplota);
+  if (silaBielehoJadra > 0) {
+    farba = silaBielehoJadra > 0.9
+      ? [255, 255, 255]
+      : namiesajZlozky(farba, [255, 255, 255], Math.min(0.92, silaBielehoJadra));
+  }
+
+  const silaCiar = silaVnutornychCiarBurnu(x, y, teplota);
+  if (silaCiar > 0) {
+    farba = namiesajZlozky(farba, hrot, Math.min(0.66, 0.22 + silaCiar * 0.5));
+  }
+
+  return [farba[0], farba[1], farba[2], 255];
 }
 
 function seedujStreakBurn() {
@@ -412,14 +510,16 @@ function seedujStreakBurn() {
     }
   }
 
-  for (let y = 0; y < vyska; y++) {
-    for (let d = 0; d < hrubkaJadra; d++) {
-      const vlavo = y * sirka + d;
-      const vpravo = y * sirka + (sirka - 1 - d);
-      const cielVlavo = Math.random() < sanca ? nahodneBurnCislo(minimum, 255) : nahodneBurnCislo(18, 118);
-      const cielVpravo = Math.random() < sanca ? nahodneBurnCislo(minimum, 255) : nahodneBurnCislo(18, 118);
-      teplo[vlavo] = Math.max(teplo[vlavo], Math.round(teplo[vlavo] * 0.68 + cielVlavo * 0.32));
-      teplo[vpravo] = Math.max(teplo[vpravo], Math.round(teplo[vpravo] * 0.68 + cielVpravo * 0.32));
+  if (kresliBocneHranyStreakBurnu()) {
+    for (let y = 0; y < vyska; y++) {
+      for (let d = 0; d < hrubkaJadra; d++) {
+        const vlavo = y * sirka + d;
+        const vpravo = y * sirka + (sirka - 1 - d);
+        const cielVlavo = Math.random() < sanca ? nahodneBurnCislo(minimum, 255) : nahodneBurnCislo(18, 118);
+        const cielVpravo = Math.random() < sanca ? nahodneBurnCislo(minimum, 255) : nahodneBurnCislo(18, 118);
+        teplo[vlavo] = Math.max(teplo[vlavo], Math.round(teplo[vlavo] * 0.68 + cielVlavo * 0.32));
+        teplo[vpravo] = Math.max(teplo[vpravo], Math.round(teplo[vpravo] * 0.68 + cielVpravo * 0.32));
+      }
     }
   }
 }
@@ -469,14 +569,21 @@ function prepocitajStreakBurn() {
     dalsie[index] = Math.max(0, teplo[zdroj] - rozpad);
   };
 
-  for (let y = 0; y < vyska; y++) {
-    for (let x = 0; x < limitX; x++) spracuj(x, y);
-    for (let x = zaciatokPravej; x < sirka; x++) spracuj(x, y);
-  }
+  if (kresliBocneHranyStreakBurnu()) {
+    for (let y = 0; y < vyska; y++) {
+      for (let x = 0; x < limitX; x++) spracuj(x, y);
+      for (let x = zaciatokPravej; x < sirka; x++) spracuj(x, y);
+    }
 
-  for (let x = limitX; x < zaciatokPravej; x++) {
-    for (let y = 0; y < limitY; y++) spracuj(x, y);
-    for (let y = zaciatokSpodku; y < vyska; y++) spracuj(x, y);
+    for (let x = limitX; x < zaciatokPravej; x++) {
+      for (let y = 0; y < limitY; y++) spracuj(x, y);
+      for (let y = zaciatokSpodku; y < vyska; y++) spracuj(x, y);
+    }
+  } else {
+    for (let x = 0; x < sirka; x++) {
+      for (let y = 0; y < limitY; y++) spracuj(x, y);
+      for (let y = zaciatokSpodku; y < vyska; y++) spracuj(x, y);
+    }
   }
 
   streakBurn.teplo = dalsie;
@@ -498,8 +605,8 @@ function vykresliStreakBurn() {
   const zapis = (x, y) => {
     const index = y * sirka + x;
     const teplota = teplo[index];
-    if (teplota < 21) return;
-    const [r, g, b, a] = farbaPixeluBurnu(teplota);
+    if (teplota < 31) return;
+    const [r, g, b, a] = farbaPixeluBurnu(teplota, x, y);
     const offset = index * 4;
     data[offset] = r;
     data[offset + 1] = g;
@@ -507,14 +614,21 @@ function vykresliStreakBurn() {
     data[offset + 3] = a;
   };
 
-  for (let y = 0; y < vyska; y++) {
-    for (let x = 0; x < limitX; x++) zapis(x, y);
-    for (let x = zaciatokPravej; x < sirka; x++) zapis(x, y);
-  }
+  if (kresliBocneHranyStreakBurnu()) {
+    for (let y = 0; y < vyska; y++) {
+      for (let x = 0; x < limitX; x++) zapis(x, y);
+      for (let x = zaciatokPravej; x < sirka; x++) zapis(x, y);
+    }
 
-  for (let x = limitX; x < zaciatokPravej; x++) {
-    for (let y = 0; y < limitY; y++) zapis(x, y);
-    for (let y = zaciatokSpodku; y < vyska; y++) zapis(x, y);
+    for (let x = limitX; x < zaciatokPravej; x++) {
+      for (let y = 0; y < limitY; y++) zapis(x, y);
+      for (let y = zaciatokSpodku; y < vyska; y++) zapis(x, y);
+    }
+  } else {
+    for (let x = 0; x < sirka; x++) {
+      for (let y = 0; y < limitY; y++) zapis(x, y);
+      for (let y = zaciatokSpodku; y < vyska; y++) zapis(x, y);
+    }
   }
 
   ctx.putImageData(obrazok, 0, 0);
@@ -523,9 +637,15 @@ function vykresliStreakBurn() {
 function krokStreakBurn(cas) {
   if (!streakBurn.aktivny) return;
 
-  if (cas - streakBurn.poslednyCas >= streakBurn.interval) {
+  if (!streakBurn.poslednyCas) {
     streakBurn.poslednyCas = cas;
-    streakBurn.faza += 0.18 + streakBurn.intenzita * 0.42;
+  }
+
+  const uplynulo = cas - streakBurn.poslednyCas;
+  if (uplynulo >= streakBurn.interval) {
+    const nasobicCasu = Math.max(0.65, Math.min(2.4, uplynulo / 16.67));
+    streakBurn.poslednyCas = cas;
+    streakBurn.faza += (0.07 + streakBurn.intenzita * 0.72) * nasobicCasu;
     prepocitajStreakBurn();
     vykresliStreakBurn();
   }
@@ -537,8 +657,8 @@ function nastavStreakBurn(zapnuty, farby, intenzita) {
   streakBurn.rgb = rgbTextNaPole(farby.ziara, [255, 216, 17]);
   streakBurn.okrajRgb = rgbTextNaPole(farby.okraj, [255, 126, 0]);
   streakBurn.intenzita = Math.max(0, Math.min(1, intenzita));
-  streakBurn.hlbka = Math.round(7 + streakBurn.intenzita * 28);
-  streakBurn.interval = Math.round(196 - streakBurn.intenzita * 94);
+  streakBurn.hlbka = Math.round(3 + streakBurn.intenzita * 42);
+  streakBurn.interval = Math.round(30 - streakBurn.intenzita * 12);
 
   if (!zapnuty || !streakBurn.canvas || !streakBurn.ctx || streakBurn.znizenyPohyb?.matches) {
     zastavStreakBurn();
@@ -1660,6 +1780,22 @@ function jeDisplaySortingZapnuty() {
   return Boolean(prepinacDisplaySorting && prepinacDisplaySorting.checked);
 }
 
+function suExtraStatementsZapnute() {
+  return Boolean(prepinacExtraStatements && prepinacExtraStatements.checked);
+}
+
+function jeOtazkaDostupnaPodlaExtraStatements(otazka, predmet = aktualnyPredmet) {
+  return predmet !== "zin" || suExtraStatementsZapnute() || !otazka.extraStatement;
+}
+
+function filtrujExtraStatementsPredmetu(predmet, otazky) {
+  if (predmet !== "zin" || suExtraStatementsZapnute()) {
+    return otazky;
+  }
+
+  return otazky.filter((otazka) => !otazka.extraStatement);
+}
+
 function nastavDisplaySorting() {
   document.body.classList.toggle("display-sorting-vypnuty", !jeDisplaySortingZapnuty());
 }
@@ -1692,8 +1828,8 @@ function aktualizujViditelnostModov() {
   const hel = aktualnyPredmet === "hel";
   const test = jeTestPredmet();
   const crack = jeCrackMode();
-  // Multiple Choice je iba pre HEL; Exam Mode pre HEL, CZS aj ZIN.
-  const examPodporovany = hel || aktualnyPredmet === "czs" || aktualnyPredmet === "zin";
+  // Multiple Choice je iba pre HEL; Exam Mode pre HEL, CZS, ZIN aj VS2.
+  const examPodporovany = hel || aktualnyPredmet === "czs" || aktualnyPredmet === "zin" || aktualnyPredmet === "vs2";
   if (riadokMultipleChoice) riadokMultipleChoice.classList.toggle("skryte", !hel);
   if (riadokExamMode) riadokExamMode.classList.toggle("skryte", !examPodporovany);
   // TEST ma rychly rezim automaticky; pre crack mode Speed Mode tiez nedava zmysel.
@@ -1702,6 +1838,7 @@ function aktualizujViditelnostModov() {
   if (riadokTimerMode) riadokTimerMode.classList.toggle("skryte", !crack);
   if (riadokMobileMode) riadokMobileMode.classList.toggle("skryte", !crack);
   if (riadokSlowMode) riadokSlowMode.classList.toggle("skryte", !crack);
+  if (riadokExtraStatements) riadokExtraStatements.classList.toggle("skryte", aktualnyPredmet !== "zin");
 }
 
 function textTypuOtazky(otazka, ucenie = jeRezimUcenia()) {
@@ -1767,7 +1904,7 @@ function jeTestPredmet() {
 }
 
 function predmetPodporujeCrack() {
-  return aktualnyPredmet === "hel" || aktualnyPredmet === "czs" || aktualnyPredmet === "zin";
+  return aktualnyPredmet === "hel" || aktualnyPredmet === "czs" || aktualnyPredmet === "zin" || aktualnyPredmet === "vs2";
 }
 
 function jeMultipleChoiceOverride() {
@@ -1819,16 +1956,19 @@ function jeMobilnyCrackMode() {
 
 function jeMobilneZariadenie() {
   const userAgent = navigator.userAgent || "";
-  const jeMobilnyUserAgent = /iPhone|iPod|Android.*Mobile|Windows Phone/i.test(userAgent);
-  const maDotyk = navigator.maxTouchPoints > 0;
+  const touchPoints = navigator.maxTouchPoints || 0;
+  const jeMobilnyUserAgent = /iPhone|iPod|Android|Windows Phone|Mobile/i.test(userAgent);
+  const jeIpadOS = /Macintosh/i.test(userAgent) && touchPoints > 1;
+  const maDotyk = touchPoints > 0;
   const maHrubyPointer = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
   const nemaHover = window.matchMedia && window.matchMedia("(hover: none)").matches;
   const sirka = window.visualViewport ? window.visualViewport.width : window.innerWidth;
   const vyska = window.visualViewport ? window.visualViewport.height : window.innerHeight;
   const kratsiaStrana = Math.min(sirka || 0, vyska || 0);
   const dlhsiaStrana = Math.max(sirka || 0, vyska || 0);
+  const mobilnyViewport = kratsiaStrana <= 920 && dlhsiaStrana <= 1400;
 
-  return jeMobilnyUserAgent || (maDotyk && maHrubyPointer && nemaHover && kratsiaStrana <= 600 && dlhsiaStrana <= 1200);
+  return jeMobilnyUserAgent || jeIpadOS || (maDotyk && mobilnyViewport && (maHrubyPointer || nemaHover));
 }
 
 function aktualizujAutomatickyMobilnyCrackMode() {
@@ -1964,6 +2104,27 @@ function nastavEndlessMode() {
   nastavPoradie();
 }
 
+function nastavExtraStatements() {
+  if (aktualnyPredmet !== "zin") {
+    aktualizujViditelnostModov();
+    return;
+  }
+
+  zrusCasovacDalsejOtazky();
+  zrusCrackTimer(true);
+  pouzivaTazkyPool = false;
+  zakladneOtazkyPredmetu = ziskajOtazkyPredmetu("zin");
+  if (vybranaPrezentacia !== hodnotaVsetko && !ziskajPrezentacie().includes(vybranaPrezentacia)) {
+    vybranaPrezentacia = hodnotaVsetko;
+  }
+  vykresliVyberPrezentacie();
+  nastavVsetkyPodokruhy();
+  vykresliPodokruhy();
+  vykresliMenuOkruhy();
+  vykresliTazkeOtazky();
+  nastavPoradie();
+}
+
 function nastavMultipleChoiceMode() {
   zrusCasovacDalsejOtazky();
   pocetZlychOdpovediPreCitat = 0;
@@ -1998,7 +2159,7 @@ function nastavExamMode() {
     if (prepinacMultipleChoice) {
       prepinacMultipleChoice.checked = false;
     }
-    if (aktualnyPredmet !== "hel" && aktualnyPredmet !== "czs" && aktualnyPredmet !== "zin") {
+    if (aktualnyPredmet !== "hel" && aktualnyPredmet !== "czs" && aktualnyPredmet !== "zin" && aktualnyPredmet !== "vs2") {
       nastavPredmet("hel");
       return;
     }
@@ -2366,6 +2527,7 @@ function vytvorCrackStatement(otazka, moznost, index) {
     prezentacia,
     subtema: podokruh,
     povodnaOtazkaId: povodneId,
+    extraStatement: Boolean(otazka.extraStatement),
     pevnePoradieMoznosti: true,
     crack: true
   };
@@ -2377,9 +2539,14 @@ function nastavNahodnyCrackParStatement(otazka) {
     return otazka;
   }
 
+  // 50 % pravda; nepravdiva verzia sa vybera rovnomerne zo vsetkych variantov
+  // (pri dvoch nepravdach 25 % + 25 %). Stare data s jednou nepravdou funguju dalej.
+  const nepravdy = [crackDvojica.nepravda, crackDvojica.nepravda2].filter(Boolean);
   const pouziPravdu = jeRezimUcenia() ? true : Math.random() < 0.5;
   const spravnyVyrok = crackDvojica.pravda;
-  otazka.otazka = pouziPravdu ? crackDvojica.pravda : crackDvojica.nepravda;
+  otazka.otazka = pouziPravdu
+    ? crackDvojica.pravda
+    : nepravdy[Math.floor(Math.random() * nepravdy.length)];
   otazka.spravne = [pouziPravdu ? 0 : 1];
   otazka.vysvetlenie = [
     pouziPravdu ? "Tvrdenie je pravdive." : "Tvrdenie je nepravdive.",
@@ -2405,6 +2572,7 @@ function vytvorCrackParStatement(otazka) {
     subtema: ziskajPodokruh(otazka),
     povodnaOtazkaId: povodneId,
     crackPair: { ...otazka.crackPair },
+    extraStatement: Boolean(otazka.extraStatement),
     pevnePoradieMoznosti: true,
     crack: true
   };
@@ -2574,7 +2742,9 @@ function ziskajOtazkyZBeznychFiltrov(vratCrackData = false) {
 
 function ziskajOtazkyPodlaFiltra() {
   if (pouzivaTazkyPool) {
-    return [...tazkeOtazky.values()].filter((otazka) => !odstraneneOtazky.has(ziskajIdOtazky(otazka)));
+    return [...tazkeOtazky.values()]
+      .filter((otazka) => jeOtazkaDostupnaPodlaExtraStatements(otazka))
+      .filter((otazka) => !odstraneneOtazky.has(ziskajIdOtazky(otazka)));
   }
 
   if (jeExamMode()) {
@@ -2595,6 +2765,7 @@ function jePravdivaCrackOtazka(otazka) {
 function ziskajOtazkyPreLearnMaster() {
   if (pouzivaTazkyPool) {
     return [...tazkeOtazky.values()]
+      .filter((otazka) => jeOtazkaDostupnaPodlaExtraStatements(otazka))
       .filter((otazka) => !odstraneneOtazky.has(ziskajIdOtazky(otazka)))
       .filter(jePravdivaCrackOtazka);
   }
@@ -2702,7 +2873,7 @@ function aktualizujTlacidloNeviem() {
 }
 
 function vykresliTazkeOtazky() {
-  const otazky = [...tazkeOtazky.values()];
+  const otazky = [...tazkeOtazky.values()].filter((otazka) => jeOtazkaDostupnaPodlaExtraStatements(otazka));
   prvokBlokTazkychOtazok.classList.toggle("skryte", otazky.length === 0 && !pouzivaTazkyPool);
   prvokPocetTazkychOtazok.textContent = `(${otazky.length})`;
   tlacidloSpustitTazkyPool.disabled = otazky.length === 0 || pouzivaTazkyPool;
@@ -2762,7 +2933,7 @@ function odoberTazkuOtazku(idOtazky) {
 }
 
 function spustiTazkyPool() {
-  if (tazkeOtazky.size === 0) {
+  if ([...tazkeOtazky.values()].filter((otazka) => jeOtazkaDostupnaPodlaExtraStatements(otazka)).length === 0) {
     return;
   }
 
@@ -4856,20 +5027,21 @@ function ziskajOtazkyPredmetu(predmet) {
   }
 
   if (predmet === "zin") {
-    return typeof zinOtazky === "undefined" ? [] : zinOtazky;
+    const otazkyPredmetu = typeof zinOtazky === "undefined" ? [] : zinOtazky;
+    return filtrujExtraStatementsPredmetu(predmet, otazkyPredmetu);
   }
 
   return czsOtazky;
 }
 
 function nastavPredmet(predmet) {
-  // Multiple Choice override je iba pre HEL; Exam Mode pre HEL, CZS aj ZIN - inde ich vypneme.
+  // Multiple Choice override je iba pre HEL; Exam Mode pre HEL, CZS, ZIN aj VS2 - inde ich vypneme.
   if (predmet !== "hel") {
     if (prepinacMultipleChoice) {
       prepinacMultipleChoice.checked = false;
     }
   }
-  if (predmet !== "hel" && predmet !== "czs" && predmet !== "zin") {
+  if (predmet !== "hel" && predmet !== "czs" && predmet !== "zin" && predmet !== "vs2") {
     if (prepinacExamMode) {
       prepinacExamMode.checked = false;
       examModeMini = false;
@@ -4877,7 +5049,7 @@ function nastavPredmet(predmet) {
   }
 
   // Predmety bez crack podpory bezia v klasickom mode - zrusime crack timer.
-  if (predmet !== "hel" && predmet !== "czs" && predmet !== "zin") {
+  if (predmet !== "hel" && predmet !== "czs" && predmet !== "zin" && predmet !== "vs2") {
     zrusCrackTimer(true);
   }
 
@@ -5035,6 +5207,9 @@ prepinacDisplaySorting.addEventListener("change", () => {
   // Prepocita rozlozenie (vratane dostupnosti sipok pre Mobile Mode sorting).
   aktualizujRozlozenieUcenia();
 });
+if (prepinacExtraStatements) {
+  prepinacExtraStatements.addEventListener("change", nastavExtraStatements);
+}
 prepinacUcenia.addEventListener("change", nastavRezimUcenia);
 prepinacRychlehoRezimu.addEventListener("change", prepniRychlyRezim);
 prepinacPrejdeniaPoolu.addEventListener("change", nastavRezimPrejdeniaPoolu);
@@ -5117,6 +5292,7 @@ prepinacEndlessMode.checked = false;
 prepinacMultipleChoice.checked = false;
 prepinacCrackTimeru.checked = false;
 prepinacDisplaySorting.checked = false;
+if (prepinacExtraStatements) prepinacExtraStatements.checked = false;
 // Slow Mode je automaticky zapnuty: po zlej odpovedi v Crack Mode ukaze spravnu odpoved.
 if (prepinacSlowMode) prepinacSlowMode.checked = true;
 aktualizujAutomatickyMobilnyCrackMode();
