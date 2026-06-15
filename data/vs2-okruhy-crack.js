@@ -7,6 +7,12 @@
 const vs2OkruhyCrackData = [
   // ============ OKRUH 1: Mikrofony ============
   {
+    okruh: "1. Mikrofony", oblast: "Smerove charakteristiky a kmitoctova odozva", podoblast: "Typy charakteristik",
+    pravda: "Zakladne smerove charakteristiky: gulova (vsesmerova), kardioida (oblicka), superkardioida, hyperkardioida, osmicka (obojsmerova) a uzko smerova (shotgun).",
+    nepravda: "Zakladne smerove charakteristiky: gulova (vsesmerova), kardioida (oblicka), superkardioida, hyperkardioida, osmicka (jednosmerova) a uzko smerova (shotgun).",
+    nepravda2: "Zakladne smerove charakteristiky: gulova (jednosmerova), kardioida (oblicka), superkardioida, hyperkardioida, osmicka (obojsmerova) a uzko smerova (shotgun)."
+  },
+  {
     okruh: "1. Mikrofony", oblast: "Smerove charakteristiky a kmitoctova odozva", podoblast: "Polarny graf",
     pravda: "Smerova charakteristika sa kresli do polarneho grafu (0-360 st.): kardioida potlaca zozadu (180 st.), osmicka zo stran (90/270 st.), gulova sníma rovnako zo vsetkych stran.",
     nepravda: "Smerova charakteristika sa kresli do polarneho grafu (0-360 st.): kardioida potlaca zo stran (90 st.), osmicka zo stran (90/270 st.), gulova sníma rovnako zo vsetkych stran.",
@@ -285,10 +291,16 @@ const vs2OkruhyCrackData = [
     nepravda2: "AM (amplitudova modulacia): chudobne spektrum, modulacia meni iba amplitudy zloziek; obe postranne pasma maju roznu amplitudu."
   },
   {
-    okruh: "5. Analogove syntezatory", oblast: "Modulacie", podoblast: "FM a PM",
-    pravda: "FM: bohate spektrum (suctove + rozdielove tony), sirku riadi modulacny index, zlozky popisuju Besselove funkcie; PM (fazova) je pribuzna (Yamaha DX7).",
-    nepravda: "FM: bohate spektrum (suctove + rozdielove tony), sirku riadi modulacny index, zlozky popisuju Fourierove rady; PM (fazova) je pribuzna (Yamaha DX7).",
-    nepravda2: "FM: chudobne spektrum bez postrannych pasiem, sirku riadi modulacny index, zlozky popisuju Besselove funkcie; PM (fazova) je pribuzna (Yamaha DX7)."
+    okruh: "5. Analogove syntezatory", oblast: "Modulacie", podoblast: "FM",
+    pravda: "FM (frekvencna modulacia): bohate spektrum (suctove + rozdielove tony), sirku riadi modulacny index, amplitudy zloziek popisuju Besselove funkcie.",
+    nepravda: "FM (frekvencna modulacia): bohate spektrum (suctove + rozdielove tony), sirku riadi modulacny index, amplitudy zloziek popisuju Fourierove rady.",
+    nepravda2: "FM (frekvencna modulacia): chudobne spektrum bez postrannych pasiem, sirku riadi modulacny index, amplitudy zloziek popisuju Besselove funkcie."
+  },
+  {
+    okruh: "5. Analogove syntezatory", oblast: "Modulacie", podoblast: "PM",
+    pravda: "PM (fazova modulacia): moduluje fazu nosnej; zvukovo je takmer zhodna s FM, preto ju digitalne syntezatory (Yamaha DX7) pouzivaju namiesto pravej FM.",
+    nepravda: "PM (fazova modulacia): moduluje amplitudu nosnej; zvukovo je takmer zhodna s FM, preto ju digitalne syntezatory (Yamaha DX7) pouzivaju namiesto pravej FM.",
+    nepravda2: "PM (fazova modulacia): moduluje fazu nosnej; zvukovo je takmer zhodna s AM, preto ju digitalne syntezatory (Yamaha DX7) pouzivaju namiesto pravej FM."
   },
   {
     okruh: "5. Analogove syntezatory", oblast: "Modulacie", podoblast: "Kruhova (ring)",
@@ -551,16 +563,34 @@ const vs2OkruhyCrackData = [
     nepravda2: "Ostrost — jednotka acum (1 acum = uzkopasmovy sum so stredom 1 kHz, sirka 1 bark, 60 dB); zavisi od podielu nizkych frekvencii."
   },
   {
-    okruh: "9. Vnutorne ucho a psychoakustika", oblast: "Zwickerove parametre a jednotky", podoblast: "Drsnost a kolisanie",
-    pravda: "Drsnost (hrubost) — jednotka asper (1 asper = ton 1 kHz, 60 dB, 100% AM pri 70 Hz); kolisanie sily — jednotka vacil (pomala AM okolo 4 Hz).",
-    nepravda: "Drsnost (hrubost) — jednotka acum (1 acum = ton 1 kHz, 60 dB, 100% AM pri 70 Hz); kolisanie sily — jednotka vacil (pomala AM okolo 4 Hz).",
-    nepravda2: "Drsnost (hrubost) — jednotka asper (1 asper = ton 1 kHz, 60 dB, 100% AM pri 70 Hz); kolisanie sily — jednotka asper (pomala AM okolo 4 Hz)."
+    okruh: "9. Vnutorne ucho a psychoakustika", oblast: "Zwickerove parametre a jednotky", podoblast: "Drsnost (asper)",
+    pravda: "Drsnost (hrubost) — jednotka asper; vznika rychlou amplitudovou modulaciou (15-300 Hz) s maximom pri 70 Hz. 1 asper = ton 1 kHz, 60 dB, 100% AM pri 70 Hz.",
+    nepravda: "Drsnost (hrubost) — jednotka acum; vznika rychlou amplitudovou modulaciou (15-300 Hz) s maximom pri 70 Hz. 1 acum = ton 1 kHz, 60 dB, 100% AM pri 70 Hz.",
+    nepravda2: "Drsnost (hrubost) — jednotka asper; vznika rychlou amplitudovou modulaciou (15-300 Hz) s maximom pri 700 Hz. 1 asper = ton 1 kHz, 60 dB, 100% AM pri 700 Hz."
   },
   {
-    okruh: "9. Vnutorne ucho a psychoakustika", oblast: "Zwickerove parametre a jednotky", podoblast: "Vyska, dlzka, tonovost",
-    pravda: "Subjektivna vyska — jednotka mel (1000 Hz pri 40 dB = 1000 mel); subjektivna dlzka — jednotka dura; tonovost sa znaci T a udava sa v percentach.",
-    nepravda: "Subjektivna vyska — jednotka dura (1000 Hz pri 40 dB = 1000 dura); subjektivna dlzka — jednotka mel; tonovost sa znaci T a udava sa v percentach.",
-    nepravda2: "Subjektivna vyska — jednotka mel (1000 Hz pri 40 dB = 1000 mel); subjektivna dlzka — jednotka dura; tonovost sa znaci T a udava sa v decibeloch."
+    okruh: "9. Vnutorne ucho a psychoakustika", oblast: "Zwickerove parametre a jednotky", podoblast: "Kolisanie sily (vacil)",
+    pravda: "Kolisanie sily — jednotka vacil; vznika pomalou amplitudovou modulaciou (1-20 Hz) s maximom okolo 4 Hz (napr. tremolo, sirena).",
+    nepravda: "Kolisanie sily — jednotka asper; vznika pomalou amplitudovou modulaciou (1-20 Hz) s maximom okolo 4 Hz (napr. tremolo, sirena).",
+    nepravda2: "Kolisanie sily — jednotka vacil; vznika rychlou amplitudovou modulaciou (15-300 Hz) s maximom okolo 70 Hz (napr. tremolo, sirena)."
+  },
+  {
+    okruh: "9. Vnutorne ucho a psychoakustika", oblast: "Zwickerove parametre a jednotky", podoblast: "Subjektivna vyska (mel)",
+    pravda: "Subjektivna vyska — jednotka mel; linearna skala vnimanej vysky. 1000 Hz pri 40 dB = 1000 mel.",
+    nepravda: "Subjektivna vyska — jednotka dura; linearna skala vnimanej vysky. 1000 Hz pri 40 dB = 1000 dura.",
+    nepravda2: "Subjektivna vyska — jednotka mel; linearna skala vnimanej vysky. 1000 Hz pri 40 dB = 100 mel."
+  },
+  {
+    okruh: "9. Vnutorne ucho a psychoakustika", oblast: "Zwickerove parametre a jednotky", podoblast: "Subjektivna dlzka (dura)",
+    pravda: "Subjektivna dlzka — jednotka dura. 1 dura = subjektivna dlzka tonu 1 kHz pri 60 dB, ktoreho objektivna dlzka je 1 s.",
+    nepravda: "Subjektivna dlzka — jednotka mel. 1 mel = subjektivna dlzka tonu 1 kHz pri 60 dB, ktoreho objektivna dlzka je 1 s.",
+    nepravda2: "Subjektivna dlzka — jednotka dura. 1 dura = subjektivna dlzka tonu 1 kHz pri 60 dB, ktoreho objektivna dlzka je 1 ms."
+  },
+  {
+    okruh: "9. Vnutorne ucho a psychoakustika", oblast: "Zwickerove parametre a jednotky", podoblast: "Tonovost (T)",
+    pravda: "Tonovost — znaci sa T, udava sa v percentach; rastie s poctom harmonickych zloziek v signali.",
+    nepravda: "Tonovost — znaci sa T, udava sa v decibeloch; rastie s poctom harmonickych zloziek v signali.",
+    nepravda2: "Tonovost — znaci sa T, udava sa v percentach; rastie s mnozstvom sumovych zloziek v signali."
   },
 
   // ============ OKRUH 10: Weber-Fechner a mozog ============

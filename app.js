@@ -18,6 +18,7 @@ let casovacCasPoolu = null;
 let animaciaSpravnehoFlashu = null;
 let casovacSpravnehoFlashu = null;
 let casovacMegaStreaku = null;
+let tokenMiniImpulzu = 0;
 let hlasitost = 0.5;
 let pociatocnyPocetPoolu = 0;
 let casZaciatkuPoolu = 0;
@@ -176,6 +177,7 @@ const tlacidloTemaFialova = document.getElementById("tlacidloTemaFialova");
 const tlacidloTemaTyrkysova = document.getElementById("tlacidloTemaTyrkysova");
 const tlacidloTemaMentolova = document.getElementById("tlacidloTemaMentolova");
 const tlacidloTemaTabula = document.getElementById("tlacidloTemaTabula");
+const tlacidloTemaNocna = document.getElementById("tlacidloTemaNocna");
 const kriedaPlatno = document.getElementById("krieda-platno");
 const posuvnikHlasitosti = document.getElementById("posuvnikHlasitosti");
 const prepinacVypnutiaZvuku = document.getElementById("prepinacVypnutiaZvuku");
@@ -749,7 +751,7 @@ function tokenizujStatement(text) {
 
   while ((zhoda = matematika.exec(text)) !== null) {
     if (zhoda.index > posledny) pridajText(text.slice(posledny, zhoda.index));
-    tokeny.push({ raw: zhoda[0], kluc: zhoda[0].replace(/\s+/g, ""), medzera: false });
+    tokeny.push({ raw: zhoda[0], kluc: zhoda[0].replace(/\s+/g, ""), medzera: false, matematika: true });
     posledny = matematika.lastIndex;
   }
   if (posledny < text.length) pridajText(text.slice(posledny));
@@ -801,6 +803,9 @@ function vlozZvyrazneneRozdiely(prvok, spravneText, zobrazeneText) {
     }
     const span = document.createElement("span");
     span.className = "crack-rozdiel";
+    if (token.matematika) {
+      span.classList.add("crack-rozdiel-matika");
+    }
     span.textContent = token.raw;
     prvok.appendChild(span);
   });
@@ -835,7 +840,7 @@ function zobrazSpravnuOdpovedVStatemente(otazka, jeSpravne, fallbackText) {
 
 // Vrati #otazka do bezneho stavu (zrusi Slow Mode reveal).
 function nastavOtazkuStatement(text) {
-  prvokOtazka.classList.remove("crack-odhalena");
+  prvokOtazka.classList.remove("crack-odhalena", "pool-hotovo");
   nastavStatementText(prvokOtazka, text);
 }
 
@@ -1260,7 +1265,7 @@ function nastavVypnutieZvuku(pripravitZvuk = false) {
 
 function nastavTemu(tema) {
   aktualnaTema = tema;
-  const triedyTemy = ["tema-zlta", "tema-zlta-tmava", "tema-siva", "tema-fialova", "tema-tyrkysova", "tema-mentolova", "tema-tabula"];
+  const triedyTemy = ["tema-zlta", "tema-zlta-tmava", "tema-siva", "tema-nocna", "tema-fialova", "tema-tyrkysova", "tema-mentolova", "tema-tabula"];
   document.body.classList.remove(...triedyTemy);
   document.documentElement.classList.remove(...triedyTemy);
 
@@ -1269,6 +1274,7 @@ function nastavTemu(tema) {
       zlta: "tema-zlta",
       zltaTmava: "tema-zlta-tmava",
       siva: "tema-siva",
+      nocna: "tema-nocna",
       fialova: "tema-fialova",
       tyrkysova: "tema-tyrkysova",
       mentolova: "tema-mentolova",
@@ -1289,6 +1295,7 @@ function nastavTemu(tema) {
   tlacidloTemaTyrkysova.classList.toggle("aktivny", tema === "tyrkysova");
   tlacidloTemaMentolova.classList.toggle("aktivny", tema === "mentolova");
   tlacidloTemaTabula.classList.toggle("aktivny", tema === "tabula");
+  tlacidloTemaNocna.classList.toggle("aktivny", tema === "nocna");
 
   if (tema !== "tabula") krieda.vymazat();
 }
@@ -1484,7 +1491,9 @@ function spustiJednorazovyFlash() {
     window.clearTimeout(casovacSpravnehoFlashu);
     casovacSpravnehoFlashu = null;
   }
-  prvokFlashEfekt.classList.remove("aktivny", "specialny", "lucovy");
+  prvokFlashEfekt.innerHTML = "";
+  document.body.classList.remove("mini-impulz-panel");
+  prvokFlashEfekt.classList.remove("aktivny", "specialny", "lucovy", "mini-impulz");
   prvokFlashEfekt.style.mixBlendMode = "normal";
   prvokFlashEfekt.style.background = "rgba(255, 255, 255, 0.97)";
   prvokFlashEfekt.style.setProperty("--flash-trvanie", "380ms");
@@ -1522,7 +1531,9 @@ function spustiInvertFlash() {
     window.clearTimeout(casovacSpravnehoFlashu);
     casovacSpravnehoFlashu = null;
   }
-  prvokFlashEfekt.classList.remove("aktivny", "specialny", "lucovy");
+  prvokFlashEfekt.innerHTML = "";
+  document.body.classList.remove("mini-impulz-panel");
+  prvokFlashEfekt.classList.remove("aktivny", "specialny", "lucovy", "mini-impulz");
   prvokFlashEfekt.style.background = "#ffffff";
   prvokFlashEfekt.style.mixBlendMode = "difference";
   prvokFlashEfekt.style.setProperty("--flash-trvanie", "380ms");
@@ -1538,19 +1549,107 @@ function spustiInvertFlash() {
   }, 420);
 }
 
+function vytvorMiniImpulzWaveform(uroven) {
+  const svg = vytvorSvgPrvok("svg", {
+    class: "mini-impulz-vlna",
+    viewBox: "0 0 420 128",
+    "aria-hidden": "true",
+    focusable: "false"
+  });
+  const amplituda = 14 + uroven * 38;
+  const hustota = 0.72 + uroven * 0.58;
+  const faza = Date.now() * 0.012;
+  const body = [];
+
+  for (let x = 0; x <= 420; x += 7) {
+    const stred = Math.abs(x - 210) / 210;
+    const obalka = Math.pow(1 - stred, 1.8);
+    const y = 64
+      + Math.sin(x * 0.095 * hustota + faza) * amplituda * obalka
+      + Math.sin(x * 0.031 + faza * 0.7) * amplituda * 0.38 * obalka;
+    body.push(`${x === 0 ? "M" : "L"} ${x.toFixed(1)} ${y.toFixed(1)}`);
+  }
+
+  const cesta = body.join(" ");
+  const tien = vytvorSvgPrvok("path", { class: "mini-impulz-vlna-tien", d: cesta });
+  const jadro = vytvorSvgPrvok("path", { class: "mini-impulz-vlna-jadro", d: cesta });
+  svg.append(tien, jadro);
+  return svg;
+}
+
+function dokoncitMiniImpulzVrstvu(vrstva) {
+  vrstva.remove();
+  if (!prvokFlashEfekt.querySelector(".mini-impulz-vrstva")) {
+    prvokFlashEfekt.classList.remove("mini-impulz");
+    prvokFlashEfekt.style.opacity = "0";
+    prvokFlashEfekt.style.mixBlendMode = "normal";
+  }
+}
+
+function spustiMiniImpulz() {
+  if (!prvokFlashEfekt) return;
+  if (animaciaSpravnehoFlashu) {
+    animaciaSpravnehoFlashu.cancel();
+    animaciaSpravnehoFlashu = null;
+  }
+  if (casovacSpravnehoFlashu) {
+    window.clearTimeout(casovacSpravnehoFlashu);
+    casovacSpravnehoFlashu = null;
+  }
+  const streak = Math.max(0, stavStlpca);
+  const uroven = Math.min(streak / 18, 1);
+  const farby = ziskajFarbyTieru(Math.max(streak, 1));
+  const trvanieKruhu = Math.round(700 + uroven * 180);
+  const trvanieVlny = Math.round(320 + uroven * 120);
+  const aktualnyTokenMiniImpulzu = ++tokenMiniImpulzu;
+  const vrstva = document.createElement("div");
+
+  vrstva.className = "mini-impulz-vrstva";
+  vrstva.style.setProperty("--mini-uroven", uroven.toFixed(3));
+  vrstva.style.setProperty("--mini-rgb", farby.ziara);
+  vrstva.style.setProperty("--mini-okraj-rgb", farby.okraj);
+  vrstva.style.setProperty("--mini-trvanie", `${trvanieVlny}ms`);
+  vrstva.style.setProperty("--mini-kruh-trvanie", `${trvanieKruhu}ms`);
+  vrstva.appendChild(vytvorMiniImpulzWaveform(uroven));
+
+  document.body.style.setProperty("--mini-otras", `${(4.5 + uroven * 9.5).toFixed(2)}px`);
+  document.body.classList.remove("mini-impulz-panel");
+  prvokFlashEfekt.style.background = "transparent";
+  prvokFlashEfekt.style.mixBlendMode = "screen";
+  prvokFlashEfekt.style.opacity = "1";
+  prvokFlashEfekt.classList.remove("aktivny", "specialny", "lucovy");
+  prvokFlashEfekt.classList.add("mini-impulz");
+  prvokFlashEfekt.appendChild(vrstva);
+  void vrstva.offsetHeight;
+  document.body.classList.add("mini-impulz-panel");
+  vrstva.classList.add("aktivny");
+
+  window.setTimeout(() => {
+    dokoncitMiniImpulzVrstvu(vrstva);
+    if (aktualnyTokenMiniImpulzu === tokenMiniImpulzu) {
+      document.body.classList.remove("mini-impulz-panel");
+    }
+  }, trvanieKruhu + 140);
+}
+
 function obsluzRytmickuKlavesu(klaves) {
   if (klaves === ",") {
-    spustiJednorazovyFlash();
+    spustiMiniImpulz();
     return true;
   }
 
   if (klaves === ".") {
-    spustiInvertFlash();
+    spustiJednorazovyFlash();
+    return true;
+  }
+
+  if (klaves === ";" || klaves === ":") {
+    prehrajVideoOverlay("Animations/explosion1.mp4", 6);
     return true;
   }
 
   if (klaves === "/") {
-    prehrajVideoOverlay("Animations/explosion1.mp4", 6);
+    spustiInvertFlash();
     return true;
   }
 
@@ -3464,7 +3563,9 @@ function spustiSpravnyFlash(dlzkaSerie) {
     casovacSpravnehoFlashu = null;
   }
 
-  prvokFlashEfekt.classList.remove("aktivny", "specialny", "lucovy");
+  prvokFlashEfekt.innerHTML = "";
+  document.body.classList.remove("mini-impulz-panel");
+  prvokFlashEfekt.classList.remove("aktivny", "specialny", "lucovy", "mini-impulz");
   prvokFlashEfekt.style.mixBlendMode = "normal";
   prvokFlashEfekt.style.background = pozadie;
   prvokFlashEfekt.style.opacity = "1";
@@ -3478,7 +3579,8 @@ function spustiSpravnyFlash(dlzkaSerie) {
   if (typeof prvokFlashEfekt.animate !== "function") {
     prvokFlashEfekt.classList.add("aktivny");
     casovacSpravnehoFlashu = window.setTimeout(() => {
-      prvokFlashEfekt.classList.remove("aktivny", "specialny", "lucovy");
+      prvokFlashEfekt.classList.remove("aktivny", "specialny", "lucovy", "mini-impulz");
+      prvokFlashEfekt.innerHTML = "";
       prvokFlashEfekt.style.opacity = "0";
       casovacSpravnehoFlashu = null;
     }, nastavenia.trvanie + 40);
@@ -3513,7 +3615,8 @@ function spustiSpravnyFlash(dlzkaSerie) {
 
   animaciaSpravnehoFlashu.onfinish = () => {
     prvokFlashEfekt.style.opacity = "0";
-    prvokFlashEfekt.classList.remove("specialny", "lucovy");
+    prvokFlashEfekt.classList.remove("specialny", "lucovy", "mini-impulz");
+    prvokFlashEfekt.innerHTML = "";
     animaciaSpravnehoFlashu = null;
   };
 
@@ -4903,6 +5006,7 @@ function zobrazDokoncenyPool() {
 
   // "HOTOVO" v slote otazky + staty: kolko otazok bolo zodpovedanych a za aky cas.
   prvokOtazka.classList.remove("crack-odhalena", "exam-otazka");
+  prvokOtazka.classList.add("pool-hotovo");
   prvokOtazka.innerHTML = "";
   prvokOtazka.appendChild(document.createTextNode("HOTOVO"));
   const staty = document.createElement("span");
@@ -5221,6 +5325,7 @@ tlacidloTemaFialova.addEventListener("click", () => nastavTemu("fialova"));
 tlacidloTemaTyrkysova.addEventListener("click", () => nastavTemu("tyrkysova"));
 tlacidloTemaMentolova.addEventListener("click", () => nastavTemu("mentolova"));
 tlacidloTemaTabula.addEventListener("click", () => nastavTemu("tabula"));
+tlacidloTemaNocna.addEventListener("click", () => nastavTemu("nocna"));
 document.addEventListener("mousedown", (e) => krieda.zacat(e));
 document.addEventListener("mousemove", (e) => krieda.pokracovat(e));
 document.addEventListener("mouseup", () => krieda.skoncit());
