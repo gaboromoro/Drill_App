@@ -366,7 +366,7 @@ const obhajobaCrackData = [
     podoblast: "Prinos prace",
     pravda: "Hlavny prinos prace: dithering, ktory byva vo vyucbe DSP len dodatkom k hlavnej teorii, je tu spracovany ako teoria plus dve volne dostupne interaktivne aplikacie, kde efekt ditheru priamo VIDIET (grafy, obraz) aj POCUT (prehravanie).",
     nepravda: "Hlavny prinos prace: dithering, ktory byva vo vyucbe DSP hlavnou temou, je tu spracovany ako teoria plus dve volne dostupne interaktivne aplikacie, kde efekt ditheru priamo VIDIET (grafy, obraz) aj POCUT (prehravanie).",
-    nepravda2: "Hlavny prinos prace: dithering, ktory byva vo vyucbe DSP len dodatkom k hlavnej teorii, je tu spracovany ako teoria plus dve volne dostupne interaktivne aplikacie, kde efekt ditheru priamo VIDIET (grafy, obraz) - pocut ho zatial nie je mozne.",
+    nepravda2: "Hlavny prinos prace: dithering, ktory byva vo vyucbe DSP len dodatkom k hlavnej teorii, je tu spracovany ako teoria plus dve volne dostupne interaktivne aplikacie, kde efekt ditheru priamo VIDIET (grafy, obraz) - pocut ho zatial nie je mozne."
   },
   {
     okruh: "5. Obhajoba a rozsirenia",
@@ -385,6 +385,82 @@ const obhajobaCrackData = [
     pravda: "Prirodzene rozsirenia obrazoveho apletu: serpentinove skenovanie proti smerovym strukturam (cervikom) difuzie chyby, vacsie alebo blue-noise prahove matice, gamma korekcia pred kvantizaciou a vlastne farebne palety.",
     nepravda: "Prirodzene rozsirenia obrazoveho apletu: serpentinove skenovanie proti opakujucemu sa vzoru Bayerovej matice, vacsie alebo blue-noise prahove matice, gamma korekcia pred kvantizaciou a vlastne farebne palety.",
     nepravda2: "Prirodzene rozsirenia obrazoveho apletu: serpentinove skenovanie proti smerovym strukturam (cervikom) difuzie chyby, vacsie alebo blue-noise prahove matice, gamma korekcia az po kvantizacii a vlastne farebne palety."
+  },
+
+  // ============================================================
+  // OKRUH 6: Nepripravene otazky komisie (slabiny a zjednodusenia)
+  // ============================================================
+  {
+    okruh: "6. Nepripravene otazky komisie",
+    id: "OBH 6. Slabiny 001",
+    oblast: "Slabiny a obhajoba",
+    podoblast: "Aditivny vs subtraktivny dither",
+    pravda: "Aplet pouziva aditivny dither - sum ostava vo vystupe, preto je tu cena za linearizaciu trvale zvysene sumove dno; subtraktivny dither by ten isty sum po kvantizacii odcital a sum odstranil, ale vyzaduje presne tu istu realizaciu sumu na prijimaci, co je v distribucii neprakticke.",
+    nepravda: "Aplet pouziva subtraktivny dither - sum sa po kvantizacii odcita a vystup ostava bez sumu; aditivny dither by sum ponechal vo vystupe, ale vyzaduje presne tu istu realizaciu sumu na prijimaci, co je v distribucii neprakticke.",
+    nepravda2: "Aplet pouziva aditivny dither - sum ostava vo vystupe, preto je tu cena za linearizaciu trvale zvysene sumove dno; subtraktivny dither by ten isty sum po kvantizacii odcital a sum odstranil, a pritom nevyzaduje ziadnu znalost sumu na prijimaci."
+  },
+  {
+    okruh: "6. Nepripravene otazky komisie",
+    id: "OBH 6. Slabiny 002",
+    oblast: "Slabiny a obhajoba",
+    podoblast: "Chybajuce spektrum",
+    pravda: "Aplet dokazuje zmenu charakteru chyby len v casovej oblasti; presvedcivy dokaz, ze skreslenie sa zmenilo na sum, je az v spektre - bez ditheru vidno diskretne harmonicke, s ditherom rovne sumove dno. Spektralny pohlad je preto najprirodzenejsie rozsirenie.",
+    nepravda: "Aplet dokazuje zmenu charakteru chyby uz v spektre cez zabudovanu FFT; casova oblast by bola menej presvedciva - bez ditheru vidno diskretne harmonicke, s ditherom rovne sumove dno. Spektralny pohlad uz aplet obsahuje.",
+    nepravda2: "Aplet dokazuje zmenu charakteru chyby len v casovej oblasti; presvedcivy dokaz, ze skreslenie sa zmenilo na sum, je az v spektre - bez ditheru vidno rovne sumove dno, s ditherom diskretne harmonicke. Spektralny pohlad je preto najprirodzenejsie rozsirenie."
+  },
+  {
+    okruh: "6. Nepripravene otazky komisie",
+    id: "OBH 6. Slabiny 003",
+    oblast: "Slabiny a obhajoba",
+    podoblast: "Chybajuce metriky",
+    pravda: "Hodnotenie v praci je zamerne kvalitativne (vidiet, pocut) - co je v poriadku pre vyukovu pomocku; objektivne by sa rozdiel doložil metrikami ako SNR, THD+N ci segmentalny SNR, pripadne pre obraz PSNR alebo SSIM. To je priznana hranica prace, nie chyba.",
+    nepravda: "Hodnotenie v praci je objektivne, lebo aplety pocitaju SNR a THD+N priamo; kvalitativny dojem (vidiet, pocut) je len doplnok. Pre obraz by sa rozdiel dalej dolozil metrikami ako PSNR alebo SSIM.",
+    nepravda2: "Hodnotenie v praci je zamerne kvalitativne (vidiet, pocut) - co je v poriadku pre vyukovu pomocku; objektivne by sa rozdiel doložil metrikami ako bitova hlbka, vzorkovacia frekvencia ci pocet urovni, pripadne pre obraz rozlisenie v pixeloch. To je priznana hranica prace, nie chyba."
+  },
+  {
+    okruh: "6. Nepripravene otazky komisie",
+    id: "OBH 6. Slabiny 004",
+    oblast: "Slabiny a obhajoba",
+    podoblast: "Gamma a linearne svetlo",
+    pravda: "Obrazovy aplet kvantuje a ditheruje priamo v sRGB hodnotach (0-255), nie v linearnom svetle; korektnejsie by bolo previest do linearneho priestoru, ditherovat a vratit gamma. Dosledok je, ze priemerny jas ditherovanej plochy sa mierne posunie - znama, ale v praci nezohladnena nepresnost.",
+    nepravda: "Obrazovy aplet kvantuje a ditheruje v linearnom svetle a az potom aplikuje gamma; preto je priemerny jas ditherovanej plochy presny. Robit to naopak, priamo v sRGB hodnotach, by jas mierne posunulo - tomu sa praca vyhla.",
+    nepravda2: "Obrazovy aplet kvantuje a ditheruje priamo v sRGB hodnotach (0-255), nie v linearnom svetle; korektnejsie by bolo previest do linearneho priestoru, ditherovat a vratit gamma. Dosledok je, ze sa zmeni farebny odtien, ale priemerny jas plochy ostava presny - znama, ale v praci nezohladnena nepresnost."
+  },
+  {
+    okruh: "6. Nepripravene otazky komisie",
+    id: "OBH 6. Slabiny 005",
+    oblast: "Slabiny a obhajoba",
+    podoblast: "Hranice sumoveho modelu",
+    pravda: "Vzorec SNR = 6,02 N + 1,76 dB plati za predpokladu, ze kvantizacny sum je rovnomerny, biely a nekorelovany so signalom; tieto predpoklady zlyhavaju prave pri nizkych urovniach a jednoduchych signaloch - teda presne tam, kde dither potrebujeme. Dither tieto predpoklady (znova) zabezpeci.",
+    nepravda: "Vzorec SNR = 6,02 N + 1,76 dB plati vzdy a nezavisle od signalu, lebo kvantizacny sum je principialne biely a nekorelovany; pri nizkych urovniach a jednoduchych signaloch plati rovnako dobre, dither slúzi len na kozmeticke vylepsenie.",
+    nepravda2: "Vzorec SNR = 6,02 N + 1,76 dB plati za predpokladu, ze kvantizacny sum je rovnomerny, biely a nekorelovany so signalom; tieto predpoklady zlyhavaju prave pri vysokych urovniach a zlozitych signaloch - teda presne tam, kde dither potrebujeme. Dither tieto predpoklady (znova) zabezpeci."
+  },
+  {
+    okruh: "6. Nepripravene otazky komisie",
+    id: "OBH 6. Slabiny 006",
+    oblast: "Slabiny a obhajoba",
+    podoblast: "Je ordered dither dither?",
+    pravda: "Usporiadany (Bayer) dither nepouziva nahodu, ale pevny periodicky vzor - oddeli kvantizacne pasy, no nezbavi chybu zavislosti od signalu tak ako nahodny ci TPDF dither; je to deterministicka technika rozptylu, preto ho casto radime skor k 'halftoningu' nez k pravemu (nahodnemu) ditheru.",
+    nepravda: "Usporiadany (Bayer) dither pouziva nahodu rovnako ako RPDF, len ulozenu v matici - zbavi chybu zavislosti od signalu uplne rovnako ako TPDF dither; je to nahodna technika rozptylu, preto ho radime k pravemu ditheru.",
+    nepravda2: "Usporiadany (Bayer) dither nepouziva nahodu, ale pevny periodicky vzor - oddeli kvantizacne pasy a navyse zbavi chybu zavislosti od signalu lepsie nez nahodny ci TPDF dither; je to deterministicka technika rozptylu, preto ho radime k najkvalitnejsiemu ditheru."
+  },
+  {
+    okruh: "6. Nepripravene otazky komisie",
+    id: "OBH 6. Slabiny 007",
+    oblast: "Slabiny a obhajoba",
+    podoblast: "Jedna perioda vs statistika",
+    pravda: "Audio aplet kresli len asi jednu periodu (101 vzoriek) - je to nazorne, ale sumovy charakter chyby je v podstate statisticky a naozaj sa prejavi az cez mnoho period; jedna perioda je teda didakticky kompromis, nie statisticky dokaz.",
+    nepravda: "Audio aplet kresli len asi jednu periodu (101 vzoriek) - to uplne staci aj ako statisticky dokaz sumoveho charakteru chyby, lebo ten sa prejavi uz v ramci jednej periody; viac period by nepridalo nic nove.",
+    nepravda2: "Audio aplet kresli az asi styri periody (101 vzoriek) - je to nazorne, ale sumovy charakter chyby je v podstate statisticky a naozaj sa prejavi az cez mnoho period; par period je teda didakticky kompromis, nie statisticky dokaz."
+  },
+  {
+    okruh: "6. Nepripravene otazky komisie",
+    id: "OBH 6. Slabiny 008",
+    oblast: "Slabiny a obhajoba",
+    podoblast: "Kvalita generatora sumu",
+    pravda: "Dither generuje Math.random(), co je bezny, nie kryptograficky generator; pre vyukovu vizualizaciu plne postacuje, ale pre realny ditherovaci retazec by bola dolezita kvalita a rovnomernost jeho rozdelenia (aby vysledny dither bol naozaj biely).",
+    nepravda: "Dither generuje Math.random(), co je kryptograficky bezpecny generator s garantovane bielym spektrom; preto by sa dal bez vyhrad pouzit aj v realnom ditherovacom retazci bez akehokolvek overovania kvality rozdelenia.",
+    nepravda2: "Dither generuje Math.random(), co je bezny, nie kryptograficky generator; pre realny ditherovaci retazec plne postacuje, ale pre vyukovu vizualizaciu by bola dolezita kvalita a rovnomernost jeho rozdelenia (aby vysledny dither bol naozaj biely)."
   }
 ];
 

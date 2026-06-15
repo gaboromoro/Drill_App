@@ -1828,8 +1828,8 @@ function aktualizujViditelnostModov() {
   const hel = aktualnyPredmet === "hel";
   const test = jeTestPredmet();
   const crack = jeCrackMode();
-  // Multiple Choice je iba pre HEL; Exam Mode pre HEL, CZS, ZIN aj VS2.
-  const examPodporovany = hel || aktualnyPredmet === "czs" || aktualnyPredmet === "zin" || aktualnyPredmet === "vs2";
+  // Multiple Choice je iba pre HEL; Exam Mode pre HEL, CZS, ZIN, VS2 aj Obhajoba.
+  const examPodporovany = hel || aktualnyPredmet === "czs" || aktualnyPredmet === "zin" || aktualnyPredmet === "vs2" || aktualnyPredmet === "obhajoba";
   if (riadokMultipleChoice) riadokMultipleChoice.classList.toggle("skryte", !hel);
   if (riadokExamMode) riadokExamMode.classList.toggle("skryte", !examPodporovany);
   // TEST ma rychly rezim automaticky; pre crack mode Speed Mode tiez nedava zmysel.
@@ -1904,7 +1904,7 @@ function jeTestPredmet() {
 }
 
 function predmetPodporujeCrack() {
-  return aktualnyPredmet === "hel" || aktualnyPredmet === "czs" || aktualnyPredmet === "zin" || aktualnyPredmet === "vs2";
+  return aktualnyPredmet === "hel" || aktualnyPredmet === "czs" || aktualnyPredmet === "zin" || aktualnyPredmet === "vs2" || aktualnyPredmet === "obhajoba";
 }
 
 function jeMultipleChoiceOverride() {
@@ -2159,7 +2159,7 @@ function nastavExamMode() {
     if (prepinacMultipleChoice) {
       prepinacMultipleChoice.checked = false;
     }
-    if (aktualnyPredmet !== "hel" && aktualnyPredmet !== "czs" && aktualnyPredmet !== "zin" && aktualnyPredmet !== "vs2") {
+    if (aktualnyPredmet !== "hel" && aktualnyPredmet !== "czs" && aktualnyPredmet !== "zin" && aktualnyPredmet !== "vs2" && aktualnyPredmet !== "obhajoba") {
       nastavPredmet("hel");
       return;
     }
@@ -2644,7 +2644,7 @@ function ziskajExamOtazky() {
     // (CZS vypoctove drily) a "11. Ostatne (mimo SZZ)" (HEL) do exam mode
     // (vypracovanie) nepatria - exam = len SZZ temy.
     // (examSkip = rucne oznaceny duplikat: ostava v crack mode, do exam mode nejde.)
-    if (otazka.examSkip || ["Vzorce", "Mimo SZZ", "Vypocty", "11. Ostatne (mimo SZZ)"].includes(primarnaPrezentacia)) {
+    if (otazka.examSkip || ["Vzorce", "Mimo SZZ", "Vypocty", "11. Ostatne (mimo SZZ)", "Rozsahy"].includes(primarnaPrezentacia)) {
       return;
     }
     // Pri vybranom konkretnom okruhu zoskup slidy pod jeho nazvom (aj cross-listed otazky cez `okruhy`).
@@ -3928,15 +3928,37 @@ function zoskupLearnMasterOtazky(otazky) {
   const indexySkupin = new Map();
 
   otazky.forEach((otazka) => {
-    const podokruh = ziskajPodokruh(otazka);
-    if (!indexySkupin.has(podokruh)) {
-      indexySkupin.set(podokruh, skupiny.length);
-      skupiny.push({ nazov: podokruh, otazky: [] });
+    const skupina = ziskajSkupinuLearnMaster(otazka);
+    if (!indexySkupin.has(skupina.kluc)) {
+      indexySkupin.set(skupina.kluc, skupiny.length);
+      skupiny.push({ nazov: skupina.nazov, otazky: [] });
     }
-    skupiny[indexySkupin.get(podokruh)].otazky.push(otazka);
+    skupiny[indexySkupin.get(skupina.kluc)].otazky.push(otazka);
   });
 
   return skupiny;
+}
+
+function ziskajSkupinuLearnMaster(otazka) {
+  const prezentacia = ziskajPrezentaciu(otazka);
+  const podokruh = ziskajPodokruh(otazka);
+  const casti = String(podokruh).split("/").map((cast) => cast.trim()).filter(Boolean);
+  let skupina = podokruh;
+
+  if (casti.length > 1) {
+    skupina = normalizujKluc(casti[0]) === normalizujKluc(prezentacia)
+      ? casti[1]
+      : casti[0];
+  }
+
+  const nazov = normalizujKluc(skupina) === normalizujKluc(prezentacia)
+    ? prezentacia
+    : `${prezentacia} - ${skupina}`;
+
+  return {
+    kluc: `${prezentacia}::${skupina}`,
+    nazov
+  };
 }
 
 function jePravdivyStatementLearnMaster(otazka) {
@@ -5031,6 +5053,10 @@ function ziskajOtazkyPredmetu(predmet) {
     return filtrujExtraStatementsPredmetu(predmet, otazkyPredmetu);
   }
 
+  if (predmet === "obhajoba") {
+    return typeof obhajobaOtazky === "undefined" ? [] : obhajobaOtazky;
+  }
+
   return czsOtazky;
 }
 
@@ -5041,7 +5067,7 @@ function nastavPredmet(predmet) {
       prepinacMultipleChoice.checked = false;
     }
   }
-  if (predmet !== "hel" && predmet !== "czs" && predmet !== "zin" && predmet !== "vs2") {
+  if (predmet !== "hel" && predmet !== "czs" && predmet !== "zin" && predmet !== "vs2" && predmet !== "obhajoba") {
     if (prepinacExamMode) {
       prepinacExamMode.checked = false;
       examModeMini = false;
@@ -5049,7 +5075,7 @@ function nastavPredmet(predmet) {
   }
 
   // Predmety bez crack podpory bezia v klasickom mode - zrusime crack timer.
-  if (predmet !== "hel" && predmet !== "czs" && predmet !== "zin" && predmet !== "vs2") {
+  if (predmet !== "hel" && predmet !== "czs" && predmet !== "zin" && predmet !== "vs2" && predmet !== "obhajoba") {
     zrusCrackTimer(true);
   }
 
