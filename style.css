@@ -685,6 +685,23 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
     radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.72), transparent 64%);
 }
 
+.mini-impulz-efekty {
+  position: fixed;
+  inset: -72px;
+  z-index: 9998;
+  overflow: hidden;
+  pointer-events: none;
+  background: transparent;
+  opacity: 1;
+  mix-blend-mode: screen;
+  isolation: isolate;
+  contain: layout paint;
+}
+
+.mini-impulz-efekty:not(.aktivny) {
+  opacity: 0;
+}
+
 .mini-impulz-vrstva {
   position: absolute;
   inset: 0;
@@ -735,6 +752,9 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
   filter:
     drop-shadow(0 0 10px rgba(var(--mini-rgb, 255, 216, 17), 0.9))
     drop-shadow(0 0 calc(18px + var(--mini-uroven, 0) * 34px) rgba(var(--mini-okraj-rgb, 255, 126, 0), 0.62));
+}
+
+.mini-impulz-vrstva.aktivny .mini-impulz-vlna {
   animation: miniImpulzVlna var(--mini-trvanie, 340ms) cubic-bezier(0.08, 0.78, 0.18, 1) forwards;
 }
 
@@ -759,10 +779,13 @@ body.rezim-rytmu.rytmus-vlna .rytmicky-vizualizer::before {
 }
 
 .flash-efekt.mini-impulz {
+  background: transparent;
   opacity: 1;
+  mix-blend-mode: screen;
   filter: none;
   transform: none;
   animation: none;
+  isolation: isolate;
 }
 
 .streak-flash-cislo {

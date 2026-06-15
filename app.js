@@ -19,6 +19,7 @@ let animaciaSpravnehoFlashu = null;
 let casovacSpravnehoFlashu = null;
 let casovacMegaStreaku = null;
 let tokenMiniImpulzu = 0;
+let prvokMiniImpulzEfekt = null;
 let hlasitost = 0.5;
 let pociatocnyPocetPoolu = 0;
 let casZaciatkuPoolu = 0;
@@ -1577,25 +1578,29 @@ function vytvorMiniImpulzWaveform(uroven) {
   return svg;
 }
 
+function ziskajPrvokMiniImpulzEfektu() {
+  if (prvokMiniImpulzEfekt?.isConnected) {
+    return prvokMiniImpulzEfekt;
+  }
+
+  prvokMiniImpulzEfekt = document.createElement("div");
+  prvokMiniImpulzEfekt.className = "mini-impulz-efekty";
+  prvokMiniImpulzEfekt.setAttribute("aria-hidden", "true");
+  document.body.appendChild(prvokMiniImpulzEfekt);
+  return prvokMiniImpulzEfekt;
+}
+
 function dokoncitMiniImpulzVrstvu(vrstva) {
+  const kontajner = vrstva.parentElement;
   vrstva.remove();
-  if (!prvokFlashEfekt.querySelector(".mini-impulz-vrstva")) {
-    prvokFlashEfekt.classList.remove("mini-impulz");
-    prvokFlashEfekt.style.opacity = "0";
-    prvokFlashEfekt.style.mixBlendMode = "normal";
+  if (kontajner && !kontajner.querySelector(".mini-impulz-vrstva")) {
+    kontajner.classList.remove("aktivny");
   }
 }
 
 function spustiMiniImpulz() {
-  if (!prvokFlashEfekt) return;
-  if (animaciaSpravnehoFlashu) {
-    animaciaSpravnehoFlashu.cancel();
-    animaciaSpravnehoFlashu = null;
-  }
-  if (casovacSpravnehoFlashu) {
-    window.clearTimeout(casovacSpravnehoFlashu);
-    casovacSpravnehoFlashu = null;
-  }
+  const prvokMiniImpulzu = ziskajPrvokMiniImpulzEfektu();
+  if (!prvokMiniImpulzu) return;
   const streak = Math.max(0, stavStlpca);
   const uroven = Math.min(streak / 18, 1);
   const farby = ziskajFarbyTieru(Math.max(streak, 1));
@@ -1614,15 +1619,14 @@ function spustiMiniImpulz() {
 
   document.body.style.setProperty("--mini-otras", `${(4.5 + uroven * 9.5).toFixed(2)}px`);
   document.body.classList.remove("mini-impulz-panel");
-  prvokFlashEfekt.style.background = "transparent";
-  prvokFlashEfekt.style.mixBlendMode = "screen";
-  prvokFlashEfekt.style.opacity = "1";
-  prvokFlashEfekt.classList.remove("aktivny", "specialny", "lucovy");
-  prvokFlashEfekt.classList.add("mini-impulz");
-  prvokFlashEfekt.appendChild(vrstva);
-  void vrstva.offsetHeight;
-  document.body.classList.add("mini-impulz-panel");
-  vrstva.classList.add("aktivny");
+  prvokMiniImpulzu.classList.add("aktivny");
+  prvokMiniImpulzu.appendChild(vrstva);
+  const spustiNaDalsomFrame = window.requestAnimationFrame || ((callback) => window.setTimeout(callback, 0));
+  spustiNaDalsomFrame(() => {
+    if (!vrstva.isConnected) return;
+    document.body.classList.add("mini-impulz-panel");
+    vrstva.classList.add("aktivny");
+  });
 
   window.setTimeout(() => {
     dokoncitMiniImpulzVrstvu(vrstva);
