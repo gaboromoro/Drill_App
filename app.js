@@ -3339,7 +3339,11 @@ function vykresliPredoslyVysledok() {
   nastavOtazkuStatement(otazka.otazka);
   prvokPocitadlo.textContent = "Previous";
   aktualizujPocitadloSpravnychSession();
-  vykresliVysledokPredoslej(otazka, predoslyVysledok.jeSpravne, predoslyVysledok.textVysledku);
+  if (jeCrackMode() && !predoslyVysledok.jeSpravne) {
+    zobrazSpravnuOdpovedVStatemente(otazka, predoslyVysledok.jeSpravne, predoslyVysledok.textVysledku);
+  } else {
+    vykresliVysledokPredoslej(otazka, predoslyVysledok.jeSpravne, predoslyVysledok.textVysledku);
+  }
 
   nastavMediaOtazky(otazka);
   vykresliMoznosti(otazka, aktualneMoznosti, predoslyVysledok.vybrane, true);
