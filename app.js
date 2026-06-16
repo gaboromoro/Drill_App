@@ -4811,6 +4811,19 @@ function pouziMedzernik() {
   }
 }
 
+function jeInteraktivnyTap(udalost) {
+  return Boolean(udalost.target?.closest?.("button, a, input, label, select, textarea, summary, [role='button']"));
+}
+
+function obsluzTapDokoncenehoPoolu(udalost) {
+  if (!poolDokonceny || !jeMobilnyCrackMode() || jeInteraktivnyTap(udalost)) {
+    return;
+  }
+
+  udalost.preventDefault();
+  nastavPoradie();
+}
+
 function rovnakePolia(prvePole, druhePole) {
   if (prvePole.length !== druhePole.length) {
     return false;
@@ -5026,7 +5039,9 @@ function zobrazDokoncenyPool() {
   aktualizujPocitadloSpravnychSession();
   prvokMoznosti.innerHTML = "";
   prvokVysledok.className = "vysledok ok";
-  prvokVysledok.textContent = "Stlac medzernik pre novy beh toho isteho poolu.";
+  prvokVysledok.textContent = jeMobilnyCrackMode()
+    ? "Tapni na obrazovku pre novy beh toho isteho poolu."
+    : "Stlac medzernik pre novy beh toho isteho poolu.";
   prvokObrazokOtazky.classList.add("skryte");
   prvokMediaOtazky.classList.add("skryte");
   prvokMediaOtazky.innerHTML = "";
@@ -5399,6 +5414,7 @@ document.addEventListener("click", obsluzKlikCitatu, true);
 document.addEventListener("click", obsluzKlikVolitelnehoPrvku);
 document.addEventListener("change", obsluzZmenuVolitelnehoPrvku);
 document.addEventListener("keydown", obsluzKlavesnicu);
+document.addEventListener("pointerup", obsluzTapDokoncenehoPoolu);
 document.addEventListener("pointerdown", pripravZvuky, { once: true, capture: true });
 document.addEventListener("keydown", pripravZvuky, { once: true, capture: true });
 window.addEventListener("resize", aktualizujMobilneRozlozenie);
