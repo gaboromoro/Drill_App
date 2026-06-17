@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="400" height="300" fill="#f4f3ee"/>
+  <text x="200" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1a1a1a">NOS — near-koincidencny par</text>
+  <text x="200" y="50" text-anchor="middle" font-size="13" fill="#555">2 kardioidy, 30 cm a 90 st.</text>
+  <g transform="translate(130,195) rotate(-45)"><path d="M0 0 L-21 -33 A40 40 0 0 1 21 -33 Z" fill="#cfe3f5" fill-opacity="0.7" stroke="#4a90d9" stroke-width="1.5"/></g>
+  <g transform="translate(270,195) rotate(45)"><path d="M0 0 L-21 -33 A40 40 0 0 1 21 -33 Z" fill="#cfe3f5" fill-opacity="0.7" stroke="#4a90d9" stroke-width="1.5"/></g>
+  <line x1="130" y1="195" x2="98" y2="153" stroke="#1a7f37" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <line x1="270" y1="195" x2="302" y2="153" stroke="#1a7f37" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <text x="200" y="122" text-anchor="middle" font-size="14" font-weight="700" fill="#1a7f37">90 st.</text>
+  <circle cx="130" cy="195" r="9" fill="#333"/>
+  <circle cx="270" cy="195" r="9" fill="#333"/>
+  <line x1="130" y1="222" x2="270" y2="222" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="130" y1="215" x2="130" y2="229" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="270" y1="215" x2="270" y2="229" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="200" y="243" text-anchor="middle" font-size="13" font-weight="700" fill="#c0392b">30 cm</text>
+  <text x="200" y="268" text-anchor="middle" font-size="12" fill="#555">rozdiel intenzity aj casu</text>
+</svg>

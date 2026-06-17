@@ -1931,8 +1931,8 @@ function aktualizujViditelnostModov() {
   const hel = aktualnyPredmet === "hel";
   const test = jeTestPredmet();
   const crack = jeCrackMode();
-  // Multiple Choice je iba pre HEL; Exam Mode pre HEL, CZS, ZIN, VS2 aj Obhajoba.
-  const examPodporovany = hel || aktualnyPredmet === "czs" || aktualnyPredmet === "zin" || aktualnyPredmet === "vs2" || aktualnyPredmet === "obhajoba";
+  // Multiple Choice je iba pre HEL; Exam Mode pre HEL, CZS, ZIN, ZHA, VS2 aj Obhajoba.
+  const examPodporovany = hel || aktualnyPredmet === "czs" || aktualnyPredmet === "zin" || aktualnyPredmet === "zha" || aktualnyPredmet === "vs2" || aktualnyPredmet === "obhajoba";
   if (riadokMultipleChoice) riadokMultipleChoice.classList.toggle("skryte", !hel);
   if (riadokExamMode) riadokExamMode.classList.toggle("skryte", !examPodporovany);
   // TEST ma rychly rezim automaticky; pre crack mode Speed Mode tiez nedava zmysel.
@@ -2007,7 +2007,7 @@ function jeTestPredmet() {
 }
 
 function predmetPodporujeCrack() {
-  return aktualnyPredmet === "hel" || aktualnyPredmet === "czs" || aktualnyPredmet === "zin" || aktualnyPredmet === "vs2" || aktualnyPredmet === "obhajoba";
+  return aktualnyPredmet === "hel" || aktualnyPredmet === "czs" || aktualnyPredmet === "zin" || aktualnyPredmet === "zha" || aktualnyPredmet === "vs2" || aktualnyPredmet === "obhajoba";
 }
 
 function jeMultipleChoiceOverride() {
@@ -2262,7 +2262,7 @@ function nastavExamMode() {
     if (prepinacMultipleChoice) {
       prepinacMultipleChoice.checked = false;
     }
-    if (aktualnyPredmet !== "hel" && aktualnyPredmet !== "czs" && aktualnyPredmet !== "zin" && aktualnyPredmet !== "vs2" && aktualnyPredmet !== "obhajoba") {
+    if (aktualnyPredmet !== "hel" && aktualnyPredmet !== "czs" && aktualnyPredmet !== "zin" && aktualnyPredmet !== "zha" && aktualnyPredmet !== "vs2" && aktualnyPredmet !== "obhajoba") {
       nastavPredmet("hel");
       return;
     }
@@ -5184,6 +5184,10 @@ function ziskajOtazkyPredmetu(predmet) {
     return typeof obhajobaOtazky === "undefined" ? [] : obhajobaOtazky;
   }
 
+  if (predmet === "zha") {
+    return typeof zhaOtazky === "undefined" ? [] : zhaOtazky;
+  }
+
   return czsOtazky;
 }
 
@@ -5194,7 +5198,7 @@ function nastavPredmet(predmet) {
       prepinacMultipleChoice.checked = false;
     }
   }
-  if (predmet !== "hel" && predmet !== "czs" && predmet !== "zin" && predmet !== "vs2" && predmet !== "obhajoba") {
+  if (predmet !== "hel" && predmet !== "czs" && predmet !== "zin" && predmet !== "zha" && predmet !== "vs2" && predmet !== "obhajoba") {
     if (prepinacExamMode) {
       prepinacExamMode.checked = false;
       examModeMini = false;
@@ -5202,7 +5206,7 @@ function nastavPredmet(predmet) {
   }
 
   // Predmety bez crack podpory bezia v klasickom mode - zrusime crack timer.
-  if (predmet !== "hel" && predmet !== "czs" && predmet !== "zin" && predmet !== "vs2" && predmet !== "obhajoba") {
+  if (predmet !== "hel" && predmet !== "czs" && predmet !== "zin" && predmet !== "zha" && predmet !== "vs2" && predmet !== "obhajoba") {
     zrusCrackTimer(true);
   }
 

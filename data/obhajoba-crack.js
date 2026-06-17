@@ -351,9 +351,9 @@ const obhajobaCrackData = [
     id: "OBH 4. Audio aplet 003",
     oblast: "Audio aplet",
     podoblast: "Prehravanie",
-    pravda: "Prehravanie ide cez Web Audio API: AudioContext -> mono AudioBuffer (createBuffer) -> AudioBufferSourceNode -> destination; tri tlacidla porovnavaju povodny signal, kvantovany bez ditheru a kvantovany s ditherom.",
-    nepravda: "Prehravanie ide cez Web Audio API: AudioContext -> stereo AudioBuffer (createBuffer) -> AudioBufferSourceNode -> destination; tri tlacidla porovnavaju povodny signal, kvantovany bez ditheru a kvantovany s ditherom.",
-    nepravda2: "Prehravanie ide cez Web Audio API: AudioContext -> mono AudioBuffer (createBuffer) -> AudioBufferSourceNode -> destination; dve tlacidla porovnavaju povodny signal a kvantovany s ditherom."
+    pravda: "Prehravanie ide cez Web Audio API: tri tlacidla porovnavaju povodny signal, kvantovany bez ditheru a kvantovany s ditherom; v nasadenom aplete zvuk vytvara AudioWorklet procesor v realnom case (podrobnosti v okruhu 7).",
+    nepravda: "Prehravanie ide cez Web Audio API: tri tlacidla porovnavaju povodny signal, kvantovany bez ditheru a kvantovany s ditherom; v nasadenom aplete zvuk vytvara MediaRecorder v realnom case (podrobnosti v okruhu 7).",
+    nepravda2: "Prehravanie ide cez Web Audio API: dve tlacidla porovnavaju povodny signal a kvantovany s ditherom; v nasadenom aplete zvuk vytvara AudioWorklet procesor v realnom case (podrobnosti v okruhu 7)."
   },
 
   // ============================================================
@@ -461,6 +461,359 @@ const obhajobaCrackData = [
     pravda: "Dither generuje Math.random(), co je bezny, nie kryptograficky generator; pre vyukovu vizualizaciu plne postacuje, ale pre realny ditherovaci retazec by bola dolezita kvalita a rovnomernost jeho rozdelenia (aby vysledny dither bol naozaj biely).",
     nepravda: "Dither generuje Math.random(), co je kryptograficky bezpecny generator s garantovane bielym spektrom; preto by sa dal bez vyhrad pouzit aj v realnom ditherovacom retazci bez akehokolvek overovania kvality rozdelenia.",
     nepravda2: "Dither generuje Math.random(), co je bezny, nie kryptograficky generator; pre realny ditherovaci retazec plne postacuje, ale pre vyukovu vizualizaciu by bola dolezita kvalita a rovnomernost jeho rozdelenia (aby vysledny dither bol naozaj biely)."
+  },
+
+  // ============================================================
+  // OKRUH 7: Audio - hlbsia teoria okolo
+  // ============================================================
+  {
+    okruh: "8. Audio - hlbsia teoria",
+    id: "OBH 7. Audio 001",
+    oblast: "SNR a dither",
+    podoblast: "Zlepsuje dither SNR?",
+    pravda: "Dither NEzlepsuje odstup signalu od sumu (SNR) - prave naopak, pridanim sumu celkovy sumovy vykon mierne stupne; zlepsuje linearitu kvantizera a subjektivny dojem tym, ze deterministicke skreslenie nahradi stacionarnym, od signalu nezavislym sumom.",
+    nepravda: "Dither zlepsuje odstup signalu od sumu (SNR) tym, ze znizuje celkovy sumovy vykon; zlepsuje aj linearitu kvantizera a subjektivny dojem tym, ze deterministicke skreslenie nahradi stacionarnym, od signalu nezavislym sumom.",
+    nepravda2: "Dither NEzlepsuje odstup signalu od sumu (SNR) - prave naopak, pridanim sumu celkovy sumovy vykon mierne stupne; zhorsuje vsak aj linearitu kvantizera, lebo do signalu vnasa nahodnu zlozku zavislu od vstupu."
+  },
+  {
+    okruh: "8. Audio - hlbsia teoria",
+    id: "OBH 7. Audio 002",
+    oblast: "SNR a dither",
+    podoblast: "Co je 6.02N+1.76 dB",
+    pravda: String.raw`Vztah $\mathrm{SNR} \approx 6{,}02\,N + 1{,}76$ dB udava maximalny teoreticky odstup signalu od sumu idealneho N-bitoveho uniformneho kvantizera pre PLNOROZSAHOVY sinusovy signal; 6,02 dB pripada na kazdy bit (20 log 2), clen 1,76 dB plynie z tvaru plnorozsahovej sinusovky (10 log 1,5).`,
+    nepravda: String.raw`Vztah $\mathrm{SNR} \approx 6{,}02\,N + 1{,}76$ dB udava maximalny teoreticky odstup signalu od sumu idealneho N-bitoveho uniformneho kvantizera pre PLNOROZSAHOVY obdlznikovy signal; 6,02 dB pripada na kazdy bit (20 log 2), clen 1,76 dB plynie z tvaru plnorozsahovej sinusovky (10 log 1,5).`,
+    nepravda2: String.raw`Vztah $\mathrm{SNR} \approx 6{,}02\,N + 1{,}76$ dB udava maximalny teoreticky odstup signalu od sumu idealneho N-bitoveho uniformneho kvantizera pre PLNOROZSAHOVY sinusovy signal; 1,76 dB pripada na kazdy bit (20 log 2), clen 6,02 dB plynie z tvaru plnorozsahovej sinusovky (10 log 1,5).`
+  },
+  {
+    okruh: "8. Audio - hlbsia teoria",
+    id: "OBH 7. Audio 003",
+    oblast: "SNR a dither",
+    podoblast: "Kedy 6.02N+1.76 plati",
+    pravda: "Vztah 6,02N + 1,76 dB plati len za idealnych podmienok: plnorozsahovy budiaci signal a kvantizacny sum priblizne biely a nekorelovany so signalom; pre amplitudu A pod plnym rozsahom treba odpocitat 20 log(FS/A) dB, a pri nizkych urovniach ci jednoduchych signaloch model vobec neplati (chyba sa zmeni na skreslenie).",
+    nepravda: "Vztah 6,02N + 1,76 dB plati univerzalne pre lubovolny signal aj uroven; pre amplitudu A pod plnym rozsahom netreba nic odpocitavat a pri nizkych urovniach ci jednoduchych signaloch model plati rovnako dobre.",
+    nepravda2: "Vztah 6,02N + 1,76 dB plati len za idealnych podmienok: plnorozsahovy budiaci signal a kvantizacny sum priblizne biely a nekorelovany so signalom; pre amplitudu A pod plnym rozsahom treba PRIPOCITAT 20 log(FS/A) dB, lebo nizsia uroven znamena vyssi odstup od sumu."
+  },
+  {
+    okruh: "8. Audio - hlbsia teoria",
+    id: "OBH 7. Audio 004",
+    oblast: "Uroven ditheru",
+    podoblast: "Optimalna uroven",
+    pravda: "Optimalna uroven ditheru je najmensia, ktora uplne odstrani zavislost chyby od signalu: pre RPDF je to 1 Q peak-to-peak, pre TPDF 2 Q peak-to-peak; v aplete tomu zodpoveda hodnota posuvnika amount = 1 (sum sa skaluje ako amount * Q).",
+    nepravda: "Optimalna uroven ditheru je co najvacsia, aby sum dokonale prekryl signal: pre RPDF je to 1 Q peak-to-peak, pre TPDF 2 Q peak-to-peak; v aplete tomu zodpoveda hodnota posuvnika amount = 1 (sum sa skaluje ako amount * Q).",
+    nepravda2: "Optimalna uroven ditheru je najmensia, ktora uplne odstrani zavislost chyby od signalu: pre RPDF je to 2 Q peak-to-peak, pre TPDF 1 Q peak-to-peak; v aplete tomu zodpoveda hodnota posuvnika amount = 1 (sum sa skaluje ako amount * Q)."
+  },
+  {
+    okruh: "8. Audio - hlbsia teoria",
+    id: "OBH 7. Audio 005",
+    oblast: "Uroven ditheru",
+    podoblast: "Pod-dither vs pre-dither",
+    pravda: "Posuvnik urovne ditheru ukazuje kompromis: prilis maly dither plne neodstrani skreslenie (chyba ostava ciastocne viazana na signal), prilis velky dither uz nic nezlepsi a len zbytocne zvysi sumove dno; spravny bod je najmensia uroven, ktora chybu uplne dekoreluje.",
+    nepravda: "Posuvnik urovne ditheru ukazuje kompromis: prilis maly dither uz nic nezlepsi a len zbytocne zvysi sumove dno, prilis velky dither plne neodstrani skreslenie; spravny bod je najvacsia mozna uroven.",
+    nepravda2: "Posuvnik urovne ditheru ukazuje kompromis: prilis maly dither plne neodstrani skreslenie, prilis velky dither uz nic nezlepsi a len zbytocne zvysi sumove dno; spravny bod je najvacsia uroven, pri ktorej este nie je sum pocut."
+  },
+  {
+    okruh: "8. Audio - hlbsia teoria",
+    id: "OBH 7. Audio 006",
+    oblast: "Noise shaping",
+    podoblast: "Princip spatnej vazby",
+    pravda: "Tvarovanie sumu pouziva spatnu vazbu kvantizacnej chyby: chyba sa filtruje a pricita k vstupu nasledujucich vzoriek, takze sumova prenosova funkcia (NTF) ma tvar 1 - H(z); volbou H sa sum vytlaci z citliveho pasma (1-5 kHz) do vysokych frekvencii.",
+    nepravda: "Tvarovanie sumu pouziva spatnu vazbu kvantizacnej chyby: chyba sa filtruje a pricita k vstupu nasledujucich vzoriek, takze sumova prenosova funkcia (NTF) ma tvar 1 - H(z); volbou H sa sum vytlaci z vysokych frekvencii do citliveho pasma (1-5 kHz).",
+    nepravda2: "Tvarovanie sumu pouziva spatnu vazbu kvantizacnej chyby: chyba sa filtruje a odcita od vystupu uz hotovych vzoriek, takze signalova prenosova funkcia ma tvar 1 - H(z); volbou H sa sum vytlaci z citliveho pasma (1-5 kHz) do vysokych frekvencii."
+  },
+  {
+    okruh: "8. Audio - hlbsia teoria",
+    id: "OBH 7. Audio 007",
+    oblast: "Noise shaping",
+    podoblast: "Vykon, oversampling, dither",
+    pravda: "Tvarovanie sumu nezmensuje celkovy vykon kvantizacneho sumu, len ho prerozdeli v spektre; pri oversamplingu sa cast sumu dostane nad pocutelne pasmo a odfiltruje sa (princip sigma-delta prevodnikov), a aby nevznikali limitne cykly, kombinuje sa s ditherom.",
+    nepravda: "Tvarovanie sumu zmensuje celkovy vykon kvantizacneho sumu tym, ze ho vyfiltruje; pri oversamplingu sa cast sumu dostane nad pocutelne pasmo a odfiltruje sa (princip sigma-delta prevodnikov), a aby nevznikali limitne cykly, kombinuje sa s ditherom.",
+    nepravda2: "Tvarovanie sumu nezmensuje celkovy vykon kvantizacneho sumu, len ho prerozdeli v spektre; pri oversamplingu sa cast sumu dostane nad pocutelne pasmo a odfiltruje sa (princip R-2R prevodnikov), a aby nevznikali limitne cykly, musi sa dither vypnut."
+  },
+  {
+    okruh: "8. Audio - hlbsia teoria",
+    id: "OBH 7. Audio 008",
+    oblast: "Dalsie algoritmy",
+    podoblast: "Audio metody",
+    pravda: "Pokrocilejsie audio metody nad ramec prace: psychoakusticky vazene tvarovanie sumu (napr. POW-R, Apogee UV22, SBM) tvaruje sum podla krivky citlivosti sluchu, dalej viacradove shapery, sigma-delta modulacia a subtraktivny dither.",
+    nepravda: "Pokrocilejsie audio metody nad ramec prace: psychoakusticky vazene tvarovanie sumu (napr. POW-R, Apogee UV22, SBM) sustreduje sum naopak do najcitlivejsieho pasma 1-5 kHz, dalej viacradove shapery, sigma-delta modulacia a subtraktivny dither.",
+    nepravda2: "Pokrocilejsie audio metody nad ramec prace: Floyd-Steinbergov a Bayerov dither vazeny podla krivky citlivosti sluchu, dalej viacradove shapery, sigma-delta modulacia a subtraktivny dither."
+  },
+
+  // ============================================================
+  // OKRUH 8: Obraz - hlbsia teoria okolo
+  // ============================================================
+  {
+    okruh: "9. Obraz - hlbsia teoria",
+    id: "OBH 8. Obraz 001",
+    oblast: "sRGB a linearizacia",
+    podoblast: "Gamma vs linearne svetlo",
+    pravda: "Hodnoty pixelov 0-255 su gamma-kodovane (sRGB), nie linearne svetlo; oko vsak priestorovo priemeruje v linearnom svetle. Korektny dithering by mal preto sRGB najprv linearizovat, az potom kvantovat a difuzovat chybu.",
+    nepravda: "Hodnoty pixelov 0-255 su linearne svetlo, nie gamma-kodovane; oko vsak priestorovo priemeruje v gamma priestore. Korektny dithering by mal preto hodnoty najprv gamma-kodovat, az potom kvantovat a difuzovat chybu.",
+    nepravda2: "Hodnoty pixelov 0-255 su gamma-kodovane (sRGB), nie linearne svetlo; oko vsak priestorovo priemeruje takisto v gamma priestore, takze linearizacia nie je potrebna."
+  },
+  {
+    okruh: "9. Obraz - hlbsia teoria",
+    id: "OBH 8. Obraz 002",
+    oblast: "sRGB a linearizacia",
+    podoblast: "Dosledok nelinearizovania",
+    pravda: "V aplete sa sRGB hodnoty NElinearizuju - kvantizacia aj difuzia chyby bezia priamo na kodovych hodnotach 0-255; dosledok je, ze priemerny jas ditherovanej plochy sa mierne posunie (stredne tony pri 1-bitovom gradiente vyjdu svetlejsie, nez maju byt). Je to znamy, v praci nezohladneny efekt.",
+    nepravda: "V aplete sa sRGB hodnoty linearizuju este pred kvantizaciou - kvantizacia aj difuzia chyby bezia v linearnom svetle; dosledok je, ze priemerny jas ditherovanej plochy presne sedi. Je to v praci osetreny efekt.",
+    nepravda2: "V aplete sa sRGB hodnoty NElinearizuju - kvantizacia aj difuzia chyby bezia priamo na kodovych hodnotach 0-255; dosledok je, ze sa posunie len farebny odtien, ale priemerny jas plochy ostane presny. Je to znamy, v praci nezohladneny efekt."
+  },
+  {
+    okruh: "9. Obraz - hlbsia teoria",
+    id: "OBH 8. Obraz 003",
+    oblast: "Prevod do sivej",
+    podoblast: "Luma vs luminancia",
+    pravda: "Prevod do sivej vahami BT.601 (0,299/0,587/0,114) sa pocita z gamma-kodovaneho R'G'B', takze vysledok je luma Y' - perceptualna velicina, NIE fyzikalna (linearna) luminancia Y, ktora by vyzadovala najprv linearizaciu.",
+    nepravda: "Prevod do sivej vahami BT.601 (0,299/0,587/0,114) sa pocita z linearneho RGB, takze vysledok je fyzikalna luminancia Y - nie luma Y', ktora by vyzadovala najprv linearizaciu.",
+    nepravda2: "Prevod do sivej vahami BT.601 (0,299/0,587/0,114) sa pocita z gamma-kodovaneho R'G'B', takze vysledok je luma Y' - fyzikalna (linearna) velicina, ktora ziadnu linearizaciu nepotrebuje."
+  },
+  {
+    okruh: "9. Obraz - hlbsia teoria",
+    id: "OBH 8. Obraz 004",
+    oblast: "Prevod do sivej",
+    podoblast: "BT.601 vs BT.709",
+    pravda: "BT.601 vahy patria SDTV; novsi BT.709 (0,2126/0,7152/0,0722) zodpoveda HD a primarnym farbam sRGB, takze pre sRGB obsah je o nieco spravnejsi. Pre vyukovy nastroj na prevod do sivej je vizualny rozdiel maly, preto BT.601 ako ucebnicovy vzorec postacuje.",
+    nepravda: "BT.709 vahy patria SDTV; novsi BT.601 (0,2126/0,7152/0,0722) zodpoveda HD a primarnym farbam sRGB, takze pre sRGB obsah je o nieco spravnejsi. Pre vyukovy nastroj na prevod do sivej je vizualny rozdiel maly, preto BT.709 ako ucebnicovy vzorec postacuje.",
+    nepravda2: "BT.601 vahy patria SDTV; novsi BT.709 (0,2126/0,7152/0,0722) zodpoveda HD a primarnym farbam sRGB. Pre vyukovy nastroj je vizualny rozdiel zasadny, preto by sa BT.601 nemal pouzivat."
+  },
+  {
+    okruh: "9. Obraz - hlbsia teoria",
+    id: "OBH 8. Obraz 005",
+    oblast: "Farebny dithering",
+    podoblast: "Samostatne kanaly vs perceptualne",
+    pravda: "Kvantovat R, G, B samostatne je jednoduche a nevyzaduje pevnu paletu, ale chyby v kanaloch su nezavisle, takze vznika farebny (chromaticky) sum a vybrana vystupna farba nie je perceptualne najblizsia (neminimalizuje sa farebna vzdialenost delta-E).",
+    nepravda: "Kvantovat R, G, B samostatne je jednoduche a nevyzaduje pevnu paletu; chyby v kanaloch su zaroven previazane, takze nevznika farebny sum a vybrana vystupna farba je vzdy perceptualne najblizsia (minimalizuje sa farebna vzdialenost delta-E).",
+    nepravda2: "Kvantovat R, G, B samostatne je jednoduche a nevyzaduje pevnu paletu; hoci su chyby v kanaloch nezavisle, farebny sum NEvznika, lebo nezavisle zaokruhlenie kanalov vzdy zachova povodny odtien."
+  },
+  {
+    okruh: "9. Obraz - hlbsia teoria",
+    id: "OBH 8. Obraz 006",
+    oblast: "Farebny dithering",
+    podoblast: "Perceptualny pristup",
+    pravda: "Perceptualne presnejsi pristup by kvantoval vo vnimovo rovnomernom priestore (napr. CIELAB), vybral najblizsiu farbu palety podla delta-E a chybu difuzoval ako farebny vektor; praca zamerne zvolila jednoduchsie nezavisle kanaly RGB.",
+    nepravda: "Perceptualne presnejsi pristup by kvantoval priamo v RGB, vybral najblizsiu farbu palety podla euklidovskej vzdialenosti v RGB a chybu difuzoval po kanaloch; praca zamerne zvolila zlozitejsi priestor CIELAB.",
+    nepravda2: "Perceptualne presnejsi pristup by kvantoval vo vnimovo rovnomernom priestore (napr. CIELAB), vybral najblizsiu farbu palety podla delta-E a chybu difuzoval ako farebny vektor; praca prave tento perceptualny pristup aj pouzila."
+  },
+  {
+    okruh: "9. Obraz - hlbsia teoria",
+    id: "OBH 8. Obraz 007",
+    oblast: "Float buffer",
+    podoblast: "Preco float pri Floyd-Steinbergovi",
+    pravda: "Pri difuzii chyby treba idealne pocitat vo float pracovnom buffri, lebo imageData.data je Uint8ClampedArray: kazde pricitanie chyby (+=) sa hned zaokruhli na cele cislo a oreze do 0-255, cim sa zlomkova cast chyby straca a na okrajoch rozsahu sa chyba uplne strati.",
+    nepravda: "Pri difuzii chyby treba idealne pocitat vo float pracovnom buffri, lebo imageData.data je Float32Array: kazde pricitanie chyby (+=) sa hned zaokruhli na cele cislo a oreze do 0-255, cim sa zlomkova cast chyby straca a na okrajoch rozsahu sa chyba uplne strati.",
+    nepravda2: "Pri difuzii chyby staci pocitat priamo v poli imageData.data (Uint8ClampedArray), lebo to drzi desatinne aj zaporne hodnoty bez zaokruhlenia; ziadny float pracovny buffer nie je potrebny."
+  },
+  {
+    okruh: "9. Obraz - hlbsia teoria",
+    id: "OBH 8. Obraz 008",
+    oblast: "Float buffer",
+    podoblast: "Dosledok a riesenie",
+    pravda: "Dosledok difuzie priamo v Uint8ClampedArray: zaokruhlenie pri kazdom kroku znepresni prenos chyby a orezanie na 0-255 ju vo svetlach a tienoch uplne straci, takze tam moze prezit banding; spravne riesenie je drzat hodnoty vo Float32 pracovnom buffri a do 8-bitoveho vystupu zapisat az finalnu kvantovanu hodnotu.",
+    nepravda: "Dosledok difuzie priamo v Uint8ClampedArray nie je ziadny, lebo pole presne uchova aj zlomkovu chybu aj pretecenie mimo 0-255; float pracovny buffer by vysledok nezmenil.",
+    nepravda2: "Dosledok difuzie priamo v Uint8ClampedArray: zaokruhlenie pri kazdom kroku znepresni prenos chyby a orezanie na 0-255 ju vo svetlach a tienoch uplne straci; spravne riesenie je drzat hodnoty v 8-bitovom celociselnom poli a do vystupu zapisat az finalnu kvantovanu hodnotu - float sa pouzit neda."
+  },
+  {
+    okruh: "9. Obraz - hlbsia teoria",
+    id: "OBH 8. Obraz 009",
+    oblast: "Dalsie algoritmy",
+    podoblast: "Obrazove metody",
+    pravda: "Dalsie obrazove metody nad ramec prace: blue-noise / void-and-cluster matice (lepsie nez Bayer, bez periodickeho vzoru), ine difuzne jadra ako Jarvis-Judice-Ninke, Stucki, Atkinson ci Sierra, serpentinovy (cik-cak) sken a Riemersmov dithering po Hilbertovej krivke.",
+    nepravda: "Dalsie obrazove metody nad ramec prace: blue-noise / void-and-cluster matice (lepsie nez Bayer, bez periodickeho vzoru), ine difuzne jadra ako TPDF, RPDF, Gaussian ci Box-Muller, serpentinovy (cik-cak) sken a Riemersmov dithering po Hilbertovej krivke.",
+    nepravda2: "Dalsie obrazove metody nad ramec prace: blue-noise / void-and-cluster matice su horsie nez Bayer (maju vyrazny periodicky vzor), ine difuzne jadra ako Jarvis-Judice-Ninke, Stucki, Atkinson ci Sierra, serpentinovy sken a Riemersmov dithering po Hilbertovej krivke."
+  },
+
+  // ===== Implementacia palety (obrazovy aplet) - real-time / AudioWorklet ma vlastny okruh 7 =====
+  {
+    okruh: "9. Obraz - hlbsia teoria",
+    id: "OBH 9. Impl 004",
+    oblast: "Paleta",
+    podoblast: "Siva paleta",
+    pravda: "Sivu paletu kresli zobrazSivuPaletu: vytvori 2^N farebnych stvorcekov (div), kde hodnota i-teho je round(i * Q), a vypise text s poctom urovni; paleta sa prekresli pri kazdej zmene bitovej hlbky.",
+    nepravda: "Sivu paletu kresli zobrazSivuPaletu: vytvori 2^N farebnych stvorcekov (div), kde hodnota i-teho je round(i * Q), a vypise text s poctom urovni; paleta sa vykresli iba raz pri nacitani stranky.",
+    nepravda2: "Sivu paletu kresli zobrazSivuPaletu: vytvori N farebnych stvorcekov (div), kde hodnota i-teho je round(i * Q), a vypise text s poctom urovni; paleta sa prekresli pri kazdej zmene bitovej hlbky."
+  },
+  {
+    okruh: "9. Obraz - hlbsia teoria",
+    id: "OBH 9. Impl 005",
+    oblast: "Paleta",
+    podoblast: "RGB paleta",
+    pravda: "RGB paleta ma (2^N)^3 farieb (kombinacie urovni troch kanalov); kedze pri vyssich N je ich prilis vela na zobrazenie, funkcia zobrazRGBPaletu vypise realny pocet v texte, ale samotne policka orezuje na 3-bitovu paletu (512 farieb), ak je N > 3.",
+    nepravda: "RGB paleta ma 3 * 2^N farieb (sucet urovni troch kanalov); kedze pri vyssich N je ich prilis vela na zobrazenie, funkcia zobrazRGBPaletu vypise realny pocet v texte, ale samotne policka orezuje na 3-bitovu paletu (512 farieb), ak je N > 3.",
+    nepravda2: "RGB paleta ma (2^N)^3 farieb (kombinacie urovni troch kanalov); funkcia zobrazRGBPaletu vykresli vsetky tieto policka bez ohladu na N, aj keby ich boli miliony."
+  },
+
+  // ============================================================
+  // OKRUH 10: Komentare oponenta
+  // ============================================================
+  {
+    okruh: "10. Komentare oponenta",
+    id: "OBH 10. Oponent 001",
+    oblast: "Vertikalna os grafov",
+    podoblast: "Co tym oponent myslel",
+    pravda: "Oponentov navrh 'zmena kroku vertikalnej osi podla bitovej hlbky' znamena: krok mriezky na osi y by sa mal rovnat kvantizacnemu kroku Q(N), aby vodorovne ciary grafu predstavovali realne kvantizacne urovne a ich pocet sa menil so zmenou bitovej hlbky.",
+    nepravda: "Oponentov navrh 'zmena kroku vertikalnej osi podla bitovej hlbky' znamena: krok mriezky na casovej osi x by sa mal rovnat kvantizacnemu kroku Q(N), aby zvisle ciary grafu predstavovali realne kvantizacne urovne.",
+    nepravda2: "Oponentov navrh 'zmena kroku vertikalnej osi podla bitovej hlbky' znamena: rozsah osi y by sa mal s rastucou bitovou hlbkou zvacsovat nad rozsah <-1, 1>, aby sa zmestilo viac urovni."
+  },
+  {
+    okruh: "10. Komentare oponenta",
+    id: "OBH 10. Oponent 002",
+    oblast: "Vertikalna os grafov",
+    podoblast: "Aktualny stav a prinos",
+    pravda: "V aktualnom aplete je mriezka osi y pevne po 0,2 nezavisle od bitovej hlbky, takze kvantizacne urovne su len implicitne nazncene schodmi; ciara na kazdu uroven (najma pri nizkom N) by ich zviditelnila a priamo prepojila graf s teoriou - je to opravneny vyukovy navrh, nie chyba vypoctu.",
+    nepravda: "V aktualnom aplete sa mriezka osi y uz meni s bitovou hlbkou a kazda ciara lezi na kvantizacnej urovni, takze oponentov navrh je uz splneny a netreba nic menit.",
+    nepravda2: "V aktualnom aplete je mriezka osi y pevne po 0,2 nezavisle od bitovej hlbky; doplnit ciaru na kazdu uroven by vsak bola chyba vypoctu, lebo by zmenila tvar kvantizovaneho signalu."
+  },
+  {
+    okruh: "10. Komentare oponenta",
+    id: "OBH 10. Oponent 003",
+    oblast: "Ocenenie palety a metod",
+    podoblast: "Je to vytka alebo pochvala",
+    pravda: "Druhy citovany komentar ('ocenujem vizualizaciu paliet a implementaciu viacerych nastavitelnych metod ditheringu') je POZITIVNE hodnotenie, nie vytka: oponent chvali zobrazenie palety farieb pre sivy aj RGB rezim a moznost prepinat metody none/random/ordered/Floyd-Steinberg - netreba nic opravovat, len to vediet ukazat.",
+    nepravda: "Druhy citovany komentar ('ocenujem vizualizaciu paliet a implementaciu viacerych nastavitelnych metod ditheringu') je VYTKA: oponent kritizuje, ze paleta aj metody su zle spracovane a treba ich prerobit pred obhajobou.",
+    nepravda2: "Druhy citovany komentar ('ocenujem vizualizaciu paliet a implementaciu viacerych nastavitelnych metod ditheringu') je pozitivne hodnotenie audio apletu: oponent chvali zobrazenie spektra a moznost prepinat typy ditheru TPDF/RPDF/Gaussian."
+  },
+
+  // ============================================================
+  // OKRUH 11: SZZ Prienik Bakalarka
+  // Mosty medzi SZZ okruhmi (CZS, VS2, ZHA, HEL) a temami bakalarky.
+  // Predseda = skolitel, statnice nadvazuju na obhajobu -> najpravdepodobnejsie prepojenia.
+  // ============================================================
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 001",
+    oblast: "Strategia",
+    podoblast: "Kde caka prienik",
+    pravda: "Statnice nadvazuju na obhajobu a predseda je moj skolitel, takze najpravdepodobnejsi prienik je s CZS (cislicove spracovanie signalov) - moja praca je prakticka aplikacia CZS: vzorkovanie, kvantizacia, kvantizacny sum, spektrum a filtre.",
+    nepravda: "Statnice nadvazuju na obhajobu a predseda je moj skolitel, takze najpravdepodobnejsi prienik je so ZIN (zaklady instrumentace) - moja praca je prakticka aplikacia organologie nastrojov.",
+    nepravda2: "Statnice nadvazuju na obhajobu a predseda je moj skolitel, ale moja praca nema so SZZ okruhmi nic spolocne - je to cisto programatorska praca o JavaScripte."
+  },
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 002",
+    oblast: "CZS",
+    podoblast: "Okruh 1 - diskretny vs cislicovy",
+    pravda: "Prienik s CZS okruhom 1 (Diskretne a cislicove signaly): rozdiel medzi diskretnym a cislicovym signalom je prave kvantizacia - diskretny je vzorkovany len v case, cislicovy je navyse kvantovany v amplitude na konecny pocet urovni. Digitalizacia v mojej praci = vzorkovanie + kvantizacia.",
+    nepravda: "Prienik s CZS okruhom 1 (Diskretne a cislicove signaly): rozdiel medzi diskretnym a cislicovym signalom je prave vzorkovanie - diskretny je kvantovany v amplitude, cislicovy je navyse vzorkovany v case. Digitalizacia v mojej praci = vzorkovanie + kvantizacia.",
+    nepravda2: "Prienik s CZS okruhom 1 (Diskretne a cislicove signaly): rozdiel medzi diskretnym a cislicovym signalom je prave kvantizacia - diskretny je vzorkovany len v case, cislicovy je navyse kvantovany v amplitude na NEkonecny pocet urovni. Digitalizacia v mojej praci = vzorkovanie + kvantizacia."
+  },
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 003",
+    oblast: "CZS",
+    podoblast: "Okruh 2 - klasifikacia signalov",
+    pravda: "Prienik s CZS okruhom 2 (Klasifikacia signalov): kvantizacny sum aj dither su nahodne (stochasticke) signaly, kym budiaci sinus je deterministicky periodicky signal; dither je zamerne pridany nahodny signal, ktory meni deterministicke skreslenie na nahodny sum.",
+    nepravda: "Prienik s CZS okruhom 2 (Klasifikacia signalov): kvantizacny sum aj dither su deterministicke periodicke signaly, kym budiaci sinus je nahodny signal; dither je zamerne pridany nahodny signal, ktory meni deterministicke skreslenie na nahodny sum.",
+    nepravda2: "Prienik s CZS okruhom 2 (Klasifikacia signalov): kvantizacny sum aj dither su nahodne signaly, kym budiaci sinus je deterministicky periodicky signal; dither je zamerne pridany deterministicky signal, ktory meni nahodny sum na periodicke skreslenie."
+  },
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 004",
+    oblast: "CZS",
+    podoblast: "Okruh 3 - korelacia",
+    pravda: "Prienik s CZS okruhom 3 (Korelacia): cielom ditheru je, aby kvantizacna chyba bola NEKORELOVANA so vstupnym signalom; pri nizkych urovniach bez ditheru je chyba so signalom silno korelovana (preto skreslenie). Dither teda riesi prave koreláciu chyby so signalom.",
+    nepravda: "Prienik s CZS okruhom 3 (Korelacia): cielom ditheru je, aby kvantizacna chyba bola silno KORELOVANA so vstupnym signalom; pri nizkych urovniach bez ditheru je chyba so signalom nekorelovana. Dither teda riesi prave koreláciu chyby so signalom.",
+    nepravda2: "Prienik s CZS okruhom 3 (Korelacia): cielom ditheru je, aby kvantizacna chyba bola nekorelovana so vstupnym signalom; pri VYSOKYCH urovniach a zlozitych signaloch je chyba so signalom silno korelovana (preto skreslenie). Dither teda riesi prave koreláciu chyby so signalom."
+  },
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 005",
+    oblast: "CZS",
+    podoblast: "Okruhy 5/6 - LTI, FIR a IIR",
+    pravda: "Prienik s CZS okruhmi 5/6 (LTI, FIR a IIR systemy): kvantizer je NElinearny systém (preto vznika skreslenie a harmonicke), nie LTI; dither ho stochasticky 'linearizuje'. Tvarovanie sumu aj Floyd-Steinbergova difuzia su naopak filtre so spatnou vazbou (FIR/IIR).",
+    nepravda: "Prienik s CZS okruhmi 5/6 (LTI, FIR a IIR systemy): kvantizer je linearny casovo invariantny (LTI) systém, preto nevznika ziadne skreslenie; dither ho stochasticky 'linearizuje'. Tvarovanie sumu aj Floyd-Steinbergova difuzia su filtre so spatnou vazbou (FIR/IIR).",
+    nepravda2: "Prienik s CZS okruhmi 5/6 (LTI, FIR a IIR systemy): kvantizer je NElinearny systém (preto vznika skreslenie a harmonicke); dither ho linearizuje. Tvarovanie sumu aj Floyd-Steinbergova difuzia su vsak ciste bezpamatove systemy bez akejkolvek spatnej vazby."
+  },
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 006",
+    oblast: "CZS",
+    podoblast: "Okruh 7 - transformacia Z",
+    pravda: "Prienik s CZS okruhom 7 (Transformacia Z): sumova prenosova funkcia tvarovania sumu sa zapisuje v Z-doméne ako NTF = 1 - H(z); prvoradovy shaper ma NTF = 1 - z^-1, co je hornopriepustny filter tlaciaci sum k vyssim frekvenciam.",
+    nepravda: "Prienik s CZS okruhom 7 (Transformacia Z): sumova prenosova funkcia tvarovania sumu sa zapisuje v Z-doméne ako NTF = 1 + H(z); prvoradovy shaper ma NTF = 1 + z^-1, co je dolnopriepustny filter tlaciaci sum k nizsim frekvenciam.",
+    nepravda2: "Prienik s CZS okruhom 7 (Transformacia Z): sumova prenosova funkcia tvarovania sumu sa zapisuje v Z-doméne ako NTF = 1 - H(z); prvoradovy shaper ma NTF = 1 - z^-1, co je dolnopriepustny filter tlaciaci sum k nizsim frekvenciam."
+  },
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 007",
+    oblast: "CZS",
+    podoblast: "Okruh 8 - Fourier a spektrum",
+    pravda: "Prienik s CZS okruhom 8 (Fourierova transformacia): biely dither ma plochu spektralnu hustotu; kvantizacne skreslenie sa v spektre prejavi ako diskretne harmonicke a dither ich rozprestrie do plocheho sumoveho dna. Spektrum (FFT) by bolo najlepsim dokazom zmeny charakteru chyby - chybajuce rozsirenie apletu.",
+    nepravda: "Prienik s CZS okruhom 8 (Fourierova transformacia): biely dither ma plochu spektralnu hustotu; kvantizacne skreslenie sa v spektre prejavi ako ploche sumove dno a dither ho stiahne do diskretnych harmonickych. Spektrum (FFT) by bolo najlepsim dokazom zmeny charakteru chyby.",
+    nepravda2: "Prienik s CZS okruhom 8 (Fourierova transformacia): biely dither ma spektrum sustredene do nizkych frekvencii; kvantizacne skreslenie sa v spektre prejavi ako diskretne harmonicke a dither ich rozprestrie do plocheho sumoveho dna. Spektrum (FFT) by bolo najlepsim dokazom zmeny charakteru chyby."
+  },
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 008",
+    oblast: "CZS",
+    podoblast: "Okruh 8 - Nyquist a aliasing",
+    pravda: "Prienik s CZS okruhom 8 a vzorkovanim: Nyquistov teorem (fs >= 2 fmax) a aliasing su zakladom vzorkovacej casti mojej prace; zlozky nad fs/2 sa zrkadlovo preklopia, preto sa pred A/D prevodnik zaradzuje analogovy antialiasing dolnopriepustny filter.",
+    nepravda: "Prienik s CZS okruhom 8 a vzorkovanim: Nyquistov teorem (fs >= fmax) a aliasing su zakladom vzorkovacej casti mojej prace; zlozky nad fs/2 sa zrkadlovo preklopia, preto sa pred A/D prevodnik zaradzuje analogovy antialiasing dolnopriepustny filter.",
+    nepravda2: "Prienik s CZS okruhom 8 a vzorkovanim: Nyquistov teorem (fs >= 2 fmax) a aliasing su zakladom vzorkovacej casti mojej prace; zlozky nad fs/2 sa preklopia, preto sa az za D/A prevodnik zaradzuje analogovy antialiasing hornopriepustny filter."
+  },
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 009",
+    oblast: "CZS",
+    podoblast: "Okruh 9 - navrh filtrov",
+    pravda: "Prienik s CZS okruhom 9 (Navrh cislicovych filtrov): Floyd-Steinbergovo difuzne jadro je 2D FIR filter kvantizacnej chyby a tvarovanie sumu je IIR filter v spatnej vazbe kvantizera; aj antialiasing a rekonstrukcny filter z reťazca A/D-D/A patria do tohto okruhu.",
+    nepravda: "Prienik s CZS okruhom 9 (Navrh cislicovych filtrov): Floyd-Steinbergovo difuzne jadro je 2D IIR filter v spatnej vazbe a tvarovanie sumu je FIR filter bez spatnej vazby; aj antialiasing a rekonstrukcny filter patria do tohto okruhu.",
+    nepravda2: "Prienik s CZS okruhom 9 (Navrh cislicovych filtrov): Floyd-Steinbergovo difuzne jadro je 2D FIR filter kvantizacnej chyby a tvarovanie sumu je IIR filter v spatnej vazbe kvantizera; antialiasing ani rekonstrukcny filter vsak s filtrami nesuvisia."
+  },
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 010",
+    oblast: "ZHA",
+    podoblast: "Okruhy 2/5 - spektrum a harmonicke",
+    pravda: "Prienik so ZHA okruhmi 2 a 5 (Spektrum, vyssie harmonicke): kvantizacne skreslenie pri nizkych urovniach generuje vyssie harmonicke (neparne pre symetricky kvantizer) - to iste harmonicke spektrum, ktore ZHA rozobera pri tonoch nastrojov. Dither tieto harmonicke nahradi sumom.",
+    nepravda: "Prienik so ZHA okruhmi 2 a 5 (Spektrum, vyssie harmonicke): kvantizacne skreslenie pri nizkych urovniach generuje vyssie harmonicke (parne pre symetricky kvantizer) - to iste harmonicke spektrum, ktore ZHA rozobera pri tonoch nastrojov. Dither tieto harmonicke nahradi sumom.",
+    nepravda2: "Prienik so ZHA okruhmi 2 a 5 (Spektrum, vyssie harmonicke): kvantizacne skreslenie pri nizkych urovniach generuje vyssie harmonicke - to iste spektrum, ktore ZHA rozobera pri tonoch nastrojov. Dither tieto harmonicke este zvyrazni a prida dalsie."
+  },
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 011",
+    oblast: "ZHA",
+    podoblast: "Okruh 3 - cas vs frekvencia",
+    pravda: "Prienik so ZHA okruhom 3 (Frekvencna a casova reprezentacia): moj aplet zobrazuje chybu len v CASOVEJ oblasti, no zmena jej charakteru (skreslenie -> sum) je najlepsie viditelna vo FREKVENCNEJ oblasti - presne tu dualitu cas/frekvencia preberá ZHA aj CZS.",
+    nepravda: "Prienik so ZHA okruhom 3 (Frekvencna a casova reprezentacia): moj aplet zobrazuje chybu len vo FREKVENCNEJ oblasti, no zmena jej charakteru je najlepsie viditelna v CASOVEJ oblasti - presne tu dualitu cas/frekvencia preberá ZHA aj CZS.",
+    nepravda2: "Prienik so ZHA okruhom 3 (Frekvencna a casova reprezentacia): moj aplet zobrazuje chybu v casovej oblasti a zmena jej charakteru je rovnako citatelna v case aj vo frekvencii, takze na volbe oblasti nezalezi."
+  },
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 012",
+    oblast: "VS2",
+    podoblast: "Okruh 9 - psychoakustika",
+    pravda: "Prienik s VS2 okruhom 9 (Vnutorne ucho a psychoakustika): tvarovanie sumu vyuziva nerovnomernu citlivost sluchu - najcitlivejsi je priblizne v pasme 1-5 kHz, preto sa kvantizacny sum tlaci mimo neho. Je to priama aplikacia psychoakustiky na kvantizacny sum.",
+    nepravda: "Prienik s VS2 okruhom 9 (Vnutorne ucho a psychoakustika): tvarovanie sumu vyuziva nerovnomernu citlivost sluchu - najcitlivejsi je priblizne v pasme 10-15 kHz, preto sa kvantizacny sum tlaci mimo neho. Je to priama aplikacia psychoakustiky na kvantizacny sum.",
+    nepravda2: "Prienik s VS2 okruhom 9 (Vnutorne ucho a psychoakustika): tvarovanie sumu vyuziva nerovnomernu citlivost sluchu - najcitlivejsi je priblizne v pasme 1-5 kHz, preto sa kvantizacny sum tlaci prave do neho. Je to priama aplikacia psychoakustiky na kvantizacny sum."
+  },
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 013",
+    oblast: "VS2",
+    podoblast: "Okruh 10 - Weber-Fechner",
+    pravda: "Prienik s VS2 okruhom 10 (Weber-Fechner): vnem rastie logaritmicky s podnetom, preto odstup signalu od sumu (SNR) aj uroven signalu meriame v decibeloch; Weber-Fechner zaroven vysvetluje, preco je dolezity SUBJEKTIVNY dojem - hlavny argument celej mojej prace o ditheringu.",
+    nepravda: "Prienik s VS2 okruhom 10 (Weber-Fechner): vnem rastie linearne s podnetom, preto odstup signalu od sumu (SNR) meriame v decibeloch; Weber-Fechner zaroven vysvetluje, preco je dolezity subjektivny dojem - hlavny argument celej mojej prace o ditheringu.",
+    nepravda2: "Prienik s VS2 okruhom 10 (Weber-Fechner): vnem rastie logaritmicky s podnetom, preto odstup signalu od sumu (SNR) meriame v percentach; Weber-Fechner zaroven vysvetluje, preco je dolezity subjektivny dojem - hlavny argument celej mojej prace o ditheringu."
+  },
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 014",
+    oblast: "HEL",
+    podoblast: "Okruh 5 - DCO a fazovy akumulator",
+    pravda: "Prienik s HEL okruhom 5 (Digitalny riadeny oscilator): moj AudioWorklet generuje tony fazovym akumulatorom (faza sa zvysuje o f/fs a wrapuje pri 1) - to je presne princip cislicovo riadeneho oscilatora (DCO/NCO) zo syntezy v HEL.",
+    nepravda: "Prienik s HEL okruhom 5 (Digitalny riadeny oscilator): moj AudioWorklet generuje tony fazovym akumulatorom (faza sa zvysuje o fs/f a wrapuje pri 1) - to je presne princip cislicovo riadeneho oscilatora (DCO/NCO) zo syntezy v HEL.",
+    nepravda2: "Prienik s HEL okruhom 5 (Digitalny riadeny oscilator): moj AudioWorklet generuje tony fazovym akumulatorom (faza sa zvysuje o f/fs a wrapuje pri 1) - to je presne princip napatovo riadeneho oscilatora (VCO) z analogovej syntezy v HEL."
+  },
+  {
+    okruh: "11. SZZ Prienik Bakalarka",
+    id: "OBH 11. Prienik 015",
+    oblast: "HEL",
+    podoblast: "Okruhy 1/6 - synteza a vzorky",
+    pravda: "Prienik s HEL okruhmi 1 a 6 (Aditivna synteza, tabulkova synteza a sampler): aditivna synteza sklada zvuk zo sumu harmonickych a sampler pracuje s ulozenymi vzorkami s konecnou bitovou hlbkou - oboje sa opiera o vzorkovanie a kvantizaciu, ktore su jadrom mojej prace.",
+    nepravda: "Prienik s HEL okruhmi 1 a 6 (Aditivna synteza, tabulkova synteza a sampler): aditivna synteza sklada zvuk z jedineho sinusu a sampler pracuje so vzorkami s nekonecnou bitovou hlbkou - oboje sa opiera o vzorkovanie a kvantizaciu, ktore su jadrom mojej prace.",
+    nepravda2: "Prienik s HEL okruhmi 1 a 6 (Aditivna synteza, tabulkova synteza a sampler): subtraktivna synteza sklada zvuk zo sumu harmonickych a sampler pracuje s ulozenymi vzorkami - oboje sa opiera o vzorkovanie a kvantizaciu, ktore su jadrom mojej prace."
   }
 ];
 

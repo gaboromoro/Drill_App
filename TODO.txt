@@ -1,17 +1,22 @@
-//////////////////
+/////////////////
 /////URGENT//////
 /////////////////
 
--ZIN okruh rozsahy vsetkych nastrojov
 
--Pre kazdy SZZ predmet jeden Okruh -- Zaklady 20 az 40 otazok
 
--kedze sa absolutne nestiham naucit vsetko, zredukuj kazdy okruh na 10 statments, aby boli co najvystyznejsie, strucne, lahko zapametatelne a co najviac odpovedal na otazku daného okruhu SZZ
+//////////////////
+/////OBHAJOBA/////
+//////////////////
 
--vzdy nespravne trvdenia sa vzdy extra naucim slovicko ktore je nespravne, teda prejdi otazky a sprav to tak aby v nespravnom vyroku boli nespravne slovicko vzdy velmi dolezite, zaroven tazke na zapametanie (napr. pri rozsahoch je krasny priklad ze namiesto g1 bude zla odpoved d1, alebo krasny priklad je ako to je teraz spravene pri vyroku o tympanoch, obe definicie su spravne lisi sa iba huslovy a basovy kluc)
--pre vacsiu komplexnost by sa hodilo mat pre kazdy vyrok prave dve rozne nespravne výroky s chytakmi, aby sa som viac dolzeitych veci naucil a zapametal si z chytakov, zaroven aby bola cca vzdy 50% sanca sa ukaze nespravny vyrok a z nespravneho vyroku dalsich 50% na jednotlivy nespravny vyrok - teda 50% spravny vyrok, 25% nespravny vyrok 1. a 25% nespravny vyrok 2.
 
--chcem aby celkove vypracovanie statements dokopy davalo perfektnu ustnu odpoved na SZZ (zacni kontrolou CZS) -- priklady nech sa naukazuju v Learn mode a Exam Mode -- tieto mody maju byt perfektne teoreticke vypracovania ustnej SZZ
+-uroven hodnoty ditheringu
+-dalsie mozne algortimy pre obraz ditheri?
+-Noise Shaping
+-implementovanie Noise shaping
+
+Ujasnit:
+-"Vzhľadom na výučbové účely by som od aplikácie očakával napríklad aj zmenu kroku vertikálnej osi grafov v závislosti od zmeny bitovej hĺbky" aky to ma vyznam?
+-"Na druhej strane oceňujem vizualizáciu paliet farieb pre jednotlivé režimy obrázkov a implementáciu viacerých nastaviteľných metód dithering."??
 
 
 //////OPTIONAL///////

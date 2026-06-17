@@ -1,0 +1,41 @@
+teraz mi sporav vypracovanie ELA, sitham sa naucit len velmi malo, preto pre celych 10 okruhov sprav 3 vystizne - npar, okruh 1 az 4, okruh 5 az 7...
+
+-kazdy okruh aby mal cca 20 vystiznych otazok -- teda ELA dokopy 60 otazok cca
+
+
+
+-aby tam boli len to na co sa pytaju szz okruhy
+
+-aby chubne trvdenia boli chytaky a zvyraznovali dolezite infomracie
+
+-aby statments boli vystizne a strucne, pocet odpovedi nemusis redukovat ak to nie je potrebne
+
+
+
+informacie cerpaj z tadeto:
+
+C:\Users\tejml\OneDrive\Dokumenty\Audio_engineer\5. semester\ELA\prezentacie
+
+
+
+	Otázky k SSZ pro akademický rok 2025/2026
+
+1. Popište šíření a vlastnosti rovinné a kulové vlny ve volném prostoru a pojmy volné a difúzní pole, blízké a vzdálené pole a dozvuková vzdálenost.
+
+2. Vysvětlete princip kmitočtové analýzy zvukového signálu ve středním uchu a vysvětlete, co jsou kritická pásma. Popište principy maskování zvuků a mechanismus směrového a prostorového slyšení.
+
+3. Nakreslete blokové schéma zvukoměru a popište funkci jeho jednotlivých částí. Uveďte, co je CPB analýza, k čemu slouží váhové filtry a různé časové konstanty zvukoměru a jak se provádí kalibrace (justování) měřicího řetězce.
+
+4. Vysvětlete jevy, ke kterým dochází při šíření zvukové vlny v uzavřeném prostoru. Popište princip odhadu a měření doby dozvuku uzavřeného prostoru. Vysvětlete pojem impulsní charakteristika prostoru.
+
+5. Uveďte, na jakém principu pracují elektromechanické měniče I. a II. skupiny, nakreslete jejich náhradní schémata a uveďte zástupce.
+
+6. Vyjmenujte základní parametry a charakteristiky mikrofonů a uveďte jejich idealizovaný průběh pro mikrofony 0. a 1. řádu. Vysvětlete, jak lze u mikrofonu dosáhnout směrové charakteristiky a uveďte jejich příklady pro směrové mikrofony 1. řádu.
+
+7. Vyjmenujte základní parametry a charakteristiky reproduktorů a uveďte stručně postup jejich měření. Popište princip a konstrukci a vlastnosti přímovyzařujícího elektrodynamického reproduktoru, nakreslete a popište jeho analogické schéma.
+
+8. Uveďte základní druhy ozvučnic reproduktorových soustav, jejich základní vlastnosti a způsob konstrukce. Popište účel a vlastnosti kmitočtových výhybek pro reproduktorové soustavy a zásady pro jejich návrh.
+
+9. Vyjmenujte a popište typy kontrukce sluchátek, jejich parametry a charakteristiky a způsob jejich měření.
+
+10. Uveďte zásady ozvučování malých prostorů, vysvětlete principy stereofonní a vícekanálové reprodukce a panorámování zdroje zvuku ve streofonní reprodukci. Vysvětlete pojmy ozvučování (public address) a přizvučování (sound reinforcement).

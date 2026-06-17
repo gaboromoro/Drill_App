@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="400" height="300" fill="#f4f3ee"/>
+  <text x="200" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1a1a1a">AB — rozlozeny par</text>
+  <text x="200" y="50" text-anchor="middle" font-size="13" fill="#555">2 gulove (omni), osi rovnobezne (0 st.)</text>
+  <!-- omni mics -->
+  <circle cx="135" cy="150" r="26" fill="#cfe3f5" fill-opacity="0.45" stroke="#4a90d9" stroke-width="1.5"/>
+  <circle cx="135" cy="150" r="10" fill="#333"/>
+  <line x1="135" y1="150" x2="135" y2="108" stroke="#777" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <circle cx="265" cy="150" r="26" fill="#cfe3f5" fill-opacity="0.45" stroke="#4a90d9" stroke-width="1.5"/>
+  <circle cx="265" cy="150" r="10" fill="#333"/>
+  <line x1="265" y1="150" x2="265" y2="108" stroke="#777" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <!-- distance -->
+  <line x1="135" y1="205" x2="265" y2="205" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="135" y1="198" x2="135" y2="212" stroke="#c0392b" stroke-width="1.5"/>
+  <line x1="265" y1="198" x2="265" y2="212" stroke="#c0392b" stroke-width="1.5"/>
+  <text x="200" y="226" text-anchor="middle" font-size="14" font-weight="700" fill="#c0392b">d = 40-60 cm</text>
+  <text x="200" y="256" text-anchor="middle" font-size="12" fill="#555">stereo iba casovym rozdielom</text>
+  <text x="200" y="274" text-anchor="middle" font-size="12" fill="#555">bez proximity efektu, prirodzeny zvuk</text>
+</svg>

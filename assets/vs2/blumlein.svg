@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="400" height="300" fill="#f4f3ee"/>
+  <text x="200" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#1a1a1a">Blumlein — koincidencny par</text>
+  <text x="200" y="50" text-anchor="middle" font-size="13" fill="#555">2 osmicky v jednom bode, uhol 90 st.</text>
+  <text x="200" y="76" text-anchor="middle" font-size="12" fill="#888">zdroj zvuku</text>
+  <polygon points="200,84 191,100 209,100" fill="#bbb"/>
+  <!-- figure-8: front+back lobe per mic -->
+  <g transform="translate(200,200) rotate(-45)">
+    <ellipse cx="0" cy="-26" rx="15" ry="28" fill="#cfe3f5" fill-opacity="0.7" stroke="#4a90d9" stroke-width="1.5"/>
+    <ellipse cx="0" cy="26" rx="15" ry="28" fill="#f3d6d6" fill-opacity="0.7" stroke="#c0392b" stroke-width="1.5"/>
+  </g>
+  <g transform="translate(200,200) rotate(45)">
+    <ellipse cx="0" cy="-26" rx="15" ry="28" fill="#cfe3f5" fill-opacity="0.7" stroke="#4a90d9" stroke-width="1.5"/>
+    <ellipse cx="0" cy="26" rx="15" ry="28" fill="#f3d6d6" fill-opacity="0.7" stroke="#c0392b" stroke-width="1.5"/>
+  </g>
+  <path d="M178 178 A32 32 0 0 1 222 178" fill="none" stroke="#1a7f37" stroke-width="1.5"/>
+  <text x="200" y="150" text-anchor="middle" font-size="14" font-weight="700" fill="#1a7f37">90 st. (kazda 45 st.)</text>
+  <circle cx="200" cy="200" r="10" fill="#333"/>
+  <text x="200" y="252" text-anchor="middle" font-size="12" fill="#555">verny priestor, sníma aj zozadu (cervena)</text>
+</svg>

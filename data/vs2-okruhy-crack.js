@@ -673,7 +673,8 @@ const vs2OkruhyCrackOtazky = vs2OkruhyCrackData.map((polozka) => ({
     pravda: polozka.pravda,
     nepravda: polozka.nepravda,
     nepravda2: polozka.nepravda2
-  }
+  },
+  ...(polozka.obrazok ? { obrazok: polozka.obrazok, popisObrazka: polozka.popisObrazka || "" } : {})
 }));
 
 if (typeof vs2Otazky !== "undefined") {
